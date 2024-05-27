@@ -73,7 +73,7 @@ $logo=\App\Models\Utility::get_file('uploads/logo/');
 
     <p>Dear {{ ucfirst($lead->name) }}</p>
     <div class="container">
-        <p>Lead has been withdrawn.</p>
+        <p>Opportunitie has been withdrawn.</p>
 
         <p>Thank you for your time and collaboration.</p>
         <p><strong>With regards</strong></p>

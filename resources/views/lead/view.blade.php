@@ -170,7 +170,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
             <div class="card-body">
 
                 <dl class="row">
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Lead')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Opportunitie')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->leadname }}</span></dd>
 
                     <dt class="col-md-6"><span class="h6  mb-0">{{__('Email')}}</span></dt>
@@ -211,7 +211,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                             class="">{{ !empty($lead->assign_user)?$lead->assign_user->name:'Not Assigned Yet'}}
                             {{ !empty($lead->assign_user)? '('.$lead->assign_user->type.')' :''}}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Lead Created')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Opportunitie Created')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{\Auth::user()->dateFormat($lead->created_at)}}</span></dd>
 
                     <dt class="col-md-6"><span class="h6  mb-0">{{__('Any Special Requirements')}}</span></dt>
@@ -254,7 +254,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <div class="action-btn bg-info ms-2">
                         <a href="{{ route('lead.edit',$lead->id) }}"
                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip"
-                            data-title="{{__('Lead Edit')}}" title="{{__('Edit')}}"><i class="ti ti-edit"></i>
+                            data-title="{{__('Opportunitie Edit')}}" title="{{__('Edit')}}"><i class="ti ti-edit"></i>
                         </a>
                     </div>
                     @endcan

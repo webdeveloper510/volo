@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 @section('page-title')
-{{__('Lead Information')}}
+{{__('Opportunitie Information')}}
 @endsection
 @section('title')
 <div class="page-header-title">
-    {{__('Lead Information')}}
+    {{__('Opportunitie Information')}}
 </div>
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
-<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Leads')}}</a></li>
-<li class="breadcrumb-item">{{__('Lead Details')}}</li>
+<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Opportunities')}}</a></li>
+<li class="breadcrumb-item">{{__('Opportunitie Details')}}</li>
 @endsection
 @section('action-btn')
 
@@ -233,7 +233,7 @@ if(isset($billing) && !empty($billing)){
                         <div id="useradd-1" class="card">
 
                             <div class="card-body table-border-style">
-                                <h3>Lead Details</h3>
+                                <h3>Opportunitie Details</h3>
                                 <hr>
 
                                 <div class=" mt-4">
@@ -356,7 +356,7 @@ if(isset($billing) && !empty($billing)){
                                     }else{
                                         echo "<tr>";
                                         echo "<td></td>";
-                                        echo "<td style='text-align: center;'><b><h6 class='text-secondary'>Lead Not Converted to Event Yet.</h6><b></td>";
+                                        echo "<td style='text-align: center;'><b><h6 class='text-secondary'>Opportunitie Not Converted to Event Yet.</h6><b></td>";
                                         echo "<td></td>";
                                         echo "</tr>";
                                     }

@@ -1,23 +1,23 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{__('Lead')}}
+    {{__('Opportunitie')}}
 @endsection
 @section('title')
         <div class="page-header-title">
-           {{__('Lead')}}
+           {{__('Opportunitie')}}
         </div>
 
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Home')}}</a></li>
-    <li class="breadcrumb-item ">{{__('Lead')}}</li>
+    <li class="breadcrumb-item ">{{__('Opportunitie')}}</li>
 @endsection
 @section('action-btn')
         <a href="{{ route('lead.index') }}" class="btn btn-sm btn-primary btn-icon m-1" data-bs-toggle="tooltip" title="{{ __('List View') }}">
             <i class="ti ti-list text-white"></i>
         </a>
     @can('Create Lead')
-        <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Lead')}}"title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
+        <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunitie')}}"title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
             <i class="ti ti-plus"></i>
         </a>
     @endcan
@@ -65,7 +65,7 @@
                         type: 'POST',
                         data: {lead_id: id, status_id: status_id, order: order, "_token": $('meta[name="csrf-token"]').attr('content')},
                         success: function (data) {
-                            show_toastr('Success', 'Lead  updated', 'success');
+                            show_toastr('Success', 'Opportunitie  updated', 'success');
                         },
                         error: function (data) {
                             data = data.responseJSON;
@@ -123,8 +123,8 @@
                                             <div class="card-header border-0 pb-0 position-relative">
                                                 <h5>
                                                     <a href="{{ route('lead.edit',$lead->id) }}"
-                                                    data-bs-whatever="{{__('Edit Lead Details')}}"
-                                                    data-bs-toggle="tooltip"  title data-bs-original-title="{{__('Edit Lead Detail')}}" > {{ ucfirst($lead->name)}}</a></h5>
+                                                    data-bs-whatever="{{__('Edit Opportunitie Details')}}"
+                                                    data-bs-toggle="tooltip"  title data-bs-original-title="{{__('Edit Opportunitie Detail')}}" > {{ ucfirst($lead->name)}}</a></h5>
                                                     <div class="card-header-right">
                                                         <div class="btn-group card-option">
                                                             <button type="button" class="btn dropdown-toggle"
@@ -142,9 +142,9 @@
                                                                     @endcan
 
                                                                     @can('Show Lead')
-                                                                    <a href="#!" class="dropdown-item" data-size="md" data-url="{{ route('lead.show', $lead->id) }}" data-ajax-popup="true" data-title="{{__('Lead Details')}}">
+                                                                    <a href="#!" class="dropdown-item" data-size="md" data-url="{{ route('lead.show', $lead->id) }}" data-ajax-popup="true" data-title="{{__('Opportunitie Details')}}">
                                                                         <i class="ti ti-eye"></i>
-                                                                        <span>{{__('View Lead')}}</span>
+                                                                        <span>{{__('View Opportunitie')}}</span>
                                                                     </a>
                                                                     @endcan
 

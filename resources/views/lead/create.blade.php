@@ -31,11 +31,11 @@ $additional_items = json_decode($settings['additional_items'],true);
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
+            {{Form::label('lead_name',__('Opportunitie Name'),['class'=>'form-label']) }}
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
+            {{Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Opportunitie Name'),'required'=>'required'))}}
         </div>
     </div>
     <div class="col-6 need_full">

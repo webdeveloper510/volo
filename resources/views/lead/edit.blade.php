@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('page-title')
-{{ __('Lead Edit') }}
+{{ __('Opportunitie Edit') }}
 @endsection
 @php
 $plansettings = App\Models\Utility::plansettings();
@@ -26,12 +26,12 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
 @endphp
 @section('title')
 <div class="page-header-title">
-    {{ __('Edit Lead') }} {{ '(' . $lead->name . ')' }}
+    {{ __('Edit Opportunitie') }} {{ '(' . $lead->name . ')' }}
 </div>
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('Lead') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('Opportunitie') }}</a></li>
 <li class="breadcrumb-item">{{ __('Details') }}</li>
 @endsection
 @section('content')
@@ -53,17 +53,17 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                             {{ Form::model($lead, ['route' => ['lead.update', $lead->id], 'method' => 'PUT', 'id' => "formdata"]) }}
                             <div class="card-header">
                                 <h5>{{ __('Overview') }}</h5>
-                                <small class="text-muted">{{ __('Edit About Your Lead Information') }}</small>
+                                <small class="text-muted">{{ __('Edit About Your Opportunitie Information') }}</small>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{Form::label('lead_name',__('Lead Name'),['class'=>'form-label']) }}
+                                            {{Form::label('lead_name',__('Opportunitie Name'),['class'=>'form-label']) }}
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Lead Name'),'required'=>'required'))}}
+                                            {{Form::text('lead_name',$lead->leadname,array('class'=>'form-control','placeholder'=>__('Enter Opportunitie Name'),'required'=>'required'))}}
                                         </div>
                                     </div>
                                     <div class="col-6 need_full">

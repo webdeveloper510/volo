@@ -9,7 +9,7 @@
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
-<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Leads')}}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Opportunities')}}</a></li>
 <li class="breadcrumb-item">{{__('Proposal Information')}}</li>
 @endsection
 @section('action-btn')

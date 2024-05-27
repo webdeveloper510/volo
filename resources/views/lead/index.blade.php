@@ -5,22 +5,22 @@ $proposalstatus = \App\Models\Lead::$status;
 @endphp
 @extends('layouts.admin')
 @section('page-title')
-{{__('Leads')}}
+{{__('Opportunities')}}
 @endsection
 @section('title')
 <div class="page-header-title">
-    {{__('Leads')}}
+    {{__('Opportunities')}}
 </div>
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
-<li class="breadcrumb-item">{{__('Leads')}}</li>
+<li class="breadcrumb-item">{{__('Opportunities')}}</li>
 
 @endsection
 @section('action-btn')
 
 @can('Create Lead')
-<a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Lead')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
+<a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunitie')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
 @endcan
@@ -45,7 +45,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th>
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
-                                                <th scope="col" class="sort">{{__('Lead Status')}}<span class="opticy"></span></th>
+                                                <th scope="col" class="sort">{{__('Opportunitie Status')}}<span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"></span></th>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead'))
@@ -57,7 +57,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                             @foreach($leads as $lead)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Lead Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
+                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Opportunitie Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst($lead->name) }}</b>
                                                     </a>
                                                 </td>
@@ -98,7 +98,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     @endif
                                                     @if($lead->status >= 2 )
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Lead')}}">
+                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunitie')}}">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
                                                     @endif
@@ -120,7 +120,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                             data-ajax-popup="true" data-title="{{__('Lead Details')}}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i> -->
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Lead Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Opportunitie Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>
@@ -128,7 +128,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     @if($lead->status == 0)
                                                     @can('Edit Lead')
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Lead')}}"><i class="ti ti-edit"></i></a>
+                                                        <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Opportunitie')}}"><i class="ti ti-edit"></i></a>
                                                     </div>
                                                     @endcan
                                                     @endif
@@ -270,9 +270,9 @@ $proposalstatus = \App\Models\Lead::$status;
             },
             success: function(data) {
                 if (val == 1) {
-                    show_toastr('Primary', 'Lead Activated', 'success');
+                    show_toastr('Primary', 'Opportunitie Activated', 'success');
                 } else {
-                    show_toastr('Success', 'Lead InActivated', 'danger');
+                    show_toastr('Success', 'Opportunitie InActivated', 'danger');
 
                 }
                 console.log(val)
@@ -296,9 +296,9 @@ $proposalstatus = \App\Models\Lead::$status;
             success: function(data) {
                 console.log(data)
                 if (data == 1) {
-                    show_toastr('Primary', 'Lead Status Updated Successfully', 'success');
+                    show_toastr('Primary', 'Opportunitie Status Updated Successfully', 'success');
                 } else {
-                    show_toastr('Success', 'Lead Status is not updated', 'danger');
+                    show_toastr('Success', 'Opportunitie Status is not updated', 'danger');
 
                 }
                 // console.log(val)
