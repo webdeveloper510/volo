@@ -16,7 +16,7 @@ $category= explode(',',$settings['campaign_type']);
                 @if(\Request::route()->getName() == 'lead.review')
                 <a href="#useradd-1" class="list-group-item list-group-item-action border-0">
                 <span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
-                    <span class="dash-mtext">{{ __('Review Lead') }}</span>
+                    <span class="dash-mtext">{{ __('Review Opportunitue') }}</span>
                     <!-- <div class="float-end"><i class="ti ti-chevron-right"></i></div> -->
                 </a>
                 @endif
@@ -152,8 +152,8 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Event Clients"></i></span>
                     <span class="dash-mtext">{{ __('Trainings') }} </span></a>
                 <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead_customers' ?'active' : ''}}">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
-                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Opportunitue Clients"></i></span>
+                    <span class="dash-mtext">{{ __('Opportunitues') }} </span></a>
 
                 @if(isset($category) && !empty($category))
                 @foreach($category as $cat)
@@ -180,7 +180,7 @@ $category= explode(',',$settings['campaign_type']);
 
                 <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.leadsanalytic' ?'active' : ''}}"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
+                    <span class="dash-mtext">{{ __('Opportunitues') }} </span></a>
 
                 </a>
 
@@ -222,19 +222,19 @@ $category= explode(',',$settings['campaign_type']);
                 @if(\Request::route()->getName() == 'lead.index' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
+                    <span class="dash-mtext">{{ __('Opportunitues') }} </span></a>
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'lead.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
+                    <span class="dash-mtext">{{ __('Edit Opportunitue') }} </span></a>
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'lead.info')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
+                    <span class="dash-mtext">{{ __('Opportunitues') }} </span></a>
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'email.index' ||\Request::route()->getName() == 'email.details'||\Request::route()->getName() == 'email.conversations')

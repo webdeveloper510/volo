@@ -43,7 +43,7 @@ class CustomerInformation extends Controller
                 'title' => 'required',
             ]
         );
-        
+
         if ($validator->fails()) {
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first());
@@ -165,28 +165,48 @@ class CustomerInformation extends Controller
     }
     public function importuser(Request $request)
     {
-            
+        // echo "<pre>";
+        // print_r($request->all());
+        // die();
+
         if ($request->customerType == 'uploadFile') {
             $category = [
                 'category' => $request->input('category'),
             ];
             $userid =  \Auth::user()->creatorId();
-            Excel::import(new UsersImport($category,$userid), request()->file('users'));
+            Excel::import(new UsersImport($category, $userid), request()->file('users'));
             return redirect()->back()->with('success', 'Data  imported successfully');
         } elseif ($request->customerType == 'addForm') {
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'name'=>'required',
+                    'name' => 'required',
                     'phone' => 'required|unique:import_users',
-                    'email'=>'required|email|unique:import_users'
-                ]);
+                    'email' => 'required|email|unique:import_users',
+                    'location_geography' => 'required',
+                    'region' => 'required',
+                    'sales_subcategory' => 'required',
+                    'industry_sectors' => 'required',
+                    'measure_units_quantity' => 'required',
+                    'value_of_opportunity' => 'required',
+                    'pain_points' => 'required',
+                    'timing_close' => 'required',
+                    'engagement_level' => 'required',
+                    'lead_status' => 'required',
+                    'difficult_level' => 'required',
+                    'deal_length' => 'required',
+                    'probability_to_close' => 'required',
+                    'revenue_booked_to_date' => 'required',
+                    'referred_by' => 'required',
+                ]
+            );
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
-                return redirect()->back()->with('error', $messages->first()) 
-                ->withErrors($validator)
-                ->withInput();
+                return redirect()->back()->with('error', $messages->first())
+                    ->withErrors($validator)
+                    ->withInput();
             }
+
             $UsersImports = new UserImport();
             $UsersImports->name = $request->name;
             $UsersImports->phone = $request->phone;
@@ -195,13 +215,28 @@ class CustomerInformation extends Controller
             $UsersImports->organization = $request->organization;
             $UsersImports->notes = $request->notes;
             $UsersImports->category = $request->category;
+            $UsersImports->location_geography = $request->location_geography;
+            $UsersImports->region = $request->region;
+            $UsersImports->sales_subcategory = $request->sales_subcategory;
+            $UsersImports->industry_sectors = $request->industry_sectors;
+            $UsersImports->measure_units_quantity = $request->measure_units_quantity;
+            $UsersImports->value_of_opportunity = $request->value_of_opportunity;
+            $UsersImports->pain_points = $request->pain_points;
+            $UsersImports->timing_close = $request->timing_close;
+            $UsersImports->engagement_level = $request->engagement_level;
+            $UsersImports->lead_status = $request->lead_status;
+            $UsersImports->difficult_level = $request->difficult_level;
+            $UsersImports->deal_length = $request->deal_length;
+            $UsersImports->probability_to_close = $request->probability_to_close;
+            $UsersImports->revenue_booked_to_date = $request->revenue_booked_to_date;
+            $UsersImports->referred_by = $request->referred_by;
             $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
             $UsersImports->created_by = \Auth::user()->creatorId();
             $UsersImports->save();
             return redirect()->back()->with('success', 'Customer added successfully');
         }
     }
-    public function mailformatting() 
+    public function mailformatting()
     {
         return view('customer.editor');
     }
@@ -302,49 +337,56 @@ class CustomerInformation extends Controller
         //     }
         // }
     }
-    public function siteusers(){
+    public function siteusers()
+    {
         // $leadcust = Lead::distinct()->withTrashed()->get();
         // $eventcust = Meeting::distinct()->withTrashed()->get();
-       $allcustomers = MasterCustomer::all();
-       $importedcustomers = UserImport::distinct()->get();
-   
-        return view('customer.allcustomers',compact('allcustomers','importedcustomers'));
+        $allcustomers = MasterCustomer::all();
+        $importedcustomers = UserImport::distinct()->get();
+
+        return view('customer.allcustomers', compact('allcustomers', 'importedcustomers'));
     }
-    public function event_customers(){
+    public function event_customers()
+    {
         // $eventcustomers = Meeting::withTrashed()->get();
-        $eventcustomers = MasterCustomer::withTrashed()->where('category','event')->get();
-        return view('customer.event_customer',compact('eventcustomers'));
+        $eventcustomers = MasterCustomer::withTrashed()->where('category', 'event')->get();
+        return view('customer.event_customer', compact('eventcustomers'));
     }
-    public function lead_customers(){
+    public function lead_customers()
+    {
         // $leadcustomers = Lead::withTrashed()->get();
         // $distinctCustomers = Lead::withTrashed()->distinct()->get();
         // $uniqueLeads = Lead::withTrashed()->select('*')->distinct('email')->get();
-        $leadcustomers = MasterCustomer::where('category','lead')->get();
-        return view('customer.lead_customer',compact('leadcustomers'));
+        $leadcustomers = MasterCustomer::where('category', 'lead')->get();
+        return view('customer.lead_customer', compact('leadcustomers'));
     }
-    public function import_customers_view($id){
+    public function import_customers_view($id)
+    {
         $users = UserImport::find($id);
-        return view('customer.userview',compact('users'));
+        return view('customer.userview', compact('users'));
     }
-    public function customer_info($id){
+    public function customer_info($id)
+    {
         $id = decrypt(urldecode($id));
         $users = UserImport::find($id);
-        $notes = NotesCustomer::where('user_id',$id)->get();
+        $notes = NotesCustomer::where('user_id', $id)->get();
         // echo "<pre>";print_r($notes);die;
-        return view('customer.userview',compact('users','notes'));
+        return view('customer.userview', compact('users', 'notes'));
     }
-    public function cate($category){
-        $users = UserImport::where('category',$category)->get();
-        return view('customer.new_user', compact('users','category'));
+    public function cate($category)
+    {
+        $users = UserImport::where('category', $category)->get();
+        return view('customer.new_user', compact('users', 'category'));
         // echo "<pre>";print_r($users);die;
     }
-    public function uploadcustomerattachment(Request $request,$id){
+    public function uploadcustomerattachment(Request $request, $id)
+    {
         $id = decrypt(urldecode($id));
         // $users = UserImport::find($id);
-        if (!empty($request->file('customerattachment'))){
+        if (!empty($request->file('customerattachment'))) {
             $file =  $request->file('customerattachment');
-            $filename =  $file->getClientOriginalName().'_'. Str::random(3) . '.' . $file->getClientOriginalExtension();
-            $folder = 'External_customer/' . $id; 
+            $filename =  $file->getClientOriginalName() . '_' . Str::random(3) . '.' . $file->getClientOriginalExtension();
+            $folder = 'External_customer/' . $id;
             try {
                 $path = $file->storeAs($folder, $filename, 'public');
             } catch (\Exception $e) {
@@ -352,9 +394,10 @@ class CustomerInformation extends Controller
                 return redirect()->back()->with('error', 'File upload failed');
             }
         }
-            return redirect()->back()->with('Success','File Uploaded Successfully');
+        return redirect()->back()->with('Success', 'File Uploaded Successfully');
     }
-    public function usernotes(Request $request,$id){
+    public function usernotes(Request $request, $id)
+    {
         $notes = new NotesCustomer();
         $notes->notes = $request->notes;
         $notes->created_by = $request->createrid;
@@ -363,3 +406,4 @@ class CustomerInformation extends Controller
         return true;
     }
 }
+
