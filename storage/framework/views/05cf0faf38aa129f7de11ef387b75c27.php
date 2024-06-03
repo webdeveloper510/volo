@@ -91,7 +91,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                         class="dash-item <?php echo e(\Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index')); ?>"
                                             class="dash-link">
-                                            <span class="dash-mtext"><?php echo e(__('Leads')); ?></span>
+                                            <span class="dash-mtext"><?php echo e(__('Opportunitues')); ?></span>
                                         </a>
                                     </li>
                                     <?php endif; ?>

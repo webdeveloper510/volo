@@ -305,7 +305,7 @@
 }
 
 .navbar-brand-box a img {
-    width: 74px;
+    width: 180px;
     height: auto;
 }
     #wrapper.toggled #sidebar-wrapper {

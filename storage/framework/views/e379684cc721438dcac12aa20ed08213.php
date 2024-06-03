@@ -16,7 +16,7 @@ $category= explode(',',$settings['campaign_type']);
                 <?php if(\Request::route()->getName() == 'lead.review'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action border-0">
                 <span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Review Lead')); ?></span>
+                    <span class="dash-mtext"><?php echo e(__('Review Opportunitue')); ?></span>
                     <!-- <div class="float-end"><i class="ti ti-chevron-right"></i></div> -->
                 </a>
                 <?php endif; ?>
@@ -152,8 +152,8 @@ $category= explode(',',$settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Event Clients"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Trainings')); ?> </span></a>
                 <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead_customers' ?'active' : ''); ?>">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Opportunitue Clients"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Opportunitues')); ?> </span></a>
 
                 <?php if(isset($category) && !empty($category)): ?>
                 <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -180,7 +180,7 @@ $category= explode(',',$settings['campaign_type']);
 
                 <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'report.leadsanalytic' ?'active' : ''); ?>"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Opportunitues')); ?> </span></a>
 
                 </a>
 
@@ -222,19 +222,19 @@ $category= explode(',',$settings['campaign_type']);
                 <?php if(\Request::route()->getName() == 'lead.index' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Opportunitues')); ?> </span></a>
                 </a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'lead.edit' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Edit Lead')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Edit Opportunitue')); ?> </span></a>
                 </a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'lead.info'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span
                         class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Opportunitues')); ?> </span></a>
                 </a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'email.index' ||\Request::route()->getName() == 'email.details'||\Request::route()->getName() == 'email.conversations'): ?>
