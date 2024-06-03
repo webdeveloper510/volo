@@ -154,10 +154,12 @@ Route::get('/meeting-completed',[DashboardController::class,'completedevents']);
 // UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   >
 Route::post('lead/change_proposal_status/',[LeadController::class,'propstatus'])->name('lead.changeproposalstat');
 Route::get('lead/proposal-signed/{id}',[LeadController::class,'proposalview'])->name('lead.signedproposal');
+Route::get('lead/nda-signed/{id}',[LeadController::class,'ndaview'])->name('lead.signednda');
 Route::get('billing/get-payment-link/{id}',[BillingController::class,'getpaymentlink'])->name('billing.getpaymentlink');
 Route::post('billing/share-payment-link/{id}',[BillingController::class,'sharepaymentlink'])->name('billing.sharepaymentlink');
 
 Route::post('lead/proposal-signed/{id}',[LeadController::class,'proposal_resp'])->name('lead.proposalresponse');
+Route::post('lead/nda-signed/{id}',[LeadController::class,'nda_resp'])->name('lead.ndaresponse');
 Route::get('event/signed-agreement/{id}',[MeetingController::class,'signedagreementview'])->name('meeting.signedagreement');
 Route::post('event/signed-agreement/{id}',[MeetingController::class,'signedagreementresponse'])->name('meeting.signedagreementresp');
 Route::resource('plan', PlanController::class)->middleware(['XSS']);
@@ -415,6 +417,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/proposal/{id}', [LeadController::class, 'proposal'])->name('lead.proposal');
             Route::get('lead/view-proposal/{id}', [LeadController::class, 'view_proposal'])->name('lead.viewproposal');
             Route::get('lead/share_proposal/{id}', [LeadController::class, 'share_proposal_view'])->name('lead.shareproposal');
+            Route::get('lead/nda_sign/{id}', [LeadController::class, 'nda_sign_view'])->name('lead.ndasign');
             Route::post('lead/share_proposal/{id}', [LeadController::class, 'proposalpdf'])->name('lead.pdf');
             Route::get('lead/review-proposal/{id}', [LeadController::class, 'review_proposal'])->name('lead.review');
             Route::post('lead/review-proposal/update/{id}', [LeadController::class, 'review_proposal_data'])->name('lead.review.update');

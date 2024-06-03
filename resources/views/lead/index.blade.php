@@ -95,6 +95,11 @@ $proposalstatus = \App\Models\Lead::$status;
                                                             <i class="ti ti-share"></i>
                                                         </a>
                                                     </div>
+                                                    <div class="action-btn bg-primary ms-2">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.ndasign',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Sign NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-file"></i>
+                                                        </a>
+                                                    </div>
                                                     @endif
                                                     @if($lead->status >= 2 )
                                                     <div class="action-btn bg-info ms-2">

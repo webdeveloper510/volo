@@ -8,6 +8,14 @@ $campaign_type = explode(',',$settings['campaign_type']);
         position: absolute;
         padding: 1px;
     }
+
+    #other_region_input {
+        display: none;
+    }
+
+    .additional-product-category {
+        display: none;
+    }
 </style>
 <div class="form-group col-md-12">
     <div class="badges">
@@ -111,8 +119,13 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="france" class="form-control">France</option>
                                 <option value="uk" class="form-control">UK</option>
                                 <option value="usa" class="form-control">USA</option>
+                                <option value="other" class="form-control">Other</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-group" id="other_region_input">
+                        <label for="other-region">Add Other Region</label>
+                        <input type="text" name="other_region" id="other_region" class="form-control">
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
@@ -131,7 +144,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="industry_sectors">Industries / Sectors</label>
-                            <select name="industry_sectors" id="industry_sectors" class="form-control" required>
+                            <select name="industry_sectors[]" id="industry_sectors" class="form-control" multiple required>
                                 <option value="">Select Industries / Sectors</option>
                                 <option value="automobiles-components">Automobiles and Components</option>
                                 <option value="banks">Banks</option>
@@ -183,18 +196,49 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="value_of_opportunity">Value of Opportunity ( Options in UK Pounds and US Dollars)</label>
-                            <select name="value_of_opportunity" id="value_of_opportunity" class="form-control" required>
-                                <option value="">Select Value of Opportunity</option>
-                                <option value="hardware-one-time">Hardware – One Time</option>
-                                <option value="hardware-maintenance-contracts">Hardware – Maintenance Contracts</option>
-                                <option value="software-recurring">Software – Recurring</option>
-                                <option value="software-one-time">Software – One Time</option>
-                                <option value="systems-integrations">Systems Integrations</option>
-                                <option value="subscriptions">Subscriptions</option>
-                                <option value="tech-deployment-volume-based">Tech Deployment – Volume based</option>
-                            </select>
+                            <input type="text" name="value_of_opportunity" value="" placeholder="Enter Value of Opportunity" class="form-control">
                         </div>
                     </div>
+
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            <label>Product Category</label>
+
+                            <input type="radio" id="hardware-one-time" name="service" value="Hardware – One Time" onchange="showAdditionalProductCategoryFields()">
+                            <label for="hardware-one-time">Hardware – One Time</label><br>
+
+                            <input type="radio" id="hardware-maintenance" name="service" value="Hardware – Maintenance Contracts" onchange="showAdditionalProductCategoryFields()">
+                            <label for="hardware-maintenance">Hardware – Maintenance Contracts</label><br>
+
+                            <input type="radio" id="software-recurring" name="service" value="Software – Recurring" onchange="showAdditionalProductCategoryFields()">
+                            <label for="software-recurring">Software – Recurring</label><br>
+
+                            <input type="radio" id="software-one-time" name="service" value="Software – One Time" onchange="showAdditionalProductCategoryFields()">
+                            <label for="software-one-time">Software – One Time</label><br>
+
+                            <input type="radio" id="systems-integrations" name="service" value="Systems Integrations" onchange="showAdditionalProductCategoryFields()">
+                            <label for="systems-integrations">Systems Integrations</label><br>
+
+                            <input type="radio" id="subscriptions" name="service" value="Subscriptions" onchange="showAdditionalProductCategoryFields()">
+                            <label for="subscriptions">Subscriptions</label><br>
+
+                            <input type="radio" id="tech-deployment" name="service" value="Tech Deployment – Volume based" onchange="showAdditionalProductCategoryFields()">
+                            <label for="tech-deployment">Tech Deployment – Volume based</label><br>
+                        </div>
+
+                        <div id="additionalProductCategoryFields" class="additional-product-category">
+                            <div class="form-group">
+                                <label for="productTitle">Product Title</label>
+                                <input type="text" id="product_title" name="product_title">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input type="text" id="product_price" name="product_price">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="pain_points">Pain Points</label>
@@ -497,4 +541,22 @@ $campaign_type = explode(',',$settings['campaign_type']);
             }
         });
     });
+</script>
+<script>
+    document.getElementById('region').addEventListener('change', function() {
+        var otherRegionInput = document.getElementById('other_region_input');
+        if (this.value === 'other') {
+            otherRegionInput.style.display = 'block';
+            document.getElementById('other_region').required = true;
+        } else {
+            otherRegionInput.style.display = 'none';
+            document.getElementById('other_region').required = false;
+        }
+    });
+</script>
+<script>
+    function showAdditionalProductCategoryFields() {
+        var additionalFields = document.getElementById("additionalProductCategoryFields");
+        additionalFields.classList.remove("additional-product-category");
+    }
 </script>

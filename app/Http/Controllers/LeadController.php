@@ -583,6 +583,14 @@ class LeadController extends Controller
         $lead = Lead::find($decryptedId);
         return view('lead.share_proposal', compact('lead'));
     }
+
+    public function nda_sign_view($id)
+    {
+        $decryptedId = decrypt(urldecode($id));
+        $lead = Lead::find($decryptedId);
+        return view('lead.nda_sign', compact('lead'));
+    }
+
     public function proposalpdf(Request $request, $id)
     {
         $settings = Utility::settings();
@@ -647,8 +655,21 @@ class LeadController extends Controller
         $additional_items = json_decode($settings['additional_items'], true);
         return view('lead.proposal', compact('lead', 'venue', 'settings', 'fixed_cost', 'additional_items', 'users'));
     }
+
+    public function ndaview($id)
+    {
+        $id = decrypt(urldecode($id));
+        $lead = Lead::find($id);
+        $users = User::find($lead->user_id);
+        $settings = Utility::settings();
+        $venue = explode(',', $settings['venue']);
+        $fixed_cost = json_decode($settings['fixed_billing'], true);
+        $additional_items = json_decode($settings['additional_items'], true);
+        return view('lead.nda', compact('lead', 'venue', 'settings', 'fixed_cost', 'additional_items', 'users'));
+    }
+
     public function proposal_resp(Request $request, $id)
-    { 
+    {
         $settings = Utility::settings();
         $id = decrypt(urldecode($id));
 
@@ -741,6 +762,60 @@ class LeadController extends Controller
         } */
         return $pdf->stream('proposal.pdf');
     }
+
+    public function nda_resp(Request $request, $id)
+    {
+        $id = decrypt(urldecode($id));
+        $lead = Lead::find($id);
+
+        if (!empty($request->imageData) && !empty($request->receiving_by) && !empty($request->receiving_name) && !empty($request->receiving_title)) {
+            $image = $this->uploadSignature($request->imageData);
+        } else {
+            return redirect()->back()->with('error', ('Please Sign it and fill the Receiving Party information for confirmation .'));
+        }
+
+        $disclosing_by = $request->disclosing_by;
+        $disclosing_name = $request->disclosing_name;
+        $disclosing_title = $request->disclosing_title;
+        $receiving_by = $request->receiving_by;
+        $receiving_name = $request->receiving_name;
+        $receiving_title = $request->receiving_title;
+        $aggrement_day = $request->aggrement_day;
+        $aggrement_by = $request->aggrement_by;
+        $aggrement_receiving_party = $request->aggrement_receiving_party;
+        $aggrement_transaction = $request->aggrement_transaction;
+
+        $data = [
+            'disclosing_by' => $disclosing_by,
+            'disclosing_name' => $disclosing_name,
+            'disclosing_title' => $disclosing_title,
+            'receiving_by' => $receiving_by,
+            'receiving_name' => $receiving_name,
+            'receiving_title' => $receiving_title,
+            'aggrement_day' => $aggrement_day,
+            'aggrement_by' => $aggrement_by,
+            'aggrement_receiving_party' => $aggrement_receiving_party,
+            'aggrement_transaction' => $aggrement_transaction
+        ];
+
+        $pdf = Pdf::loadView('lead.signed_nda', compact('data'));
+
+        try {
+            $filename = 'proposal_' . time() . '.pdf';
+            $folder = 'Proposal_response/' . $id;
+            Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
+            $lead->update(['is_nda_signed' => 1]);
+        } catch (\Exception $e) {
+            \Log::error('File upload failed: ' . $e->getMessage());
+            return response()->json([
+                'is_success' => false,
+                'message' => 'Failed to save PDF: ' . $e->getMessage(),
+            ]);
+        }
+
+        return $pdf->stream('proposal.pdf');
+    }
+
     public function uploadSignature($signed)
     {
         $folderPath = public_path('upload/');

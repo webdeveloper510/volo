@@ -8,29 +8,29 @@
                    
                     <div class="col-md-11">
                         <div class="page-header-title">
-                            <h4 class="m-b-10">@yield('title')</h4>
+                            <h4 class="m-b-10"><?php echo $__env->yieldContent('title'); ?></h4>
                         </div>
                     </div>
                     <div class="col-md-6 mt-4">
                         <ul class="breadcrumb">
-                            @yield('breadcrumb')
+                            <?php echo $__env->yieldContent('breadcrumb'); ?>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <div class="col-12 text-end mt-3">
-                            @yield('action-btn')
+                            <?php echo $__env->yieldContent('action-btn'); ?>
                         </div>
                         <!-- <div class="col-12">
-                            @yield('filter')
+                            <?php echo $__env->yieldContent('filter'); ?>
                         </div> -->
                     </div>
                 </div>
             </div>
         </div>
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </div>
 </div>
-@push('script-page')
+<?php $__env->startPush('script-page'); ?>
 <script>
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
@@ -68,7 +68,7 @@
             initMenu();
         });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
 <style>
     /* #optionsContainer {
         display: none;
@@ -455,4 +455,4 @@
 div#sidebar-wrapper .fa-stack {
     width: 50px !important;
 }
-</style>
+</style><?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/content.blade.php ENDPATH**/ ?>

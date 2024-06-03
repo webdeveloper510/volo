@@ -165,10 +165,6 @@ class CustomerInformation extends Controller
     }
     public function importuser(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // die();
-
         if ($request->customerType == 'uploadFile') {
             $category = [
                 'category' => $request->input('category'),
@@ -207,6 +203,13 @@ class CustomerInformation extends Controller
                     ->withInput();
             }
 
+            $industry_sectors = implode(',', $request->industry_sectors);
+            $productDataObject = [
+                "service" => $request->service,
+                "product_title" => $request->product_title,
+                "product_price" => $request->product_price,
+            ];
+
             $UsersImports = new UserImport();
             $UsersImports->name = $request->name;
             $UsersImports->phone = $request->phone;
@@ -216,11 +219,12 @@ class CustomerInformation extends Controller
             $UsersImports->notes = $request->notes;
             $UsersImports->category = $request->category;
             $UsersImports->location_geography = $request->location_geography;
-            $UsersImports->region = $request->region;
+            $UsersImports->region = !empty($request->region) ? $request->region : $request->other_region;
             $UsersImports->sales_subcategory = $request->sales_subcategory;
-            $UsersImports->industry_sectors = $request->industry_sectors;
+            $UsersImports->industry_sectors = $industry_sectors;
             $UsersImports->measure_units_quantity = $request->measure_units_quantity;
             $UsersImports->value_of_opportunity = $request->value_of_opportunity;
+            $UsersImports->product_detail = json_encode($productDataObject);
             $UsersImports->pain_points = $request->pain_points;
             $UsersImports->timing_close = $request->timing_close;
             $UsersImports->engagement_level = $request->engagement_level;
@@ -406,4 +410,3 @@ class CustomerInformation extends Controller
         return true;
     }
 }
-
