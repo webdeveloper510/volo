@@ -3,33 +3,6 @@ $billing = App\Models\ProposalInfo::where('lead_id', $lead->id)->orderby('id', '
 if (isset($billing) && !empty($billing)) {
     $billing = json_decode($billing->proposal_info, true);
 }
-$selectedvenue = explode(',', $lead->venue_selection);
-$settings = App\Models\Utility::settings();
-$imagePath = public_path('upload/signature/autorised_signature.png');
-$imageData = base64_encode(file_get_contents($imagePath));
-$base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base64,' . $imageData;
-
-// $data['lead'] = $lead->toArray();
-// $data['users'] = $users->toArray();
-// $data['venue'] = $venue;
-// $data['settings'] = $settings;
-// $data['fixed_cost'] = $fixed_cost;
-// $data['additional_items'] = $additional_items;
-
-$proposal = unserialize($settings['proposal']);
-// echo "old : {$proposal['address']}";
-$token = array(
-    'USER_EMAIL'  => $users->email,
-);
-$pattern = '[%s]';
-foreach ($token as $key => $val) {
-    $varMap[sprintf($pattern, $key)] = $val;
-}
-$proposal['address'] = strtr($proposal['address'], $varMap);
-/* echo '<pre>';
-print_r($proposal);
-echo '</pre>'; */
-// echo "new : {$proposal['address']}";
 ?>
 <!DOCTYPE html>
 <html lang="en">

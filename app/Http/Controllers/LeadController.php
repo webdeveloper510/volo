@@ -25,9 +25,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\SendPdfEmail;
+use App\Mail\SendNdaEmail;
 use App\Mail\LeadWithrawMail;
 use App\Models\MasterCustomer;
 use App\Models\NotesLeads;
+use App\Models\Nda;
 use Log;
 use Mail;
 use Str;
@@ -511,7 +513,7 @@ class LeadController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
-            $account                        = new account();
+            $account = new account();
             $account['user_id'] = $request->user;
             $account['document_id'] = $request->document_id;
             $account['name'] = $request->name;
@@ -584,11 +586,11 @@ class LeadController extends Controller
         return view('lead.share_proposal', compact('lead'));
     }
 
-    public function nda_sign_view($id)
+    public function share_nda_view($id)
     {
         $decryptedId = decrypt(urldecode($id));
         $lead = Lead::find($decryptedId);
-        return view('lead.nda_sign', compact('lead'));
+        return view('lead.share_nda', compact('lead'));
     }
 
     public function proposalpdf(Request $request, $id)
@@ -644,6 +646,66 @@ class LeadController extends Controller
         }
         return redirect()->back()->with('success', 'Email Sent Successfully');
     }
+
+    public function ndapdf(Request $request, $id)
+    {
+        $settings = Utility::settings();
+        $id = decrypt(urldecode($id));
+        $lead = Lead::find($id);
+        if (!empty($request->file('attachment'))) {
+            $file =  $request->file('attachment');
+            $filename = Str::random(3) . '_' . $file->getClientOriginalName();
+            $folder = 'Proposal_attachments/' . $id;
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+        }
+
+        $dataInfo = [
+            'aggrement_day' => $request->aggrement_day,
+            'aggrement_by' => $request->aggrement_by,
+            'aggrement_receiving_party' => $request->aggrement_receiving_party,
+            'aggrement_transaction' => $request->aggrement_transaction,
+            'disclosing_by' => $request->disclosing_by,
+            'disclosing_party_name' => $request->disclosing_party_name,
+            'disclosing_party_title' => $request->disclosing_party_title
+        ];
+
+        $proposalinfo = new ProposalInfo();
+        $proposalinfo->lead_id = $id;
+        $proposalinfo->email = $request->email;
+        $proposalinfo->subject = $request->subject;
+        $proposalinfo->content = $request->emailbody;
+        $proposalinfo->proposal_info = json_encode($dataInfo, true);
+        $proposalinfo->attachments = $filename ?? '';
+        $proposalinfo->created_by = Auth::user()->id;
+        $proposalinfo->save();
+        $propid = $proposalinfo->id;
+        $subject = $request->subject;
+        $content = $request->emailbody;
+
+        try {
+            config(
+                [
+                    'mail.driver'       => $settings['mail_driver'],
+                    'mail.host'         => $settings['mail_host'],
+                    'mail.port'         => $settings['mail_port'],
+                    'mail.username'     => $settings['mail_username'],
+                    'mail.password'     => $settings['mail_password'],
+                    'mail.from.address' => $settings['mail_from_address'],
+                    'mail.from.name'    => $settings['mail_from_name'],
+                ]
+            );
+            Mail::to('testing.test3215@gmail.com')->send(new SendNdaEmail($lead, $subject, $content, $proposalinfo, $propid));
+            $update = Lead::where('id', $id)->update(['status' => 1]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('success', 'Email Not Sent');
+        }
+        return redirect()->back()->with('success', 'Email Sent Successfully');
+    }
     public function proposalview($id)
     {
         $id = decrypt(urldecode($id));
@@ -656,17 +718,34 @@ class LeadController extends Controller
         return view('lead.proposal', compact('lead', 'venue', 'settings', 'fixed_cost', 'additional_items', 'users'));
     }
 
+    // public function ndaview($id)
+    // {
+    //     $id = decrypt(urldecode($id));
+    //     $lead = Lead::find($id);
+    //     $users = User::find($lead->user_id);
+    //     $settings = Utility::settings();
+    //     return view('lead.nda', compact('lead', 'settings', 'users'));
+    // }
+
     public function ndaview($id)
     {
-        $id = decrypt(urldecode($id));
+        try {
+            $id = Crypt::decryptString(urldecode($id));
+        } catch (DecryptException $e) {
+            return redirect()->route('error.page')->with('error', 'Invalid or corrupted data.');
+        }
+
         $lead = Lead::find($id);
+        if (!$lead) {
+            return redirect()->route('error.page')->with('error', 'Lead not found.');
+        }
+
         $users = User::find($lead->user_id);
         $settings = Utility::settings();
-        $venue = explode(',', $settings['venue']);
-        $fixed_cost = json_decode($settings['fixed_billing'], true);
-        $additional_items = json_decode($settings['additional_items'], true);
-        return view('lead.nda', compact('lead', 'venue', 'settings', 'fixed_cost', 'additional_items', 'users'));
+
+        return view('lead.nda', compact('lead', 'settings', 'users'));
     }
+
 
     public function proposal_resp(Request $request, $id)
     {
@@ -682,6 +761,7 @@ class LeadController extends Controller
         } else {
             return redirect()->back()->with('error', ('Please Sign it for confirmation'));
         }
+
         $existproposal = Proposal::where('lead_id', $id)->exists();
         // if ($existproposal == TRUE) {
         //     Proposal::where('lead_id',$id)->update(['image' => $image]);
@@ -763,48 +843,61 @@ class LeadController extends Controller
         return $pdf->stream('proposal.pdf');
     }
 
+
     public function nda_resp(Request $request, $id)
     {
+        // Decrypt and decode the ID
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
 
-        if (!empty($request->imageData) && !empty($request->receiving_by) && !empty($request->receiving_name) && !empty($request->receiving_title)) {
-            $image = $this->uploadSignature($request->imageData);
+        if ($lead) {
+            $lead->is_nda_signed = 1;
+            $lead->save();
         } else {
-            return redirect()->back()->with('error', ('Please Sign it and fill the Receiving Party information for confirmation .'));
+            return redirect()->back()->with('error', 'Invalid lead');
         }
 
-        $disclosing_by = $request->disclosing_by;
-        $disclosing_name = $request->disclosing_name;
-        $disclosing_title = $request->disclosing_title;
-        $receiving_by = $request->receiving_by;
-        $receiving_name = $request->receiving_name;
-        $receiving_title = $request->receiving_title;
-        $aggrement_day = $request->aggrement_day;
-        $aggrement_by = $request->aggrement_by;
-        $aggrement_receiving_party = $request->aggrement_receiving_party;
-        $aggrement_transaction = $request->aggrement_transaction;
+        if (!empty($request->imageData)) {
+            $image = $this->uploadSignature($request->imageData);
+        } else {
+            return redirect()->back()->with('error', 'Please Sign the document for confirmation.');
+        }
+
+        if (empty($request->receiving_by) && empty($request->receiving_name) && empty($request->receiving_title)) {
+            return redirect()->back()->with('error', 'Please fill the Receiving Party information for confirmation.');
+        }
+
+        // Insert data into the database
+        $ndaResponse = new Nda();
+        $ndaResponse->user_id = $lead->user_id;
+        $ndaResponse->lead_id = $id;
+        $ndaResponse->aggrement_day = $request->aggrement_day;
+        $ndaResponse->aggrement_by = $request->aggrement_by;
+        $ndaResponse->aggrement_receiving_party = $request->aggrement_receiving_party;
+        $ndaResponse->aggrement_transaction = $request->aggrement_transaction;
+        $ndaResponse->disclosing_by = $request->disclosing_by;
+        $ndaResponse->disclosing_name = $request->disclosing_name;
+        $ndaResponse->disclosing_title = $request->disclosing_title;
+        $ndaResponse->receiving_by = $request->receiving_by;
+        $ndaResponse->receiving_name = $request->receiving_name;
+        $ndaResponse->receiving_title = $request->receiving_title;
+        $ndaResponse->image = $image;
+        $ndaResponse->nda_response = '';
+        $ndaResponse->created_at = now();
+        $ndaResponse->updated_at = now();
+        $ndaResponse->save();
 
         $data = [
-            'disclosing_by' => $disclosing_by,
-            'disclosing_name' => $disclosing_name,
-            'disclosing_title' => $disclosing_title,
-            'receiving_by' => $receiving_by,
-            'receiving_name' => $receiving_name,
-            'receiving_title' => $receiving_title,
-            'aggrement_day' => $aggrement_day,
-            'aggrement_by' => $aggrement_by,
-            'aggrement_receiving_party' => $aggrement_receiving_party,
-            'aggrement_transaction' => $aggrement_transaction
+            'nda' => $ndaResponse,
         ];
 
-        $pdf = Pdf::loadView('lead.signed_nda', compact('data'));
+        $pdf = Pdf::loadView('lead.signed_nda', $data);
 
         try {
             $filename = 'proposal_' . time() . '.pdf';
             $folder = 'Proposal_response/' . $id;
-            Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
-            $lead->update(['is_nda_signed' => 1]);
+            $path = Storage::disk('public')->put($folder . '/' . $filename, $pdf->output());
+            $ndaResponse->update(['nda_response' => $filename]);
         } catch (\Exception $e) {
             \Log::error('File upload failed: ' . $e->getMessage());
             return response()->json([
@@ -812,7 +905,6 @@ class LeadController extends Controller
                 'message' => 'Failed to save PDF: ' . $e->getMessage(),
             ]);
         }
-
         return $pdf->stream('proposal.pdf');
     }
 

@@ -417,8 +417,9 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('lead/proposal/{id}', [LeadController::class, 'proposal'])->name('lead.proposal');
             Route::get('lead/view-proposal/{id}', [LeadController::class, 'view_proposal'])->name('lead.viewproposal');
             Route::get('lead/share_proposal/{id}', [LeadController::class, 'share_proposal_view'])->name('lead.shareproposal');
-            Route::get('lead/nda_sign/{id}', [LeadController::class, 'nda_sign_view'])->name('lead.ndasign');
+            Route::get('lead/share_nda/{id}', [LeadController::class, 'share_nda_view'])->name('lead.sharenda');
             Route::post('lead/share_proposal/{id}', [LeadController::class, 'proposalpdf'])->name('lead.pdf');
+            Route::post('lead/share_nda/{id}', [LeadController::class, 'ndapdf'])->name('nda.pdf');
             Route::get('lead/review-proposal/{id}', [LeadController::class, 'review_proposal'])->name('lead.review');
             Route::post('lead/review-proposal/update/{id}', [LeadController::class, 'review_proposal_data'])->name('lead.review.update');
             Route::get('lead/approve_proposal/{id}',[LeadController::class,'approval'])->name('lead.approval');

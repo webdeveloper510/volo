@@ -89,18 +89,22 @@ $proposalstatus = \App\Models\Lead::$status;
                                                             <i class="fas fa-exchange-alt"></i> </a>
                                                     </div>
                                                     @endif
-                                                    @if($lead->status == 0 )
+                                                    <!-- @if($lead->status == 0 ) -->
+                                                    @if($lead->is_nda_signed == 1)
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Proposal') }}" title="{{ __('Share Proposal') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-share"></i>
                                                         </a>
                                                     </div>
+                                                    @endif
+                                                    <!-- @endif -->
+
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.ndasign',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Sign NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sharenda',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Sign NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-file"></i>
                                                         </a>
                                                     </div>
-                                                    @endif
+
                                                     @if($lead->status >= 2 )
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunitie')}}">
