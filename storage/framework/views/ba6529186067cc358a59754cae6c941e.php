@@ -1,4 +1,4 @@
-@php
+<?php
 use Illuminate\Support\Facades\Crypt;
 
 $propinfo = json_decode($proposalinfo->proposal_info, true);
@@ -31,7 +31,7 @@ $ndaUrl = route('lead.signednda', ['id' => $encryptedLeadId]);
 
 // Append the query parameters
 $ndaUrlWithParams = "{$ndaUrl}?day={$day}&by={$by}&rec_p={$rec_p}&tran={$tran}&disc_b={$disc_b}&disc_p_n={$disc_p_n}&disc_p_t={$disc_p_t}&prop={$propid}";
-@endphp
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,12 +92,12 @@ $ndaUrlWithParams = "{$ndaUrl}?day={$day}&by={$by}&rec_p={$rec_p}&tran={$tran}&d
 </head>
 
 <body>
-    <p>Dear {{ ucfirst($lead->name) }}</p>
+    <p>Dear <?php echo e(ucfirst($lead->name)); ?></p>
     <div class="container">
         <h1>NDA Details</h1>
-        <p>{{ $content }}</p>
+        <p><?php echo e($content); ?></p>
         <p>Click the link below to see the NDA details with estimated billing:</p>
-        <p><a href="{{ $ndaUrlWithParams }}">{{ $ndaUrlWithParams }}</a></p>
+        <p><a href="<?php echo e($ndaUrlWithParams); ?>"><?php echo e($ndaUrlWithParams); ?></a></p>
         <p>Thank you for your time and collaboration.</p>
         <p><strong>With regards,</strong></p>
     </div>
@@ -106,3 +106,4 @@ $ndaUrlWithParams = "{$ndaUrl}?day={$day}&by={$by}&rec_p={$rec_p}&tran={$tran}&d
     </div>
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/mail/nda-view.blade.php ENDPATH**/ ?>

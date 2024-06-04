@@ -729,17 +729,19 @@ class LeadController extends Controller
 
     public function ndaview($id)
     {
-        try {
-            $id = Crypt::decryptString(urldecode($id));
+        // $id = decrypt(urldecode($id));
+        // echo $id;
+        // die;
+        /* try {
+            // $id = Crypt::decryptString(urldecode($id));
+            
         } catch (DecryptException $e) {
             return redirect()->route('error.page')->with('error', 'Invalid or corrupted data.');
-        }
+        } */
 
-        $lead = Lead::find($id);
-        if (!$lead) {
-            return redirect()->route('error.page')->with('error', 'Lead not found.');
-        }
 
+
+        $lead = Lead::find($id);      
         $users = User::find($lead->user_id);
         $settings = Utility::settings();
 
