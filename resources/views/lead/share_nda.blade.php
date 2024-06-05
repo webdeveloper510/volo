@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
+        <!-- <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div> -->
         {{ Form::model($lead, ['route' => ['nda.pdf', urlencode(encrypt($lead->id))], 'method' => 'POST','enctype'=>'multipart/form-data']) }}
 
         <div class="">
@@ -107,12 +107,12 @@
         </div>
 
         <div class="modal-footer">
+            <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
             <button type="button" class="btn btn-success" data-toggle="tooltip" onclick="getDataUrlAndCopy(this)" data-url="{{route('lead.signednda',$lead->id)}}" title='Copy To Clipboard'>
                 <i class="ti ti-copy"></i>
             </button>
             {{Form::submit(__('Share via mail'),array('class'=>'btn btn-primary'))}}
         </div>
-
     </div>
     {{Form::close()}}
 </div>

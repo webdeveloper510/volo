@@ -93,15 +93,15 @@ $proposalstatus = \App\Models\Lead::$status;
                                                             <i class="fas fa-exchange-alt"></i> </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <!-- <?php if($lead->status == 0 ): ?> -->
-                                                    <?php if($lead->is_nda_signed == 1): ?>
+                                                    
+                                                    <?php if($lead->is_nda_signed == 1 && $lead->status == 6 ): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>" title="<?php echo e(__('Share Proposal')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-share"></i>
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <!-- <?php endif; ?> -->
+                                                    
 
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.sharenda',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('NDA')); ?>" title="<?php echo e(__('Sign NDA')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">

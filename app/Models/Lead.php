@@ -56,7 +56,8 @@ class Lead extends Model
         'Customer Confirmed / Need Admin Approval',
         'Withdrawn',
         'Approved',
-        'Resent'
+        'Resent',
+        'Nda signed'
     ];
     public static $stat = [
         'Inactive',

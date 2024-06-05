@@ -62,6 +62,10 @@ class LeadController extends Controller
                 $defualtView->module = 'lead';
                 $defualtView->view   = 'list';
             }
+
+            // echo "<pre>";
+            // print_r($leads);
+            // die;
             return view('lead.index', compact('leads', 'statuss'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -730,16 +734,6 @@ class LeadController extends Controller
     public function ndaview($id)
     {
         // $id = decrypt(urldecode($id));
-        // echo $id;
-        // die;
-        /* try {
-            // $id = Crypt::decryptString(urldecode($id));
-            
-        } catch (DecryptException $e) {
-            return redirect()->route('error.page')->with('error', 'Invalid or corrupted data.');
-        } */
-
-
 
         $lead = Lead::find($id);      
         $users = User::find($lead->user_id);
@@ -854,6 +848,7 @@ class LeadController extends Controller
 
         if ($lead) {
             $lead->is_nda_signed = 1;
+            $lead->status = 6;
             $lead->save();
         } else {
             return redirect()->back()->with('error', 'Invalid lead');
