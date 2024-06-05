@@ -94,6 +94,7 @@ use App\Http\Controllers\XenditPaymentController;
 use App\Http\Controllers\YooKassaController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardTestingController;
+use App\Http\Controllers\CategoriesController;
 use App\Models\Billing;
 use Google\Service\ServiceConsumerManagement\BillingConfig;
 use Illuminate\Support\Facades\DB;
@@ -1478,3 +1479,7 @@ Route::group(
 
         
 });
+
+// Categories controller routes
+Route::get('create-categories', [CategoriesController::class, 'index'])->name('categories.index');
+Route::post('create-categories', [CategoriesController::class, 'createCategory'])->name('categories.create');

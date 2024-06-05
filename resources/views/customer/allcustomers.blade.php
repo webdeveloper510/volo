@@ -9,7 +9,7 @@
 @endsection
 @section('action-btn')
 <a href="#" data-url="{{ route('uploadusersinfo') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"
-    data-title="{{__('Upload User')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
+    data-title="{{__('Upload Client')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
 
@@ -32,11 +32,11 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}} <span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}} <span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort">{{__('Phone')}} <span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort">{{__('Address')}} <span class="opticy"> dddd</span></th>
-                                                <th scope="col" class="sort">{{__('Category')}} <span class="opticy"> dddd</span></th>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Company Name')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort">{{__('Phone')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort">{{__('Region')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort">{{__('Industry')}} <span class="opticy"> </span></th>
                                             </tr>
                                         </thead>
                                         <tbody>

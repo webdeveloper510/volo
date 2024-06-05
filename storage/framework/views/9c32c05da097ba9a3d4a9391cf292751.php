@@ -142,20 +142,27 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext"><?php echo e(__('All Clients')); ?> </span></a>
 
-                <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'event_customers' ?'active' : ''); ?>">
+                <!-- <a href="<?php echo e(route('event_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'event_customers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Event Clients"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Trainings')); ?> </span></a>
-                <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead_customers' ?'active' : ''); ?>">
+                    <span class="dash-mtext"><?php echo e(__('Trainings')); ?> </span></a> -->
+                <!-- <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead_customers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a> -->
+                <a href="<?php echo e(route('lead.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead.index' ?'active' : ''); ?>">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span></a>
 
-                <?php if(isset($category) && !empty($category)): ?>
+                <a href="<?php echo e(route('categories.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'categories.index' ?'active' : ''); ?>">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Add Category"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Settings')); ?> </span></a>
+
+                <!-- <?php if(isset($category) && !empty($category)): ?>
                 <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <a href="<?php echo e(route('categ', $cat)); ?>" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="<?php echo e($cat); ?>"></i></span>
                     <span class="dash-mtext"><?php echo e($cat); ?> </span></a>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                <?php endif; ?>
+                <?php endif; ?> -->
                 <?php endif; ?>
 
                 <?php if(\Request::route()->getName() == 'meeting.index'): ?>

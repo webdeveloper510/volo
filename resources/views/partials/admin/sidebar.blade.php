@@ -142,20 +142,27 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext">{{ __('All Clients') }} </span></a>
 
-                <a href="{{route('event_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'event_customers' ?'active' : ''}}">
+                <!-- <a href="{{route('event_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'event_customers' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Event Clients"></i></span>
-                    <span class="dash-mtext">{{ __('Trainings') }} </span></a>
-                <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead_customers' ?'active' : ''}}">
+                    <span class="dash-mtext">{{ __('Trainings') }} </span></a> -->
+                <!-- <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead_customers' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
-                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
+                    <span class="dash-mtext">{{ __('Leads') }} </span></a> -->
+                <a href="{{route('lead.index')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead.index' ?'active' : ''}}">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
+                    <span class="dash-mtext">{{ __('Opportunities') }} </span></a>
 
-                @if(isset($category) && !empty($category))
+                <a href="{{route('categories.index')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'categories.index' ?'active' : ''}}">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Add Category"></i></span>
+                    <span class="dash-mtext">{{ __('Settings') }} </span></a>
+
+                <!-- @if(isset($category) && !empty($category))
                 @foreach($category as $cat)
                 <a href="{{route('categ', $cat)}}" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="{{$cat}}"></i></span>
                     <span class="dash-mtext">{{ $cat }} </span></a>
                 @endforeach
-                @endif
+                @endif -->
                 @endif
 
                 @if(\Request::route()->getName() == 'meeting.index')
