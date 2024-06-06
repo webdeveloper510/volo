@@ -32,6 +32,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
         </ul>
         <div class="tab-content">
             <div id="barmenu0" class="tab-pane fade in active show mt-5">
+                <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
+                    <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
+                </div>
                 {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}}
                 <div class="row">
                     <div class="col-6 need_full">
@@ -45,17 +48,18 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
                     <div class="col-6 need_full">
-                        <div class="form-group">
-                            {{Form::label('phone',__('Phone'),['class'=>'form-label']) }}
+                        <div class="form-group ">
+                            {{Form::label('name',__('Primary contact'),['class'=>'form-label']) }}
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
                             <div class="intl-tel-input">
-                                <input type="tel" id="phone-input" name="phone" class="phone-input form-control" placeholder="Enter Phone" maxlength="16" required>
-                                <input type="hidden" name="countrycode" id="country-code">
+                                <input type="tel" id="phone-input" name="primary_contact" class="phone-input form-control" placeholder="Enter Primary contact" maxlength="16">
+                                <input type="hidden" name="primary_countrycode" id="primary-country-code">
                             </div>
                         </div>
                     </div>
+
                     <div class="col-6 need_full">
                         <div class="form-group">
                             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
@@ -74,10 +78,49 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
+                            {{Form::label('organization',__('Title/Designation'),['class'=>'form-label']) }}
+                            {{Form::text('organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
+                    <h5 style="margin-left: 14px;">{{ __('Secondary Contact Information') }}</h5>
+                </div>
+                <div class="row">
+                    <div class="col-6 need_full">
+                        <div class="form-group ">
+                            {{Form::label('name',__('Secondary contact'),['class'=>'form-label']) }}
+                            <div class="intl-tel-input">
+                                <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Phone" maxlength="16">
+                                <input type="hidden" name="secondary_countrycode" id="secondary-country-code">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            {{Form::label('email',__('Email'),['class'=>'form-label']) }}
+                            {{Form::text('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            {{Form::label('address',__('Address'),['class'=>'form-label']) }}
+                            {{Form::text('address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
                             {{Form::label('organization',__('Organization'),['class'=>'form-label']) }}
                             {{Form::text('organization',null,array('class'=>'form-control','placeholder'=>__('Enter Organization')))}}
                         </div>
                     </div>
+                </div>
+
+                <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
+                    <h5 style="margin-left: 14px;">{{ __('Other Information') }}</h5>
+                </div>
+                <div class="row">
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="category">Select Category</label>
@@ -144,9 +187,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            <label for="industry_sectors">Industries / Sectors</label>
+                            <label for="industry_sectors">Industries</label>
                             <select name="industry_sectors[]" id="industry_sectors" class="form-control" multiple required>
-                                <option value="" selected disabled>Select Industries / Sectors</option>
+                                <option value="" selected disabled>Select Industries</option>
                                 <option value="automobiles-components">Automobiles and Components</option>
                                 <option value="banks">Banks</option>
                                 <option value="fleet-private">Fleet – Private</option>
@@ -178,29 +221,6 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </select>
                         </div>
                     </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
-                            <label for="measure_units_quantity">Measure / Units / Quantity (Opportunity Size)</label>
-                            <select name="measure_units_quantity" id="measure_units_quantity" class="form-control" required>
-                                <option value="" selected disabled>Select Measure / Units / Quantity</option>
-                                <option value="spaces">Spaces</option>
-                                <option value="locations">Locations</option>
-                                <option value="count-quantity">Count / Quantity</option>
-                                <option value="vehicles">Vehicles</option>
-                                <option value="sites">Sites</option>
-                                <option value="chargers">Chargers</option>
-                                <option value="volume">Volume</option>
-                                <option value="transactions-count">Transactions Count</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
-                            <label for="value_of_opportunity">Value of Opportunity ( Options in UK Pounds and US Dollars)</label>
-                            <input type="text" name="value_of_opportunity" value="" placeholder="Enter Value of Opportunity" class="form-control">
-                        </div>
-                    </div>
-
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label>Product Category</label><br>
@@ -339,25 +359,10 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </div>
                         </div>
                     </div>
-
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="pain_points">Pain Points</label>
                             <input type="text" name="pain_points" value="" placeholder="Enter Pain Points" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
-                            <label for="timing_close">Timing – Close</label>
-                            <select name="timing_close" id="timing_close" class="form-control" required>
-                                <option value="" selected disabled>Select Timing – Close</option>
-                                <option value="immediate">Immediate</option>
-                                <option value="0-30-days">0-30 Days</option>
-                                <option value="31-90-days">31 – 90 Days</option>
-                                <option value="91-180-days">91 – 180 Days</option>
-                                <option value="181-360-days">181 – 360 Days</option>
-                                <option value="12-months-plus">12 Months +</option>
-                            </select>
                         </div>
                     </div>
                     <div class="col-6 need_full">
@@ -379,6 +384,60 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="vice-president-fleet-operations">Vice President - Fleet Operations</option>
                                 <option value="director-of-global-safety-solutions">Director of Global Safety Solutions</option>
                                 <option value="vice-president-procurement">Vice President - Procurement</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            <label for="revenue_booked_to_date">Revenue booked to date</label>
+                            <input type="text" name="revenue_booked_to_date" value="" placeholder="Enter Revenue booked to date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            <label for="referred_by">Referred by / Connection</label>
+                            <input type="text" name="referred_by" value="" placeholder="Enter Referred by / Connection" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
+                    <h5 style="margin-left: 14px;">{{ __('Opportunities') }}</h5>
+                </div>
+                <div class="row">
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            <label for="measure_units_quantity">Measure / Units / Quantity (Opportunity Size)</label>
+                            <select name="measure_units_quantity" id="measure_units_quantity" class="form-control" required>
+                                <option value="" selected disabled>Select Measure / Units / Quantity</option>
+                                <option value="spaces">Spaces</option>
+                                <option value="locations">Locations</option>
+                                <option value="count-quantity">Count / Quantity</option>
+                                <option value="vehicles">Vehicles</option>
+                                <option value="sites">Sites</option>
+                                <option value="chargers">Chargers</option>
+                                <option value="volume">Volume</option>
+                                <option value="transactions-count">Transactions Count</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            <label for="value_of_opportunity">Value of Opportunity ( Options in UK Pounds and US Dollars)</label>
+                            <input type="text" name="value_of_opportunity" value="" placeholder="Enter Value of Opportunity" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            <label for="timing_close">Timing – Close</label>
+                            <select name="timing_close" id="timing_close" class="form-control" required>
+                                <option value="" selected disabled>Select Timing – Close</option>
+                                <option value="immediate">Immediate</option>
+                                <option value="0-30-days">0-30 Days</option>
+                                <option value="31-90-days">31 – 90 Days</option>
+                                <option value="91-180-days">91 – 180 Days</option>
+                                <option value="181-360-days">181 – 360 Days</option>
+                                <option value="12-months-plus">12 Months +</option>
                             </select>
                         </div>
                     </div>
@@ -407,6 +466,19 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
+                            <label for="deal_length">Deal Length</label>
+                            <select name="deal_length" id="deal_length" class="form-control" required>
+                                <option value="" selected disabled>Select Deal Length</option>
+                                <option value="One Time">One Time</option>
+                                <option value="Short Term">Short Term</option>
+                                <option value="On a Needed basis">On a Needed basis</option>
+                                <option value="Annual">Annual</option>
+                                <option value="Multi Year">Multi Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
                             <label for="difficult_level">Difficult Level</label>
                             <select name="difficult_level" id="difficult_level" class="form-control" required>
                                 <option value="" selected disabled>Select Difficult Level</option>
@@ -423,19 +495,6 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            <label for="deal_length">Deal Length</label>
-                            <select name="deal_length" id="deal_length" class="form-control" required>
-                                <option value="" selected disabled>Select Deal Length</option>
-                                <option value="One Time">One Time</option>
-                                <option value="Short Term">Short Term</option>
-                                <option value="On a Needed basis">On a Needed basis</option>
-                                <option value="Annual">Annual</option>
-                                <option value="Multi Year">Multi Year</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
                             <label for="probability_to_close">Probability to close</label>
                             <select name="probability_to_close" id="probability_to_close" class="form-control" required>
                                 <option value="" selected disabled>Select Probability to close</option>
@@ -447,18 +506,6 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="Highly Unlikely">Highly Unlikely: The deal faces numerous major challenges and is very unlikely to close. Probability of success is below 10%.</option>
                                 <option value="Unknown">Unknown: The probability of the deal closing is unclear due to insufficient information or rapidly changing circumstances. Further analysis is needed.</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
-                            <label for="revenue_booked_to_date">Revenue booked to date</label>
-                            <input type="text" name="revenue_booked_to_date" value="" placeholder="Enter Revenue booked to date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
-                            <label for="referred_by">Referred by / Connection</label>
-                            <input type="text" name="referred_by" value="" placeholder="Enter Referred by / Connection" class="form-control">
                         </div>
                     </div>
                     <div class="col-12">
@@ -536,37 +583,6 @@ $campaign_type = explode(',',$settings['campaign_type']);
     }
 </style>
 <script>
-    //      $(document).ready(function() {  
-    //     $("input[type='text'][name= 'name'],input[type='text'][name= 'email'], select[name='category'],input[type='tel'][name='phone']").focusout(function() {  
-
-    //         var input = $(this);
-    //         var errorMessage = '';
-    //         if (input.attr('name') === 'email' && input.val() !== '') {
-    //             var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //             if (!emailPattern.test(input.val())) {
-    //                 errorMessage = 'Invalid email address.';
-    //             }
-    //         } else if (input.val() == '') {
-    //             errorMessage = 'This field is required.';
-    //         }
-
-    //         if(errorMessage  != '') {  
-    //             input.css('border', 'solid 2px red');
-    //         } 
-    //         else { 
-    //             // If it is not blank. 
-    //             input.css('border', 'solid 2px black');
-    //         }
-
-    //         // Remove any existing error message
-    //         input.next('.validation-error').remove();
-
-    //         // Append the error message if it exists
-    //         if(errorMessage != '') {
-    //             input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
-    //         }
-    //     }); 
-    // });
     $(document).ready(function() {
         $("input[type='text'][name= 'name'],input[type='text'][name= 'email'], select[name='category'],input[type='tel'][name='phone']").focusout(function() {
             var input = $(this);
