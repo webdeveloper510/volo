@@ -45,7 +45,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Email')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th>
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
-                                                <th scope="col" class="sort">{{__('Opportunitie Status')}}<span class="opticy"></span></th>
+                                                <th scope="col" class="sort">{{__('Opportunities Status')}}<span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"></span></th>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead'))
@@ -99,11 +99,13 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     @endif
                                                     {{-- @endif --}}
 
+                                                    @if($lead->is_nda_signed == 0)
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sharenda',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Sign NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-file"></i>
                                                         </a>
                                                     </div>
+                                                    @endif
 
                                                     @if($lead->status >= 2 )
                                                     <div class="action-btn bg-info ms-2">

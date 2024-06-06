@@ -13,7 +13,8 @@ class UserImport extends Model
     protected $fillable = [
         'name', 'email', 'phone', 'address', 'organization', 'status', 'category', 'location_geography', 'region', 'sales_subcategory', 'industry_sectors', 'measure_units_quantity', 'value_of_opportunity',
         'pain_points', 'timing_close', 'engagement_level', 'lead_status', 'difficult_level', 'deal_length', 'probability_to_close',
-        'revenue_booked_to_date', 'referred_by', 'created_by', 'notes'
+        'revenue_booked_to_date', 'referred_by', 'created_by', 'notes', 'product_category', 
+        'hardware_one_time', 'hardware_maintenance', 'software_recurring', 'software_one_time','systems_integrations','subscriptions', 'tech_deployment'
     ];
 
 

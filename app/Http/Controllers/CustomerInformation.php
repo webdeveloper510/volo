@@ -165,6 +165,10 @@ class CustomerInformation extends Controller
     }
     public function importuser(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
+
         if ($request->customerType == 'uploadFile') {
             $category = [
                 'category' => $request->input('category'),
@@ -204,10 +208,41 @@ class CustomerInformation extends Controller
             }
 
             $industry_sectors = implode(',', $request->industry_sectors);
-            $productDataObject = [
-                "service" => $request->service,
-                "product_title" => $request->product_title,
-                "product_price" => $request->product_price,
+            $productCategory = implode(',', $request->service);
+
+            $hardware_one_time = [
+                'title' => $request->product_title_hardware_one_time,
+                'price' => $request->product_price_hardware_one_time
+            ];
+
+            $hardware_maintenance = [
+                'title' => $request->product_title_hardware_maintenance,
+                'price' => $request->product_price_hardware_maintenance
+            ];
+
+            $software_recurring = [
+                'title' => $request->product_title_software_recurring,
+                'price' => $request->product_price_software_recurring
+            ];
+
+            $software_one_time = [
+                'title' => $request->product_title_software_one_time,
+                'price' => $request->product_price_software_one_time
+            ];
+
+            $systems_integrations = [
+                'title' => $request->product_title_systems_integrations,
+                'price' => $request->product_price_systems_integrations
+            ];
+
+            $subscriptions = [
+                'title' => $request->product_title_subscriptions,
+                'price' => $request->product_price_subscriptions
+            ];
+
+            $tech_deployment = [
+                'title' => $request->product_title_tech_deployment,
+                'price' => $request->product_price_tech_deployment
             ];
 
             $UsersImports = new UserImport();
@@ -224,7 +259,14 @@ class CustomerInformation extends Controller
             $UsersImports->industry_sectors = $industry_sectors;
             $UsersImports->measure_units_quantity = $request->measure_units_quantity;
             $UsersImports->value_of_opportunity = $request->value_of_opportunity;
-            $UsersImports->product_detail = json_encode($productDataObject);
+            $UsersImports->product_category = json_encode($productCategory);
+            $UsersImports->hardware_one_time = json_encode($hardware_one_time);
+            $UsersImports->hardware_maintenance = json_encode($hardware_maintenance);
+            $UsersImports->software_recurring = json_encode($software_recurring);
+            $UsersImports->software_one_time = json_encode($software_one_time);
+            $UsersImports->systems_integrations = json_encode($systems_integrations);
+            $UsersImports->subscriptions = json_encode($subscriptions);
+            $UsersImports->tech_deployment = json_encode($tech_deployment);
             $UsersImports->pain_points = $request->pain_points;
             $UsersImports->timing_close = $request->timing_close;
             $UsersImports->engagement_level = $request->engagement_level;
