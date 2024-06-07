@@ -127,15 +127,15 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     </li>
                                     <?php endif; ?>
 
-                                    <li
+                                    <!-- <li
                                         class="dash-item  <?php echo e(Request::route()->getName() == 'email.index' ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('email.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Emails')); ?></span></a>
-                                    </li>
+                                    </li> -->
                                     <li
                                         class="dash-item  <?php echo e((Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('contracts.index')); ?>" class="dash-link"><span
-                                                class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
+                                                class="dash-mtext"><?php echo e(__('E-Sign')); ?></span></a>
                                     </li>
                                     <li
                                         class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">

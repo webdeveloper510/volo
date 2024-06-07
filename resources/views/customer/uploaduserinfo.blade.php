@@ -13,10 +13,10 @@ $campaign_type = explode(',',$settings['campaign_type']);
         display: none;
     }
 
-    .additional-product-category {
+    /* .additional-product-category {
         display: none;
         margin-top: 10px;
-    }
+    } */
 </style>
 <div class="form-group col-md-12">
     <div class="badges">
@@ -111,7 +111,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('organization',__('Organization'),['class'=>'form-label']) }}
+                            {{Form::label('organization',__('Title/Designation'),['class'=>'form-label']) }}
                             {{Form::text('organization',null,array('class'=>'form-control','placeholder'=>__('Enter Organization')))}}
                         </div>
                     </div>
@@ -129,9 +129,12 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </span>
                             <select name="category" id="category" class="form-control">
                                 <option value="" selected disabled>Select Category</option>
-                                @foreach($campaign_type as $campaign)
-                                <option value="{{$campaign}}" class="form-control">{{$campaign}}</option>
-                                @endforeach
+                                <option value="Partner" class="form-control">Partner</option>
+                                <option value="Reseller" class="form-control">Reseller</option>
+                                <option value="Introducer" class="form-control">Introducer</option>
+                                <option value="Direct Customer" class="form-control">Direct Customer</option>
+                                <option value="Host" class="form-control">Host</option>
+                                <option value="Tennant" class="form-control">Tennant</option>
                             </select>
                         </div>
                     </div>
@@ -176,12 +179,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <label for="sales_subcategory">Sales Subcategory</label>
                             <select name="sales_subcategory" id="sales_subcategory" class="form-control" required>
                                 <option value="" selected disabled>Select Sales Subcategory</option>
-                                <option value="Partner" class="form-control">Partner</option>
-                                <option value="Reseller" class="form-control">Reseller</option>
-                                <option value="Introducer" class="form-control">Introducer</option>
-                                <option value="Direct Customer" class="form-control">Direct Customer</option>
-                                <option value="Host" class="form-control">Host</option>
-                                <option value="Tennant" class="form-control">Tennant</option>
+                                <option value="Public" class="form-control">Public</option>
+                                <option value="Private" class="form-control">Private</option>
+                                <option value="Government" class="form-control">Government</option>
                             </select>
                         </div>
                     </div>
@@ -192,9 +192,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="" selected disabled>Select Industries</option>
                                 <option value="automobiles-components">Automobiles and Components</option>
                                 <option value="banks">Banks</option>
-                                <option value="fleet-private">Fleet – Private</option>
                                 <option value="hubs">Hubs</option>
-                                <option value="public-sector">Public Sector</option>
                                 <option value="capital-goods">Capital Goods</option>
                                 <option value="commercial-professional-services">Commercial and Professional Services</option>
                                 <option value="consumer-durables-apparel">Consumer Durables and Apparel</option>
@@ -217,11 +215,10 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="telecommunication-services">Telecommunication Services</option>
                                 <option value="transportation">Transportation</option>
                                 <option value="utilities">Utilities</option>
-                                <option value="government">Government</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-6 need_full">
+                    <!-- <div class="col-6 need_full">
                         <div class="form-group">
                             <label>Product Category</label><br>
 
@@ -248,8 +245,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
 
-                    <div id="hardware-one-time-fields" class="additional-product-category">
+                    <div id="hardware-one-time-fields" class="additional-product-category card">
                         <label>Hardware – One Time</label>
+                        <i class="fas fa-plus clone-btn"></i>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -264,8 +262,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
 
-                    <div id="hardware-maintenance-fields" class="additional-product-category">
+                    <div id="hardware-maintenance-fields" class="additional-product-category card">
                         <label>Hardware – Maintenance Contracts</label>
+                        <i class="fas fa-plus clone-btn"></i>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -280,8 +279,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
 
-                    <div id="software-recurring-fields" class="additional-product-category">
+                    <div id="software-recurring-fields" class="additional-product-category card">
                         <label>Software – Recurring</label>
+                        <i class="fas fa-plus clone-btn"></i>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -296,8 +296,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
 
-                    <div id="software-one-time-fields" class="additional-product-category">
+                    <div id="software-one-time-fields" class="additional-product-category card">
                         <label>Software – One Time</label>
+                        <i class="fas fa-plus clone-btn"></i>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -312,8 +313,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
 
-                    <div id="systems-integrations-fields" class="additional-product-category">
+                    <div id="systems-integrations-fields" class="additional-product-category card">
                         <label>Systems Integrations</label>
+                        <i class="fas fa-plus clone-btn"></i>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -328,8 +330,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
 
-                    <div id="subscriptions-fields" class="additional-product-category">
+                    <div id="subscriptions-fields" class="additional-product-category card">
                         <label>Subscriptions</label>
+                        <i class="fas fa-plus clone-btn"></i>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -344,8 +347,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         </div>
                     </div>
 
-                    <div id="tech-deployment-fields" class="additional-product-category">
+                    <div id="tech-deployment-fields" class="additional-product-category card">
                         <label>Tech Deployment – Volume based</label>
+                        <i class="fas fa-plus clone-btn"></i>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -358,13 +362,8 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
-                            <label for="pain_points">Pain Points</label>
-                            <input type="text" name="pain_points" value="" placeholder="Enter Pain Points" class="form-control">
-                        </div>
-                    </div>
+                    </div> -->
+
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="engagement_level">Engagement Level</label>
@@ -399,13 +398,20 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <input type="text" name="referred_by" value="" placeholder="Enter Referred by / Connection" class="form-control">
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="pain_points">Pain Points</label>
+                            <textarea name="pain_points" class="form-control" cols="30" rows="5"></textarea>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
+
+                <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
                     <h5 style="margin-left: 14px;">{{ __('Opportunities') }}</h5>
-                </div>
-                <div class="row">
-                    <div class="col-6 need_full">
+                </div> -->
+                <!-- <div class="row"> -->
+                <!-- <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="measure_units_quantity">Measure / Units / Quantity (Opportunity Size)</label>
                             <select name="measure_units_quantity" id="measure_units_quantity" class="form-control" required>
@@ -507,26 +513,26 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="Unknown">Unknown: The probability of the deal closing is unclear due to insufficient information or rapidly changing circumstances. Further analysis is needed.</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="notes">Notes</label>
-                            <textarea name="notes" class="form-control" cols="30" rows="5"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group" style="margin-top: 35px;">
-                            {{Form::label('name',__('Active'),['class'=>'form-label']) }}
-                            <input type="checkbox" class="form-check-input" name="is_active" checked>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            {{Form::submit(__('Save'),array('class'=>'btn btn-primary  '))}}
-                        </div>
+                    </div> -->
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea name="notes" class="form-control" cols="30" rows="5"></textarea>
                     </div>
                 </div>
+                <div class="col-6">
+                    <div class="form-group" style="margin-top: 35px;">
+                        {{Form::label('name',__('Active'),['class'=>'form-label']) }}
+                        <input type="checkbox" class="form-check-input" name="is_active" checked>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        {{Form::submit(__('Save'),array('class'=>'btn btn-primary  '))}}
+                    </div>
+                </div>
+                <!-- </div> -->
                 {{Form::close()}}
             </div>
             <div id="barmenu1" class="tab-pane fade mt-5">
@@ -695,4 +701,36 @@ $campaign_type = explode(',',$settings['campaign_type']);
     }
 
     document.addEventListener('DOMContentLoaded', showAdditionalProductCategoryFields);
+</script>
+<script>
+    $(document).ready(function() {
+        // Function to handle cloning
+        $('.additional-product-category').on('click', '.clone-btn', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the parent .additional-product-category div
+            var parentDiv = $(this).closest('.additional-product-category');
+
+            // Get the first .row div inside the parent
+            var rowDiv = parentDiv.find('.row').first();
+
+            // Clone the .row div
+            var clone = rowDiv.clone();
+
+            // Get all input fields in the clone and clear their values
+            clone.find('input').val('');
+
+            // Append a remove button to the cloned row
+            clone.append('<i class="fas fa-minus remove-btn"></i>');
+
+            // Insert the clone after the last .row div inside the parent
+            parentDiv.append(clone);
+        });
+
+        // Function to handle removal
+        $('.additional-product-category').on('click', '.remove-btn', function(event) {
+            event.preventDefault();
+            $(this).closest('.row').remove();
+        });
+    });
 </script>

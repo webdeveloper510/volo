@@ -770,7 +770,7 @@ body.no-scroll {
     width: 3.125rem;
 }
 .dash-header ul li.dash-item a.dash-link {
-    padding: 10px 10px;
+    padding: 10px 9px;
 }
 ul.dash-navbar {
     list-style: none;
@@ -790,7 +790,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 ul.dash-navbar a span.dash-mtext {
     color: #000 !important;
     font-size: 13px;
-    padding: 10px 5px;
+    padding: 10px 4px;
 }
 ul.dash-navbar a span.dash-mtext:hover {
     background: linear-gradient(141.55deg, #48494b 3.46%, #797c83 99.86%), #16181a;

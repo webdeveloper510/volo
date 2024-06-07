@@ -219,6 +219,9 @@ $category = explode(',', $settings['campaign_type']);
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span></a>
                 </a>
+                <a href="<?php echo e(route('email.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'email.index' ?'active' : ''); ?>">
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Emails')); ?> </span></a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'lead.edit' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>

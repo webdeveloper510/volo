@@ -127,15 +127,15 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     </li>
                                     @endcan
 
-                                    <li
+                                    <!-- <li
                                         class="dash-item  {{ Request::route()->getName() == 'email.index' ? 'active' : '' }}">
                                         <a href="{{ route('email.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Emails') }}</span></a>
-                                    </li>
+                                    </li> -->
                                     <li
                                         class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span
-                                                class="dash-mtext">{{__('Contracts')}}</span></a>
+                                                class="dash-mtext">{{__('E-Sign')}}</span></a>
                                     </li>
                                     <li
                                         class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">

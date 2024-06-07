@@ -20,7 +20,7 @@ $proposalstatus = \App\Models\Lead::$status;
 @section('action-btn')
 
 @can('Create Lead')
-<a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunitie')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
+<a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunities')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
 @endcan
@@ -41,15 +41,16 @@ $proposalstatus = \App\Models\Lead::$status;
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th> -->
-                                                <th scope="col" class="sort" data-sort="name">{{__('Name')}} <span class="opticy"></span></th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Email')}} <span class="opticy"></span></th>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Company')}} <span class="opticy"></span></th>
+                                                <th scope="col" class="sort" data-sort="budget">{{__('Opportunity Value')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th>
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
-                                                <th scope="col" class="sort">{{__('Opportunities Status')}}<span class="opticy"></span></th>
+                                                <th scope="col" class="sort">{{__('Sales Stage')}}<span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"></span></th>
+                                                <th scope="col" class="sort">{{__('Products/Services')}}<span class="opticy"></span></th>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead'))
-                                                <th scope="col" class="text-end">{{__('Action')}} <span class="opticy"></span></th>
+                                                <th scope="col" class="text-center">{{__('Action')}} <span class="opticy"></span></th>
                                                 @endif
                                             </tr>
                                         </thead>
@@ -80,6 +81,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </select>
                                                 </td>
                                                 <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
+                                                <td></td>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') )
                                                 <td class="text-end">
@@ -226,7 +228,6 @@ $proposalstatus = \App\Models\Lead::$status;
                 $('input[name ="phone"]').val(data.phone);
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
-                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
@@ -234,7 +235,6 @@ $proposalstatus = \App\Models\Lead::$status;
                 $('input[name ="lead_address"]').val(data.lead_address);
                 $("select[name='type'] option[value='" + data.type + "']").prop("selected", true);
                 $("input[name='bar'][value='" + data.bar + "']").prop('checked', true);
-                // $("select[name='user'] option[value='"+data.assigned_user+"']").prop("selected", true);
                 $("input[name='user[]'][value='" + data.assigned_user + "']").prop('checked', true);
                 $.each(venue_arr, function(i, val) {
                     $("input[name='venue[]'][value='" + val + "']").prop('checked', true);
@@ -252,7 +252,6 @@ $proposalstatus = \App\Models\Lead::$status;
                 console.log("check", checkedFunctions);
 
                 if (checkedFunctions.includes('Breakfast') || checkedFunctions.includes('Brunch')) {
-                    // console.log("fdsfdsfds")
                     $('#breakfast').show();
                 }
                 if (checkedFunctions.includes('Lunch')) {
@@ -312,8 +311,6 @@ $proposalstatus = \App\Models\Lead::$status;
                     show_toastr('Success', 'Opportunitie Status is not updated', 'danger');
 
                 }
-                // console.log(val)
-
             }
         });
     });
