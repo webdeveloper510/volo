@@ -21,7 +21,8 @@ $proposalstatus = \App\Models\Lead::$status;
 @section('action-btn')
 
 @can('Create Lead')
-<a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunities')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
+<a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('New Opportunity
+')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
 @endcan
