@@ -50,14 +50,33 @@ class Lead extends Model
         'Approved',
         'Withdrawn',
     ];
+    // public static $status = [
+    //     'Share Proposal',
+    //     'Waiting For Customer Confirmation',
+    //     'Customer Confirmed / Need Admin Approval',
+    //     'Withdrawn',
+    //     'Approved',
+    //     'Resent',
+    //     'Nda signed'
+    // ];
+
     public static $status = [
-        'Share Proposal',
-        'Waiting For Customer Confirmation',
-        'Customer Confirmed / Need Admin Approval',
-        'Withdrawn',
-        'Approved',
-        'Resent',
-        'Nda signed'
+        'New',
+        'Contacted',
+        'Qualifying',
+        'Qualified',
+        'NDA Signed',
+        'Demo or Meeting',
+        'Proposal',
+        'Negotiation',
+        'Awaiting Decision',
+        'Closed Won',
+        'Closed Lost',
+        'Close No Decision',
+        'Follow-Up Needed',
+        'Implementation',
+        'Renewal',
+        'Upsell'
     ];
     public static $stat = [
         'Inactive',

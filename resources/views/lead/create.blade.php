@@ -213,21 +213,22 @@ $additional_items = json_decode($settings['additional_items'],true);
             <label for="lead_status">Sales Stage</label>
             <select name="lead_status" id="lead_status" class="form-control" required>
                 <option value="" selected disabled>Select Sales Stage</option>
-                <option value="New">New</option>
-                <option value="Contacted">Contacted</option>
-                <option value="Qualifying">Qualifying</option>
-                <option value="Qualified">Qualified</option>
-                <option value="Proposal Sent">Proposal Sent</option>
-                <option value="Negotiation">Negotiation</option>
-                <option value="Awaiting Decision">Awaiting Decision</option>
-                <option value="Closed Won">Closed Won</option>
-                <option value="Closed Lost">Closed Lost</option>
-                <option value="Closed No Decision">Closed No Decision</option>
-                <option value="Follow-Up Needed">Follow-Up Needed</option>
-                <option value="On Hold">On Hold</option>
-                <option value="Implementation">Implementation</option>
-                <option value="Renewal">Renewal</option>
-                <option value="Upsell">Upsell</option>
+                <option value="New"></option>New
+                <option value="Contacted"></option>Contacted
+                <option value="Qualifying"></option>Qualifying
+                <option value="Qualified"></option>Qualified
+                <option value="NDA Signed"></option>NDA Signed
+                <option value="Demo or Meeting"></option>Demo or Meeting
+                <option value="Proposal"></option>Proposal
+                <option value="Negotiation"></option>Negotiation
+                <option value="Awaiting Decision"></option>Awaiting Decision
+                <option value="Closed Won"></option>Closed Won
+                <option value="Closed Lost"></option>Closed Lost
+                <option value="Close No Decision"></option>Close No Decision
+                <option value="Follow-Up Needed"></option>Follow-Up Needed
+                <option value="Implementation"></option>Implementation
+                <option value="Renewal"></option>Renewal
+                <option value="Upsell"></option>Upsell
             </select>
         </div>
     </div>
