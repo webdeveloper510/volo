@@ -86,7 +86,7 @@ $additional_items = json_decode($settings['additional_items'],true);
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span> -->
             <div class="intl-tel-input">
-                <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Phone" maxlength="16">
+                <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Secondary contact" maxlength="16">
                 <input type="hidden" name="secondary_countrycode" id="secondary-country-code">
             </div>
         </div>
@@ -103,7 +103,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
-            {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
+            {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
         </div>
     </div>
     <div class="col-6 need_full">
@@ -272,21 +272,21 @@ $additional_items = json_decode($settings['additional_items'],true);
             <label for="lead_status">Sales Stage</label>
             <select name="lead_status" id="lead_status" class="form-control" required>
                 <option value="" selected disabled>Select Sales Stage</option>
-                <option value="New">New: Indicates a new lead or opportunity that has just been added to the system.</option>
-                <option value="Contacted">Contacted: The lead has been contacted but no further action has been taken yet.</option>
-                <option value="Qualifying">Qualifying: The lead is being assessed to determine if it fits the criteria for a potential deal.</option>
-                <option value="Qualified">Qualified: The lead has been qualified and is deemed a valid opportunity.</option>
-                <option value="Proposal Sent">Proposal Sent: A proposal or quotation has been sent to the potential client.</option>
-                <option value="Negotiation">Negotiation: Active discussions and negotiations are taking place with the client.</option>
-                <option value="Awaiting Decision">Awaiting Decision: Waiting for the client to make a decision based on the proposal and negotiations.</option>
-                <option value="Closed Won">Closed Won: The deal has been successfully closed and the client has agreed to the terms.</option>
-                <option value="Closed Lost">Closed Lost: The deal has been lost or the client has decided not to proceed.</option>
-                <option value="Closed No Decision">Closed No Decision: The deal has been closed without any decision, often due to inactivity or the client's indecision.</option>
-                <option value="Follow-Up Needed">Follow-Up Needed: The deal requires follow-up actions or additional information.</option>
-                <option value="On Hold">On Hold: The deal is temporarily paused or delayed, possibly awaiting further information or changes in client status.</option>
-                <option value="Implementation">Implementation: The deal is won, and the implementation or delivery process is in progress.</option>
-                <option value="Renewal">Renewal: The deal is in the stage of renewal, typically for subscription-based or recurring services/products.</option>
-                <option value="Upsell">Upsell: There is an opportunity to sell additional products or services to the client.</option>
+                <option value="New">New</option>
+                <option value="Contacted">Contacted</option>
+                <option value="Qualifying">Qualifying</option>
+                <option value="Qualified">Qualified</option>
+                <option value="Proposal Sent">Proposal Sent</option>
+                <option value="Negotiation">Negotiation</option>
+                <option value="Awaiting Decision">Awaiting Decision</option>
+                <option value="Closed Won">Closed Won</option>
+                <option value="Closed Lost">Closed Lost</option>
+                <option value="Closed No Decision">Closed No Decision</option>
+                <option value="Follow-Up Needed">Follow-Up Needed</option>
+                <option value="On Hold">On Hold</option>
+                <option value="Implementation">Implementation</option>
+                <option value="Renewal">Renewal</option>
+                <option value="Upsell">Upsell</option>
             </select>
         </div>
     </div>
@@ -308,14 +308,14 @@ $additional_items = json_decode($settings['additional_items'],true);
             <label for="difficult_level">Difficulty Level</label>
             <select name="difficult_level" id="difficult_level" class="form-control" required>
                 <option value="" selected disabled>Select Difficulty Level</option>
-                <option value="Very Easy">Very Easy: The deal is expected to close with minimal effort; there are no significant obstacles.</option>
-                <option value="Easy">Easy: The deal is likely to close without major challenges; some effort is required but no significant hurdles are anticipated.</option>
-                <option value="Moderate">Moderate: The deal has some challenges that need to be addressed, but it is still attainable with reasonable effort.</option>
-                <option value="Challenging">Challenging: The deal presents several significant challenges that will require substantial effort and strategic planning to overcome.</option>
-                <option value="Difficult">Difficult: The deal has numerous obstacles and requires a high level of effort, resources, and strategy to move forward.</option>
-                <option value="Very Difficult">Very Difficult: The deal is expected to be very hard to close due to major hurdles, high competition, or other significant barriers.</option>
-                <option value="Complex">Complex: The deal involves multiple stakeholders, lengthy negotiations, and complex requirements, making it harder to manage and close.</option>
-                <option value="High Risk">High Risk: The deal has a high likelihood of not closing due to various risk factors such as financial instability of the client, high competition, or uncertain requirements.</option>
+                <option value="Very Easy">Very Easy</option>
+                <option value="Easy">Easy</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Challenging">Challenging</option>
+                <option value="Difficult">Difficult</option>
+                <option value="Very Difficult">Very Difficult</option>
+                <option value="Complex">Complex</option>
+                <option value="High Risk">High Risk</option>
             </select>
         </div>
     </div>
@@ -324,13 +324,13 @@ $additional_items = json_decode($settings['additional_items'],true);
             <label for="probability_to_close">Probability to close</label>
             <select name="probability_to_close" id="probability_to_close" class="form-control" required>
                 <option value="" selected disabled>Select Probability to close</option>
-                <option value="Highly Probable">Highly Probable: The deal is very likely to close with minimal obstacles. Probability of success is above 90%.</option>
-                <option value="Probable">Probable: The deal is likely to close with some manageable challenges. Probability of success is between 70% and 90%.</option>
-                <option value="Likely">Likely: The deal has a good chance of closing, but there are noticeable challenges that need to be addressed. Probability of success is between 50% and 70%.</option>
-                <option value="Possible">Possible: The deal has a reasonable chance of closing, but significant effort and resources are required to overcome the challenges. Probability of success is between 30% and 50%.</option>
-                <option value="Unlikely">Unlikely: The deal has several substantial obstacles, making it less likely to close. Probability of success is between 10% and 30%.</option>
-                <option value="Highly Unlikely">Highly Unlikely: The deal faces numerous major challenges and is very unlikely to close. Probability of success is below 10%.</option>
-                <option value="Unknown">Unknown: The probability of the deal closing is unclear due to insufficient information or rapidly changing circumstances. Further analysis is needed.</option>
+                <option value="Highly Probable">Highly Probable</option>
+                <option value="Probable">Probable</option>
+                <option value="Likely">Likely</option>
+                <option value="Possible">Possible</option>
+                <option value="Unlikely">Unlikely</option>
+                <option value="Highly Unlikely">Highly Unlikely</option>
+                <option value="Unknown">Unknown</option>
             </select>
         </div>
     </div>
