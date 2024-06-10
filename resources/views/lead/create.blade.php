@@ -334,8 +334,35 @@ $additional_items = json_decode($settings['additional_items'],true);
             </select>
         </div>
     </div>
-
-
+    <div class="col-6 need_full">
+        <div class="form-group">
+            <label for="category">Select Category</label>
+            <span class="text-sm">
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
+            <select name="category" id="category" class="form-control">
+                <option value="" selected disabled>Select Category</option>
+                <option value="Partner" class="form-control">Partner</option>
+                <option value="Reseller" class="form-control">Reseller</option>
+                <option value="Introducer" class="form-control">Introducer</option>
+                <option value="Direct Customer" class="form-control">Direct Customer</option>
+                <option value="Host" class="form-control">Host</option>
+                <option value="Tennant" class="form-control">Tennant</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-6 need_full">
+        <div class="form-group">
+            <label for="sales_subcategory">Sales Subcategory</label>
+            <select name="sales_subcategory" id="sales_subcategory" class="form-control" required>
+                <option value="" selected disabled>Select Sales Subcategory</option>
+                <option value="Public" class="form-control">Public</option>
+                <option value="Private" class="form-control">Private</option>
+                <option value="Government" class="form-control">Government</option>
+            </select>
+        </div>
+    </div>
+    
     <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3"> -->
     <!-- <hr class="mt-2 mb-2"> -->
     <!-- <h5 style="margin-left: 14px;">{{ __('Other Information') }}</h5> -->

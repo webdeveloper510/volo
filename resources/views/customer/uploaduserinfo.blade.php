@@ -23,7 +23,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
         <ul class="nav nav-tabs tabActive" style="border-bottom: none">
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
                 <a style="color: white;font-size: larger;" data-toggle="tab" href="#barmenu0" class="active">Individual
-                    Clients</a>
+                    Client</a>
             </li>
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
                 <a style="color: white;    font-size: larger;" data-toggle="tab" href="#barmenu1" class="">Bulk
@@ -49,12 +49,12 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group ">
-                            {{Form::label('name',__('Primary contact'),['class'=>'form-label']) }}
+                            {{Form::label('name',__('Phone Number'),['class'=>'form-label']) }}
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
                             <div class="intl-tel-input">
-                                <input type="tel" id="phone-input" name="primary_contact" class="phone-input form-control" placeholder="Enter Primary contact" maxlength="16">
+                                <input type="tel" id="phone-input" name="primary_contact" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
                                 <input type="hidden" name="primary_countrycode" id="primary-country-code">
                             </div>
                         </div>
@@ -89,10 +89,17 @@ $campaign_type = explode(',',$settings['campaign_type']);
                 </div>
                 <div class="row">
                     <div class="col-6 need_full">
+                        <input type="hidden" name="customerType" value="addForm" />
+                        <div class="form-group">
+                            {{Form::label('secondary_name',__('Name'),['class'=>'form-label']) }}
+                            {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
                         <div class="form-group ">
-                            {{Form::label('name',__('Secondary contact'),['class'=>'form-label']) }}
+                            {{Form::label('name',__('Phone Number'),['class'=>'form-label']) }}
                             <div class="intl-tel-input">
-                                <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Phone" maxlength="16">
+                                <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
                                 <input type="hidden" name="secondary_countrycode" id="secondary-country-code">
                             </div>
                         </div>
@@ -111,8 +118,8 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('organization',__('Title/Designation'),['class'=>'form-label']) }}
-                            {{Form::text('organization',null,array('class'=>'form-control','placeholder'=>__('Enter Organization')))}}
+                            {{Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label']) }}
+                            {{Form::text('secondary_designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
                         </div>
                     </div>
                 </div>
@@ -121,7 +128,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     <h5 style="margin-left: 14px;">{{ __('Other Information') }}</h5>
                 </div>
                 <div class="row">
-                    <div class="col-6 need_full">
+                    <!-- <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="category">Select Category</label>
                             <span class="text-sm">
@@ -137,7 +144,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="Tennant" class="form-control">Tennant</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="location_geography">Location / Geography</label>
@@ -174,7 +181,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         <label for="other-region">Add Other Region</label>
                         <input type="text" name="other_region" id="other_region" class="form-control">
                     </div>
-                    <div class="col-6 need_full">
+                    <!-- <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="sales_subcategory">Sales Subcategory</label>
                             <select name="sales_subcategory" id="sales_subcategory" class="form-control" required>
@@ -184,7 +191,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                                 <option value="Government" class="form-control">Government</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="industry_sectors">Industries</label>
@@ -404,6 +411,12 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <textarea name="pain_points" class="form-control" cols="30" rows="5"></textarea>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="notes">Notes</label>
+                            <textarea name="notes" class="form-control" cols="30" rows="5"></textarea>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -514,12 +527,6 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             </select>
                         </div>
                     </div> -->
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="notes">Notes</label>
-                        <textarea name="notes" class="form-control" cols="30" rows="5"></textarea>
-                    </div>
-                </div>
                 <div class="col-6">
                     <div class="form-group" style="margin-top: 35px;">
                         {{Form::label('name',__('Active'),['class'=>'form-label']) }}

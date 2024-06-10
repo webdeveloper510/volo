@@ -11,6 +11,7 @@ $proposalstatus = \App\Models\Lead::$status;
 <div class="page-header-title">
     {{__('Opportunities')}}
 </div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
@@ -37,11 +38,14 @@ $proposalstatus = \App\Models\Lead::$status;
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
+                                    <div class="post-search-panel">
+                                        <input type="text" id="employee_filter" placeholder="Employee Filter">
+                                    </div>
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th> -->
-                                                <th scope="col" class="sort" data-sort="name">{{__('Company')}} <span class="opticy"></span></th>
+                                                <th scope="col" class="sort" id="myInput" data-sort="name">{{__('Company')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Opportunity Value')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th>
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
@@ -228,6 +232,7 @@ $proposalstatus = \App\Models\Lead::$status;
                 $('input[name ="phone"]').val(data.phone);
                 $('input[name ="relationship"]').val(data.relationship);
                 $('input[name ="start_date"]').val(data.start_date);
+                // $('input[name ="end_date"]').val(data.end_date);
                 $('input[name ="start_time"]').val(data.start_time);
                 $('input[name ="end_time"]').val(data.end_time);
                 $('input[name ="rooms"]').val(data.rooms);
@@ -235,6 +240,7 @@ $proposalstatus = \App\Models\Lead::$status;
                 $('input[name ="lead_address"]').val(data.lead_address);
                 $("select[name='type'] option[value='" + data.type + "']").prop("selected", true);
                 $("input[name='bar'][value='" + data.bar + "']").prop('checked', true);
+                // $("select[name='user'] option[value='"+data.assigned_user+"']").prop("selected", true);
                 $("input[name='user[]'][value='" + data.assigned_user + "']").prop('checked', true);
                 $.each(venue_arr, function(i, val) {
                     $("input[name='venue[]'][value='" + val + "']").prop('checked', true);
@@ -313,6 +319,13 @@ $proposalstatus = \App\Models\Lead::$status;
                 }
             }
         });
+    });
+</script>
+<script>
+    $("#employee_filter").keyup(function() {
+        let table = new simpleDatatables.DataTable('#datatable');
+        console.log('dfsjfkdfa');
+        table.search(table).draw();
     });
 </script>
 @endpush
