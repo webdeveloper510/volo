@@ -1,4 +1,4 @@
-@php
+<?php
 $plansettings = App\Models\Utility::plansettings();
 $settings = Utility::settings();
 $type_arr= explode(',',$settings['event_type']);
@@ -18,7 +18,7 @@ if(isset($settings['additional_items']) && !empty($settings['additional_items'])
 $additional_items = json_decode($settings['additional_items'],true);
 }
 
-@endphp
+?>
 <style>
     .fa-asterisk {
         font-size: xx-small;
@@ -35,49 +35,62 @@ $additional_items = json_decode($settings['additional_items'],true);
 <div class="card-body">
     <div class="row">
         <div class="col-md-12">
-            {{Form::label('Select Existing Opportunity/New Opportunity',__('Select Existing Opportunity/New Opportunity'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('Select Existing Opportunity/New Opportunity',__('Select Existing Opportunity/New Opportunity'),['class'=>'form-label'])); ?>
+
             <div class="form-group">
-                {{ Form::radio('newevent',__('Existing Opportunity'),true) }}
-                {{ Form::label('newevent','Existing Opportunity') }}
-                {{ Form::radio('newevent',__('New Opportunity'),false) }}
-                {{ Form::label('newevent','New Opportunity') }}
+                <?php echo e(Form::radio('newevent',__('Existing Opportunity'),true)); ?>
+
+                <?php echo e(Form::label('newevent','Existing Opportunity')); ?>
+
+                <?php echo e(Form::radio('newevent',__('New Opportunity'),false)); ?>
+
+                <?php echo e(Form::label('newevent','New Opportunity')); ?>
+
             </div>
         </div>
     </div>
 </div>
-{{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+<?php echo e(Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+
 <input type="hidden" name="storedid" value="">
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))}}
+            <?php echo e(Form::text('lead_name',null,array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
-            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
+            <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
+
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Contact Information')); ?></h5>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('name',__('Name'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+            <?php echo e(Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group ">
-            {{Form::label('name',__('Primary contact'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('name',__('Primary contact'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
@@ -89,7 +102,8 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group ">
-            {{Form::label('name',__('Secondary contact'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('name',__('Secondary contact'),['class'=>'form-label'])); ?>
+
             <div class="intl-tel-input">
                 <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Secondary contact" maxlength="16">
                 <input type="hidden" name="secondary_countrycode" id="secondary-country-code">
@@ -98,91 +112,107 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('email',__('Email'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
+            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
-            {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+            <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
-            {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
+            <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))); ?>
+
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Details') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Details')); ?></h5>
     </div>
-    @if(isset($function) && !empty($function))
+    <?php if(isset($function) && !empty($function)): ?>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{ Form::label('function', __('Product & Services'), ['class' => 'form-label']) }}
+            <?php echo e(Form::label('function', __('Product & Services'), ['class' => 'form-label'])); ?>
+
             <div>
-                @foreach($function as $key => $value)
+                <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="form-check" style="    padding-left: 2.75em !important;">
-                    {!! Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' =>
-                    'function_' . $key]) !!}
-                    {{ Form::label($value['function'], $value['function'], ['class' => 'form-check-label']) }}
+                    <?php echo Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' =>
+                    'function_' . $key]); ?>
+
+                    <?php echo e(Form::label($value['function'], $value['function'], ['class' => 'form-check-label'])); ?>
+
                 </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </div>
     <div class="col-6 need_full" id="mailFunctionSection">
-        @if(isset($function) && !empty($function))
-        @foreach($function as $key =>$value)
-        <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
-            {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
-            @foreach($value['package'] as $k => $package)
-            <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
-                {!! Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package,
+        <?php if(isset($function) && !empty($function)): ?>
+        <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <div class="form-group" data-main-index="<?php echo e($key); ?>" data-main-value="<?php echo e($value['function']); ?>" id="function_package" style="display: none;">
+            <?php echo e(Form::label('package', __($value['function']), ['class' => 'form-label'])); ?>
+
+            <?php $__currentLoopData = $value['package']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="form-check" data-main-index="<?php echo e($k); ?>" data-main-package="<?php echo e($package); ?>">
+                <?php echo Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package,
                 null,
-                ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input'])
-                !!}
-                {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
+                ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input']); ?>
+
+                <?php echo e(Form::label($package, $package, ['class' => 'form-check-label'])); ?>
+
             </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
-        @endforeach
-        @endif
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php endif; ?>
     </div>
-    @if(isset($additional_items) && !empty($additional_items))
+    <?php if(isset($additional_items) && !empty($additional_items)): ?>
     <div class="col-6 need_full" id="additionalSection">
         <div class="form-group">
-            {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
-            @foreach($additional_items as $ad_key =>$ad_value)
-            @foreach($ad_value as $fun_key =>$packageVal)
-            <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}" id="ad_package" style="display:none;">
-                {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
-                @foreach($packageVal as $pac_key =>$item)
-                <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
-                    {!! Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null,
-                    ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
-                    {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
+            <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
+
+            <?php $__currentLoopData = $additional_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ad_key =>$ad_value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php $__currentLoopData = $ad_value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun_key =>$packageVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="form-group" data-additional-index="<?php echo e($fun_key); ?>" data-additional-value="<?php echo e(key($packageVal)); ?>" id="ad_package" style="display:none;">
+                <?php echo e(Form::label('additional', __($fun_key), ['class' => 'form-label'])); ?>
+
+                <?php $__currentLoopData = $packageVal; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pac_key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="form-check" data-additional-index="<?php echo e($pac_key); ?>" data-additional-package="<?php echo e($pac_key); ?>">
+                    <?php echo Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null,
+                    ['data-function' => $fun_key, 'class' => 'form-check-input']); ?>
+
+                    <?php echo e(Form::label($pac_key, $pac_key, ['class' => 'form-check-label'])); ?>
+
                 </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-            @endforeach
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
-    @endif
-    @endif
+    <?php endif; ?>
+    <?php endif; ?>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
+
             <select class="form-control" name='user'>
                 <option value="">Select Staff</option>
-                @foreach($users as $user)
-                <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
-                @endforeach
+                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option class="form-control" value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?> (<?php echo e($user->type); ?>)</option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
@@ -312,7 +342,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Products') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Products')); ?></h5>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
@@ -649,7 +679,8 @@ $additional_items = json_decode($settings['additional_items'],true);
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+
 </div>
 <style>
     .iti.iti--allow-dropdown.iti--separate-dial-code {
@@ -813,11 +844,11 @@ $additional_items = json_decode($settings['additional_items'],true);
     $(document).ready(function() {
         var storedId = localStorage.getItem('clickedLinkId');
         $.ajax({
-            url: "{{ route('getcontactinfo') }}",
+            url: "<?php echo e(route('getcontactinfo')); ?>",
             type: 'POST',
             data: {
                 "customerid": storedId,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 localStorage.removeItem('clickedLinkId');
@@ -949,4 +980,4 @@ $additional_items = json_decode($settings['additional_items'],true);
         });
     });
 </script>
-{{Form::close()}}
+<?php echo e(Form::close()); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/create.blade.php ENDPATH**/ ?>
