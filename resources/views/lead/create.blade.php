@@ -31,6 +31,20 @@ $additional_items = json_decode($settings['additional_items'],true);
         margin-top: 10px;
     }
 </style>
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-12">
+            {{Form::label('Select Existing Opportunity/New Opportunity',__('Select Existing Opportunity/New Opportunity'),['class'=>'form-label']) }}
+            <div class="form-group">
+                {{ Form::radio('newevent',__('Existing Opportunity'),true) }}
+                {{ Form::label('newevent','Existing Opportunity') }}
+                {{ Form::radio('newevent',__('New Opportunity'),false) }}
+                {{ Form::label('newevent','New Opportunity') }}
+            </div>
+        </div>
+    </div>
+</div>
 {{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
 <input type="hidden" name="storedid" value="">
 <div class="row">
@@ -800,6 +814,20 @@ $additional_items = json_decode($settings['additional_items'],true);
             event.preventDefault();
             $(this).closest('.row').remove();
         });
+    });
+</script>
+<script>
+    $('input[name="newevent"]').on('click', function() {
+        $('#lead_select').hide();
+        $('#new_event').hide();
+        $('#event_option').show();
+        var selectedValue = $(this).val();
+        if (selectedValue == 'Existing Lead') {
+            $('#lead_select').show();
+        } else {
+            $('#new_event').show();
+            $('input#resetForm').trigger('click');
+        }
     });
 </script>
 {{Form::close()}}
