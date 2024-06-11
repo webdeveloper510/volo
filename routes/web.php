@@ -435,7 +435,8 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('lead/change_status/',[LeadController::class,'status'])->name('lead.changeleadstat');
             Route::post('lead-notes/{id}',[LeadController::class,'leadnotes'])->name('addleadnotes');
             Route::get('lead/user-information/{id}',[LeadController::class,'lead_user_info'])->name('lead.userinfo');
-
+            Route::get('lead/send_email/{id}', [LeadController::class, 'send_email_view'])->name('lead.sendemail');
+            Route::post('lead/send_email/{id}', [LeadController::class, 'send_email_pdf'])->name('lead.sendemailpdf');
         });
 
     Route::group(

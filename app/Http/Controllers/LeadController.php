@@ -27,6 +27,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\SendPdfEmail;
 use App\Mail\SendNdaEmail;
 use App\Mail\LeadWithrawMail;
+use App\Mail\SendOpportunityEmail;
 use App\Models\MasterCustomer;
 use App\Models\NotesLeads;
 use App\Models\Nda;
@@ -590,6 +591,61 @@ class LeadController extends Controller
         return view('lead.share_proposal', compact('lead'));
     }
 
+    public function send_email_view($id)
+    {
+        $decryptedId = decrypt(urldecode($id));
+        $lead = Lead::find($decryptedId);
+        return view('lead.send_email', compact('lead'));
+    }
+
+    public function send_email_pdf(Request $request, $id)
+    {
+        $settings = Utility::settings();
+        $id = decrypt(urldecode($id));
+        $lead = Lead::find($id);
+        if (!empty($request->file('attachment'))) {
+            $file =  $request->file('attachment');
+            $filename = Str::random(3) . '_' . $file->getClientOriginalName();
+            $folder = 'Proposal_attachments/' . $id;
+            try {
+                $path = $file->storeAs($folder, $filename, 'public');
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'File upload failed');
+            }
+        }
+        $proposalinfo = new ProposalInfo();
+        $proposalinfo->lead_id = $id;
+        $proposalinfo->email = $request->email;
+        $proposalinfo->subject = $request->subject;
+        $proposalinfo->content = $request->emailbody;
+        $proposalinfo->proposal_info = '';
+        $proposalinfo->attachments = $filename ?? '';
+        $proposalinfo->created_by = Auth::user()->id;
+        $proposalinfo->save();
+        $propid = $proposalinfo->id;
+        $subject = $request->subject;
+        $content = $request->emailbody;
+        try {
+            config(
+                [
+                    'mail.driver'       => $settings['mail_driver'],
+                    'mail.host'         => $settings['mail_host'],
+                    'mail.port'         => $settings['mail_port'],
+                    'mail.username'     => $settings['mail_username'],
+                    'mail.password'     => $settings['mail_password'],
+                    'mail.from.address' => $settings['mail_from_address'],
+                    'mail.from.name'    => $settings['mail_from_name'],
+                ]
+            );
+            Mail::to('testing.test3215@gmail.com')->send(new SendOpportunityEmail($lead, $subject, $content, $proposalinfo, $propid));
+            // Lead::where('id', $id)->update(['status' => 1]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('success', 'Email Not Sent');
+        }
+        return redirect()->back()->with('success', 'Email Sent Successfully');
+    }
+
     public function share_nda_view($id)
     {
         $decryptedId = decrypt(urldecode($id));
@@ -703,7 +759,7 @@ class LeadController extends Controller
                     'mail.from.name'    => $settings['mail_from_name'],
                 ]
             );
-            Mail::to('testing.test3215@gmail.com')->send(new SendNdaEmail($lead, $subject, $content, $proposalinfo, $propid));
+            Mail::to($request->email)->send(new SendNdaEmail($lead, $subject, $content, $proposalinfo, $propid));
             $update = Lead::where('id', $id)->update(['status' => 1]);
         } catch (\Exception $e) {
             return redirect()->back()->with('success', 'Email Not Sent');
@@ -735,7 +791,7 @@ class LeadController extends Controller
     {
         // $id = decrypt(urldecode($id));
 
-        $lead = Lead::find($id);      
+        $lead = Lead::find($id);
         $users = User::find($lead->user_id);
         $settings = Utility::settings();
 
