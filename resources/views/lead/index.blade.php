@@ -99,8 +99,8 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     {{-- @if($lead->status == 0 ) --}}
                                                     @if($lead->is_nda_signed == 1 && $lead->status == 6 )
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Proposal') }}" title="{{ __('Share Proposal') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                            <i class="ti ti-share"></i>
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Proposal') }}" title="{{ __('Message') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                            <i class="ti ti-mail"></i>
                                                         </a>
                                                     </div>
                                                     @endif
@@ -108,7 +108,7 @@ $proposalstatus = \App\Models\Lead::$status;
 
                                                     @if($lead->is_nda_signed == 0)
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sharenda',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Sign NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sharenda',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Share NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-file"></i>
                                                         </a>
                                                     </div>
