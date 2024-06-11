@@ -105,6 +105,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </div>
                                                     @endif
                                                     {{-- @endif --}}
+                                                    
 
                                                     @if($lead->is_nda_signed == 0)
                                                     <div class="action-btn bg-primary ms-2">
