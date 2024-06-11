@@ -123,7 +123,7 @@
                                             <div class="card-header border-0 pb-0 position-relative">
                                                 <h5>
                                                     <a href="{{ route('lead.edit',$lead->id) }}"
-                                                    data-bs-whatever="{{__('Edit Opportunitie Details')}}"
+                                                    data-bs-whatever="{{__('Edit Opportunities Details')}}"
                                                     data-bs-toggle="tooltip"  title data-bs-original-title="{{__('Edit Opportunitie Detail')}}" > {{ ucfirst($lead->name)}}</a></h5>
                                                     <div class="card-header-right">
                                                         <div class="btn-group card-option">
@@ -142,7 +142,7 @@
                                                                     @endcan
 
                                                                     @can('Show Lead')
-                                                                    <a href="#!" class="dropdown-item" data-size="md" data-url="{{ route('lead.show', $lead->id) }}" data-ajax-popup="true" data-title="{{__('Opportunitie Details')}}">
+                                                                    <a href="#!" class="dropdown-item" data-size="md" data-url="{{ route('lead.show', $lead->id) }}" data-ajax-popup="true" data-title="{{__('Opportunities Details')}}">
                                                                         <i class="ti ti-eye"></i>
                                                                         <span>{{__('View Opportunitie')}}</span>
                                                                     </a>

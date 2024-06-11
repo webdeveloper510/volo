@@ -63,7 +63,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                             @foreach($leads as $lead)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Opportunitie Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
+                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Opportunities Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
                                                         <b> {{ ucfirst($lead->name) }}</b>
                                                     </a>
                                                 </td>
@@ -106,7 +106,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     @endif
 
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sendemail',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Email') }}" title="{{ __('Email') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sendemail',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('New Message') }}" title="{{ __('Email') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-mail"></i>
                                                         </a>
                                                     </div>
@@ -122,7 +122,7 @@ $proposalstatus = \App\Models\Lead::$status;
 
                                                     @if($lead->status >= 2 )
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunitie')}}">
+                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunities')}}">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
                                                     @endif
@@ -144,7 +144,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                             data-ajax-popup="true" data-title="{{__('Lead Details')}}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i> -->
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Opportunitie Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Opportunities Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>

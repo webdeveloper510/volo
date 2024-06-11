@@ -10,7 +10,7 @@
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
 <li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Opportunities')}}</a></li>
-<li class="breadcrumb-item">{{__('Opportunitie Details')}}</li>
+<li class="breadcrumb-item">{{__('Opportunities Details')}}</li>
 @endsection
 @section('action-btn')
 
@@ -233,7 +233,7 @@ if(isset($billing) && !empty($billing)){
                         <div id="useradd-1" class="card">
 
                             <div class="card-body table-border-style">
-                                <h3>Opportunitie Details</h3>
+                                <h3>Opportunities Details</h3>
                                 <hr>
 
                                 <div class=" mt-4">

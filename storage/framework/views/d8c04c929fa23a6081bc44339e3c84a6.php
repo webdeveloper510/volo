@@ -65,7 +65,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td>
-                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-size="md" title="<?php echo e(__('Opportunitie Details')); ?>" class="action-item text-primary" style="color:#1551c9 !important;">
+                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-size="md" title="<?php echo e(__('Opportunities Details')); ?>" class="action-item text-primary" style="color:#1551c9 !important;">
                                                         <b> <?php echo e(ucfirst($lead->name)); ?></b>
                                                     </a>
                                                 </td>
@@ -110,7 +110,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     <?php endif; ?>
 
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.sendemail',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Email')); ?>" title="<?php echo e(__('Email')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.sendemail',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('New Message')); ?>" title="<?php echo e(__('Email')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-mail"></i>
                                                         </a>
                                                     </div>
@@ -126,7 +126,7 @@ $proposalstatus = \App\Models\Lead::$status;
 
                                                     <?php if($lead->status >= 2 ): ?>
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>" data-title="<?php echo e(__('Review Opportunitie')); ?>">
+                                                        <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>" data-title="<?php echo e(__('Review Opportunities')); ?>">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
                                                     <?php endif; ?>
@@ -148,7 +148,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                             data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i> -->
-                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$lead->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Opportunitie Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$lead->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Opportunities Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>

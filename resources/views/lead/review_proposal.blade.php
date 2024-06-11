@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('page-title')
-{{ __('Review Opportunitie') }}
+{{ __('Review Opportunities') }}
 @endsection
 @php
 $plansettings = App\Models\Utility::plansettings();
@@ -80,7 +80,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
 @section('title')
 <div class="page-header-title">
-    {{ __('Review Opportunitie') }} {{ '(' . $lead->name . ')' }}
+    {{ __('Review Opportunities') }} {{ '(' . $lead->name . ')' }}
 </div>
 @endsection
 @section('breadcrumb')

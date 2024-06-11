@@ -60,6 +60,8 @@ class DashboardController extends Controller
                 $date = today()->format('Y-m-d');
 
                 $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('lead_status', 1)->get();
+                $activeLeadsCount = Lead::where('created_by', \Auth::user()->creatorId())->where('lead_status', 1)->count();
+
                 $revenue = Meeting::all();
                 $events_revenue = 0;
                 foreach ($revenue as $key => $value) {
@@ -74,6 +76,8 @@ class DashboardController extends Controller
 
                 $lostLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', '==', 3)->take(4)->get();
                 $activeEvent = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get();
+                $activeEventCount = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get()->count();
+
                 $pastEvents = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '<', $date)->take(4)->get();
 
                 $upcoming = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get()->count();
@@ -150,7 +154,7 @@ class DashboardController extends Controller
                 // } else {
                 //     $storage_limit = 0;
                 // }
-                return view('home', compact('venue_dropdown', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
+                return view('home', compact('venue_dropdown', 'activeLeadsCount', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
             }
         } else {
 
