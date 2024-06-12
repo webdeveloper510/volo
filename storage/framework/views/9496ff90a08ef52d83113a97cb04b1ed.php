@@ -33,59 +33,32 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Company Name')); ?> <span class="opticy"> </span></th>
-                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Email')); ?> <span class="opticy"> </span></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Phone')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="primary_name"><?php echo e(__('Name')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="primary_email"><?php echo e(__('Email')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Phone Number')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Address')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Organization')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Location')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Region')); ?> <span class="opticy"> </span></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Industry')); ?> <span class="opticy"> </span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $__currentLoopData = $allcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <tr>
-                                                <td>
-                                                    <?php if($customers->category == 'event'): ?>
-                                                    <a href="<?php echo e(route('event.userinfo',urlencode(encrypt($customers->ref_id)))); ?>"
-                                                        title="<?php echo e(__('User Details')); ?>"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($customers->name)); ?></b>
-                                                    </a>
-                                                    <?php else: ?>
-                                                    <a href="<?php echo e(route('lead.userinfo',urlencode(encrypt($customers->ref_id)))); ?>"
-                                                        data-size="md" title="<?php echo e(__('Lead Details')); ?>"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($customers->name)); ?></b>
-                                                    </a>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?php echo e(ucfirst($customers->email)); ?></td>
-                                                <td><?php echo e(ucfirst($customers->phone)); ?></td>
-                                                <td><?php echo e(ucfirst($customers->address)); ?></td>
-                                                <td><?php echo e(ucfirst($customers->type)); ?></td>
-                                            </tr>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php $__currentLoopData = $importedcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td> <a href="<?php echo e(route('customer.info',urlencode(encrypt($customers->id)))); ?>?cat=<?php echo e($customers->category); ?>"
-                                                        data-size="md" title="<?php echo e(__('User Details')); ?>"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($customers->name)); ?></b>
-                                                    </a>
-                                                </td>
-                                                <td><?php echo e(ucfirst($customers->email)); ?></td>
-                                                <td><?php echo e(ucfirst($customers->phone)); ?></td>
-                                                <td><?php echo e(ucfirst($customers->address)); ?></td>
-                                                <td><?php echo e(ucfirst($customers->category)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->primary_name)); ?></td>                                              
+                                                <td><?php echo e(ucfirst($customers->primary_email)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->primary_phone_number)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->primary_address)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->primary_organization)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->location)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->region)); ?></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>

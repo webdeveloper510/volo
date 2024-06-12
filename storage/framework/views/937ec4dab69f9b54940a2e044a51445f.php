@@ -18,16 +18,16 @@
 <script src="<?php echo e(asset('assets/js/plugins/datepicker-full.min.js')); ?>"></script>
 
 <script>
-(function () {
-  const d_week = new Datepicker(document.querySelector('#pc-datepicker-2_modal'), {
-    buttonClass: 'btn',
-  });
-})();
+    (function() {
+        const d_week = new Datepicker(document.querySelector('#pc-datepicker-2_modal'), {
+            buttonClass: 'btn',
+        });
+    })();
 </script>
 <script>
-        var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-            offset: 300
-        })
+    var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+        offset: 300
+    })
 </script>
 <script src="<?php echo e(asset('assets/js/plugins/dropzone-amd-module.min.js')); ?>"></script>
 <script src="<?php echo e(asset('assets/js/plugins/choices.min.js')); ?>"></script>
@@ -39,9 +39,17 @@
 
 <script>
     if ($(".datatable").length > 0) {
-        $( $(".datatable") ).each(function( index,element ) {
+        $($(".datatable")).each(function(index, element) {
             var id = $(element).attr('id');
-            const dataTable = new simpleDatatables.DataTable("#"+id);
+            const dataTable = new simpleDatatables.DataTable("#" + id);
+
+            // Wait for the DataTable to be fully initialized
+            dataTable.on('datatable.init', function() {
+                var label = document.querySelector('.dataTable-dropdown label');
+                if (label) {
+                    label.innerHTML = label.innerHTML.replace('entries', 'Entries');
+                }
+            });
         });
     }
 </script>
@@ -53,7 +61,7 @@
 
 <script src="<?php echo e(asset('js/custom.js')); ?>"></script>
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
         $('.list-group-item').on('click', function() {
             var href = $(this).attr('data-href');
             $('.tabs-card').addClass('d-none');
@@ -65,10 +73,10 @@ $(document).ready(function() {
 <!-- Demo JS - remove it when starting your project -->
 
 <script>
-          $(".dash-navbar li a").click(function() {
-           $(this).parent().addClass('active').siblings().removeClass('active'); 
-          } );
-            </script>
+    $(".dash-navbar li a").click(function() {
+        $(this).parent().addClass('active').siblings().removeClass('active');
+    });
+</script>
 <script>
     function show_toastr(title, message, type) {
         var o, i;
@@ -126,7 +134,10 @@ $(document).ready(function() {
 
 <script>
     var dataTabelLang = {
-        paginate: {previous: "<?php echo e(__('Previous')); ?>", next: "<?php echo e(__('Next')); ?>"},
+        paginate: {
+            previous: "<?php echo e(__('Previous')); ?>",
+            next: "<?php echo e(__('Next')); ?>"
+        },
         lengthMenu: "<?php echo e(__('Show')); ?> _MENU_ <?php echo e(__('entries')); ?>",
         zeroRecords: "<?php echo e(__('No data available in table')); ?>",
         info: "<?php echo e(__('Showing')); ?> _START_ <?php echo e(__('to')); ?> _END_ <?php echo e(__('of')); ?> _TOTAL_ <?php echo e(__('entries')); ?>",
@@ -135,7 +146,7 @@ $(document).ready(function() {
     }
 </script>
 <script>
-    var toster_pos="<?php echo e(env('SITE_RTL') =='on' ?'left' : 'right'); ?>";
+    var toster_pos = "<?php echo e(env('SITE_RTL') =='on' ?'left' : 'right'); ?>";
 </script>
 
 <script>
@@ -176,17 +187,17 @@ $(document).ready(function() {
 
 
 <?php if(Session::has('success')): ?>
-    <script>
-        show_toastr('<?php echo e(__("Success")); ?>', '<?php echo session("success"); ?>', 'success');
-    </script>
-    <?php echo e(Session::forget('success')); ?>
+<script>
+    show_toastr('<?php echo e(__("Success")); ?>', '<?php echo session("success"); ?>', 'success');
+</script>
+<?php echo e(Session::forget('success')); ?>
 
 <?php endif; ?>
 <?php if(Session::has('error')): ?>
-    <script>
-        show_toastr('<?php echo e(__("Error")); ?>', '<?php echo session("error"); ?>', 'error');
-    </script>
-    <?php echo e(Session::forget('error')); ?>
+<script>
+    show_toastr('<?php echo e(__("Error")); ?>', '<?php echo session("error"); ?>', 'error');
+</script>
+<?php echo e(Session::forget('error')); ?>
 
 <?php endif; ?>
 
@@ -200,13 +211,12 @@ $(document).ready(function() {
 <?php echo $__env->yieldPushContent('script-page'); ?>
 
 <?php
-    $status = [
-            __('Draft'),
-            __('In Review'),
-            __('Presented'),
-            __('Approved'),
-            __('Rejected'),
-            __('Canceled'),
-        ];
-?>
-<?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/footer.blade.php ENDPATH**/ ?>
+$status = [
+__('Draft'),
+__('In Review'),
+__('Presented'),
+__('Approved'),
+__('Rejected'),
+__('Canceled'),
+];
+?><?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/footer.blade.php ENDPATH**/ ?>

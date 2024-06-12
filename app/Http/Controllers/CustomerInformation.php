@@ -337,12 +337,8 @@ class CustomerInformation extends Controller
     }
     public function siteusers()
     {
-        // $leadcust = Lead::distinct()->withTrashed()->get();
-        // $eventcust = Meeting::distinct()->withTrashed()->get();
-        $allcustomers = MasterCustomer::all();
-        $importedcustomers = UserImport::distinct()->get();
-
-        return view('customer.allcustomers', compact('allcustomers', 'importedcustomers'));
+        $importedcustomers = UserImport::distinct()->get();       
+        return view('customer.allcustomers', compact('importedcustomers'));
     }
     public function event_customers()
     {

@@ -71,7 +71,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full" id="client_select">
         <div class="form-group">
-            <?php echo e(Form::label('existing_client', __('Clients'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('existing_client', __('Client'), ['class' => 'form-label'])); ?>
 
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
