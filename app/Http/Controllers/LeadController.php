@@ -83,7 +83,7 @@ class LeadController extends Controller
             $users       = User::where('created_by', \Auth::user()->creatorId())->get();
             $status     = Lead::$status;
             $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('status', 4)->where('lead_status', 1)->get()->pluck('leadname', 'id');
-            $attendees_lead->prepend('Select Lead', 0);
+            $attendees_lead->prepend('Select Client', 0);
             return view('lead.create', compact('status', 'users', 'id', 'type', 'attendees_lead'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -98,6 +98,9 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
 
         if (\Auth::user()->can('Create Lead')) {
             // echo"<pre>";
