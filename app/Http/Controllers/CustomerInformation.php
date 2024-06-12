@@ -173,33 +173,35 @@ class CustomerInformation extends Controller
             $category = [
                 'category' => $request->input('category'),
             ];
-            $userid =  \Auth::user()->creatorId();
+
+            $userid =  \Auth::user()->creatorId();            
             Excel::import(new UsersImport($category, $userid), request()->file('users'));
             return redirect()->back()->with('success', 'Data  imported successfully');
         } elseif ($request->customerType == 'addForm') {
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'name' => 'required',
-                    'phone' => 'required|unique:import_users',
-                    'email' => 'required|email|unique:import_users',
-                    'location_geography' => 'required',
+                    'primary_name' => 'required',
+                    'primary_phone_number' => 'required|unique:import_users',
+                    'primary_email' => 'required|email|unique:import_users',
+                    'primary_address' => 'required',
+                    'primary_organization' => 'required',
+                    'secondary_name' => 'required',
+                    'secondary_phone_number' => 'required',
+                    'secondary_email' => 'required',
+                    'secondary_address' => 'required',
+                    'secondary_designation' => 'required',
+                    'location' => 'required',
                     'region' => 'required',
-                    'sales_subcategory' => 'required',
-                    'industry_sectors' => 'required',
-                    'measure_units_quantity' => 'required',
-                    'value_of_opportunity' => 'required',
-                    'pain_points' => 'required',
-                    'timing_close' => 'required',
+                    'industry' => 'required',
                     'engagement_level' => 'required',
-                    'lead_status' => 'required',
-                    'difficult_level' => 'required',
-                    'deal_length' => 'required',
-                    'probability_to_close' => 'required',
                     'revenue_booked_to_date' => 'required',
                     'referred_by' => 'required',
+                    'pain_points' => 'required',
+                    'notes' => 'required',
                 ]
             );
+
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
                 return redirect()->back()->with('error', $messages->first())
@@ -207,75 +209,25 @@ class CustomerInformation extends Controller
                     ->withInput();
             }
 
-            $industry_sectors = implode(',', $request->industry_sectors);
-            $productCategory = implode(',', $request->service);
-
-            $hardware_one_time = [
-                'title' => $request->product_title_hardware_one_time,
-                'price' => $request->product_price_hardware_one_time
-            ];
-
-            $hardware_maintenance = [
-                'title' => $request->product_title_hardware_maintenance,
-                'price' => $request->product_price_hardware_maintenance
-            ];
-
-            $software_recurring = [
-                'title' => $request->product_title_software_recurring,
-                'price' => $request->product_price_software_recurring
-            ];
-
-            $software_one_time = [
-                'title' => $request->product_title_software_one_time,
-                'price' => $request->product_price_software_one_time
-            ];
-
-            $systems_integrations = [
-                'title' => $request->product_title_systems_integrations,
-                'price' => $request->product_price_systems_integrations
-            ];
-
-            $subscriptions = [
-                'title' => $request->product_title_subscriptions,
-                'price' => $request->product_price_subscriptions
-            ];
-
-            $tech_deployment = [
-                'title' => $request->product_title_tech_deployment,
-                'price' => $request->product_price_tech_deployment
-            ];
-
             $UsersImports = new UserImport();
-            $UsersImports->name = $request->name;
-            $UsersImports->phone = $request->phone;
-            $UsersImports->email = $request->email;
-            $UsersImports->address = $request->address;
-            $UsersImports->organization = $request->organization;
-            $UsersImports->notes = $request->notes;
-            $UsersImports->category = $request->category;
-            $UsersImports->location_geography = $request->location_geography;
-            $UsersImports->region = !empty($request->region) ? $request->region : $request->other_region;
-            $UsersImports->sales_subcategory = $request->sales_subcategory;
-            $UsersImports->industry_sectors = $industry_sectors;
-            $UsersImports->measure_units_quantity = $request->measure_units_quantity;
-            $UsersImports->value_of_opportunity = $request->value_of_opportunity;
-            $UsersImports->product_category = json_encode($productCategory);
-            $UsersImports->hardware_one_time = json_encode($hardware_one_time);
-            $UsersImports->hardware_maintenance = json_encode($hardware_maintenance);
-            $UsersImports->software_recurring = json_encode($software_recurring);
-            $UsersImports->software_one_time = json_encode($software_one_time);
-            $UsersImports->systems_integrations = json_encode($systems_integrations);
-            $UsersImports->subscriptions = json_encode($subscriptions);
-            $UsersImports->tech_deployment = json_encode($tech_deployment);
-            $UsersImports->pain_points = $request->pain_points;
-            $UsersImports->timing_close = $request->timing_close;
+            $UsersImports->primary_name = $request->primary_name;
+            $UsersImports->primary_phone_number = $request->primary_phone_number;
+            $UsersImports->primary_email = $request->primary_email;
+            $UsersImports->primary_address = $request->primary_address;
+            $UsersImports->primary_organization = $request->primary_organization;
+            $UsersImports->secondary_name = $request->secondary_name;
+            $UsersImports->secondary_phone_number = $request->secondary_phone_number;
+            $UsersImports->secondary_email = $request->secondary_email;
+            $UsersImports->secondary_address = $request->secondary_address;
+            $UsersImports->secondary_designation = $request->secondary_designation;
+            $UsersImports->location = $request->location;
+            $UsersImports->region = !empty($request->region) ? $request->region : $request->other_region;;
+            $UsersImports->industry = json_encode($request->industry);
             $UsersImports->engagement_level = $request->engagement_level;
-            $UsersImports->lead_status = $request->lead_status;
-            $UsersImports->difficult_level = $request->difficult_level;
-            $UsersImports->deal_length = $request->deal_length;
-            $UsersImports->probability_to_close = $request->probability_to_close;
             $UsersImports->revenue_booked_to_date = $request->revenue_booked_to_date;
             $UsersImports->referred_by = $request->referred_by;
+            $UsersImports->pain_points = $request->pain_points;
+            $UsersImports->notes = $request->notes;
             $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
             $UsersImports->created_by = \Auth::user()->creatorId();
             $UsersImports->save();
