@@ -53,7 +53,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                             {{ Form::model($lead, ['route' => ['lead.update', $lead->id], 'method' => 'PUT', 'id' => "formdata"]) }}
                             <div class="card-header">
                                 <h5>{{ __('Overview') }}</h5>
-                                <small class="text-muted">{{ __('Edit About Your Opportunitie Information') }}</small>
+                                <small class="text-muted">{{ __('Edit About Your Opportunities Information') }}</small>
                             </div>
                             <div class="card-body">
                                 <div class="row">

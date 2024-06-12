@@ -110,7 +110,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                             {{ Form::model($lead, ['route' => ['lead.review.update', $lead->id], 'method' => 'POST', 'id' => "formdata"]) }}
                             <div class="card-header">
                                 <h5>{{ __('Overview') }}</h5>
-                                <small class="text-muted">{{ __('Review Opportunitie Information') }}</small>
+                                <small class="text-muted">{{ __('Review Opportunities Information') }}</small>
                             </div>
                             <div class="card-body ">
                                 <div class="row">
