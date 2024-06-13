@@ -5,7 +5,7 @@
         <div class="page-header">
             <div class="page-block">
                 <div class="row align-items-center">
-                   
+
                     <div class="col-md-11">
                         <div class="page-header-title">
                             <h4 class="m-b-10">@yield('title')</h4>
@@ -32,41 +32,73 @@
 </div>
 @push('script-page')
 <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $(".page-content").toggleClass("toggled");
-            $("#sidebar-wrapper").toggleClass("toggled");
-            $(".dash-header").toggleClass("toggled");
-        });
-        $("#menu-toggle-2").click(function(e) {
-            e.preventDefault();
-            $(".page-content").toggleClass("toggled-2");
-            $("#sidebar-wrapper").toggleClass("close-sidebar");
-            $(".dash-header").toggleClass("close-header");
-            $('#menu ul').hide();
-        });
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $(".page-content").toggleClass("toggled");
+        $("#sidebar-wrapper").toggleClass("toggled");
+        $(".dash-header").toggleClass("toggled");
+    });
 
-        function initMenu() {
-            $('#menu ul').hide();
-            $('#menu ul').children('.current').parent().show();
-            //$('#menu ul:first').show();
-            $('#menu li a').click(
-                function() {
-                    var checkElement = $(this).next();
-                    if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
-                        return false;
-                    }
-                    if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-                        $('#menu ul:visible').slideUp('normal');
-                        checkElement.slideDown('normal');
-                        return false;
-                    }
-                }
-            );
+    // $("#menu-toggle-2").click(function(e) {
+    //     e.preventDefault();
+    //     $(".page-content").toggleClass("toggled-2");
+    //     $("#sidebar-wrapper").toggleClass("close-sidebar");
+    //     $(".dash-header").toggleClass("close-header");
+    //     $('#menu ul').hide();
+    // });
+
+    $("#menu-toggle-2").click(function(e) {
+        e.preventDefault();
+
+        // Toggle classes
+        $(".page-content").toggleClass("toggled-2");
+        $("#sidebar-wrapper").toggleClass("close-sidebar");
+        $(".dash-header").toggleClass("close-header");
+        $('#menu ul').hide();
+
+        // Select the image and change its source and dimensions
+        var logoImg = $(".nav-sidebar-logo");
+        var isTransparentBg = logoImg.attr("src").includes("volo-transparent-bg.png");
+        var newSrc = isTransparentBg ? "{{$logo.'volo-sm-icon.png'}}" : "{{$logo.'volo-transparent-bg.png'}}";
+
+        logoImg.attr("src", newSrc);
+
+        // Set height and width based on the new source
+        if (isTransparentBg) {
+            logoImg.css({
+                width: '70px',
+                height: '65px'
+            });
+        } else {
+            logoImg.css({
+                width: '197px',
+                height: '66px'
+            });
         }
-        $(document).ready(function() {
-            initMenu();
-        });
+    });
+
+
+    function initMenu() {
+        $('#menu ul').hide();
+        $('#menu ul').children('.current').parent().show();
+        //$('#menu ul:first').show();
+        $('#menu li a').click(
+            function() {
+                var checkElement = $(this).next();
+                if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+                    return false;
+                }
+                if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+                    $('#menu ul:visible').slideUp('normal');
+                    checkElement.slideDown('normal');
+                    return false;
+                }
+            }
+        );
+    }
+    $(document).ready(function() {
+        initMenu();
+    });
 </script>
 @endpush
 <style>
@@ -230,34 +262,35 @@
 </style>
 
 <style>
-.page-content {
-    margin-left: 250px;
-}
+    .page-content {
+        margin-left: 250px;
+    }
 
-.scrollbar {
-    float: left;
-    width: 100%;
-    height: 100vh;
-    overflow: auto;
-}
-/* width */
-.scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
+    .scrollbar {
+        float: left;
+        width: 100%;
+        height: 100vh;
+        overflow: auto;
+    }
 
-/* Track */
-.scrollbar::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 5px;
-}
- 
-/* Handle */
-.scrollbar::-webkit-scrollbar-thumb {
-    background:#145388;
-    border-radius: 10px;
-}
+    /* width */
+    .scrollbar::-webkit-scrollbar {
+        width: 5px;
+    }
 
-/*
+    /* Track */
+    .scrollbar::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 5px;
+    }
+
+    /* Handle */
+    .scrollbar::-webkit-scrollbar-thumb {
+        background: #145388;
+        border-radius: 10px;
+    }
+
+    /*
 .sticky-top::-webkit-scrollbar-thumb:hover {
   background: #b30000;
 } */
@@ -265,7 +298,7 @@
     .nav-pills>li>a {
         border-radius: 0;
     }
-   
+
     #wrapper {
         padding-left: 0;
         -webkit-transition: all 0.5s ease;
@@ -274,7 +307,7 @@
         transition: all 0.5s ease;
         /* overflow: hidden; */
         height: 100%;
-    display: flex;
+        display: flex;
     }
 
     #wrapper.toggled {
@@ -292,28 +325,30 @@
         overflow-y: auto;
         background: #fff; */
         bottom: 0;
-    margin-top: 0;
-    position: fixed;
-    top: 0;
-    width:250px;
+        margin-top: 0;
+        position: fixed;
+        top: 0;
+        width: 250px;
         /* background: #e6ebf2; */
         background: #dbdbdb;
     }
-    .navbar-brand-box {
-    text-align: center;
-    border-bottom:1px solid #e3e1e1;
-}
 
-.navbar-brand-box a img {
-    width: 74px;
-    height: auto;
-}
+    .navbar-brand-box {
+        text-align: center;
+        border-bottom: 1px solid #e3e1e1;
+    }
+
+    .navbar-brand-box a img {
+        width: 74px;
+        height: auto;
+    }
+
     #wrapper.toggled #sidebar-wrapper {
         width: 250px;
     }
 
     #page-content-wrapper {
-       
+
         padding: 0px;
         width: 100%;
         overflow-x: hidden;
@@ -422,11 +457,11 @@
         }
 
         #page-content-wrapper {
-            width:100%;
+            width: 100%;
             padding: 20px 0px;
             position: relative;
-           -webkit-transition: all 0.5s ease;
-             -moz-transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
             -o-transition: all 0.5s ease;
             transition: all 0.5s ease;
         }
@@ -448,11 +483,13 @@
             width: auto;
         }
     }
+
     div#sidebar-wrapper .list-group-item-action {
-    display: flex;
-    align-items: center;
-}
-div#sidebar-wrapper .fa-stack {
-    width: 50px !important;
-}
+        display: flex;
+        align-items: center;
+    }
+
+    div#sidebar-wrapper .fa-stack {
+        width: 50px !important;
+    }
 </style>
