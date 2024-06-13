@@ -66,13 +66,11 @@
         // Set height and width based on the new source
         if (isTransparentBg) {
             logoImg.css({
-                width: '70px',
-                height: '65px'
+                width: '100%',
             });
         } else {
             logoImg.css({
-                width: '197px',
-                height: '66px'
+                width: '100%',
             });
         }
     });
