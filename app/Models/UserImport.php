@@ -31,7 +31,9 @@ class UserImport extends Model
         'referred_by',
         'pain_points',
         'notes',
-        'status'
+        'status',
+        'company_name',
+        'entity_name'
     ];
 
     public static $status = [

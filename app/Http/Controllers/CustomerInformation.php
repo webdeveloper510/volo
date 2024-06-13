@@ -174,31 +174,20 @@ class CustomerInformation extends Controller
                 'category' => $request->input('category'),
             ];
 
-            $userid =  \Auth::user()->creatorId();            
+            $userid =  \Auth::user()->creatorId();
             Excel::import(new UsersImport($category, $userid), request()->file('users'));
             return redirect()->back()->with('success', 'Data  imported successfully');
         } elseif ($request->customerType == 'addForm') {
             $validator = \Validator::make(
                 $request->all(),
                 [
+                    'company_name' => 'required',
+                    'entity_name' => 'required',
                     'primary_name' => 'required',
                     'primary_phone_number' => 'required|unique:import_users',
                     'primary_email' => 'required|email|unique:import_users',
                     'primary_address' => 'required',
-                    'primary_organization' => 'required',
-                    'secondary_name' => 'required',
-                    'secondary_phone_number' => 'required',
-                    'secondary_email' => 'required',
-                    'secondary_address' => 'required',
-                    'secondary_designation' => 'required',
-                    'location' => 'required',
-                    'region' => 'required',
-                    'industry' => 'required',
-                    'engagement_level' => 'required',
-                    'revenue_booked_to_date' => 'required',
-                    'referred_by' => 'required',
-                    'pain_points' => 'required',
-                    'notes' => 'required',
+                    'primary_organization' => 'required'                  
                 ]
             );
 
@@ -210,6 +199,8 @@ class CustomerInformation extends Controller
             }
 
             $UsersImports = new UserImport();
+            $UsersImports->company_name = $request->company_name;
+            $UsersImports->entity_name = $request->entity_name;
             $UsersImports->primary_name = $request->primary_name;
             $UsersImports->primary_phone_number = $request->primary_phone_number;
             $UsersImports->primary_email = $request->primary_email;
@@ -337,7 +328,7 @@ class CustomerInformation extends Controller
     }
     public function siteusers()
     {
-        $importedcustomers = UserImport::distinct()->get();       
+        $importedcustomers = UserImport::distinct()->get();
         return view('customer.allcustomers', compact('importedcustomers'));
     }
     public function event_customers()

@@ -17,20 +17,39 @@ $campaign_type = explode(',',$settings['campaign_type']);
     <div class="badges">
         <ul class="nav nav-tabs tabActive" style="border-bottom: none">
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
-                <a style="color: white;font-size: larger;" data-toggle="tab" href="#barmenu0" class="active">Individual
-                    Client</a>
+                <a style="color: white;font-size: larger;" data-toggle="tab" href="#barmenu0" class="active" onclick="changeNavbarLabelText(this)">Individual Client</a>
             </li>
             <li class="badge rounded p-2 m-1 px-3 bg-primary">
-                <a style="color: white;    font-size: larger;" data-toggle="tab" href="#barmenu1" class="">Bulk
-                    Upload</a>
+                <a style="color: white;    font-size: larger;" data-toggle="tab" href="#barmenu1" onclick="changeNavbarLabelText(this)">Bulk Upload</a>
             </li>
         </ul>
         <div class="tab-content">
             <div id="barmenu0" class="tab-pane fade in active show mt-5">
+                {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}}
+                <div class="row">
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
+                            <span class="text-sm">
+                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                            </span>
+                            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            {{Form::label('entity_name',__('Entity Name'),['class'=>'form-label']) }}
+                            <span class="text-sm">
+                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                            </span>
+                            {{Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Entity Name'),'required'=>'required'))}}
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
                     <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
                 </div>
-                {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}}
                 <div class="row">
                     <div class="col-6 need_full">
                         <input type="hidden" name="customerType" value="addForm" />
@@ -87,7 +106,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                         <input type="hidden" name="customerType" value="addForm" />
                         <div class="form-group">
                             {{Form::label('secondary_name',__('Name'),['class'=>'form-label']) }}
-                            {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                            {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name')))}}
                         </div>
                     </div>
                     <div class="col-6 need_full">
@@ -122,11 +141,11 @@ $campaign_type = explode(',',$settings['campaign_type']);
                 <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
                     <h5 style="margin-left: 14px;">{{ __('Other Information') }}</h5>
                 </div>
-                <div class="row">                    
+                <div class="row">
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="location">Location / Geography</label>
-                            <select name="location" id="location" class="form-control" required>
+                            <select name="location" id="location" class="form-control">
                                 <option value="" selected disabled>Select Location / Geography</option>
                                 <option value="asia" class="form-control">Asia</option>
                                 <option value="africa" class="form-control">Africa</option>
@@ -141,7 +160,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="region">Region</label>
-                            <select name="region" id="region" class="form-control" required>
+                            <select name="region" id="region" class="form-control">
                                 <option value="" selected disabled>Select Region</option>
                                 <option value="india" class="form-control">India</option>
                                 <option value="singapore" class="form-control">Singapore</option>
@@ -162,7 +181,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="industry">Industries</label>
-                            <select name="industry[]" id="industry" class="form-control" multiple required>
+                            <select name="industry[]" id="industry" class="form-control" multiple>
                                 <option value="" selected disabled>Select Industries</option>
                                 <option value="automobiles-components">Automobiles and Components</option>
                                 <option value="banks">Banks</option>
@@ -195,7 +214,7 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <label for="engagement_level">Engagement Level</label>
-                            <select name="engagement_level" id="engagement_level" class="form-control" required>
+                            <select name="engagement_level" id="engagement_level" class="form-control">
                                 <option value="" selected disabled>Select Engagement Level</option>
                                 <option value="ceo">CEO</option>
                                 <option value="coo">COO</option>
@@ -445,4 +464,22 @@ $campaign_type = explode(',',$settings['campaign_type']);
             $(this).closest('.row').remove();
         });
     });
+</script>
+<script>
+    function changeNavbarLabelText(e) {
+        var tabText = $(e).text().trim();
+        var text = '';
+        console.log(tabText);
+
+        if (tabText.includes('Individual Client')) {
+            text = 'New Client';
+        } else if (tabText.includes('Bulk Upload')) {
+            text = 'Upload Client';
+        }
+
+        console.log(text);
+
+        $('#modelCommanModelLabel').text(text);
+
+    }
 </script>

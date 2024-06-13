@@ -9,7 +9,7 @@
 @endsection
 @section('action-btn')
 <a href="#" data-url="{{ route('uploadusersinfo') }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip"
-    data-title="{{__('New Client')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1">
+    data-title="{{__('New Client')}}" title="{{__('Upload')}}" class="btn btn-sm btn-primary btn-icon m-1" id="updateAnchor">
     <i class="ti ti-plus"></i>
 </a>
 
@@ -65,3 +65,4 @@
     </div>
 </div>
 @endsection
+
