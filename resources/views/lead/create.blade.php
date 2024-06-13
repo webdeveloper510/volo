@@ -46,7 +46,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     .plus-btn {
         text-align: right;
         margin-top: -10px;
-    }    
+    }
 </style>
 
 <div class="card-body">
@@ -81,8 +81,8 @@ $additional_items = json_decode($settings['additional_items'],true);
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <select name="existing_client" class="form-control">
-                @foreach($clients as $client)
                 <option value="" disabled selected>Select Client</option>
+                @foreach($clients as $client)
                 <option value="{{ $client->id }}">{{ $client->primary_name }}</option>
                 @endforeach
             </select>
