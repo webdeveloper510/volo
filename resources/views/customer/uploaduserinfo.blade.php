@@ -147,13 +147,13 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <label for="location">Location / Geography</label>
                             <select name="location" id="location" class="form-control">
                                 <option value="" selected disabled>Select Location / Geography</option>
-                                <option value="asia" class="form-control">Asia</option>
-                                <option value="africa" class="form-control">Africa</option>
-                                <option value="europe" class="form-control">Europe</option>
-                                <option value="north-america" class="form-control">North America</option>
-                                <option value="south-america" class="form-control">South America</option>
-                                <option value="australia" class="form-control">Australia</option>
-                                <option value="global" class="form-control">Global</option>
+                                <option value="Asia" class="form-control">Asia</option>
+                                <option value="Africa" class="form-control">Africa</option>
+                                <option value="Europe" class="form-control">Europe</option>
+                                <option value="North America" class="form-control">North America</option>
+                                <option value="South America" class="form-control">South America</option>
+                                <option value="Australia" class="form-control">Australia</option>
+                                <option value="Global" class="form-control">Global</option>
                             </select>
                         </div>
                     </div>
@@ -162,14 +162,14 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <label for="region">Region</label>
                             <select name="region" id="region" class="form-control">
                                 <option value="" selected disabled>Select Region</option>
-                                <option value="india" class="form-control">India</option>
-                                <option value="singapore" class="form-control">Singapore</option>
-                                <option value="latin-america" class="form-control">Latin America</option>
-                                <option value="mexico" class="form-control">Mexico</option>
-                                <option value="spain" class="form-control">Spain</option>
-                                <option value="france" class="form-control">France</option>
-                                <option value="uk" class="form-control">UK</option>
-                                <option value="usa" class="form-control">USA</option>
+                                <option value="India" class="form-control">India</option>
+                                <option value="Singapore" class="form-control">Singapore</option>
+                                <option value="Latin America" class="form-control">Latin America</option>
+                                <option value="Mexico" class="form-control">Mexico</option>
+                                <option value="Spain" class="form-control">Spain</option>
+                                <option value="France" class="form-control">France</option>
+                                <option value="UK" class="form-control">UK</option>
+                                <option value="USA" class="form-control">USA</option>
                                 <option value="other" class="form-control">Other</option>
                             </select>
                         </div>
@@ -183,31 +183,31 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <label for="industry">Industries</label>
                             <select name="industry[]" id="industry" class="form-control" multiple>
                                 <option value="" selected disabled>Select Industries</option>
-                                <option value="automobiles-components">Automobiles and Components</option>
-                                <option value="banks">Banks</option>
-                                <option value="hubs">Hubs</option>
-                                <option value="capital-goods">Capital Goods</option>
-                                <option value="commercial-professional-services">Commercial and Professional Services</option>
-                                <option value="consumer-durables-apparel">Consumer Durables and Apparel</option>
-                                <option value="consumer-services">Consumer Services</option>
-                                <option value="diversified-financials">Diversified Financials</option>
-                                <option value="energy">Energy</option>
-                                <option value="food-beverage-tobacco">Food, Beverage, and Tobacco</option>
-                                <option value="food-staples-retailing">Food and Staples Retailing</option>
-                                <option value="health-care-equipment-services">Health Care Equipment and Services</option>
-                                <option value="household-personal-products">Household and Personal Products</option>
-                                <option value="insurance">Insurance</option>
-                                <option value="materials">Materials</option>
-                                <option value="media-entertainment">Media and Entertainment</option>
-                                <option value="pharmaceuticals-biotechnology-life-sciences">Pharmaceuticals, Biotechnology, and Life Sciences</option>
+                                <option value="Automobiles and Components">Automobiles and Components</option>
+                                <option value="Banks">Banks</option>
+                                <option value="Hubs">Hubs</option>
+                                <option value="Capital Goods">Capital Goods</option>
+                                <option value="Commercial and Professional Services">Commercial and Professional Services</option>
+                                <option value="Consumer Durables and Apparel">Consumer Durables and Apparel</option>
+                                <option value="Consumer Services">Consumer Services</option>
+                                <option value="Diversified Financials">Diversified Financials</option>
+                                <option value="Energy">Energy</option>
+                                <option value="Food, Beverage, and Tobacco">Food, Beverage, and Tobacco</option>
+                                <option value="Food and Staples Retailing">Food and Staples Retailing</option>
+                                <option value="Health Care Equipment and Services">Health Care Equipment and Services</option>
+                                <option value="Household and Personal Products">Household and Personal Products</option>
+                                <option value="Insurance">Insurance</option>
+                                <option value="Materials">Materials</option>
+                                <option value="Media and Entertainment">Media and Entertainment</option>
+                                <option value="Pharmaceuticals, Biotechnology, and Life Sciences">Pharmaceuticals, Biotechnology, and Life Sciences</option>
                                 <option value="real-estate">Real Estate</option>
                                 <option value="retailing">Retailing</option>
-                                <option value="semiconductors-semiconductor-equipment">Semiconductors and Semiconductor Equipment</option>
-                                <option value="software-services">Software and Services</option>
-                                <option value="technology-hardware-equipment">Technology Hardware and Equipment</option>
+                                <option value="Semiconductors and Semiconductor Equipment">Semiconductors and Semiconductor Equipment</option>
+                                <option value="Software and Services">Software and Services</option>
+                                <option value="Technology Hardware and Equipment">Technology Hardware and Equipment</option>
                                 <option value="telecommunication-services">Telecommunication Services</option>
-                                <option value="transportation">Transportation</option>
-                                <option value="utilities">Utilities</option>
+                                <option value="Telecommunication Services">Transportation</option>
+                                <option value="Utilities">Utilities</option>
                             </select>
                         </div>
                     </div>
@@ -216,20 +216,20 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <label for="engagement_level">Engagement Level</label>
                             <select name="engagement_level" id="engagement_level" class="form-control">
                                 <option value="" selected disabled>Select Engagement Level</option>
-                                <option value="ceo">CEO</option>
-                                <option value="coo">COO</option>
-                                <option value="executive-director">Executive Director</option>
-                                <option value="chief-fleet-officer-fleet-operations-director">Chief Fleet Officer / Fleet Operations Director</option>
-                                <option value="head-of-innovation-data-science">Head of Innovation / Data Science</option>
-                                <option value="vice-president">Vice President</option>
-                                <option value="director-of-safety-regulations">Director of Safety & Regulations</option>
-                                <option value="director-of-logistics">Director of Logistics</option>
-                                <option value="vice-president-operations">Vice President - Operations</option>
-                                <option value="vice-president-sustainability">Vice President - Sustainability</option>
-                                <option value="vice-president-environmental-services">Vice President - Environmental Services</option>
-                                <option value="vice-president-fleet-operations">Vice President - Fleet Operations</option>
-                                <option value="director-of-global-safety-solutions">Director of Global Safety Solutions</option>
-                                <option value="vice-president-procurement">Vice President - Procurement</option>
+                                <option value="CEO">CEO</option>
+                                <option value="COO">COO</option>
+                                <option value="Executive Director">Executive Director</option>
+                                <option value="Chief Fleet Officer / Fleet Operations Director">Chief Fleet Officer / Fleet Operations Director</option>
+                                <option value="Head of Innovation / Data Science">Head of Innovation / Data Science</option>
+                                <option value="Vice President">Vice President</option>
+                                <option value="Director of Safety & Regulations">Director of Safety & Regulations</option>
+                                <option value="Director of Logistics">Director of Logistics</option>
+                                <option value="Vice President - Operations">Vice President - Operations</option>
+                                <option value="Vice President - Sustainability">Vice President - Sustainability</option>
+                                <option value="Vice President - Environmental Services">Vice President - Environmental Services</option>
+                                <option value="Vice President - Fleet Operations">Vice President - Fleet Operations</option>
+                                <option value="Director of Global Safety Solutions">Director of Global Safety Solutions</option>
+                                <option value="Vice President - Procurement">Vice President - Procurement</option>
                             </select>
                         </div>
                     </div>

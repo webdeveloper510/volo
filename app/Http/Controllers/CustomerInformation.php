@@ -352,11 +352,13 @@ class CustomerInformation extends Controller
     }
     public function customer_info($id)
     {
-        $id = decrypt(urldecode($id));
-        $users = UserImport::find($id);
+        $id = decrypt(urldecode($id));       
+        $client = UserImport::find($id);
+        // echo "<pre>";
+        // print_r($client);
+        // die;
         $notes = NotesCustomer::where('user_id', $id)->get();
-        // echo "<pre>";print_r($notes);die;
-        return view('customer.userview', compact('users', 'notes'));
+        return view('customer.userview', compact('client', 'notes'));
     }
     public function cate($category)
     {

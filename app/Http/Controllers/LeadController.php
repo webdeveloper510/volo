@@ -35,6 +35,7 @@ use Log;
 use Mail;
 use Str;
 use App\Models\LeadDoc;
+use App\Models\UserImport;
 use Storage;
 
 class LeadController extends Controller
@@ -80,11 +81,12 @@ class LeadController extends Controller
     public function create($type, $id)
     {
         if (\Auth::user()->can('Create Lead')) {
-            $users       = User::where('created_by', \Auth::user()->creatorId())->get();
-            $status     = Lead::$status;
-            $attendees_lead    = Lead::where('created_by', \Auth::user()->creatorId())->where('status', 4)->where('lead_status', 1)->get()->pluck('leadname', 'id');
+            $users = User::where('created_by', \Auth::user()->creatorId())->get();
+            $clients = UserImport::all();
+            $status = Lead::$status;
+            $attendees_lead = Lead::where('created_by', \Auth::user()->creatorId())->where('status', 4)->where('lead_status', 1)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Client', 0);
-            return view('lead.create', compact('status', 'users', 'id', 'type', 'attendees_lead'));
+            return view('lead.create', compact('status', 'users', 'id', 'type', 'attendees_lead', 'clients'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

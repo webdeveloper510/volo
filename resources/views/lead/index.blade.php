@@ -12,6 +12,12 @@ $proposalstatus = \App\Models\Lead::$status;
     {{__('Opportunities')}}
 </div>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<style>
+    .post-search-panel {
+        width: 173px;
+        margin-bottom: 10px;
+    }
+</style>
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
@@ -40,7 +46,7 @@ $proposalstatus = \App\Models\Lead::$status;
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
                                     <div class="post-search-panel">
-                                        <input type="text" id="employee_filter" placeholder="Employee Filter">
+                                        <input type="text" class="form-control" id="employee_filter" placeholder="Employee Filter">
                                     </div>
                                     <table class="table datatable" id="datatable">
                                         <thead>
