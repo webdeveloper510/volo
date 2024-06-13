@@ -72,37 +72,40 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
 <div class="row">
     <div class="col-lg-12">
         <div id="notification" class="alert alert-success mt-1">Link copied to clipboard!</div>
-        {{ Form::model($lead, ['route' => ['lead.pdf', urlencode(encrypt($lead->id))], 'method' => 'POST','enctype'=>'multipart/form-data']) }}
+        <?php echo e(Form::model($lead, ['route' => ['lead.pdf', urlencode(encrypt($lead->id))], 'method' => 'POST','enctype'=>'multipart/form-data'])); ?>
+
 
         <div class="">
             <dl class="row">
-                <input type="hidden" name="lead" value="{{ $lead->id }}">
-                <dt class="col-md-6"><span class="h6  mb-0">{{__('Name')}}</span></dt>
+                <input type="hidden" name="lead" value="<?php echo e($lead->id); ?>">
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Name')); ?></span></dt>
                 <dd class="col-md-6">
-                    <input type="text" name="name" class="form-control" value="{{ $lead->name }}" readonly>
+                    <input type="text" name="name" class="form-control" value="<?php echo e($lead->name); ?>" readonly>
                 </dd>
 
-                <dt class="col-md-6"><span class="h6  mb-0">{{__('Recipient')}}</span></dt>
+                <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Recipient')); ?></span></dt>
                 <dd class="col-md-6">
-                    <input type="email" name="email" class="form-control" value="{{ $lead->email }}" required>
+                    <input type="email" name="email" class="form-control" value="<?php echo e($lead->email); ?>" required>
                 </dd>
 
-                <dt class="col-md-12"><span class="h6  mb-0">{{__('Subject')}}</span></dt>
+                <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Subject')); ?></span></dt>
                 <dd class="col-md-12"><input type="text" name="subject" id="Subject" class="form-control" required></dd>
 
-                <dt class="col-md-12"><span class="h6  mb-0">{{__('Content')}}</span></dt>
+                <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Content')); ?></span></dt>
                 <dd class="col-md-12"><textarea name="emailbody" id="emailbody" cols="30" rows="10" class="form-control" required></textarea></dd>
 
-                <dt class="col-md-12"><span class="h6  mb-0">{{__('Upload Document')}}</span></dt>
+                <dt class="col-md-12"><span class="h6  mb-0"><?php echo e(__('Upload Document')); ?></span></dt>
                 <dd class="col-md-12"><input type="file" name="attachment" id="attachment" class="form-control"></dd>
             </dl>
         </div>
         <div class="modal-footer">
-            {{Form::submit(__('Send'),array('class'=>'btn btn-primary'))}}
+            <?php echo e(Form::submit(__('Send'),array('class'=>'btn btn-primary'))); ?>
+
         </div>
 
     </div>
-    {{Form::close()}}
+    <?php echo e(Form::close()); ?>
+
 </div>
 
 <style>
@@ -149,4 +152,4 @@ $leaddata['bar_package_cost'] = $totalBarPackageCost;
         var notification = document.getElementById('notification');
         notification.style.display = 'none';
     }
-</script>
+</script><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/share_proposal.blade.php ENDPATH**/ ?>
