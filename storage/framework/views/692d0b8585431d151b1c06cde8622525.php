@@ -47,6 +47,19 @@ $additional_items = json_decode($settings['additional_items'],true);
         text-align: right;
         margin-top: -10px;
     }
+
+    i.fas.fa-minus.remove-btn {
+        color: #fff;
+        background: #48494b;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .minus-btn {
+        text-align: right;
+        margin-top: -10px;
+    }
 </style>
 
 <div class="card-body">
@@ -90,8 +103,8 @@ $additional_items = json_decode($settings['additional_items'],true);
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <select name="existing_client" class="form-control">
-                <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="" disabled selected>Select Client</option>
+                <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($client->id); ?>"><?php echo e($client->primary_name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
@@ -1050,7 +1063,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             var clone = rowDiv.clone();
 
             // Append a remove button to the cloned row
-            clone.append('<i class="fas fa-minus remove-btn"></i>');
+            clone.append('<div class="minus-btn"><i class="fas fa-minus remove-btn"></i></div>');
 
             // Insert the clone after the last .row div inside the parent
             parentDiv.append(clone);

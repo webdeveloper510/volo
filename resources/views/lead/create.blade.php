@@ -47,6 +47,19 @@ $additional_items = json_decode($settings['additional_items'],true);
         text-align: right;
         margin-top: -10px;
     }
+
+    i.fas.fa-minus.remove-btn {
+        color: #fff;
+        background: #48494b;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .minus-btn {
+        text-align: right;
+        margin-top: -10px;
+    }
 </style>
 
 <div class="card-body">
@@ -999,7 +1012,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             var clone = rowDiv.clone();
 
             // Append a remove button to the cloned row
-            clone.append('<i class="fas fa-minus remove-btn"></i>');
+            clone.append('<div class="minus-btn"><i class="fas fa-minus remove-btn"></i></div>');
 
             // Insert the clone after the last .row div inside the parent
             parentDiv.append(clone);

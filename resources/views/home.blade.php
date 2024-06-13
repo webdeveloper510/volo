@@ -19,15 +19,15 @@
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="row">
-                <div class="col-4 mb-4">
+                <!-- <div class="col-4 mb-4">
                     <h4>Assigned Staff</h4>
                     <select name="assigned_staff" class="form-control">
                         <option value="" selected disabled>Select Staff</option>
                         <option value=""></option>
                     </select>
                 </div>
-                <div class="col-4"></div>
-                <div class="col-4 mb-4">
+                <div class="col-4"></div> -->
+                <!-- <div class="col-4 mb-4">
                     <h4>System Currency</h4>
                     <select name="system_currency" class="form-control">
                         <option value="" selected disabled>Select Currency</option>
@@ -35,7 +35,7 @@
                         <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
                     </select>
-                </div>
+                </div> -->
                 <!-- <div class="row">
                     @if (\Auth::user()->type == 'owner'||\Auth::user()->type == 'Admin')
                     <div class="col-lg-4 col-sm-12 totallead" style="padding: 15px;">
