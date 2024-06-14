@@ -107,61 +107,6 @@ $additional_items = json_decode($settings['additional_items'],true);
             {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
         </div>
     </div>
-    <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
-    </div>
-    <div class="col-6 need_full">
-        <div class="form-group">
-            {{Form::label('name',__('Name'),['class'=>'form-label']) }}
-            <span class="text-sm">
-                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-            </span>
-            {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
-        </div>
-    </div>
-    <div class="col-6 need_full">
-        <div class="form-group ">
-            {{Form::label('name',__('Primary contact'),['class'=>'form-label']) }}
-            <span class="text-sm">
-                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-            </span>
-            <div class="intl-tel-input">
-                <input type="tel" id="phone-input" name="primary_contact" class="phone-input form-control" placeholder="Enter Primary contact" maxlength="16">
-                <input type="hidden" name="primary_countrycode" id="primary-country-code">
-            </div>
-        </div>
-    </div>
-    <div class="col-6 need_full">
-        <div class="form-group ">
-            {{Form::label('name',__('Secondary contact'),['class'=>'form-label']) }}
-            <div class="intl-tel-input">
-                <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Secondary contact" maxlength="16">
-                <input type="hidden" name="secondary_countrycode" id="secondary-country-code">
-            </div>
-        </div>
-    </div>
-    <div class="col-6 need_full">
-        <div class="form-group">
-            {{Form::label('email',__('Email'),['class'=>'form-label']) }}
-            <span class="text-sm">
-                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-            </span>
-            {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
-        </div>
-    </div>
-    <div class="col-6 need_full">
-        <div class="form-group">
-            {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
-            {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
-        </div>
-    </div>
-    <div class="col-6 need_full">
-        <div class="form-group">
-            {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
-            {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
-        </div>
-    </div> -->
-
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
         <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
     </div>
@@ -170,46 +115,45 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="col-6 need_full">
             <input type="hidden" name="customerType" value="addForm" />
             <div class="form-group">
-                {{Form::label('name',__('Name'),['class'=>'form-label']) }}
+                {{Form::label('primary_name',__('Name'),['class'=>'form-label']) }}
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
-                {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                {{Form::text('primary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group ">
-                {{Form::label('name',__('Phone Number'),['class'=>'form-label']) }}
+                {{Form::label('primary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
                 <div class="intl-tel-input">
-                    <input type="tel" name="primary_contact" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
-                    <input type="hidden" name="primary_countrycode" id="primary-country-code">
+                    <input type="tel" name="primary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
                 </div>
             </div>
         </div>
 
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('email',__('Email'),['class'=>'form-label']) }}
+                {{Form::label('primary_email',__('Email'),['class'=>'form-label']) }}
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
-                {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
+                {{Form::text('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('address',__('Address'),['class'=>'form-label']) }}
+                {{Form::label('primary_address',__('Address'),['class'=>'form-label']) }}
 
-                {{Form::text('address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                {{Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('organization',__('Title/Designation'),['class'=>'form-label']) }}
-                {{Form::text('organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                {{Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label']) }}
+                {{Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
             </div>
         </div>
     </div>
@@ -227,23 +171,22 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
         <div class="col-6 need_full">
             <div class="form-group ">
-                {{Form::label('name',__('Phone Number'),['class'=>'form-label']) }}
+                {{Form::label('secondary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
                 <div class="intl-tel-input">
-                    <input type="tel" name="secondary_contact" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
-                    <input type="hidden" name="secondary_countrycode" id="secondary-country-code">
+                    <input type="tel" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
                 </div>
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('email',__('Email'),['class'=>'form-label']) }}
+                {{Form::label('secondary_email',__('Email'),['class'=>'form-label']) }}
                 {{Form::text('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('address',__('Address'),['class'=>'form-label']) }}
-                {{Form::text('address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                {{Form::label('secondary_address',__('Address'),['class'=>'form-label']) }}
+                {{Form::text('secondary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
             </div>
         </div>
         <div class="col-6 need_full">
@@ -254,69 +197,13 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
 
-
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
         <h5 style="margin-left: 14px;">{{ __('Details') }}</h5>
     </div>
-    @if(isset($function) && !empty($function))
-    <div class="col-6 need_full">
-        <div class="form-group">
-            {{ Form::label('function', __('Product & Services'), ['class' => 'form-label']) }}
-            <div>
-                @foreach($function as $key => $value)
-                <div class="form-check" style="    padding-left: 2.75em !important;">
-                    {!! Form::checkbox('function[]', $value['function'], null, ['class' => 'form-check-input', 'id' =>
-                    'function_' . $key]) !!}
-                    {{ Form::label($value['function'], $value['function'], ['class' => 'form-check-label']) }}
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <div class="col-6 need_full" id="mailFunctionSection">
-        @if(isset($function) && !empty($function))
-        @foreach($function as $key =>$value)
-        <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
-            {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
-            @foreach($value['package'] as $k => $package)
-            <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
-                {!! Form::checkbox('package_'.str_replace(' ', '', strtolower($value['function'])).'[]',$package,
-                null,
-                ['id' => 'package_' . $key.$k, 'data-function' => $value['function'], 'class' => 'form-check-input'])
-                !!}
-                {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
-            </div>
-            @endforeach
-        </div>
-        @endforeach
-        @endif
-    </div>
-    @if(isset($additional_items) && !empty($additional_items))
-    <div class="col-6 need_full" id="additionalSection">
-        <div class="form-group">
-            {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
-            @foreach($additional_items as $ad_key =>$ad_value)
-            @foreach($ad_value as $fun_key =>$packageVal)
-            <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}" id="ad_package" style="display:none;">
-                {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
-                @foreach($packageVal as $pac_key =>$item)
-                <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
-                    {!! Form::checkbox('additional_'.str_replace(' ', '_', strtolower($fun_key)).'[]',$pac_key, null,
-                    ['data-function' => $fun_key, 'class' => 'form-check-input']) !!}
-                    {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
-                </div>
-                @endforeach
-            </div>
-            @endforeach
-            @endforeach
-        </div>
-    </div>
-    @endif
-    @endif
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
-            <select class="form-control" name='user'>
+            <select class="form-control" name='assign_staff'>
                 <option value="">Select Staff</option>
                 @foreach($users as $user)
                 <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
@@ -358,8 +245,8 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            <label for="lead_status">Sales Stage</label>
-            <select name="lead_status" id="lead_status" class="form-control" required>
+            <label for="sales_stage">Sales Stage</label>
+            <select name="sales_stage" id="sales_stage" class="form-control" required>
                 <option value="" selected disabled>Select Sales Stage</option>
                 <option value="New">New</option>
                 <option value="Contacted">Contacted</option>

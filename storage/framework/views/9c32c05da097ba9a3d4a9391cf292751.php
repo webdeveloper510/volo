@@ -8,7 +8,7 @@ $category = explode(',', $settings['campaign_type']);
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box">
                 <a href="#" class="navbar-brand">
-                    <img src="<?php echo e($logo.'volo-transparent-bg.png'); ?>" alt="<?php echo e(config('app.name', 'The Sector Eight')); ?>" class="logo logo-lg nav-sidebar-logo" style="width: 100%;" />
+                    <img src="<?php echo e($logo.'volo-transparent-bg.png'); ?>" alt="<?php echo e(config('app.name', 'The Sector Eight')); ?>" class="logo logo-lg nav-sidebar-logo" style="width: 100%; padding: 6px;" />
                 </a>
             </div>
             <div class="scrollbar">
