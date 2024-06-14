@@ -1,4 +1,4 @@
-@php
+<?php
 $plansettings = App\Models\Utility::plansettings();
 $settings = Utility::settings();
 $type_arr= explode(',',$settings['event_type']);
@@ -18,7 +18,7 @@ if(isset($settings['additional_items']) && !empty($settings['additional_items'])
 $additional_items = json_decode($settings['additional_items'],true);
 }
 
-@endphp
+?>
 <style>
     .fa-asterisk {
         font-size: xx-small;
@@ -65,66 +65,81 @@ $additional_items = json_decode($settings['additional_items'],true);
 <div class="card-body">
     <div class="row">
         <div class="col-md-12">
-            {{Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label'])); ?>
+
             <div class="form-group">
-                {{ Form::radio('newevent',__('Existing'),true) }}
-                {{ Form::label('newevent','Existing') }}
-                {{ Form::radio('newevent',__('New'),false) }}
-                {{ Form::label('newevent','New') }}
+                <?php echo e(Form::radio('newevent',__('Existing'),true)); ?>
+
+                <?php echo e(Form::label('newevent','Existing')); ?>
+
+                <?php echo e(Form::radio('newevent',__('New'),false)); ?>
+
+                <?php echo e(Form::label('newevent','New')); ?>
+
             </div>
         </div>
     </div>
 </div>
-{{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+<?php echo e(Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+
 <input type="hidden" name="storedid" value="">
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('opportunity_name',__('Opportunity Name'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('opportunity_name',__('Opportunity Name'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('opportunity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))}}
+            <?php echo e(Form::text('opportunity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full" id="client_select">
         <div class="form-group">
-            {{ Form::label('existing_client', __('Client'), ['class' => 'form-label']) }}
+            <?php echo e(Form::label('existing_client', __('Client'), ['class' => 'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <select name="existing_client" class="form-control">
                 <option value="" disabled selected>Select Client</option>
-                @foreach($clients as $client)
-                <option value="{{ $client->id }}">{{ $client->primary_name }}</option>
-                @endforeach
+                <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($client->id); ?>"><?php echo e($client->primary_name); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
     <div class="col-6 need_full" id="new_client">
         <div class="form-group">
-            {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
-            {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
+            <?php echo e(Form::label('client_name',__('Client Name'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
+
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
-        <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Primary Contact Information')); ?></h5>
     </div>
-    {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}}
+    <?php echo e(Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))); ?>
+
     <div class="row">
         <div class="col-6 need_full">
             <input type="hidden" name="customerType" value="addForm" />
             <div class="form-group">
-                {{Form::label('primary_name',__('Name'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('primary_name',__('Name'),['class'=>'form-label'])); ?>
+
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
-                {{Form::text('primary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                <?php echo e(Form::text('primary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group ">
-                {{Form::label('primary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('primary_phone_number',__('Phone Number'),['class'=>'form-label'])); ?>
+
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
@@ -136,42 +151,51 @@ $additional_items = json_decode($settings['additional_items'],true);
 
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('primary_email',__('Email'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('primary_email',__('Email'),['class'=>'form-label'])); ?>
+
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
-                {{Form::text('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
-            </div>
-        </div>
-        <div class="col-6 need_full">
-            <div class="form-group">
-                {{Form::label('primary_address',__('Address'),['class'=>'form-label']) }}
+                <?php echo e(Form::text('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
 
-                {{Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label']) }}
-                {{Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                <?php echo e(Form::label('primary_address',__('Address'),['class'=>'form-label'])); ?>
+
+
+                <?php echo e(Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
+            </div>
+        </div>
+        <div class="col-6 need_full">
+            <div class="form-group">
+                <?php echo e(Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
             </div>
         </div>
     </div>
 
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
-        <h5 style="margin-left: 14px;">{{ __('Secondary Contact Information') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Secondary Contact Information')); ?></h5>
     </div>
     <div class="row">
         <div class="col-6 need_full">
             <input type="hidden" name="customerType" value="addForm" />
             <div class="form-group">
-                {{Form::label('secondary_name',__('Name'),['class'=>'form-label']) }}
-                {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                <?php echo e(Form::label('secondary_name',__('Name'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group ">
-                {{Form::label('secondary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('secondary_phone_number',__('Phone Number'),['class'=>'form-label'])); ?>
+
                 <div class="intl-tel-input">
                     <input type="tel" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
                 </div>
@@ -179,35 +203,42 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('secondary_email',__('Email'),['class'=>'form-label']) }}
-                {{Form::text('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
+                <?php echo e(Form::label('secondary_email',__('Email'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('secondary_address',__('Address'),['class'=>'form-label']) }}
-                {{Form::text('secondary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                <?php echo e(Form::label('secondary_address',__('Address'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('secondary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label']) }}
-                {{Form::text('secondary_designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                <?php echo e(Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('secondary_designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
             </div>
         </div>
     </div>
 
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Details') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Details')); ?></h5>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
+
             <select class="form-control" name='assign_staff'>
                 <option value="">Select Staff</option>
-                @foreach($users as $user)
-                <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
-                @endforeach
+                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option class="form-control" value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?> (<?php echo e($user->type); ?>)</option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
@@ -337,7 +368,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Products') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Products')); ?></h5>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
@@ -674,7 +705,8 @@ $additional_items = json_decode($settings['additional_items'],true);
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+
 </div>
 <style>
     .iti.iti--allow-dropdown.iti--separate-dial-code {
@@ -838,11 +870,11 @@ $additional_items = json_decode($settings['additional_items'],true);
     $(document).ready(function() {
         var storedId = localStorage.getItem('clickedLinkId');
         $.ajax({
-            url: "{{ route('getcontactinfo') }}",
+            url: "<?php echo e(route('getcontactinfo')); ?>",
             type: 'POST',
             data: {
                 "customerid": storedId,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 localStorage.removeItem('clickedLinkId');
@@ -972,4 +1004,4 @@ $additional_items = json_decode($settings['additional_items'],true);
         }
     }
 </script>
-{{Form::close()}}
+<?php echo e(Form::close()); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/create.blade.php ENDPATH**/ ?>
