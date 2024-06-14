@@ -256,7 +256,7 @@ class CustomerInformation extends Controller
     }
     public function contactinfo(Request $request)
     {
-        $user =  UserImport::where('id', $request->customerid)->get();
+        $user =  UserImport::where('id', $request->clientId)->get();
         return $user;
     }
     public function resendcampaign(Request $request)

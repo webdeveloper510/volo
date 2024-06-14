@@ -60,6 +60,10 @@ $additional_items = json_decode($settings['additional_items'],true);
         text-align: right;
         margin-top: -10px;
     }
+
+    .iti.iti--allow-dropdown.iti--separate-dial-code {
+        width: 100%;
+    }
 </style>
 
 <div class="card-body">
@@ -93,7 +97,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            <select name="existing_client" class="form-control">
+            <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
                 <option value="" disabled selected>Select Client</option>
                 @foreach($clients as $client)
                 <option value="{{ $client->id }}">{{ $client->primary_name }}</option>
@@ -341,25 +345,25 @@ $additional_items = json_decode($settings['additional_items'],true);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            <input type="checkbox" id="hardware-one-time" name="service[]" value="Hardware – One Time" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="hardware-one-time" name="products[]" value="Hardware – One Time" onchange="showAdditionalProductCategoryFields()">
             <label for="hardware-one-time">Hardware – One Time</label><br>
 
-            <input type="checkbox" id="hardware-maintenance" name="service[]" value="Hardware – Maintenance Contracts" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="hardware-maintenance" name="products[]" value="Hardware – Maintenance Contracts" onchange="showAdditionalProductCategoryFields()">
             <label for="hardware-maintenance">Hardware – Maintenance Contracts</label><br>
 
-            <input type="checkbox" id="software-recurring" name="service[]" value="Software – Recurring" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="software-recurring" name="products[]" value="Software – Recurring" onchange="showAdditionalProductCategoryFields()">
             <label for="software-recurring">Software – Recurring</label><br>
 
-            <input type="checkbox" id="software-one-time" name="service[]" value="Software – One Time" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="software-one-time" name="products[]" value="Software – One Time" onchange="showAdditionalProductCategoryFields()">
             <label for="software-one-time">Software – One Time</label><br>
 
-            <input type="checkbox" id="systems-integrations" name="service[]" value="Systems Integrations" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="systems-integrations" name="products[]" value="Systems Integrations" onchange="showAdditionalProductCategoryFields()">
             <label for="systems-integrations">Systems Integrations</label><br>
 
-            <input type="checkbox" id="subscriptions" name="service[]" value="Subscriptions" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="subscriptions" name="products[]" value="Subscriptions" onchange="showAdditionalProductCategoryFields()">
             <label for="subscriptions">Subscriptions</label><br>
 
-            <input type="checkbox" id="tech-deployment" name="service[]" value="Tech Deployment – Volume based" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="tech-deployment" name="products[]" value="Tech Deployment – Volume based" onchange="showAdditionalProductCategoryFields()">
             <label for="tech-deployment">Tech Deployment – Volume based</label><br>
         </div>
     </div>
@@ -383,17 +387,17 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="unit_hardware_one_time[]" id="unit_hardware_one_time" class="form-control" onchange="onUnitChange(event)">
+                    <select name="unit_hardware_one_time[]" id="unit_hardware_one_time" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
                         <option value="" selected disabled>Select Unit</option>
-                        <option value="spaces">Spaces</option>
-                        <option value="locations">Locations</option>
-                        <option value="count-quantity">Count / Quantity</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sites">Sites</option>
-                        <option value="chargers">Chargers</option>
-                        <option value="volume">Volume</option>
-                        <option value="transactions-count">Transactions Count</option>
-                        <option value="other">Other</option>
+                        <option value="Spaces">Spaces</option>
+                        <option value="Locations">Locations</option>
+                        <option value="Count / Quantity">Count / Quantity</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sites">Sites</option>
+                        <option value="Chargers">Chargers</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Transactions Count">Transactions Count</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -427,17 +431,17 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance" class="form-control" onchange="onUnitChange(event)">
+                    <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
                         <option value="" selected disabled>Select Unit</option>
-                        <option value="spaces">Spaces</option>
-                        <option value="locations">Locations</option>
-                        <option value="count-quantity">Count / Quantity</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sites">Sites</option>
-                        <option value="chargers">Chargers</option>
-                        <option value="volume">Volume</option>
-                        <option value="transactions-count">Transactions Count</option>
-                        <option value="other">Other</option>
+                        <option value="Spaces">Spaces</option>
+                        <option value="Locations">Locations</option>
+                        <option value="Count / Quantity">Count / Quantity</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sites">Sites</option>
+                        <option value="Chargers">Chargers</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Transactions Count">Transactions Count</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -471,17 +475,17 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="unit_software_recurring[]" id="unit_software_recurring" class="form-control" onchange="onUnitChange(event)">
+                    <select name="unit_software_recurring[]" id="unit_software_recurring" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
                         <option value="" selected disabled>Select Unit</option>
-                        <option value="spaces">Spaces</option>
-                        <option value="locations">Locations</option>
-                        <option value="count-quantity">Count / Quantity</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sites">Sites</option>
-                        <option value="chargers">Chargers</option>
-                        <option value="volume">Volume</option>
-                        <option value="transactions-count">Transactions Count</option>
-                        <option value="other">Other</option>
+                        <option value="Spaces">Spaces</option>
+                        <option value="Locations">Locations</option>
+                        <option value="Count / Quantity">Count / Quantity</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sites">Sites</option>
+                        <option value="Chargers">Chargers</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Transactions Count">Transactions Count</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -515,17 +519,17 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="unit_software_one_time[]" id="unit_software_one_time" class="form-control" onchange="onUnitChange(event)">
+                    <select name="unit_software_one_time[]" id="unit_software_one_time" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
                         <option value="" selected disabled>Select Unit</option>
-                        <option value="spaces">Spaces</option>
-                        <option value="locations">Locations</option>
-                        <option value="count-quantity">Count / Quantity</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sites">Sites</option>
-                        <option value="chargers">Chargers</option>
-                        <option value="volume">Volume</option>
-                        <option value="transactions-count">Transactions Count</option>
-                        <option value="other">Other</option>
+                        <option value="Spaces">Spaces</option>
+                        <option value="Locations">Locations</option>
+                        <option value="Count / Quantity">Count / Quantity</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sites">Sites</option>
+                        <option value="Chargers">Chargers</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Transactions Count">Transactions Count</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -559,17 +563,17 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="unit_systems_integrations[]" id="unit_systems_integrations" class="form-control" onchange="onUnitChange(event)">
+                    <select name="unit_systems_integrations[]" id="unit_systems_integrations" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
                         <option value="" selected disabled>Select Unit</option>
-                        <option value="spaces">Spaces</option>
-                        <option value="locations">Locations</option>
-                        <option value="count-quantity">Count / Quantity</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sites">Sites</option>
-                        <option value="chargers">Chargers</option>
-                        <option value="volume">Volume</option>
-                        <option value="transactions-count">Transactions Count</option>
-                        <option value="other">Other</option>
+                        <option value="Spaces">Spaces</option>
+                        <option value="Locations">Locations</option>
+                        <option value="Count / Quantity">Count / Quantity</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sites">Sites</option>
+                        <option value="Chargers">Chargers</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Transactions Count">Transactions Count</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -603,17 +607,17 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="unit_subscriptions[]" id="unit_subscriptions" class="form-control" onchange="onUnitChange(event)">
+                    <select name="unit_subscriptions[]" id="unit_subscriptions" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
                         <option value="" selected disabled>Select Unit</option>
-                        <option value="spaces">Spaces</option>
-                        <option value="locations">Locations</option>
-                        <option value="count-quantity">Count / Quantity</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sites">Sites</option>
-                        <option value="chargers">Chargers</option>
-                        <option value="volume">Volume</option>
-                        <option value="transactions-count">Transactions Count</option>
-                        <option value="other">Other</option>
+                        <option value="Spaces">Spaces</option>
+                        <option value="Locations">Locations</option>
+                        <option value="Count / Quantity">Count / Quantity</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sites">Sites</option>
+                        <option value="Chargers">Chargers</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Transactions Count">Transactions Count</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -647,17 +651,17 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <select name="unit_tech_deployment[]" id="unit_tech_deployment" class="form-control" onchange="onUnitChange(event)">
+                    <select name="unit_tech_deployment[]" id="unit_tech_deployment" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
                         <option value="" selected disabled>Select Unit</option>
-                        <option value="spaces">Spaces</option>
-                        <option value="locations">Locations</option>
-                        <option value="count-quantity">Count / Quantity</option>
-                        <option value="vehicles">Vehicles</option>
-                        <option value="sites">Sites</option>
-                        <option value="chargers">Chargers</option>
-                        <option value="volume">Volume</option>
-                        <option value="transactions-count">Transactions Count</option>
-                        <option value="other">Other</option>
+                        <option value="Spaces">Spaces</option>
+                        <option value="Locations">Locations</option>
+                        <option value="Count / Quantity">Count / Quantity</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Sites">Sites</option>
+                        <option value="Chargers">Chargers</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Transactions Count">Transactions Count</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
@@ -676,11 +680,8 @@ $additional_items = json_decode($settings['additional_items'],true);
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
     {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
 </div>
-<style>
-    .iti.iti--allow-dropdown.iti--separate-dial-code {
-        width: 100%;
-    }
-</style>
+{{Form::close()}}
+
 <script>
     $(document).ready(function() {
         $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='primary_contact'][name='secondary_contact']").focusout(function() {
@@ -898,6 +899,10 @@ $additional_items = json_decode($settings['additional_items'],true);
             // Clone the .row div
             var clone = rowDiv.clone();
 
+            // Reset values of input elements within the cloned row
+            clone.find('input[type="text"]').val('');
+            clone.find('select').val('');
+
             // Append a remove button to the cloned row
             clone.append('<div class="minus-btn"><i class="fas fa-minus remove-btn"></i></div>');
 
@@ -913,32 +918,51 @@ $additional_items = json_decode($settings['additional_items'],true);
     });
 </script>
 
+</script>
+
 <script>
-    $('input[name="newevent"]').on('click', function() {
-        $('#client_select').hide();
-        $('#new_client').hide();
-        var selectedValue = $(this).val();
-        if (selectedValue == 'Existing') {
-            $('#client_select').show();
-        } else {
-            $('#new_client').show();
+    $(document).ready(function() {
+        $('input[name="newevent"]').on('click', function() {
+            $('#client_select').hide();
+            $('#new_client').hide();
+            var selectedValue = $(this).val();
+            if (selectedValue == 'Existing') {
+                $('#client_select').show();
+                $('select[name="existing_client"]').trigger('change');
+            } else {
+                $('#new_client').show();
+                clearInputFields();
+            }
+        });
+
+        function clearInputFields() {
+            $('input[name="primary_name"]').val('');
+            $('input[name="primary_phone_number"]').val('');
+            $('input[name="primary_email"]').val('');
+            $('input[name="primary_address"]').val('');
+            $('input[name="primary_organization"]').val('');
+
+            $('input[name="secondary_name"]').val('');
+            $('input[name="secondary_phone_number"]').val('');
+            $('input[name="secondary_email"]').val('');
+            $('input[name="secondary_address"]').val('');
+            $('input[name="secondary_designation"]').val('');
         }
     });
 </script>
 
 <script>
-    function onUnitChange(event) {
-        var selectElement = event.target;
-        var selectedValue = selectElement.value;
+    function onUnitChange(element, name) {
+        var selectedValue = $(element).val();
 
         // Remove any existing input box
-        var parentRow = selectElement.closest('.row');
-        var existingInput = parentRow.querySelector('.extra-input');
-        if (existingInput) {
+        var parentRow = $(element).closest('.row');
+        var existingInput = parentRow.find('.extra-input');
+        if (existingInput.length) {
             existingInput.closest('.col-6').remove();
         }
 
-        if (selectedValue === 'other') {
+        if (selectedValue === 'Other') {
             // Create the outer div with class 'col-6'
             var outerDiv = document.createElement('div');
             outerDiv.className = 'col-6';
@@ -950,7 +974,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             // Create the input element
             var inputBox = document.createElement('input');
             inputBox.type = 'text';
-            inputBox.name = 'other_unit';
+            inputBox.name = 'other_unit_' + name + '[]';
             inputBox.className = 'form-control extra-input';
             inputBox.placeholder = 'Enter other unit';
 
@@ -961,15 +985,43 @@ $additional_items = json_decode($settings['additional_items'],true);
             outerDiv.appendChild(innerDiv);
 
             // Find the remove button
-            var removeBtn = parentRow.querySelector('.remove-btn');
-            if (removeBtn) {
+            var removeBtn = parentRow.find('.minus-btn');
+            if (removeBtn.length) {
                 // Append the outer div before the remove button
-                parentRow.insertBefore(outerDiv, removeBtn);
+                removeBtn.before(outerDiv);
             } else {
                 // Append the outer div to the parent row
-                parentRow.appendChild(outerDiv);
+                parentRow.append(outerDiv);
             }
         }
     }
 </script>
-{{Form::close()}}
+<script>
+    function getExistingUser(element) {
+        var existing_client_id = $(element).val();
+
+        if (!existing_client_id) return;
+
+        $.ajax({
+            url: "{{ route('getcontactinfo') }}",
+            type: 'POST',
+            data: {
+                "clientId": existing_client_id,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(data) {
+                $('input[name="primary_name"]').val(data[0].primary_name);
+                $('input[name="primary_phone_number"]').val(data[0].primary_phone_number);
+                $('input[name="primary_email"]').val(data[0].primary_email);
+                $('input[name="primary_address"]').val(data[0].primary_address);
+                $('input[name="primary_organization"]').val(data[0].primary_organization);
+
+                $('input[name="secondary_name"]').val(data[0].secondary_name);
+                $('input[name="secondary_phone_number"]').val(data[0].secondary_phone_number);
+                $('input[name="secondary_email"]').val(data[0].secondary_email);
+                $('input[name="secondary_address"]').val(data[0].secondary_address);
+                $('input[name="secondary_designation"]').val(data[0].secondary_designation);
+            }
+        });
+    }
+</script>
