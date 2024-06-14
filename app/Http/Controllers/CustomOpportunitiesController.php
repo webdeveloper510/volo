@@ -87,7 +87,7 @@ class CustomOpportunitiesController extends Controller
                     'title' => $productTitles[$i],
                     'price' => $productPrices[$i],
                     'quantity' => $productQuantities[$i],
-                    'unit' => $productUnits[$i],
+                    'unit' => isset($productUnits[$i]) ? $productUnits[$i] : '',
                     'opportunity_value' => $productOpportunityValues[$i],
                 ];
             }
