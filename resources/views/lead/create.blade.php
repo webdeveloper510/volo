@@ -79,7 +79,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
 </div>
-{{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+{{Form::open(array('route'=>['create.opportunity'],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
 <input type="hidden" name="storedid" value="">
 <div class="row">
     <div class="col-6 need_full">
@@ -114,10 +114,10 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
         <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
     </div>
-    {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}}
+    <!-- {{Form::open(array('route'=>['create.opportunity'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}} -->
     <div class="row">
         <div class="col-6 need_full">
-            <input type="hidden" name="customerType" value="addForm" />
+            <!-- <input type="hidden" name="customerType" value="addForm" /> -->
             <div class="form-group">
                 {{Form::label('primary_name',__('Name'),['class'=>'form-label']) }}
                 <span class="text-sm">

@@ -95,6 +95,7 @@ use App\Http\Controllers\YooKassaController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardTestingController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CustomOpportunitiesController;
 use App\Models\Billing;
 use Google\Service\ServiceConsumerManagement\BillingConfig;
 use Illuminate\Support\Facades\DB;
@@ -1480,6 +1481,18 @@ Route::group(
 
         
 });
+
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::post('/create-opportunity',[CustomOpportunitiesController::class,'createOpportunity'])->name('create.opportunity');
+    }
+);
 
 // Categories controller routes
 Route::get('create-categories', [CategoriesController::class, 'index'])->name('categories.index');

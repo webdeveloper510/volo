@@ -100,9 +100,9 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        echo "<pre>";
-        print_r($request->all());
-        die;
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
 
         if (\Auth::user()->can('Create Lead')) {
             // echo"<pre>";
@@ -156,7 +156,7 @@ class LeadController extends Controller
             $bar_pack = json_encode($bar_pack);
             $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
             $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
-            $lead = new Lead();
+            $lead                       = new Lead();
             $lead['user_id'] = Auth::user()->id;
             $lead['name'] = $request->name;
             $lead['leadname'] = $request->lead_name;
