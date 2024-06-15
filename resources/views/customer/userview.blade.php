@@ -21,14 +21,51 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
-                                            <th></th>
-                                            <th></th>
+                                            <tr>
+                                                <th>Opportunity Name</th>
+                                                <th>Assign Staff</th>
+                                                <th>Value of Opportunity</th>
+                                                <th>Currency</th>
+                                                <th>Timing – Close</th>
+                                                <th>Sales Stage</th>
+                                                <th>Deal Length</th>
+                                                <th>Difficulty Level</th>
+                                                <th>Probability to close</th>
+                                                <th>Select Category</th>
+                                                <th>Sales Subcategory</th>
+                                                <th>Products</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
+                                            @php
+                                            use App\Models\User;
+                                            if(@$opportunity->assigned_user){
+                                            $assignedUserName = $opportunity->assigned_user ? User::find($opportunity->assigned_user) : null;
+
+                                            $selected_products = json_decode($opportunity->products);
+                                            $products = $selected_products ? implode(', ', $selected_products) : '-';
+                                            }
+                                            @endphp
+                                            @if ($opportunity)
                                             <tr>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{ $opportunity->opportunity_name }}</td>
+                                                <td>{{ @$assignedUserName ? $assignedUserName->name : '-' }}</td>
+                                                <td>{{ $opportunity->value_of_opportunity ?? '-' }}</td>
+                                                <td>{{ $opportunity->currency ?? '-' }}</td>
+                                                <td>{{ $opportunity->timing_close ?? '-' }}</td>
+                                                <td>{{ $opportunity->sales_stage ?? '-' }}</td>
+                                                <td>{{ $opportunity->deal_length ?? '-' }}</td>
+                                                <td>{{ $opportunity->difficult_level ?? '-' }}</td>
+                                                <td>{{ $opportunity->probability_to_close ?? '-' }}</td>
+                                                <td>{{ $opportunity->category ?? '-' }}</td>
+                                                <td>{{ $opportunity->sales_subcategory ?? '-' }}</td>
+                                                <td>{{ $products }}</td>
                                             </tr>
+                                            @else
+                                            <tr>
+                                                <td colspan="12">No opportunity found.</td>
+                                            </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

@@ -187,7 +187,7 @@ class CustomerInformation extends Controller
                     'primary_phone_number' => 'required|unique:import_users',
                     'primary_email' => 'required|email|unique:import_users',
                     'primary_address' => 'required',
-                    'primary_organization' => 'required'                  
+                    'primary_organization' => 'required'
                 ]
             );
 
@@ -352,13 +352,26 @@ class CustomerInformation extends Controller
     }
     public function customer_info($id)
     {
-        $id = decrypt(urldecode($id));       
+        $id = decrypt(urldecode($id));
         $client = UserImport::find($id);
-        // echo "<pre>";
-        // print_r($client);
-        // die;
+
+        if ($client) {
+            $opportunity = $client->lead;
+        } else {
+            $opportunity = null;
+        }
+
+        @$selected_products = json_decode($opportunity->products);
+
+        if ($selected_products) {
+            $products = implode(', ', $selected_products);
+        } else {
+            $products = [];
+        }
+
+
         $notes = NotesCustomer::where('user_id', $id)->get();
-        return view('customer.userview', compact('client', 'notes'));
+        return view('customer.userview', compact('client', 'notes', 'opportunity', 'products'));
     }
     public function cate($category)
     {

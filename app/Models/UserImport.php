@@ -11,7 +11,7 @@ class UserImport extends Model
     use HasFactory;
 
     protected $table = 'import_users';
-    
+
     protected $fillable = [
         'primary_name',
         'primary_phone_number',
@@ -45,4 +45,9 @@ class UserImport extends Model
         'Yes',
         'no'
     ];
+
+    public function lead()
+    {
+        return $this->belongsTo(Lead::class, 'lead_id');
+    }
 }
