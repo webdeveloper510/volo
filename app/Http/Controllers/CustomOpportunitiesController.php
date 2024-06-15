@@ -11,14 +11,8 @@ class CustomOpportunitiesController extends Controller
     public function createOpportunity(Request $request)
     {
         $requestData = $request->all();
-
-        // Assuming your request data structure is as follows
-        $requestData = $request->all();
-
-        // Initialize an array to store formatted data for each column
+        
         $formattedData = [];
-
-        // Define the columns and their corresponding request keys
         $columns = [
             'hardware_one_time' => [
                 'product_title' => 'product_title_hardware_one_time',
@@ -71,7 +65,6 @@ class CustomOpportunitiesController extends Controller
             ],
         ];
 
-        // Process each column
         foreach ($columns as $columnName => $keys) {
             $productTitles = $requestData[$keys['product_title']];
             $productPrices = $requestData[$keys['product_price']];
@@ -81,7 +74,6 @@ class CustomOpportunitiesController extends Controller
 
             $formattedColumnData = [];
 
-            // Loop through the arrays to structure the data for the column
             for ($i = 0; $i < count($productTitles); $i++) {
                 $formattedColumnData[] = [
                     'title' => $productTitles[$i],
@@ -92,7 +84,6 @@ class CustomOpportunitiesController extends Controller
                 ];
             }
 
-            // Store the formatted data in the main array
             $formattedData[$columnName] = $formattedColumnData;
         }
 

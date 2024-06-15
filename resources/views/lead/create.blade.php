@@ -66,6 +66,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     }
 </style>
 
+{{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
 <div class="card-body">
     <div class="row">
         <div class="col-md-12">
@@ -79,8 +80,6 @@ $additional_items = json_decode($settings['additional_items'],true);
         </div>
     </div>
 </div>
-{{Form::open(array('route'=>['create.opportunity'],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
-<input type="hidden" name="storedid" value="">
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
@@ -144,7 +143,7 @@ $additional_items = json_decode($settings['additional_items'],true);
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
-                {{Form::text('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
+                {{Form::email('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
             </div>
         </div>
         <div class="col-6 need_full">
@@ -170,7 +169,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             <input type="hidden" name="customerType" value="addForm" />
             <div class="form-group">
                 {{Form::label('secondary_name',__('Name'),['class'=>'form-label']) }}
-                {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name')))}}
             </div>
         </div>
         <div class="col-6 need_full">
@@ -184,7 +183,7 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('secondary_email',__('Email'),['class'=>'form-label']) }}
-                {{Form::text('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
+                {{Form::email('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
             </div>
         </div>
         <div class="col-6 need_full">
@@ -207,7 +206,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
-            <select class="form-control" name='assign_staff'>
+            <select class="form-control" name='assign_staff' required>
                 <option value="">Select Staff</option>
                 @foreach($users as $user)
                 <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
@@ -236,7 +235,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="timing_close">Timing – Close</label>
-            <select name="timing_close" id="timing_close" class="form-control" required>
+            <select name="timing_close" id="timing_close" class="form-control">
                 <option value="" selected disabled>Select Timing – Close</option>
                 <option value="immediate">Immediate</option>
                 <option value="0-30-days">0-30 Days</option>
@@ -250,7 +249,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="sales_stage">Sales Stage</label>
-            <select name="sales_stage" id="sales_stage" class="form-control" required>
+            <select name="sales_stage" id="sales_stage" class="form-control">
                 <option value="" selected disabled>Select Sales Stage</option>
                 <option value="New">New</option>
                 <option value="Contacted">Contacted</option>
@@ -274,7 +273,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="deal_length">Deal Length</label>
-            <select name="deal_length" id="deal_length" class="form-control" required>
+            <select name="deal_length" id="deal_length" class="form-control">
                 <option value="" selected disabled>Select Deal Length</option>
                 <option value="One Time">One Time</option>
                 <option value="Short Term">Short Term</option>
@@ -287,7 +286,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="difficult_level">Difficulty Level</label>
-            <select name="difficult_level" id="difficult_level" class="form-control" required>
+            <select name="difficult_level" id="difficult_level" class="form-control">
                 <option value="" selected disabled>Select Difficulty Level</option>
                 <option value="Very Easy">Very Easy</option>
                 <option value="Easy">Easy</option>
@@ -303,7 +302,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="probability_to_close">Probability to close</label>
-            <select name="probability_to_close" id="probability_to_close" class="form-control" required>
+            <select name="probability_to_close" id="probability_to_close" class="form-control">
                 <option value="" selected disabled>Select Probability to close</option>
                 <option value="Highly Probable">Highly Probable</option>
                 <option value="Probable">Probable</option>
@@ -332,7 +331,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="sales_subcategory">Sales Subcategory</label>
-            <select name="sales_subcategory" id="sales_subcategory" class="form-control" required>
+            <select name="sales_subcategory" id="sales_subcategory" class="form-control">
                 <option value="" selected disabled>Select Sales Subcategory</option>
                 <option value="Public" class="form-control">Public</option>
                 <option value="Private" class="form-control">Private</option>
@@ -674,6 +673,12 @@ $additional_items = json_decode($settings['additional_items'],true);
         <div class="col-12 plus-btn">
             <i class="fas fa-plus clone-btn"></i>
         </div>
+    </div>
+</div>
+<div class="col-6 need_full">
+    <div class="form-group">
+        {{Form::label('is_active',__('Active'),['class'=>'form-label']) }}
+        <input type="checkbox" class="form-check-input" name="is_active" checked>
     </div>
 </div>
 <div class="modal-footer">

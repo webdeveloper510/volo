@@ -105,14 +105,16 @@ class LeadController extends Controller
         // die;
 
         if (\Auth::user()->can('Create Lead')) {
-            // echo"<pre>";
-            // print_r($request->all());die;
-
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'lead_name' => 'required',
-                    'name' => 'required|max:120',
+                    'opportunity_name' => 'required',
+                    'primary_name' => 'required',
+                    'primary_phone_number' => 'required',
+                    'primary_email' => 'required',
+                    'primary_address' => 'required',
+                    'primary_organization' => 'required',
+                    'assign_staff' => 'required',
                 ]
             );
             if ($validator->fails()) {
@@ -121,145 +123,254 @@ class LeadController extends Controller
                     ->withErrors($validator)
                     ->withInput();
             }
-            $data = $request->all();
-            $package = [];
-            $additional = [];
-            $bar_pack = [];
-            foreach ($data as $key => $values) {
-                if (strpos($key, 'package_') === 0) {
-                    $newKey = strtolower(str_replace('package_', '', $key));
-                    $package[$newKey] = $values;
-                }
-                if (strpos($key, 'additional_') === 0) {
-                    // Extract the suffix from the key
-                    $newKey = strtolower(str_replace('additional_', '', $key));
-                    // Check if the key exists in the output array, if not, initialize it
-                    if (!isset($additional[$newKey])) {
-                        $additional[$newKey] = [];
+
+            // Previous code start here
+            // $data = $request->all();
+            // $package = [];
+            // $additional = [];
+            // $bar_pack = [];
+            // foreach ($data as $key => $values) {
+            //     if (strpos($key, 'package_') === 0) {
+            //         $newKey = strtolower(str_replace('package_', '', $key));
+            //         $package[$newKey] = $values;
+            //     }
+            //     if (strpos($key, 'additional_') === 0) {
+            //         // Extract the suffix from the key
+            //         $newKey = strtolower(str_replace('additional_', '', $key));
+            //         // Check if the key exists in the output array, if not, initialize it
+            //         if (!isset($additional[$newKey])) {
+            //             $additional[$newKey] = [];
+            //         }
+            //         $additional[$newKey] = $values;
+            //     }
+            //     if (strpos($key, 'bar_') === 0) {
+            //         // Extract the suffix from the key
+            //         $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
+            //         // Check if the key exists in the output array, if not, initialize it
+            //         if (!isset($bar_pack[$newKey])) {
+            //             $bar_pack[$newKey] = [];
+            //         }
+            //         // Assign the values to the new key in the output array
+            //         $bar_pack[$newKey] = $values;
+            //     }
+            // }
+
+            // $package = json_encode($package);
+            // $additional = json_encode($additional);
+            // $bar_pack = json_encode($bar_pack);
+            // $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
+            // $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
+            // Previous code end here
+
+            function processProductData($request, $productType)
+            {
+                $products = [];
+
+                $titles = $request->input("product_title_$productType");
+                $prices = $request->input("product_price_$productType");
+                $quantities = $request->input("product_quantity_$productType");
+                $units = $request->input("unit_$productType");
+                $opportunity_values = $request->input("product_opportunity_value_$productType");
+
+                if ($titles && $prices && $quantities && $units && $opportunity_values) {
+                    for ($i = 0; $i < count($titles); $i++) {
+                        $products[] = [
+                            'title' => $titles[$i] ?? '',
+                            'price' => $prices[$i] ?? '',
+                            'quantity' => $quantities[$i] ?? '',
+                            'unit' => $units[$i] ?? '',
+                            'opportunity_value' => $opportunity_values[$i] ?? '',
+                        ];
                     }
-                    $additional[$newKey] = $values;
                 }
-                if (strpos($key, 'bar_') === 0) {
-                    // Extract the suffix from the key
-                    $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
-                    // Check if the key exists in the output array, if not, initialize it
-                    if (!isset($bar_pack[$newKey])) {
-                        $bar_pack[$newKey] = [];
-                    }
-                    // Assign the values to the new key in the output array
-                    $bar_pack[$newKey] = $values;
-                }
+
+                return $products;
             }
 
-            $package = json_encode($package);
-            $additional = json_encode($additional);
-            $bar_pack = json_encode($bar_pack);
-            $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
-            $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
-            $lead                       = new Lead();
-            $lead['user_id'] = Auth::user()->id;
-            $lead['name'] = $request->name;
-            $lead['leadname'] = $request->lead_name;
-            $lead['assigned_user'] = $request->user ?? '';
-            $lead['email'] = $request->email ?? '';
-            $lead['primary_contact'] = $primary_contact;
-            $lead['secondary_contact'] = $secondary_contact;
-            $lead['lead_address'] = $request->lead_address;
-            $lead['company_name'] = $request->company_name;
-            $lead['relationship'] = $request->relationship;
-            $lead['start_date'] = $request->start_date;
-            $lead['end_date'] = $request->start_date;
-            $lead['type'] = $request->type;
-            $lead['venue_selection'] = isset($request->venue) ? implode(',', $request->venue) : '';
-            $lead['function'] = isset($request->function) ? implode(',', $request->function) : '';
-            $lead['func_package'] = isset($package) && (!empty($package)) ? $package : '';
-            $lead['guest_count'] = $request->guest_count ?? 0;
-            $lead['description'] = $request->description;
-            $lead['spcl_req'] = $request->spcl_req;
-            $lead['allergies'] = $request->allergies;
+            // Process each product type
+            $hardware_one_time = processProductData($request, 'hardware_one_time');
+            $hardware_maintenance = processProductData($request, 'hardware_maintenance');
+            $software_recurring = processProductData($request, 'software_recurring');
+            $software_one_time = processProductData($request, 'software_one_time');
+            $systems_integrations = processProductData($request, 'systems_integrations');
+            $subscriptions = processProductData($request, 'subscriptions');
+            $tech_deployment = processProductData($request, 'tech_deployment');
+
+
+            $lead = new Lead();
+            // $lead['user_id'] = Auth::user()->id;
+            // $lead['name'] = $request->name;
+            // $lead['leadname'] = $request->lead_name;
+            $lead['user_id'] = $request->existing_client  ?? '';
+            $lead['opportunity_name'] = $request->opportunity_name;
+            $lead['assigned_user'] = $request->assign_staff;
+            $lead['primary_name'] = $request->primary_name;
+            $lead['primary_email'] = $request->primary_email;
+            $lead['primary_contact'] = $request->primary_phone_number;
+            $lead['primary_address'] = $request->primary_address;
+            $lead['primary_organization'] = $request->primary_organization;
+            $lead['secondary_name'] = $request->secondary_name ?? '';
+            $lead['secondary_email'] = $request->secondary_email ?? '';
+            $lead['secondary_contact'] = $request->secondary_phone_number ?? '';
+            $lead['secondary_address'] = $request->secondary_address ?? '';
+            $lead['secondary_designation'] = $request->secondary_designation ?? '';
+            $lead['lead_address'] = '-';
+            $lead['company_name'] = '-';
+            $lead['relationship'] = '-';
+            // $lead['start_date'] = $request->start_date;
+            $lead['start_date'] = '-';
+            $lead['end_date'] = '-';
+            $lead['type'] = '-';
+            // $lead['venue_selection'] = isset($request->venue) ? implode(',', $request->venue) : '';
+            $lead['sales_stage'] = $request->sales_stage ?? '';
+            // $lead['function'] = isset($request->function) ? implode(',', $request->function) : '';
+            $lead['value_of_opportunity'] = $request->value_of_opportunity ?? '';
+            $lead['func_package'] = '-';
+            $lead['guest_count'] = '-';
+            $lead['description'] = '-';
+            // $lead['spcl_req'] = $request->spcl_req;
+            $lead['deal_length'] = $request->deal_length ?? '';
+            // $lead['allergies'] = $request->allergies;
+            $lead['difficult_level'] = $request->difficult_level ?? '';
             $lead['start_time'] = $request->start_time ?? '';
             $lead['end_time'] = $request->end_time ?? '';
-            $lead['bar'] = $request->baropt;
-            $lead['bar_package'] = isset($bar_pack) && !empty($bar_pack) ? $bar_pack : '';
-            $lead['ad_opts'] = isset($additional) && !empty($additional) ? $additional : '';
-            $lead['rooms'] = $request->rooms ?? 0;
+            // $lead['bar'] = $request->baropt;
+            $lead['timing_close'] = $request->timing_close ?? '';
+            $lead['bar_package'] = '-';
+            // $lead['ad_opts'] = isset($additional) && !empty($additional) ? $additional : '';
+            $lead['probability_to_close'] = $request->probability_to_close ?? '';
+            // $lead['rooms'] = $request->rooms ?? 0;
+            $lead['currency'] = $request->currency ?? '';
             $lead['lead_status'] = ($request->is_active == 'on') ? 1 : 0;
+            $lead['category'] = $request->category ?? '';
+            $lead['sales_subcategory'] = $request->sales_subcategory ?? '';
+            $lead['products'] = json_encode($request->products) ?? '';
+            $lead['hardware_one_time'] = json_encode($hardware_one_time);
+            $lead['hardware_maintenance'] = json_encode($hardware_maintenance);
+            $lead['software_recurring'] = json_encode($software_recurring);
+            $lead['software_one_time'] = json_encode($software_one_time);
+            $lead['systems_integrations'] = json_encode($systems_integrations);
+            $lead['subscriptions'] = json_encode($subscriptions);
+            $lead['tech_deployment_volume_based'] = json_encode($tech_deployment);
             $lead['created_by'] = \Auth::user()->creatorId();
             $lead->save();
 
-            $existingcustomer = MasterCustomer::where('email', $lead->email)->first();
-            if (!$existingcustomer) {
-                $customer = new MasterCustomer();
-                $customer->ref_id = $lead->id;
-                $customer->name = $request->name;
-                $customer->email = $request->email ?? '';
-                // $customer->primary_contact = $primary_contact;
-                // $customer->secondary_contact = $secondary_contact;
-                $customer->phone = $primary_contact;
-                $customer->address = $request->lead_address ?? '';
-                $customer->category = 'lead';
-                $customer->type = $request->type ?? '';
-                $customer->save();
+            // Get the last inserted ID
+            $lastInsertedId = $lead->id;
+
+            if ($lead && $request->has('newevent') && $request->newevent === 'New') {
+                $UsersImports = new UserImport();
+                $UsersImports->lead_id = $lastInsertedId;
+                $UsersImports->company_name = '';
+                $UsersImports->entity_name = '';
+                $UsersImports->primary_name = $request->primary_name ?? '';
+                $UsersImports->primary_phone_number = $request->primary_phone_number ?? '';
+                $UsersImports->primary_email = $request->primary_email ?? '';
+                $UsersImports->primary_address = $request->primary_address ?? '';
+                $UsersImports->primary_organization = $request->primary_organization ?? '';
+                $UsersImports->secondary_name = $request->secondary_name ?? '';
+                $UsersImports->secondary_phone_number = $request->secondary_phone_number ?? '';
+                $UsersImports->secondary_email = $request->secondary_email ?? '';
+                $UsersImports->secondary_address = $request->secondary_address ?? '';
+                $UsersImports->secondary_designation = $request->secondary_designation ?? '';
+                $UsersImports->location = '';
+                $UsersImports->region = '';
+                $UsersImports->industry ='';
+                $UsersImports->engagement_level = '';
+                $UsersImports->revenue_booked_to_date = '';
+                $UsersImports->referred_by = '';
+                $UsersImports->pain_points = '';
+                $UsersImports->notes = '';
+                $UsersImports->status = '';
+                $UsersImports->created_by = \Auth::user()->creatorId();
+                $UsersImports->save();
+            } else {
+                $UsersImports = UserImport::find($request->existing_client);
+                if ($UsersImports) {
+                    $UsersImports->lead_id = $lastInsertedId;
+                    $UsersImports->save();
+                }
             }
-            $uArr = [
-                'lead_name' => $lead->name,
-                'lead_email' => $lead->email,
-            ];
-            $resp = Utility::sendEmailTemplate('lead_assign', [$lead->id => $lead->email], $uArr);
+
+           
+
+            // $existingcustomer = MasterCustomer::where('email', $lead->email)->first();
+            // echo "<pre>";
+            // print_r($existingcustomer);
+            // die(); 
+
+            // if (!$existingcustomer) {
+            //     $customer = new MasterCustomer();
+            //     $customer->ref_id = $lead->id;
+            //     $customer->name = $request->name;
+            //     $customer->email = $request->email ?? '';
+            //     // $customer->primary_contact = $primary_contact;
+            //     // $customer->secondary_contact = $secondary_contact;
+            //     $customer->phone = $primary_contact;
+            //     $customer->address = $request->lead_address ?? '';
+            //     $customer->category = 'lead';
+            //     $customer->type = $request->type ?? '';
+            //     $customer->save();
+            // }
+            // $uArr = [
+            //     'lead_name' => $lead->name,
+            //     'lead_email' => $lead->email,
+            // ];
+            // $resp = Utility::sendEmailTemplate('lead_assign', [$lead->id => $lead->email], $uArr);
 
             //webhook
-            $module = 'New Lead';
-            $Assign_user_phone = User::where('id', $request->user)->first();
-            $setting  = Utility::settings(\Auth::user()->creatorId());
-            $uArr = [
-                'lead_name' => $lead->name,
-                'lead_email' => $lead->email,
-            ];
-            // $resp = Utility::sendEmailTemplate('lead_assigned', [$lead->id => $Assign_user_phone->email], $uArr);
-            if (isset($setting['twilio_lead_create']) && $setting['twilio_lead_create'] == 1) {
-                $uArr = [
-                    //'company_name'  => $lead->name,
-                    'lead_email' => $lead->email,
-                    'lead_name' => $lead->name
-                ];
-                Utility::send_twilio_msg($Assign_user_phone->primary_contact, 'new_lead', $uArr);
-            }
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
-            $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
-            $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
-            $data = [
-                "to" => $FcmToken,
-                "notification" => [
-                    "title" => 'Lead created.',
-                    "body" => 'New Lead is Created',
-                ]
-            ];
-            $encodedData = json_encode($data);
+            // $module = 'New Lead';
+            // $Assign_user_phone = User::where('id', $request->user)->first();
+            // $setting  = Utility::settings(\Auth::user()->creatorId());
+            // $uArr = [
+            //     'lead_name' => $lead->name,
+            //     'lead_email' => $lead->email,
+            // ];
+            // // $resp = Utility::sendEmailTemplate('lead_assigned', [$lead->id => $Assign_user_phone->email], $uArr);
+            // if (isset($setting['twilio_lead_create']) && $setting['twilio_lead_create'] == 1) {
+            //     $uArr = [
+            //         //'company_name'  => $lead->name,
+            //         'lead_email' => $lead->email,
+            //         'lead_name' => $lead->name
+            //     ];
+            //     Utility::send_twilio_msg($Assign_user_phone->primary_contact, 'new_lead', $uArr);
+            // }
+            // $url = 'https://fcm.googleapis.com/fcm/send';
+            // // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
+            // $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
+            // $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+            // $data = [
+            //     "to" => $FcmToken,
+            //     "notification" => [
+            //         "title" => 'Lead created.',
+            //         "body" => 'New Lead is Created',
+            //     ]
+            // ];
+            // $encodedData = json_encode($data);
 
-            $headers = [
-                'Authorization:key=' . $serverKey,
-                'Content-Type: application/json',
-            ];
+            // $headers = [
+            //     'Authorization:key=' . $serverKey,
+            //     'Content-Type: application/json',
+            // ];
 
-            $ch = curl_init();
+            // $ch = curl_init();
 
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // Disabling SSL Certificate support temporarly
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
-            // Execute post
-            $result = curl_exec($ch);
-            if ($result === FALSE) {
-                die('Curl failed: ' . curl_error($ch));
-            }
-            // Close connection
-            curl_close($ch);
+            // curl_setopt($ch, CURLOPT_URL, $url);
+            // curl_setopt($ch, CURLOPT_POST, true);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            // curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            // // Disabling SSL Certificate support temporarly
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+            // // Execute post
+            // $result = curl_exec($ch);
+            // if ($result === FALSE) {
+            //     die('Curl failed: ' . curl_error($ch));
+            // }
+            // // Close connection
+            // curl_close($ch);
             // FCM response
             // dd($result);
             // if (Auth::user()) {

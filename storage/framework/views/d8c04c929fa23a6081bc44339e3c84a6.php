@@ -54,7 +54,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th> -->
-                                                <th scope="col" class="sort" id="myInput" data-sort="name"><?php echo e(__('Company')); ?> <span class="opticy"></span></th>
+                                                <th scope="col" class="sort" id="myInput" data-sort="name"><?php echo e(__('Name')); ?> <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Opportunity Value')); ?> <span class="opticy"></span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"></span></th>
                                                 <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
@@ -72,11 +72,11 @@ $proposalstatus = \App\Models\Lead::$status;
                                             <tr>
                                                 <td>
                                                     <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-size="md" title="<?php echo e(__('Opportunities Details')); ?>" class="action-item text-primary" style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($lead->name)); ?></b>
+                                                        <b> <?php echo e(ucfirst($lead->opportunity_name)); ?></b>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <span class="budget"><?php echo e($lead->email); ?></span>
+                                                    <span class="budget"><?php echo e($lead->value_of_opportunity); ?></span>
                                                 </td>
                                                 <td><select name="lead_status" id="lead_status" class="form-select" data-id="<?php echo e($lead->id); ?>">
                                                         <?php $__currentLoopData = $statuss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
