@@ -52,7 +52,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name">{{__('Lead')}}</th> -->
-                                                <th scope="col" class="sort" id="myInput" data-sort="name">{{__('Name')}} <span class="opticy"></span></th>
+                                                <th scope="col" class="sort" id="myInput" data-sort="name">{{__('Company')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Opportunity Value')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th>
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
@@ -76,12 +76,14 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <td>
                                                     <span class="budget">{{ $lead->value_of_opportunity }}</span>
                                                 </td>
-                                                <td><select name="lead_status" id="lead_status" class="form-select" data-id="{{$lead->id}}">
+                                                <td>
+                                                    <select name="lead_status" id="lead_status" class="form-select" data-id="{{$lead->id}}">
                                                         @foreach($statuss as $key => $stat)
                                                         <option value="{{ $key }}" {{ isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : "" }}>
                                                             {{ $stat }}
                                                         </option>
-                                                        @endforeach</td>
+                                                        @endforeach
+                                                </td>
                                                 <td>
                                                     <select name="drop_status" id="drop_status" class="form-select" data-id="{{$lead->id}}">
                                                         @foreach($proposalstatus as $key => $stat)
@@ -92,7 +94,17 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </select>
                                                 </td>
                                                 <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
-                                                <td></td>
+                                                <td>
+                                                    @php
+                                                    $productsArray = json_decode($lead->products);
+                                                    @endphp
+
+                                                    @if (is_array($productsArray) && count($productsArray) > 0)
+                                                    {{ implode(', ', $productsArray) }}
+                                                    @else
+                                                    No products found
+                                                    @endif
+                                                </td>
                                                 @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
                                                 Gate::check('Delete Lead') ||Gate::check('Manage Lead') )
                                                 <td class="text-end">
