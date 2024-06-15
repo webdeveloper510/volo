@@ -148,13 +148,16 @@ class DashboardController extends Controller
                 )->where('created_by', \Auth::user()->creatorId())->limit(5)->get();
 
                 $users = User::find(\Auth::user()->creatorId());
+
+                $assinged_staff = User::all();           
+
                 $plan = Plan::find($users->plan);
                 // if ($plan->storage_limit > 0) {
                 //     $storage_limit = ($users->storage_limit / $plan->storage_limit) * 100;
                 // } else {
                 //     $storage_limit = 0;
                 // }
-                return view('home', compact('venue_dropdown', 'activeLeadsCount', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'activeLeads', 'lostLeads', 'activeEvent', 'pastEvents'));
+                return view('home', compact('venue_dropdown', 'activeLeadsCount', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'activeLeads', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff'));
             }
         } else {
 

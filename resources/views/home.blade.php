@@ -19,14 +19,16 @@
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="row">
-                <!-- <div class="col-4 mb-4">
+                <div class="col-4 mb-4">
                     <h4>Assigned Staff</h4>
                     <select name="assigned_staff" class="form-control">
                         <option value="" selected disabled>Select Staff</option>
-                        <option value=""></option>
+                        @foreach ($assinged_staff as $staff)
+                        <option value="{{ $staff->id }}">{{ $staff->name }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <div class="col-4"></div> -->
+                <!-- <div class="col-4"></div> -->
                 <!-- <div class="col-4 mb-4">
                     <h4>System Currency</h4>
                     <select name="system_currency" class="form-control">
