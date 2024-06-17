@@ -392,7 +392,7 @@ class LeadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Lead $lead)
-    {       
+    {
         if (\Auth::user()->can('Show Lead')) {
             $settings = Utility::settings();
             $venue = explode(',', $settings['venue']);
@@ -418,7 +418,16 @@ class LeadController extends Controller
             $function_package =  explode(',', $lead->function);
             $status   = Lead::$status;
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();
-            return view('lead.edit', compact('venue_function', 'function_package', 'lead', 'users', 'status'));
+
+            if ($lead) {
+                $import_user = UserImport::where('id', $lead->user_id)->first();
+                if ($import_user) {
+                    $client_name = $import_user->primary_name;
+                } else {
+                    $client_name = '';
+                }
+            }
+            return view('lead.edit', compact('venue_function', 'function_package', 'lead', 'users', 'status','client_name'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

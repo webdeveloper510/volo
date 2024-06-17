@@ -99,6 +99,37 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
     .iti.iti--allow-dropdown.iti--separate-dial-code {
         width: 100%;
     }
+
+    .additional-product-category {
+        display: none;
+        margin-top: 10px;
+    }
+
+    .plus-btn i.fas.fa-plus.clone-btn {
+        color: #fff;
+        background: #48494b;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .plus-btn {
+        text-align: right;
+        margin-top: -10px;
+    }
+
+    i.fas.fa-minus.remove-btn {
+        color: #fff;
+        background: #48494b;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .minus-btn {
+        text-align: right;
+        margin-top: -10px;
+    }
 </style>
 <div class="container-field">
     <div id="wrapper">
@@ -130,19 +161,8 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3">
-                                        <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5> 
-                                    </div>
-                                    <div class="col-6 need_full">
-                                        <div class="form-group">
-                                            {{Form::label('name',__('Name'),['class'=>'form-label']) }}
-                                            <span class="text-sm">
-                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
-                                            {{Form::text('name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6 need_full">
+
+                                <!--  <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('phone',__('Primary contact'),['class'=>'form-label']) }}
                                             <span class="text-sm">
@@ -162,25 +182,6 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             <div class="intl-tel-input">
                                                 <input type="tel" id="phone-input1" name="secondary_contact" class="phone-input form-control" placeholder="Enter Secondary contact" maxlength="16" value="{{$lead->secondary_contact}}">
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 need_full">
-                                        <div class="form-group">
-                                            {{Form::label('email',__('Email'),['class'=>'form-label']) }}
-                                            {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6 need_full">
-                                        <div class="form-group">
-                                            {{Form::label('lead_address',__('Address'),['class'=>'form-label']) }}
-                                            {{Form::text('lead_address',null,array('class'=>'form-control','placeholder'=>__('Address')))}}
-                                        </div>
-                                    </div>
-                                    <div class="col-6 need_full">
-                                        <div class="form-group">
-                                            {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
-                                            {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
                                         </div>
                                     </div> -->
 
@@ -444,148 +445,315 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     </div>
                                 </div>
 
-
-                                <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3">
-                                        <h5 style="margin-left: 14px;">{{ __('Event Details') }}</h5>
-                                    </div>
-                                    <div class="col-6 need_full">
-                                        <div class="form-group">
-                                            {{Form::label('type',__('Event Type'),['class'=>'form-label']) }}
-                                            <span class="text-sm">
-                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
-                                            <select name="type" id="type" class="form-control" required>
-                                                <option value="">Select Type</option>
-                                                @foreach($type_arr as $type)
-                                                <option value="{{$type}}" {{ ($type == $lead->type) ? 'selected' : '' }}>{{$type}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 need_full">
-                                        <div class="form-group">
-                                            <label for="venue" class="form-label">{{ __('Venue') }}</label>
-                                            <span class="text-sm">
-                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
-                                            @foreach($venue as $key => $label)
-                                            <div>
-                                                <input type="checkbox" name="venue[]" id="{{ $label }}" value="{{ $label }}" {{ in_array($label, @$venue_function) ? 'checked' : '' }}>
-                                                <label for="{{ $label }}">{{ $label }}</label>
+                                <div id="hardware-one-time-fields" class="additional-product-category card">
+                                    <h5>Hardware – One Time</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_hardware_one_time" name="product_title_hardware_one_time[]" placeholder="Product Title">
                                             </div>
-                                            @endforeach
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_hardware_one_time" name="product_price_hardware_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_hardware_one_time" name="product_quantity_hardware_one_time[]" placeholder="Product Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_hardware_one_time[]" id="unit_hardware_one_time" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 need_full">
-                                        <div class="form-group">
-                                            {{ Form::label('start_date', __('Date of Event'), ['class' => 'form-label']) }}
-                                            <span class="text-sm">
-                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                            </span>
-                                            {!! Form::date('start_date', $lead->start_date, ['class' => 'form-control',
-                                            'required' => 'required']) !!}
-                                        </div>
-                                    </div> -->
-                                <!-- <div class="col-6">
-                                        <div class="form-group">
-                                            {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
-                                            {!! Form::date('end_date', $lead->end_date, ['class' => 'form-control',
-                                            'required' => 'required']) !!}
-                                        </div>
-                                    </div> -->
-
-                                <!-- <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {{Form::label('guest_count',__('Guest Count'),['class'=>'form-label']) }}
-
-                                        {!! Form::number('guest_count', null,array('class' => 'form-control','min'=>
-                                        0)) !!}
-                                    </div>
-                                </div> -->
-
-                                <!-- @if(isset($function) && !empty($function))
-                                <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {{ Form::label('function', __('Function'), ['class' => 'form-label']) }}
-                                        <span class="text-sm">
-                                            <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                        </span>
-                                        <div class="checkbox-group">
-                                            @foreach($function as $key => $value)
-                                            <label>
-                                                <input type="checkbox" id="{{ $value['function'] }}" name="function[]" value="{{  $value['function'] }}" class="function-checkbox" {{ in_array( $value['function'], $function_package) ? 'checked' : '' }}>
-                                                {{ $value['function'] }}
-                                            </label><br>
-                                            @endforeach
-                                        </div>
+                                    <div class="col-12 plus-btn">
+                                        <i class="fas fa-plus clone-btn"></i>
                                     </div>
                                 </div>
-                                @endif -->
-                                <!-- <div class="col-6 need_full" id="mailFunctionSection">
-                                    @if(isset($function) && !empty($function))
-                                    @foreach($function as $key =>$value)
-                                    <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['function']}}" id="function_package" style="display: none;">
-                                        {{ Form::label('package', __($value['function']), ['class' => 'form-label']) }}
-                                        <span class="text-sm">
-                                            <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
-                                        </span>
-                                        @foreach($value['package'] as $k => $package)
-                                        <?php $isChecked = false; ?>
-                                        @if(isset($func_package) && !empty($func_package))
-                                        @foreach($func_package as $func => $pack)
-                                        @foreach($pack as $keypac => $packval)
-                                        @if($package == $packval)
-                                        <?php $isChecked = true; ?>
-                                        @endif
-                                        @endforeach
-                                        @endforeach
-                                        @endif
-                                        <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$package}}">
-                                            {!! Form::checkbox('package_'.str_replace(' ', '',
-                                            strtolower($value['function'])).'[]',$package,
-                                            $isChecked, ['id' => 'package_' .
-                                            $key.$k, 'data-function' => $value['function'], 'class' =>
-                                            'form-check-input']) !!}
-                                            {{ Form::label($package, $package, ['class' => 'form-check-label']) }}
+                                <div id="hardware-maintenance-fields" class="additional-product-category card">
+                                    <h5>Hardware – Maintenance Contracts</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_hardware_maintenance" name="product_title_hardware_maintenance[]" placeholder="Product Title">
+                                            </div>
                                         </div>
-                                        @endforeach
-                                    </div>
-                                    @endforeach
-                                    @endif
-                                </div> -->
-                                <!-- <div class="col-6 need_full" id="additionalSection">
-                                    @if(isset($additional_items) && !empty($additional_items))
-                                    {{ Form::label('additional', __('Additional items'), ['class' => 'form-label']) }}
-                                    @foreach($additional_items as $ad_key =>$ad_value)
-                                    @foreach($ad_value as $fun_key =>$packageVal)
-                                    <div class="form-group" data-additional-index="{{$fun_key}}" data-additional-value="{{key($packageVal)}}" id="ad_package" style="display: none;">
-                                        {{ Form::label('additional', __($fun_key), ['class' => 'form-label']) }}
-                                        @foreach($packageVal as $pac_key =>$item)
-                                        <div class="form-check" data-additional-index="{{$pac_key}}" data-additional-package="{{$pac_key}}">
-                                            <?php $isCheckedif = false; ?>
-
-                                            @if(isset($fun_ad_opts) && !empty($fun_ad_opts ))
-                                            @foreach($fun_ad_opts as $keys=>$valss)
-
-                                            @foreach($valss as $val)
-                                            @if($pac_key == $val)
-                                            <?php $isCheckedif = true; ?>
-                                            @endif
-                                            @endforeach
-                                            @endforeach
-                                            @endif
-                                            {!! Form::checkbox('additional_'.str_replace(' ', '_',
-                                            strtolower($fun_key)).'[]',$pac_key, $isCheckedif, ['data-function' => $fun_key,
-                                            'class' => 'form-check-input']) !!}
-                                            {{ Form::label($pac_key, $pac_key, ['class' => 'form-check-label']) }}
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_hardware_maintenance" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                            </div>
                                         </div>
-                                        @endforeach
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_hardware_maintenance" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
                                     </div>
-                                    @endforeach
-                                    @endforeach
-                                    @endif
+                                    <div class="col-12 plus-btn">
+                                        <i class="fas fa-plus clone-btn"></i>
+                                    </div>
+                                </div>
+                                <div id="software-recurring-fields" class="additional-product-category card">
+                                    <h5>Software – Recurring</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_software_recurring" name="product_title_software_recurring[]" placeholder="Product Title">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_software_recurring" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_software_recurring" name="product_quantity_software_recurring[]" placeholder="Product Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_software_recurring[]" id="unit_software_recurring" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_software_recurring" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 plus-btn">
+                                        <i class="fas fa-plus clone-btn"></i>
+                                    </div>
+                                </div>
+                                <div id="software-one-time-fields" class="additional-product-category card">
+                                    <h5>Software – One Time</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_software_one_time" name="product_title_software_one_time[]" placeholder="Product Title">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_software_one_time" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_software_one_time" name="product_quantity_software_one_time[]" placeholder="Product Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_software_one_time[]" id="unit_software_one_time" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_software_one_time" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 plus-btn">
+                                        <i class="fas fa-plus clone-btn"></i>
+                                    </div>
+                                </div>
+                                <div id="systems-integrations-fields" class="additional-product-category card">
+                                    <h5>Systems Integrations</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_systems_integrations" name="product_title_systems_integrations[]" placeholder="Product Title">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_systems_integrations" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_systems_integrations" name="product_quantity_systems_integrations[]" placeholder="Product Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_systems_integrations[]" id="unit_systems_integrations" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_systems_integrations" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 plus-btn">
+                                        <i class="fas fa-plus clone-btn"></i>
+                                    </div>
+                                </div>
+                                <div id="subscriptions-fields" class="additional-product-category card">
+                                    <h5>Subscriptions</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_subscriptions" name="product_title_subscriptions[]" placeholder="Product Title">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_subscriptions" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_subscriptions" name="product_quantity_subscriptions[]" placeholder="Product Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_subscriptions[]" id="unit_subscriptions" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_subscriptions" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 plus-btn">
+                                        <i class="fas fa-plus clone-btn"></i>
+                                    </div>
+                                </div>
+                                <div id="tech-deployment-fields" class="additional-product-category card">
+                                    <h5>Tech Deployment – Volume based</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_tech_deployment" name="product_title_tech_deployment[]" placeholder="Product Title">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_tech_deployment" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_tech_deployment" name="product_quantity_tech_deployment[]" placeholder="Product Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_tech_deployment[]" id="unit_tech_deployment" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_tech_deployment" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 plus-btn">
+                                        <i class="fas fa-plus clone-btn"></i>
+                                    </div>
+                                </div>
 
-                                </div> -->
                                 <!-- <div class="col-6 need_full">
                                     <div class="form-group">
                                         {{Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label']) }}
@@ -599,79 +767,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </select>
                                     </div>
                                 </div> -->
-                                <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3">
-                                    <h5 style="margin-left: 14px;">{{ __('Other Information') }}</h5>
-                                </div>
-                                <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {{Form::label('allergies',__('Allergies'),['class'=>'form-label']) }}
-                                        {{Form::text('allergies',null,array('class'=>'form-control','placeholder'=>__('Enter Allergies(if any)')))}}
-                                    </div>
-                                </div>
-                                <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {{Form::label('spcl_req',__('Any Special Requirements'),['class'=>'form-label']) }}
-                                        {{Form::textarea('spcl_req',null,array('class'=>'form-control','rows'=>2,'placeholder'=>__('Enter Any Special Requirements')))}}
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        {{Form::label('Description',__('How did you hear about us?'),['class'=>'form-label']) }}
-                                        {{Form::textarea('description',null,array('class'=>'form-control','rows'=>2))}}
-                                    </div>
-                                </div> -->
-                                <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3"> -->
-                                <!-- <hr class="mt-2 mb-2"> -->
-                                <!-- <h5 style="margin-left: 14px;">{{ __('Estimate Billing Summary Details') }}</h5> -->
-                                <!-- </div> -->
-                                <!-- <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {!! Form::label('baropt', 'Bar') !!}
-                                        @foreach($baropt as $key => $label)
-                                        <div>
-                                            {{ Form::radio('baropt', $label,isset($lead->bar) && $lead->bar == $label ? true : false , ['id' => $label]) }}
-                                            {{ Form::label('baropt' . ($key + 1), $label) }}
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                </div> -->
-                                <!-- <div class="col-6 need_full" id="barpacakgeoptions" style="display: none;">
-                                    @if(isset($bar_package) && !empty($bar_package))
-                                    @foreach($bar_package as $key =>$value)
-                                    <div class="form-group" data-main-index="{{$key}}" data-main-value="{{$value['bar']}}">
-                                        {{ Form::label('bar', __($value['bar']), ['class' => 'form-label']) }}
-                                        @foreach($value['barpackage'] as $k => $bar)
-                                        <div class="form-check" data-main-index="{{$k}}" data-main-package="{{$bar}}">
-                                            {!! Form::radio('bar'.'_'.str_replace(' ', '',
-                                            strtolower($value['bar'])), $bar, false, ['id' => 'bar_' . $key.$k,
-                                            'data-function' => $value['bar'], 'class' => 'form-check-input']) !!}
-                                            {{ Form::label($bar, $bar, ['class' => 'form-check-label']) }}
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                    @endforeach
-                                    @endif
-                                </div> -->
-                                <!-- <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {{Form::label('rooms',__('Room'),['class'=>'form-label']) }}
-                                        <input type="number" name="rooms" value="{{$lead->rooms}}" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {{ Form::label('start_time', __('Estimated Start Time'), ['class' => 'form-label']) }}
-                                        {!! Form::input('time', 'start_time', $lead->start_time, ['class' =>
-                                        'form-control', 'required' => 'required']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-6 need_full">
-                                    <div class="form-group">
-                                        {{ Form::label('end_time', __('Estimated End Time'), ['class' => 'form-label']) }}
-                                        {!! Form::input('time', 'end_time', $lead->end_time, ['class' =>
-                                        'form-control', 'required' => 'required']) !!}
-                                    </div>
-                                </div> -->
+
                                 <!-- <div class="col-6 need_full">
                                     <div class="form-group">
                                         {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
@@ -687,6 +783,15 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                     </div>
                                 </div> -->
+
+                                <div class="col-6 need_full">
+                                    <div class="form-group">
+                                        {{ Form::label('name', __('Active'), ['class' => 'form-label']) }}
+                                        <div>
+                                            <input type="checkbox" class="form-check-input" name="is_active" {{ $lead->lead_status == 1 ? 'checked' : '' }}>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="text-end">
                                     {{ Form::submit(__('Submit'), ['class' => 'btn-submit btn btn-primary']) }}
@@ -971,5 +1076,124 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     });
+</script>
+
+<script>
+    function showAdditionalProductCategoryFields() {
+        const categories = [
+            'hardware-one-time',
+            'hardware-maintenance',
+            'software-recurring',
+            'software-one-time',
+            'systems-integrations',
+            'subscriptions',
+            'tech-deployment'
+        ];
+
+        categories.forEach(category => {
+            const checkbox = document.getElementById(category);
+            const fields = document.getElementById(category + '-fields');
+            if (checkbox.checked) {
+                fields.style.display = 'block';
+            } else {
+                fields.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', showAdditionalProductCategoryFields);
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Function to handle cloning
+        $('.additional-product-category').on('click', '.clone-btn', function(event) {
+            event.preventDefault();
+
+            // Get the parent .additional-product-category div
+            var parentDiv = $(this).closest('.additional-product-category');
+
+            // Get the first .row div inside the parent
+            var rowDiv = parentDiv.find('.row').first();
+
+            // Clone the .row div
+            var clone = rowDiv.clone();
+
+            // Reset values of input elements within the cloned row
+            clone.find('input[type="text"]').val('');
+            clone.find('select').val('');
+
+            // Append a remove button to the cloned row
+            clone.append('<div class="minus-btn"><i class="fas fa-minus remove-btn"></i></div>');
+
+            // Insert the clone after the last .row div inside the parent
+            parentDiv.append(clone);
+        });
+
+        // Function to handle removal
+        $('.additional-product-category').on('click', '.remove-btn', function(event) {
+            event.preventDefault();
+            $(this).closest('.row').remove();
+        });
+    });
+</script>
+<script>
+    function onUnitChange(element, name) {
+        var selectedValue = $(element).val();
+
+        // Remove any existing input box
+        var parentRow = $(element).closest('.row');
+        var existingInput = parentRow.find('.extra-input');
+        if (existingInput.length) {
+            existingInput.closest('.col-6').remove();
+        }
+
+        if (selectedValue === 'Other') {
+            // Create the outer div with class 'col-6'
+            var outerDiv = document.createElement('div');
+            outerDiv.className = 'col-6';
+
+            // Create the inner div with class 'form-group'
+            var innerDiv = document.createElement('div');
+            innerDiv.className = 'form-group';
+
+            // Create the input element
+            var inputBox = document.createElement('input');
+            inputBox.type = 'text';
+            inputBox.name = 'other_unit_' + name + '[]';
+            inputBox.className = 'form-control extra-input';
+            inputBox.placeholder = 'Enter other unit';
+
+            // Append the input box to the inner div
+            innerDiv.appendChild(inputBox);
+
+            // Append the inner div to the outer div
+            outerDiv.appendChild(innerDiv);
+
+            // Find the remove button
+            var removeBtn = parentRow.find('.minus-btn');
+            if (removeBtn.length) {
+                // Append the outer div before the remove button
+                removeBtn.before(outerDiv);
+            } else {
+                // Append the outer div to the parent row
+                parentRow.append(outerDiv);
+            }
+        }
+    }
+</script>
+<script>
+    function formatCurrency(input) {
+        // Remove non-numeric characters except for commas
+        let value = input.value.replace(/[^\d]/g, '');
+
+        // Format the number with commas
+        input.value = formatNumberWithCommas(value);
+    }
+
+    function formatNumberWithCommas(number) {
+        if (!number) return '';
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 </script>
 @endpush

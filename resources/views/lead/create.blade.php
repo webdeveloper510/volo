@@ -365,7 +365,8 @@ $additional_items = json_decode($settings['additional_items'],true);
             <input type="checkbox" id="tech-deployment" name="products[]" value="Tech Deployment – Volume based" onchange="showAdditionalProductCategoryFields()">
             <label for="tech-deployment">Tech Deployment – Volume based</label><br>
         </div>
-    </div>
+    </div>    
+
     <div id="hardware-one-time-fields" class="additional-product-category card">
         <h5>Hardware – One Time</h5>
         <div class="row">
