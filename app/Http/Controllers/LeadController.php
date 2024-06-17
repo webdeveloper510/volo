@@ -392,8 +392,7 @@ class LeadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Lead $lead)
-    {
-
+    {       
         if (\Auth::user()->can('Show Lead')) {
             $settings = Utility::settings();
             $venue = explode(',', $settings['venue']);
