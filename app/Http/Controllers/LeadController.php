@@ -1102,14 +1102,14 @@ class LeadController extends Controller
             } else {
                 $client_name = '';
             }
-        } 
+        }
 
         $venue_function = explode(',', $lead->venue_selection);
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
-        $users     = User::where('created_by', \Auth::user()->creatorId())->get();       
+        $users     = User::where('created_by', \Auth::user()->creatorId())->get();
         // $proposal = ProposalInfo::where('lead_id',$id)->orderby('id','desc')->first();
-        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status','client_name'));
+        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status', 'client_name'));
     }
     public function review_proposal_data(Request $request, $id)
     {
@@ -1270,9 +1270,25 @@ class LeadController extends Controller
         } else {
             $leads = Lead::where('primary_contact', $lead->primary_contact)->get();
         }
+
+        $client = UserImport::find($id);
+
+        if ($client) {
+            $opportunity = $client->lead;
+        } else {
+            $opportunity = null;
+        }
+
+        @$selected_products = json_decode($opportunity->products);
+
+        if ($selected_products) {
+            $products = implode(', ', $selected_products);
+        } else {
+            $products = [];
+        }
         $notes = NotesLeads::where('lead_id', $id)->orderby('id', 'desc')->get();
         $docs = LeadDoc::where('lead_id', $id)->get();
-        return view('lead.leadinfo', compact('leads', 'lead', 'docs', 'notes'));
+        return view('lead.leadinfo', compact('leads', 'lead', 'docs', 'notes', 'opportunity', 'products', 'client'));
     }
     public function lead_user_info($id)
     {
