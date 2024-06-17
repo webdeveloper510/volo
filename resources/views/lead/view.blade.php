@@ -32,38 +32,38 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <dt class="col-12 section-heading">
                         <h4>Primary Information</h4>
                     </dt>
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Primary Name')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Name')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->primary_name ?? '--'}}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Primary Email')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Email')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->primary_email ?? '--'}}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Primary Phone Number')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Phone Number')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->primary_contact ?? '--' }}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Primary Address')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Address')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->primary_address ?? '--'}}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Primary Designation')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Designation')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->primary_organization ?? '--'}}</span></dd>
 
                     <!-- Secondary Information Heading -->
                     <dt class="col-12 section-heading">
                         <h4>Secondary Information</h4>
                     </dt>
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Secondary Name')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Name')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->secondary_name ?? '--'}}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Secondary Email')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Email')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->secondary_email ?? '--'}}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Secondary Phone Number')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Phone Number')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->secondary_contact ?? '--' }}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Secondary Address')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Address')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->secondary_address ?? '--'}}</span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Secondary Designation')}}</span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Designation')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->secondary_designation ?? '--'}}</span></dd>
 
 

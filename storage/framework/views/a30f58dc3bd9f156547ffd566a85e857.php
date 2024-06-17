@@ -32,38 +32,38 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <dt class="col-12 section-heading">
                         <h4>Primary Information</h4>
                     </dt>
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Primary Name')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Name')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->primary_name ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Primary Email')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Email')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->primary_email ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Primary Phone Number')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Phone Number')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->primary_contact ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Primary Address')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Address')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->primary_address ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Primary Designation')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Designation')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->primary_organization ?? '--'); ?></span></dd>
 
                     <!-- Secondary Information Heading -->
                     <dt class="col-12 section-heading">
                         <h4>Secondary Information</h4>
                     </dt>
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Secondary Name')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Name')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->secondary_name ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Secondary Email')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Email')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->secondary_email ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Secondary Phone Number')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Phone Number')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->secondary_contact ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Secondary Address')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Address')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->secondary_address ?? '--'); ?></span></dd>
 
-                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Secondary Designation')); ?></span></dt>
+                    <dt class="col-md-6"><span class="h6  mb-0"><?php echo e(__('Designation')); ?></span></dt>
                     <dd class="col-md-6"><span class=""><?php echo e($lead->secondary_designation ?? '--'); ?></span></dd>
 
 
