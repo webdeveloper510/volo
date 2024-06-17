@@ -2,28 +2,6 @@
 @section('page-title')
 {{ __('Opportunitie Edit') }}
 @endsection
-@php
-$plansettings = App\Models\Utility::plansettings();
-$setting = App\Models\Utility::settings();
-$type_arr= explode(',',$setting['event_type']);
-$type_arr = array_combine($type_arr, $type_arr);
-$venue = explode(',',$setting['venue']);
-if(isset($setting['function']) && !empty($setting['function'])){
-$function = json_decode($setting['function'],true);
-}
-if(isset($setting['additional_items']) && !empty($setting['additional_items'])){
-$additional_items = json_decode($setting['additional_items'],true);
-}
-$meal = ['Formal Plated' ,'Buffet Style' , 'Family Style'];
-$baropt = ['Open Bar', 'Cash Bar', 'Package Choice'];
-if(isset($setting['barpackage']) && !empty($setting['barpackage'])){
-$bar_package = json_decode($setting['barpackage'],true);
-}
-
-$func_package = json_decode($lead->func_package,true);
-$fun_ad_opts = json_decode($lead->ad_opts,true);
-
-@endphp
 @section('title')
 <div class="page-header-title">
     {{ __('Edit Opportunities') }} {{ '(' . $lead->opportunity_name . ')' }}
@@ -409,6 +387,7 @@ $fun_ad_opts = json_decode($lead->ad_opts,true);
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
+                                    
                                     <div id="hardware-maintenance-fields" class="additional-product-category card">
                                         <h5>Hardware – Maintenance Contracts</h5>
                                         <div class="row">
