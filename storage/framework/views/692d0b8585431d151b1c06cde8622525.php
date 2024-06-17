@@ -19,7 +19,6 @@ $additional_items = json_decode($settings['additional_items'],true);
 }
 
 ?>
-<script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0"></script>
 <style>
     .fa-asterisk {
         font-size: xx-small;
@@ -249,7 +248,7 @@ $additional_items = json_decode($settings['additional_items'],true);
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="value_of_opportunity">Value of Opportunity</label>
-            <input type="text" name="value_of_opportunity" value="" placeholder="Enter Value of Opportunity" class="form-control format_number">
+            <input type="text" name="value_of_opportunity" value="" placeholder="Enter Value of Opportunity" class="form-control">
         </div>
     </div>
     <div class="col-6 need_full">
@@ -407,7 +406,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_price_hardware_one_time" name="product_price_hardware_one_time[]" placeholder="Product Price">
+                    <input type="text" class="form-control" id="product_price_hardware_one_time" name="product_price_hardware_one_time[]" placeholder="Product Price">
                 </div>
             </div>
             <div class="col-6">
@@ -433,7 +432,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_opportunity_value_hardware_one_time" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value">
+                    <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value">
                 </div>
             </div>
         </div>
@@ -451,7 +450,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_price_hardware_maintenance" name="product_price_hardware_maintenance[]" placeholder="Product Price">
+                    <input type="text" class="form-control" id="product_price_hardware_maintenance" name="product_price_hardware_maintenance[]" placeholder="Product Price">
                 </div>
             </div>
             <div class="col-6">
@@ -477,7 +476,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_opportunity_value_hardware_maintenance" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value">
+                    <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value">
                 </div>
             </div>
         </div>
@@ -495,7 +494,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_price_software_recurring" name="product_price_software_recurring[]" placeholder="Product Price">
+                    <input type="text" class="form-control" id="product_price_software_recurring" name="product_price_software_recurring[]" placeholder="Product Price">
                 </div>
             </div>
             <div class="col-6">
@@ -521,7 +520,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_opportunity_value_software_recurring" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value">
+                    <input type="text" class="form-control" id="product_opportunity_value_software_recurring" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value">
                 </div>
             </div>
         </div>
@@ -539,7 +538,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_price_software_one_time" name="product_price_software_one_time[]" placeholder="Product Price">
+                    <input type="text" class="form-control" id="product_price_software_one_time" name="product_price_software_one_time[]" placeholder="Product Price">
                 </div>
             </div>
             <div class="col-6">
@@ -565,7 +564,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_opportunity_value_software_one_time" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value">
+                    <input type="text" class="form-control" id="product_opportunity_value_software_one_time" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value">
                 </div>
             </div>
         </div>
@@ -583,7 +582,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_price_systems_integrations" name="product_price_systems_integrations[]" placeholder="Product Price">
+                    <input type="text" class="form-control" id="product_price_systems_integrations" name="product_price_systems_integrations[]" placeholder="Product Price">
                 </div>
             </div>
             <div class="col-6">
@@ -609,7 +608,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_opportunity_value_systems_integrations" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value">
+                    <input type="text" class="form-control" id="product_opportunity_value_systems_integrations" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value">
                 </div>
             </div>
         </div>
@@ -627,7 +626,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_price_subscriptions" name="product_price_subscriptions[]" placeholder="Product Price">
+                    <input type="text" class="form-control" id="product_price_subscriptions" name="product_price_subscriptions[]" placeholder="Product Price">
                 </div>
             </div>
             <div class="col-6">
@@ -653,7 +652,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_opportunity_value_subscriptions" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value">
+                    <input type="text" class="form-control" id="product_opportunity_value_subscriptions" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value">
                 </div>
             </div>
         </div>
@@ -671,7 +670,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_price_tech_deployment" name="product_price_tech_deployment[]" placeholder="Product Price">
+                    <input type="text" class="form-control" id="product_price_tech_deployment" name="product_price_tech_deployment[]" placeholder="Product Price">
                 </div>
             </div>
             <div class="col-6">
@@ -697,7 +696,7 @@ $additional_items = json_decode($settings['additional_items'],true);
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <input type="text" class="form-control format_number" id="product_opportunity_value_tech_deployment" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value">
+                    <input type="text" class="form-control" id="product_opportunity_value_tech_deployment" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value">
                 </div>
             </div>
         </div>
@@ -1063,8 +1062,4 @@ $additional_items = json_decode($settings['additional_items'],true);
             }
         });
     }
-</script>
-
-<script>
-    window.format_number = new AutoNumeric('.format_number', 1450000);
 </script><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/create.blade.php ENDPATH**/ ?>

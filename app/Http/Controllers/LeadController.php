@@ -275,7 +275,7 @@ class LeadController extends Controller
                 $UsersImports->secondary_designation = $request->secondary_designation ?? '';
                 $UsersImports->location = '';
                 $UsersImports->region = '';
-                $UsersImports->industry ='';
+                $UsersImports->industry = '';
                 $UsersImports->engagement_level = '';
                 $UsersImports->revenue_booked_to_date = '';
                 $UsersImports->referred_by = '';
@@ -292,7 +292,7 @@ class LeadController extends Controller
                 }
             }
 
-           
+
 
             // $existingcustomer = MasterCustomer::where('email', $lead->email)->first();
             // echo "<pre>";
@@ -1095,12 +1095,21 @@ class LeadController extends Controller
 
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
+        if ($lead) {
+            $import_user = UserImport::where('id', $lead->user_id)->first();
+            if ($import_user) {
+                $client_name = $import_user->primary_name;
+            } else {
+                $client_name = '';
+            }
+        } 
+
         $venue_function = explode(',', $lead->venue_selection);
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
-        $users     = User::where('created_by', \Auth::user()->creatorId())->get();
+        $users     = User::where('created_by', \Auth::user()->creatorId())->get();       
         // $proposal = ProposalInfo::where('lead_id',$id)->orderby('id','desc')->first();
-        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status'));
+        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status','client_name'));
     }
     public function review_proposal_data(Request $request, $id)
     {
