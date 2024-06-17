@@ -329,7 +329,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             <label for="value_of_opportunity">Value of Opportunity</label>
-                                            <input type="text" name="value_of_opportunity" value="<?php echo e($lead->value_of_opportunity); ?>" placeholder="Enter Value of Opportunity" class="form-control">
+                                            <input type="text" id="value_of_opportunity" name="value_of_opportunity" value="<?php echo e(number_format((float) $lead->value_of_opportunity, 0, '.', ',')); ?>" placeholder="Enter Value of Opportunity" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-6 need_full">
@@ -1026,6 +1026,24 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
         $("[name='shipping_state']").val($("[name='billing_state']").val());
         $("[name='shipping_country']").val($("[name='billing_country']").val());
         $("[name='shipping_postalcode']").val($("[name='billing_postalcode']").val());
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var valueInput = document.getElementById('value_of_opportunity');
+
+        valueInput.addEventListener('keyup', function(e) {
+            var value = e.target.value.replace(/,/g, '');
+            if (!isNaN(value) && value.length > 0) {
+                e.target.value = numberWithCommas(value);
+            } else {
+                e.target.value = '';
+            }
+        });
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
     });
 </script>
 <?php $__env->stopPush(); ?>
