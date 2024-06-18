@@ -56,7 +56,8 @@ $category = explode(',', $settings['campaign_type']);
                 @can('Manage User')
                 <a href="#proposal-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse188')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
-                    <span class="dash-mtext">{{ __('Proposal') }}</span>
+                    <!-- <span class="dash-mtext">{{ __('Proposal') }}</span> -->
+                    <span class="dash-mtext">{{ __('NDA') }}</span>
                 </a>
                 @endcan
                 @can('Manage Role')

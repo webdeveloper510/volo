@@ -56,7 +56,8 @@ $category = explode(',', $settings['campaign_type']);
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                 <a href="#proposal-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse188')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Proposal')); ?></span>
+                    <!-- <span class="dash-mtext"><?php echo e(__('Proposal')); ?></span> -->
+                    <span class="dash-mtext"><?php echo e(__('NDA')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Role')): ?>
