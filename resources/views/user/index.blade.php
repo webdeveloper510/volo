@@ -3,17 +3,17 @@
     {{ __('User') }}
 @endsection
 @section('title')
-    {{ __('Staff') }}
+    {{ __('Team Member') }}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Staff') }}</li>
+    <li class="breadcrumb-item">{{ __('Team Member') }}</li>
 
 @endsection
 @section('action-btn')
     @can('Create User')
         <a href="#" data-url="{{ route('user.create') }}" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip"
-            title="{{ __('Create') }}"data-title="{{ __('Create Staff Member') }}" class="btn btn-sm btn-primary btn-icon">
+            title="{{ __('Create') }}"data-title="{{ __('Create Team Member') }}" class="btn btn-sm btn-primary btn-icon">
             <i class="ti ti-plus"></i>
         </a>
     @endcan

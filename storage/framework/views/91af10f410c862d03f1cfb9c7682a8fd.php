@@ -22,7 +22,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Opportunity Name</th>
-                                                <th>Assign Staff</th>
+                                                <th>Assigned Team Member</th>
                                                 <th>Value of Opportunity</th>
                                                 <th>Currency</th>
                                                 <th>Timing – Close</th>

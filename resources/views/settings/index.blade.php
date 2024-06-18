@@ -762,10 +762,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <div id="user-settings" class="accordion-item  card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse17" aria-expanded="false" aria-controls="collapse17">
-                                                <h5>{{ __('Staff Settings') }}</h5>
+                                                <h5>{{ __('Team Member Settings') }}</h5>
                                                 @can('Create User')
                                                 <div class="action-btn bg-warning ms-2" style="float: inline-end;">
-                                                    <a href="javascript:void(0);" data-url="{{ route('user.create') }}" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{ __('Create Staff') }}" data-title="{{ __('Create Staff Member') }}" class="btn btn-sm btn-primary btn-icon">
+                                                    <a href="javascript:void(0);" data-url="{{ route('user.create') }}" data-size="md" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{ __('Create Team Member') }}" data-title="{{ __('Create Team Member') }}" class="btn btn-sm btn-primary btn-icon">
                                                         <i class="ti ti-plus"></i>
                                                     </a>
                                                 </div>

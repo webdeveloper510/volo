@@ -50,7 +50,7 @@ $category = explode(',', $settings['campaign_type']);
                 @can('Manage User')
                 <a href="#user-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse17')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
-                    <span class="dash-mtext">{{ __('Staff') }}</span>
+                    <span class="dash-mtext">{{ __('Assigned Team Member') }}</span>
                 </a>
                 @endcan
                 @can('Manage User')

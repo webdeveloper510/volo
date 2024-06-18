@@ -14,7 +14,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            {{ Form::label('client_name', __('Staff Name'),['class'=>'form-label']) }}
+            {{ Form::label('client_name', __('Team Member Name'),['class'=>'form-label']) }}
             {{ Form::select('client_name', $client,null, array('class' => 'form-control select2','required'=>'required')) }}
         </div>
     </div>

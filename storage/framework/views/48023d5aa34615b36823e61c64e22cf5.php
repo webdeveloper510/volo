@@ -306,10 +306,10 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                 <div class="row">
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            <?php echo e(Form::label('Assign Staff',__('Assign Staff'),['class'=>'form-label'])); ?>
+                                            <?php echo e(Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label'])); ?>
 
                                             <select class="form-control" name='assign_staff' required>
-                                                <option value="">Select Staff</option>
+                                                <option value="">Select Team Member</option>
                                                 <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <option class="form-control" value="<?php echo e($user->id); ?>" <?php echo e($user->id == $lead->assigned_user ? 'selected' : ''); ?>>
                                                     <?php echo e($user->name); ?> - <?php echo e($user->type); ?>

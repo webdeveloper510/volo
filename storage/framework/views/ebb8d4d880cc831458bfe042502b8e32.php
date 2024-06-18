@@ -21,9 +21,9 @@
         <div id="page-content-wrapper">
             <div class="row">
                 <div class="col-4 mb-4">
-                    <h4>Assigned Staff</h4>
+                    <h4>Assigned Team Member</h4>
                     <select name="assigned_staff" class="form-control">
-                        <option value="" selected disabled>Select Staff</option>
+                        <option value="" selected disabled>Select Team Member</option>
                         <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

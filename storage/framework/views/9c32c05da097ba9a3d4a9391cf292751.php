@@ -50,7 +50,7 @@ $category = explode(',', $settings['campaign_type']);
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                 <a href="#user-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse17')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Staff')); ?></span>
+                    <span class="dash-mtext"><?php echo e(__('Assigned Team Member')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>

@@ -27,7 +27,7 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Staff Member')}}</th>
+                                                <th scope="col" class="sort" data-sort="name">{{__('Assigned Team Member')}}</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

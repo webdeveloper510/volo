@@ -120,7 +120,7 @@ class UserController extends Controller
 
                 $resp = Utility::sendEmailTemplate('new_user', [$user->id => $user->email], $uArr);
 
-                return redirect()->back()->with('success', __('Staff Inserted.'));
+                return redirect()->back()->with('success', __('Team Member Inserted.'));
             } else {
                 $validator = \Validator::make(
                     $request->all(),
@@ -261,7 +261,7 @@ class UserController extends Controller
                     //     }
                     // }
                     if (\Auth::user()) {
-                        return redirect()->back()->with('success', __('Staff created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')).((isset($result) && $result!=1) ? '<br> <span class="text-danger">' . $result . '</span>' : ''));
+                        return redirect()->back()->with('success', __('Team Member created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')).((isset($result) && $result!=1) ? '<br> <span class="text-danger">' . $result . '</span>' : ''));
                     } else {
                         return redirect()->back()->with('error', __('Webhook call failed.') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
                     }
@@ -271,7 +271,7 @@ class UserController extends Controller
                     ];
 
 
-                    return redirect()->back()->with('success', __('Staff  Inserted.'. ((isset($result) && $result!=1) ? '<br> <span class="text-danger">' . $result . '</span>' : '')));
+                    return redirect()->back()->with('success', __('Team Member Inserted.'. ((isset($result) && $result!=1) ? '<br> <span class="text-danger">' . $result . '</span>' : '')));
                 // } else {
                 //     return redirect()->back()->with('error', __('Your staff limit is over, Please upgrade plan.'));
                 // }
@@ -383,7 +383,7 @@ class UserController extends Controller
             // if($userstatus->email_sent == ){
             //     $resp = Utility::sendEmailTemplate('new_user', [$user->id => $user->email], $uArr);
             // }
-            return redirect()->back()->with('success', __('Staff Member Updated.'));
+            return redirect()->back()->with('success', __('Team Member Updated.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -398,7 +398,7 @@ class UserController extends Controller
             $result = Utility::changeStorageLimit(\Auth::user()->creatorId(), $file_path);
             $user->delete();
 
-            return redirect()->back()->with('success', __('Staff Member Deleted.'));
+            return redirect()->back()->with('success', __('Team Member Deleted.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -595,7 +595,7 @@ class UserController extends Controller
 
         return redirect()->route('user.index')->with(
             'success',
-            'Staff Password  updated.'
+            'Team Member Password updated.'
         );
     }
     public function view_docs($id){

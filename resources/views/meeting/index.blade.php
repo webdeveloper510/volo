@@ -41,7 +41,7 @@
                                                 <th scope="col" class="sort" data-sort="completion">{{ __('Trainings') }}
                                                 <span class="opticy"> dddd</span> </th>
                                                 <th scope="col" class="sort" data-sort="completion">
-                                                    {{ __('Assigned Staff') }} <span class="opticy"> dddd</span></th>
+                                                    {{ __('Assigned Team Member') }} <span class="opticy"> dddd</span></th>
                                                 @if (Gate::check('Show Meeting') || Gate::check('Edit Meeting') ||
                                                 Gate::check('Delete Meeting'))
                                                 <th scope="col" class="text-end">{{ __('Action') }} <span class="opticy"> dddd</span></th>

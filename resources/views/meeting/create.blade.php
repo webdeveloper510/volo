@@ -124,7 +124,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             </div>
                                             <div class="col-6 need_full">
                                                 <div class="form-group">
-                                                    {{Form::label('Assigned Staff',__('Assigned Staff'),['class'=>'form-label']) }}
+                                                    {{Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label']) }}
                                                     @foreach($users as $user)
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" name="user[]" value="{{ $user->id }}" id="user_{{ $user->id }}">

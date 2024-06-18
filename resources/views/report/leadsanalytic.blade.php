@@ -149,7 +149,7 @@
                                         dddd</span></th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Time') }} <span class="opticy">
                                         dddd</span></th>
-                                <th scope="col" class="sort" data-sort="name">{{ __('Assigned Staff') }} <span
+                                <th scope="col" class="sort" data-sort="name">{{ __('Assigned Team Member') }} <span
                                         class="opticy"> dddd</span></th>
                                 <th scope="col" class="sort" data-sort="name">{{ __('Rooms required') }} <span
                                         class="opticy"> dddd</span></th>
