@@ -722,9 +722,13 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         <div id="collapse188" class="accordion-collapse collapse" aria-labelledby="heading-2-188" data-bs-parent="#accordionExample">
                                             <div class="accordion-body1">
                                                 {!! Form::open(['method' => 'POST', 'route' => 'buffer.proposal']) !!}
-                                                @php
+                                                <?php
                                                 $proposal = isset($settings['proposal']) ? unserialize($settings['proposal']) : '';
-                                                @endphp
+
+                                                if (is_array($proposal)) {
+                                                    $proposal = implode("\n", $proposal);
+                                                }
+                                                ?>
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="form-group col-sm-6">
