@@ -371,70 +371,119 @@
 
                                     <div id="hardware-one-time-fields" class="additional-product-category card">
                                         <h5>Hardware – One Time</h5>
+
+                                        <?php $__currentLoopData = $hardware_one_time; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $hardware): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_title_hardware_one_time" name="product_title_hardware_one_time[]" placeholder="Product Title">
+                                                    <input type="text" class="form-control" id="product_title_hardware_one_time_<?php echo e($index); ?>" name="product_title_hardware_one_time[]" placeholder="Product Title" value="<?php echo e($hardware['title'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_price_hardware_one_time" name="product_price_hardware_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_price_hardware_one_time_<?php echo e($index); ?>" name="product_price_hardware_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="<?php echo e($hardware['price'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_quantity_hardware_one_time" name="product_quantity_hardware_one_time[]" placeholder="Product Quantity">
+                                                    <input type="text" class="form-control" id="product_quantity_hardware_one_time_<?php echo e($index); ?>" name="product_quantity_hardware_one_time[]" placeholder="Product Quantity" value="<?php echo e($hardware['quantity'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <select name="unit_hardware_one_time[]" id="unit_hardware_one_time" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
+                                                    <select name="unit_hardware_one_time[]" id="unit_hardware_one_time_<?php echo e($index); ?>" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
                                                         <option value="" selected disabled>Select Unit</option>
-                                                        <option value="Spaces">Spaces</option>
-                                                        <option value="Locations">Locations</option>
-                                                        <option value="Count / Quantity">Count / Quantity</option>
-                                                        <option value="Vehicles">Vehicles</option>
-                                                        <option value="Sites">Sites</option>
-                                                        <option value="Chargers">Chargers</option>
-                                                        <option value="Volume">Volume</option>
-                                                        <option value="Transactions Count">Transactions Count</option>
-                                                        <option value="Other">Other</option>
+                                                        <option value="Spaces" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Spaces' ? 'selected' : ''); ?>>Spaces</option>
+                                                        <option value="Locations" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Locations' ? 'selected' : ''); ?>>Locations</option>
+                                                        <option value="Count / Quantity" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Count / Quantity' ? 'selected' : ''); ?>>Count / Quantity</option>
+                                                        <option value="Vehicles" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Vehicles' ? 'selected' : ''); ?>>Vehicles</option>
+                                                        <option value="Sites" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Sites' ? 'selected' : ''); ?>>Sites</option>
+                                                        <option value="Chargers" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Chargers' ? 'selected' : ''); ?>>Chargers</option>
+                                                        <option value="Volume" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Volume' ? 'selected' : ''); ?>>Volume</option>
+                                                        <option value="Transactions Count" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Transactions Count' ? 'selected' : ''); ?>>Transactions Count</option>
+                                                        <option value="Other" <?php echo e(isset($hardware['unit']) && $hardware['unit'] == 'Other' ? 'selected' : ''); ?>>Other</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time_<?php echo e($index); ?>" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="<?php echo e($hardware['opportunity_value'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                                         <div class="col-12 plus-btn">
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
-                                    
+
+
+
                                     <div id="hardware-maintenance-fields" class="additional-product-category card">
                                         <h5>Hardware – Maintenance Contracts</h5>
+
+                                        <?php if($hardware_maintenance): ?>
+                                        <?php $__currentLoopData = $hardware_maintenance; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $maintenance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_title_hardware_maintenance" name="product_title_hardware_maintenance[]" placeholder="Product Title">
+                                                    <input type="text" class="form-control" id="product_title_hardware_maintenance_<?php echo e($index); ?>" name="product_title_hardware_maintenance[]" placeholder="Product Title" value="<?php echo e($maintenance['title'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_price_hardware_maintenance" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_price_hardware_maintenance_<?php echo e($index); ?>" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="<?php echo e($maintenance['price'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_quantity_hardware_maintenance" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity">
+                                                    <input type="text" class="form-control" id="product_quantity_hardware_maintenance_<?php echo e($index); ?>" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity" value="<?php echo e($maintenance['quantity'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
+                                                    <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance_<?php echo e($index); ?>" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
+                                                        <option value="" selected disabled>Select Unit</option>
+                                                        <option value="Spaces" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Spaces' ? 'selected' : ''); ?>>Spaces</option>
+                                                        <option value="Locations" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Locations' ? 'selected' : ''); ?>>Locations</option>
+                                                        <option value="Count / Quantity" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Count / Quantity' ? 'selected' : ''); ?>>Count / Quantity</option>
+                                                        <option value="Vehicles" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Vehicles' ? 'selected' : ''); ?>>Vehicles</option>
+                                                        <option value="Sites" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Sites' ? 'selected' : ''); ?>>Sites</option>
+                                                        <option value="Chargers" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Chargers' ? 'selected' : ''); ?>>Chargers</option>
+                                                        <option value="Volume" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Volume' ? 'selected' : ''); ?>>Volume</option>
+                                                        <option value="Transactions Count" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Transactions Count' ? 'selected' : ''); ?>>Transactions Count</option>
+                                                        <option value="Other" <?php echo e(isset($maintenance['unit']) && $maintenance['unit'] == 'Other' ? 'selected' : ''); ?>>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance_<?php echo e($index); ?>" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="<?php echo e($maintenance['opportunity_value'] ?? ''); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_title_hardware_maintenance_0" name="product_title_hardware_maintenance[]" placeholder="Product Title" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_price_hardware_maintenance_0" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_quantity_hardware_maintenance_0" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance_0" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
                                                         <option value="" selected disabled>Select Unit</option>
                                                         <option value="Spaces">Spaces</option>
                                                         <option value="Locations">Locations</option>
@@ -450,35 +499,82 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance_0" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
+
                                         <div class="col-12 plus-btn">
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
+
+
                                     <div id="software-recurring-fields" class="additional-product-category card">
                                         <h5>Software – Recurring</h5>
+
+                                        <?php if($software_recurring): ?>
+                                        <?php $__currentLoopData = $software_recurring; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $software): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_title_software_recurring" name="product_title_software_recurring[]" placeholder="Product Title">
+                                                    <input type="text" class="form-control" id="product_title_software_recurring_<?php echo e($index); ?>" name="product_title_software_recurring[]" placeholder="Product Title" value="<?php echo e($software['title'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_price_software_recurring" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_price_software_recurring_<?php echo e($index); ?>" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="<?php echo e($software['price'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_quantity_software_recurring" name="product_quantity_software_recurring[]" placeholder="Product Quantity">
+                                                    <input type="text" class="form-control" id="product_quantity_software_recurring_<?php echo e($index); ?>" name="product_quantity_software_recurring[]" placeholder="Product Quantity" value="<?php echo e($software['quantity'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <select name="unit_software_recurring[]" id="unit_software_recurring" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
+                                                    <select name="unit_software_recurring[]" id="unit_software_recurring_<?php echo e($index); ?>" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
+                                                        <option value="" selected disabled>Select Unit</option>
+                                                        <option value="Spaces" <?php echo e(isset($software['unit']) && $software['unit'] == 'Spaces' ? 'selected' : ''); ?>>Spaces</option>
+                                                        <option value="Locations" <?php echo e(isset($software['unit']) && $software['unit'] == 'Locations' ? 'selected' : ''); ?>>Locations</option>
+                                                        <option value="Count / Quantity" <?php echo e(isset($software['unit']) && $software['unit'] == 'Count / Quantity' ? 'selected' : ''); ?>>Count / Quantity</option>
+                                                        <option value="Vehicles" <?php echo e(isset($software['unit']) && $software['unit'] == 'Vehicles' ? 'selected' : ''); ?>>Vehicles</option>
+                                                        <option value="Sites" <?php echo e(isset($software['unit']) && $software['unit'] == 'Sites' ? 'selected' : ''); ?>>Sites</option>
+                                                        <option value="Chargers" <?php echo e(isset($software['unit']) && $software['unit'] == 'Chargers' ? 'selected' : ''); ?>>Chargers</option>
+                                                        <option value="Volume" <?php echo e(isset($software['unit']) && $software['unit'] == 'Volume' ? 'selected' : ''); ?>>Volume</option>
+                                                        <option value="Transactions Count" <?php echo e(isset($software['unit']) && $software['unit'] == 'Transactions Count' ? 'selected' : ''); ?>>Transactions Count</option>
+                                                        <option value="Other" <?php echo e(isset($software['unit']) && $software['unit'] == 'Other' ? 'selected' : ''); ?>>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_software_recurring_<?php echo e($index); ?>" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="<?php echo e($software['opportunity_value'] ?? ''); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_title_software_recurring_0" name="product_title_software_recurring[]" placeholder="Product Title" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_price_software_recurring_0" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_quantity_software_recurring_0" name="product_quantity_software_recurring[]" placeholder="Product Quantity" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="unit_software_recurring[]" id="unit_software_recurring_0" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
                                                         <option value="" selected disabled>Select Unit</option>
                                                         <option value="Spaces">Spaces</option>
                                                         <option value="Locations">Locations</option>
@@ -494,35 +590,82 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_opportunity_value_software_recurring" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_software_recurring_0" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
+
                                         <div class="col-12 plus-btn">
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
+
+
                                     <div id="software-one-time-fields" class="additional-product-category card">
                                         <h5>Software – One Time</h5>
+
+                                        <?php if($software_one_time): ?>
+                                        <?php $__currentLoopData = $software_one_time; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $software): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_title_software_one_time" name="product_title_software_one_time[]" placeholder="Product Title">
+                                                    <input type="text" class="form-control" id="product_title_software_one_time_<?php echo e($index); ?>" name="product_title_software_one_time[]" placeholder="Product Title" value="<?php echo e($software['title'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_price_software_one_time" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_price_software_one_time_<?php echo e($index); ?>" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="<?php echo e($software['price'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_quantity_software_one_time" name="product_quantity_software_one_time[]" placeholder="Product Quantity">
+                                                    <input type="text" class="form-control" id="product_quantity_software_one_time_<?php echo e($index); ?>" name="product_quantity_software_one_time[]" placeholder="Product Quantity" value="<?php echo e($software['quantity'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <select name="unit_software_one_time[]" id="unit_software_one_time" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
+                                                    <select name="unit_software_one_time[]" id="unit_software_one_time_<?php echo e($index); ?>" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
+                                                        <option value="" selected disabled>Select Unit</option>
+                                                        <option value="Spaces" <?php echo e(isset($software['unit']) && $software['unit'] == 'Spaces' ? 'selected' : ''); ?>>Spaces</option>
+                                                        <option value="Locations" <?php echo e(isset($software['unit']) && $software['unit'] == 'Locations' ? 'selected' : ''); ?>>Locations</option>
+                                                        <option value="Count / Quantity" <?php echo e(isset($software['unit']) && $software['unit'] == 'Count / Quantity' ? 'selected' : ''); ?>>Count / Quantity</option>
+                                                        <option value="Vehicles" <?php echo e(isset($software['unit']) && $software['unit'] == 'Vehicles' ? 'selected' : ''); ?>>Vehicles</option>
+                                                        <option value="Sites" <?php echo e(isset($software['unit']) && $software['unit'] == 'Sites' ? 'selected' : ''); ?>>Sites</option>
+                                                        <option value="Chargers" <?php echo e(isset($software['unit']) && $software['unit'] == 'Chargers' ? 'selected' : ''); ?>>Chargers</option>
+                                                        <option value="Volume" <?php echo e(isset($software['unit']) && $software['unit'] == 'Volume' ? 'selected' : ''); ?>>Volume</option>
+                                                        <option value="Transactions Count" <?php echo e(isset($software['unit']) && $software['unit'] == 'Transactions Count' ? 'selected' : ''); ?>>Transactions Count</option>
+                                                        <option value="Other" <?php echo e(isset($software['unit']) && $software['unit'] == 'Other' ? 'selected' : ''); ?>>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_software_one_time_<?php echo e($index); ?>" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="<?php echo e($software['opportunity_value'] ?? ''); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_title_software_one_time_0" name="product_title_software_one_time[]" placeholder="Product Title" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_price_software_one_time_0" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_quantity_software_one_time_0" name="product_quantity_software_one_time[]" placeholder="Product Quantity" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="unit_software_one_time[]" id="unit_software_one_time_0" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
                                                         <option value="" selected disabled>Select Unit</option>
                                                         <option value="Spaces">Spaces</option>
                                                         <option value="Locations">Locations</option>
@@ -538,35 +681,82 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_opportunity_value_software_one_time" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_software_one_time_0" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
+
                                         <div class="col-12 plus-btn">
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
+
+
                                     <div id="systems-integrations-fields" class="additional-product-category card">
                                         <h5>Systems Integrations</h5>
+
+                                        <?php if($systems_integrations): ?>
+                                        <?php $__currentLoopData = $systems_integrations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $integration): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_title_systems_integrations" name="product_title_systems_integrations[]" placeholder="Product Title">
+                                                    <input type="text" class="form-control" id="product_title_systems_integrations_<?php echo e($index); ?>" name="product_title_systems_integrations[]" placeholder="Product Title" value="<?php echo e($integration['title'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_price_systems_integrations" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_price_systems_integrations_<?php echo e($index); ?>" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="<?php echo e($integration['price'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_quantity_systems_integrations" name="product_quantity_systems_integrations[]" placeholder="Product Quantity">
+                                                    <input type="text" class="form-control" id="product_quantity_systems_integrations_<?php echo e($index); ?>" name="product_quantity_systems_integrations[]" placeholder="Product Quantity" value="<?php echo e($integration['quantity'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <select name="unit_systems_integrations[]" id="unit_systems_integrations" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
+                                                    <select name="unit_systems_integrations[]" id="unit_systems_integrations_<?php echo e($index); ?>" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
+                                                        <option value="" selected disabled>Select Unit</option>
+                                                        <option value="Spaces" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Spaces' ? 'selected' : ''); ?>>Spaces</option>
+                                                        <option value="Locations" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Locations' ? 'selected' : ''); ?>>Locations</option>
+                                                        <option value="Count / Quantity" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Count / Quantity' ? 'selected' : ''); ?>>Count / Quantity</option>
+                                                        <option value="Vehicles" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Vehicles' ? 'selected' : ''); ?>>Vehicles</option>
+                                                        <option value="Sites" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Sites' ? 'selected' : ''); ?>>Sites</option>
+                                                        <option value="Chargers" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Chargers' ? 'selected' : ''); ?>>Chargers</option>
+                                                        <option value="Volume" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Volume' ? 'selected' : ''); ?>>Volume</option>
+                                                        <option value="Transactions Count" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Transactions Count' ? 'selected' : ''); ?>>Transactions Count</option>
+                                                        <option value="Other" <?php echo e(isset($integration['unit']) && $integration['unit'] == 'Other' ? 'selected' : ''); ?>>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_systems_integrations_<?php echo e($index); ?>" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="<?php echo e($integration['opportunity_value'] ?? ''); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_title_systems_integrations_0" name="product_title_systems_integrations[]" placeholder="Product Title" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_price_systems_integrations_0" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_quantity_systems_integrations_0" name="product_quantity_systems_integrations[]" placeholder="Product Quantity" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="unit_systems_integrations[]" id="unit_systems_integrations_0" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
                                                         <option value="" selected disabled>Select Unit</option>
                                                         <option value="Spaces">Spaces</option>
                                                         <option value="Locations">Locations</option>
@@ -582,35 +772,82 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_opportunity_value_systems_integrations" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_systems_integrations_0" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
+
                                         <div class="col-12 plus-btn">
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
+
+
                                     <div id="subscriptions-fields" class="additional-product-category card">
                                         <h5>Subscriptions</h5>
+
+                                        <?php if($subscriptions): ?>
+                                        <?php $__currentLoopData = $subscriptions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $subscription): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_title_subscriptions" name="product_title_subscriptions[]" placeholder="Product Title">
+                                                    <input type="text" class="form-control" id="product_title_subscriptions_<?php echo e($index); ?>" name="product_title_subscriptions[]" placeholder="Product Title" value="<?php echo e($subscription['title'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_price_subscriptions" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_price_subscriptions_<?php echo e($index); ?>" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="<?php echo e($subscription['price'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_quantity_subscriptions" name="product_quantity_subscriptions[]" placeholder="Product Quantity">
+                                                    <input type="text" class="form-control" id="product_quantity_subscriptions_<?php echo e($index); ?>" name="product_quantity_subscriptions[]" placeholder="Product Quantity" value="<?php echo e($subscription['quantity'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <select name="unit_subscriptions[]" id="unit_subscriptions" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
+                                                    <select name="unit_subscriptions[]" id="unit_subscriptions_<?php echo e($index); ?>" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
+                                                        <option value="" selected disabled>Select Unit</option>
+                                                        <option value="Spaces" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Spaces' ? 'selected' : ''); ?>>Spaces</option>
+                                                        <option value="Locations" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Locations' ? 'selected' : ''); ?>>Locations</option>
+                                                        <option value="Count / Quantity" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Count / Quantity' ? 'selected' : ''); ?>>Count / Quantity</option>
+                                                        <option value="Vehicles" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Vehicles' ? 'selected' : ''); ?>>Vehicles</option>
+                                                        <option value="Sites" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Sites' ? 'selected' : ''); ?>>Sites</option>
+                                                        <option value="Chargers" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Chargers' ? 'selected' : ''); ?>>Chargers</option>
+                                                        <option value="Volume" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Volume' ? 'selected' : ''); ?>>Volume</option>
+                                                        <option value="Transactions Count" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Transactions Count' ? 'selected' : ''); ?>>Transactions Count</option>
+                                                        <option value="Other" <?php echo e(isset($subscription['unit']) && $subscription['unit'] == 'Other' ? 'selected' : ''); ?>>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_subscriptions_<?php echo e($index); ?>" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="<?php echo e($subscription['opportunity_value'] ?? ''); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_title_subscriptions_0" name="product_title_subscriptions[]" placeholder="Product Title" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_price_subscriptions_0" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_quantity_subscriptions_0" name="product_quantity_subscriptions[]" placeholder="Product Quantity" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="unit_subscriptions[]" id="unit_subscriptions_0" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
                                                         <option value="" selected disabled>Select Unit</option>
                                                         <option value="Spaces">Spaces</option>
                                                         <option value="Locations">Locations</option>
@@ -626,35 +863,82 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_opportunity_value_subscriptions" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_subscriptions_0" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
+
                                         <div class="col-12 plus-btn">
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
+
+
                                     <div id="tech-deployment-fields" class="additional-product-category card">
                                         <h5>Tech Deployment – Volume based</h5>
+
+                                        <?php if($tech_deployment_volume_based): ?>
+                                        <?php $__currentLoopData = $tech_deployment_volume_based; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $tech_deployment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_title_tech_deployment" name="product_title_tech_deployment[]" placeholder="Product Title">
+                                                    <input type="text" class="form-control" id="product_title_tech_deployment_<?php echo e($index); ?>" name="product_title_tech_deployment[]" placeholder="Product Title" value="<?php echo e($tech_deployment['title'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_price_tech_deployment" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_price_tech_deployment_<?php echo e($index); ?>" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="<?php echo e($tech_deployment['price'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_quantity_tech_deployment" name="product_quantity_tech_deployment[]" placeholder="Product Quantity">
+                                                    <input type="text" class="form-control" id="product_quantity_tech_deployment_<?php echo e($index); ?>" name="product_quantity_tech_deployment[]" placeholder="Product Quantity" value="<?php echo e($tech_deployment['quantity'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <select name="unit_tech_deployment[]" id="unit_tech_deployment" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
+                                                    <select name="unit_tech_deployment[]" id="unit_tech_deployment_<?php echo e($index); ?>" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
+                                                        <option value="" selected disabled>Select Unit</option>
+                                                        <option value="Spaces" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Spaces' ? 'selected' : ''); ?>>Spaces</option>
+                                                        <option value="Locations" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Locations' ? 'selected' : ''); ?>>Locations</option>
+                                                        <option value="Count / Quantity" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Count / Quantity' ? 'selected' : ''); ?>>Count / Quantity</option>
+                                                        <option value="Vehicles" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Vehicles' ? 'selected' : ''); ?>>Vehicles</option>
+                                                        <option value="Sites" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Sites' ? 'selected' : ''); ?>>Sites</option>
+                                                        <option value="Chargers" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Chargers' ? 'selected' : ''); ?>>Chargers</option>
+                                                        <option value="Volume" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Volume' ? 'selected' : ''); ?>>Volume</option>
+                                                        <option value="Transactions Count" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Transactions Count' ? 'selected' : ''); ?>>Transactions Count</option>
+                                                        <option value="Other" <?php echo e(isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Other' ? 'selected' : ''); ?>>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_tech_deployment_<?php echo e($index); ?>" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="<?php echo e($tech_deployment['opportunity_value'] ?? ''); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_title_tech_deployment_0" name="product_title_tech_deployment[]" placeholder="Product Title" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_price_tech_deployment_0" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="product_quantity_tech_deployment_0" name="product_quantity_tech_deployment[]" placeholder="Product Quantity" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="unit_tech_deployment[]" id="unit_tech_deployment_0" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
                                                         <option value="" selected disabled>Select Unit</option>
                                                         <option value="Spaces">Spaces</option>
                                                         <option value="Locations">Locations</option>
@@ -670,14 +954,17 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="product_opportunity_value_tech_deployment" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                    <input type="text" class="form-control" id="product_opportunity_value_tech_deployment_0" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
+
                                         <div class="col-12 plus-btn">
                                             <i class="fas fa-plus clone-btn"></i>
                                         </div>
                                     </div>
+
 
                                     <!--   <div class="col-6 need_full">
                                         <div class="form-group intl-tel-input">

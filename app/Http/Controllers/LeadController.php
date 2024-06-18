@@ -427,7 +427,21 @@ class LeadController extends Controller
                     $client_name = '';
                 }
             }
-            return view('lead.edit', compact('venue_function', 'function_package', 'lead', 'users', 'status','client_name'));
+
+            // Decode the JSON strings
+            $hardware_one_time = json_decode($lead['hardware_one_time'], true);
+            $hardware_maintenance = json_decode($lead['hardware_maintenance'], true);
+            $software_recurring = json_decode($lead['software_recurring'], true);
+            $software_one_time = json_decode($lead['software_one_time'], true);
+            $systems_integrations = json_decode($lead['systems_integrations'], true);
+            $subscriptions = json_decode($lead['subscriptions'], true);
+            $tech_deployment_volume_based = json_decode($lead['tech_deployment_volume_based'], true);
+
+            // echo "<pre>";
+            // print_r($software_one_time);
+            // die;
+
+            return view('lead.edit', compact('venue_function', 'function_package', 'lead', 'users', 'status', 'client_name', 'hardware_one_time', 'hardware_maintenance', 'software_recurring', 'software_one_time', 'systems_integrations', 'subscriptions', 'tech_deployment_volume_based'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -1112,12 +1126,25 @@ class LeadController extends Controller
             }
         }
 
+        // Decode the JSON strings
+        $hardware_one_time = json_decode($lead['hardware_one_time'], true);
+        $hardware_maintenance = json_decode($lead['hardware_maintenance'], true);
+        $software_recurring = json_decode($lead['software_recurring'], true);
+        $software_one_time = json_decode($lead['software_one_time'], true);
+        $systems_integrations = json_decode($lead['systems_integrations'], true);
+        $subscriptions = json_decode($lead['subscriptions'], true);
+        $tech_deployment_volume_based = json_decode($lead['tech_deployment_volume_based'], true);
+
+        // echo "<pre>";
+        // print_r($software_one_time);
+        // die;
+
+
         $venue_function = explode(',', $lead->venue_selection);
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
         $users     = User::where('created_by', \Auth::user()->creatorId())->get();
-        // $proposal = ProposalInfo::where('lead_id',$id)->orderby('id','desc')->first();
-        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status', 'client_name'));
+        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status', 'client_name', 'hardware_one_time', 'hardware_maintenance', 'software_recurring', 'software_one_time', 'systems_integrations', 'subscriptions', 'tech_deployment_volume_based'));
     }
     public function review_proposal_data(Request $request, $id)
     {

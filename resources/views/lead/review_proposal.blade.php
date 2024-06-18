@@ -447,69 +447,119 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                 <div id="hardware-one-time-fields" class="additional-product-category card">
                                     <h5>Hardware – One Time</h5>
+
+                                    @foreach($hardware_one_time as $index => $hardware)
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_title_hardware_one_time" name="product_title_hardware_one_time[]" placeholder="Product Title">
+                                                <input type="text" class="form-control" id="product_title_hardware_one_time_{{ $index }}" name="product_title_hardware_one_time[]" placeholder="Product Title" value="{{ $hardware['title'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_price_hardware_one_time" name="product_price_hardware_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_price_hardware_one_time_{{ $index }}" name="product_price_hardware_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="{{ $hardware['price'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_quantity_hardware_one_time" name="product_quantity_hardware_one_time[]" placeholder="Product Quantity">
+                                                <input type="text" class="form-control" id="product_quantity_hardware_one_time_{{ $index }}" name="product_quantity_hardware_one_time[]" placeholder="Product Quantity" value="{{ $hardware['quantity'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <select name="unit_hardware_one_time[]" id="unit_hardware_one_time" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
+                                                <select name="unit_hardware_one_time[]" id="unit_hardware_one_time_{{ $index }}" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
                                                     <option value="" selected disabled>Select Unit</option>
-                                                    <option value="Spaces">Spaces</option>
-                                                    <option value="Locations">Locations</option>
-                                                    <option value="Count / Quantity">Count / Quantity</option>
-                                                    <option value="Vehicles">Vehicles</option>
-                                                    <option value="Sites">Sites</option>
-                                                    <option value="Chargers">Chargers</option>
-                                                    <option value="Volume">Volume</option>
-                                                    <option value="Transactions Count">Transactions Count</option>
-                                                    <option value="Other">Other</option>
+                                                    <option value="Spaces" {{ isset($hardware['unit']) && $hardware['unit'] == 'Spaces' ? 'selected' : '' }}>Spaces</option>
+                                                    <option value="Locations" {{ isset($hardware['unit']) && $hardware['unit'] == 'Locations' ? 'selected' : '' }}>Locations</option>
+                                                    <option value="Count / Quantity" {{ isset($hardware['unit']) && $hardware['unit'] == 'Count / Quantity' ? 'selected' : '' }}>Count / Quantity</option>
+                                                    <option value="Vehicles" {{ isset($hardware['unit']) && $hardware['unit'] == 'Vehicles' ? 'selected' : '' }}>Vehicles</option>
+                                                    <option value="Sites" {{ isset($hardware['unit']) && $hardware['unit'] == 'Sites' ? 'selected' : '' }}>Sites</option>
+                                                    <option value="Chargers" {{ isset($hardware['unit']) && $hardware['unit'] == 'Chargers' ? 'selected' : '' }}>Chargers</option>
+                                                    <option value="Volume" {{ isset($hardware['unit']) && $hardware['unit'] == 'Volume' ? 'selected' : '' }}>Volume</option>
+                                                    <option value="Transactions Count" {{ isset($hardware['unit']) && $hardware['unit'] == 'Transactions Count' ? 'selected' : '' }}>Transactions Count</option>
+                                                    <option value="Other" {{ isset($hardware['unit']) && $hardware['unit'] == 'Other' ? 'selected' : '' }}>Other</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time_{{ $index }}" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="{{ $hardware['opportunity_value'] ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
+                                    @endforeach
+
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
                                     </div>
                                 </div>
+
+
+
                                 <div id="hardware-maintenance-fields" class="additional-product-category card">
                                     <h5>Hardware – Maintenance Contracts</h5>
+
+                                    @if($hardware_maintenance)
+                                    @foreach($hardware_maintenance as $index => $maintenance)
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_title_hardware_maintenance" name="product_title_hardware_maintenance[]" placeholder="Product Title">
+                                                <input type="text" class="form-control" id="product_title_hardware_maintenance_{{ $index }}" name="product_title_hardware_maintenance[]" placeholder="Product Title" value="{{ $maintenance['title'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_price_hardware_maintenance" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_price_hardware_maintenance_{{ $index }}" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="{{ $maintenance['price'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_quantity_hardware_maintenance" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity">
+                                                <input type="text" class="form-control" id="product_quantity_hardware_maintenance_{{ $index }}" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity" value="{{ $maintenance['quantity'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
+                                                <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance_{{ $index }}" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Spaces' ? 'selected' : '' }}>Spaces</option>
+                                                    <option value="Locations" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Locations' ? 'selected' : '' }}>Locations</option>
+                                                    <option value="Count / Quantity" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Count / Quantity' ? 'selected' : '' }}>Count / Quantity</option>
+                                                    <option value="Vehicles" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Vehicles' ? 'selected' : '' }}>Vehicles</option>
+                                                    <option value="Sites" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Sites' ? 'selected' : '' }}>Sites</option>
+                                                    <option value="Chargers" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Chargers' ? 'selected' : '' }}>Chargers</option>
+                                                    <option value="Volume" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Volume' ? 'selected' : '' }}>Volume</option>
+                                                    <option value="Transactions Count" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Transactions Count' ? 'selected' : '' }}>Transactions Count</option>
+                                                    <option value="Other" {{ isset($maintenance['unit']) && $maintenance['unit'] == 'Other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance_{{ $index }}" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="{{ $maintenance['opportunity_value'] ?? '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_hardware_maintenance_0" name="product_title_hardware_maintenance[]" placeholder="Product Title" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_hardware_maintenance_0" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_hardware_maintenance_0" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance_0" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
                                                     <option value="" selected disabled>Select Unit</option>
                                                     <option value="Spaces">Spaces</option>
                                                     <option value="Locations">Locations</option>
@@ -525,35 +575,82 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance_0" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
                                     </div>
                                 </div>
+
+
                                 <div id="software-recurring-fields" class="additional-product-category card">
                                     <h5>Software – Recurring</h5>
+
+                                    @if($software_recurring)
+                                    @foreach($software_recurring as $index => $software)
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_title_software_recurring" name="product_title_software_recurring[]" placeholder="Product Title">
+                                                <input type="text" class="form-control" id="product_title_software_recurring_{{ $index }}" name="product_title_software_recurring[]" placeholder="Product Title" value="{{ $software['title'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_price_software_recurring" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_price_software_recurring_{{ $index }}" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="{{ $software['price'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_quantity_software_recurring" name="product_quantity_software_recurring[]" placeholder="Product Quantity">
+                                                <input type="text" class="form-control" id="product_quantity_software_recurring_{{ $index }}" name="product_quantity_software_recurring[]" placeholder="Product Quantity" value="{{ $software['quantity'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <select name="unit_software_recurring[]" id="unit_software_recurring" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
+                                                <select name="unit_software_recurring[]" id="unit_software_recurring_{{ $index }}" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces" {{ isset($software['unit']) && $software['unit'] == 'Spaces' ? 'selected' : '' }}>Spaces</option>
+                                                    <option value="Locations" {{ isset($software['unit']) && $software['unit'] == 'Locations' ? 'selected' : '' }}>Locations</option>
+                                                    <option value="Count / Quantity" {{ isset($software['unit']) && $software['unit'] == 'Count / Quantity' ? 'selected' : '' }}>Count / Quantity</option>
+                                                    <option value="Vehicles" {{ isset($software['unit']) && $software['unit'] == 'Vehicles' ? 'selected' : '' }}>Vehicles</option>
+                                                    <option value="Sites" {{ isset($software['unit']) && $software['unit'] == 'Sites' ? 'selected' : '' }}>Sites</option>
+                                                    <option value="Chargers" {{ isset($software['unit']) && $software['unit'] == 'Chargers' ? 'selected' : '' }}>Chargers</option>
+                                                    <option value="Volume" {{ isset($software['unit']) && $software['unit'] == 'Volume' ? 'selected' : '' }}>Volume</option>
+                                                    <option value="Transactions Count" {{ isset($software['unit']) && $software['unit'] == 'Transactions Count' ? 'selected' : '' }}>Transactions Count</option>
+                                                    <option value="Other" {{ isset($software['unit']) && $software['unit'] == 'Other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_software_recurring_{{ $index }}" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="{{ $software['opportunity_value'] ?? '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_software_recurring_0" name="product_title_software_recurring[]" placeholder="Product Title" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_software_recurring_0" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_software_recurring_0" name="product_quantity_software_recurring[]" placeholder="Product Quantity" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_software_recurring[]" id="unit_software_recurring_0" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
                                                     <option value="" selected disabled>Select Unit</option>
                                                     <option value="Spaces">Spaces</option>
                                                     <option value="Locations">Locations</option>
@@ -569,35 +666,82 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_opportunity_value_software_recurring" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_opportunity_value_software_recurring_0" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
                                     </div>
                                 </div>
+
+
                                 <div id="software-one-time-fields" class="additional-product-category card">
                                     <h5>Software – One Time</h5>
+
+                                    @if($software_one_time)
+                                    @foreach($software_one_time as $index => $software)
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_title_software_one_time" name="product_title_software_one_time[]" placeholder="Product Title">
+                                                <input type="text" class="form-control" id="product_title_software_one_time_{{ $index }}" name="product_title_software_one_time[]" placeholder="Product Title" value="{{ $software['title'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_price_software_one_time" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_price_software_one_time_{{ $index }}" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="{{ $software['price'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_quantity_software_one_time" name="product_quantity_software_one_time[]" placeholder="Product Quantity">
+                                                <input type="text" class="form-control" id="product_quantity_software_one_time_{{ $index }}" name="product_quantity_software_one_time[]" placeholder="Product Quantity" value="{{ $software['quantity'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <select name="unit_software_one_time[]" id="unit_software_one_time" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
+                                                <select name="unit_software_one_time[]" id="unit_software_one_time_{{ $index }}" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces" {{ isset($software['unit']) && $software['unit'] == 'Spaces' ? 'selected' : '' }}>Spaces</option>
+                                                    <option value="Locations" {{ isset($software['unit']) && $software['unit'] == 'Locations' ? 'selected' : '' }}>Locations</option>
+                                                    <option value="Count / Quantity" {{ isset($software['unit']) && $software['unit'] == 'Count / Quantity' ? 'selected' : '' }}>Count / Quantity</option>
+                                                    <option value="Vehicles" {{ isset($software['unit']) && $software['unit'] == 'Vehicles' ? 'selected' : '' }}>Vehicles</option>
+                                                    <option value="Sites" {{ isset($software['unit']) && $software['unit'] == 'Sites' ? 'selected' : '' }}>Sites</option>
+                                                    <option value="Chargers" {{ isset($software['unit']) && $software['unit'] == 'Chargers' ? 'selected' : '' }}>Chargers</option>
+                                                    <option value="Volume" {{ isset($software['unit']) && $software['unit'] == 'Volume' ? 'selected' : '' }}>Volume</option>
+                                                    <option value="Transactions Count" {{ isset($software['unit']) && $software['unit'] == 'Transactions Count' ? 'selected' : '' }}>Transactions Count</option>
+                                                    <option value="Other" {{ isset($software['unit']) && $software['unit'] == 'Other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_software_one_time_{{ $index }}" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="{{ $software['opportunity_value'] ?? '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_software_one_time_0" name="product_title_software_one_time[]" placeholder="Product Title" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_software_one_time_0" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_software_one_time_0" name="product_quantity_software_one_time[]" placeholder="Product Quantity" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_software_one_time[]" id="unit_software_one_time_0" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
                                                     <option value="" selected disabled>Select Unit</option>
                                                     <option value="Spaces">Spaces</option>
                                                     <option value="Locations">Locations</option>
@@ -613,35 +757,82 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_opportunity_value_software_one_time" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_opportunity_value_software_one_time_0" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
                                     </div>
                                 </div>
+
+
                                 <div id="systems-integrations-fields" class="additional-product-category card">
                                     <h5>Systems Integrations</h5>
+
+                                    @if($systems_integrations)
+                                    @foreach($systems_integrations as $index => $integration)
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_title_systems_integrations" name="product_title_systems_integrations[]" placeholder="Product Title">
+                                                <input type="text" class="form-control" id="product_title_systems_integrations_{{ $index }}" name="product_title_systems_integrations[]" placeholder="Product Title" value="{{ $integration['title'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_price_systems_integrations" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_price_systems_integrations_{{ $index }}" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="{{ $integration['price'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_quantity_systems_integrations" name="product_quantity_systems_integrations[]" placeholder="Product Quantity">
+                                                <input type="text" class="form-control" id="product_quantity_systems_integrations_{{ $index }}" name="product_quantity_systems_integrations[]" placeholder="Product Quantity" value="{{ $integration['quantity'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <select name="unit_systems_integrations[]" id="unit_systems_integrations" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
+                                                <select name="unit_systems_integrations[]" id="unit_systems_integrations_{{ $index }}" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces" {{ isset($integration['unit']) && $integration['unit'] == 'Spaces' ? 'selected' : '' }}>Spaces</option>
+                                                    <option value="Locations" {{ isset($integration['unit']) && $integration['unit'] == 'Locations' ? 'selected' : '' }}>Locations</option>
+                                                    <option value="Count / Quantity" {{ isset($integration['unit']) && $integration['unit'] == 'Count / Quantity' ? 'selected' : '' }}>Count / Quantity</option>
+                                                    <option value="Vehicles" {{ isset($integration['unit']) && $integration['unit'] == 'Vehicles' ? 'selected' : '' }}>Vehicles</option>
+                                                    <option value="Sites" {{ isset($integration['unit']) && $integration['unit'] == 'Sites' ? 'selected' : '' }}>Sites</option>
+                                                    <option value="Chargers" {{ isset($integration['unit']) && $integration['unit'] == 'Chargers' ? 'selected' : '' }}>Chargers</option>
+                                                    <option value="Volume" {{ isset($integration['unit']) && $integration['unit'] == 'Volume' ? 'selected' : '' }}>Volume</option>
+                                                    <option value="Transactions Count" {{ isset($integration['unit']) && $integration['unit'] == 'Transactions Count' ? 'selected' : '' }}>Transactions Count</option>
+                                                    <option value="Other" {{ isset($integration['unit']) && $integration['unit'] == 'Other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_systems_integrations_{{ $index }}" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="{{ $integration['opportunity_value'] ?? '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_systems_integrations_0" name="product_title_systems_integrations[]" placeholder="Product Title" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_systems_integrations_0" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_systems_integrations_0" name="product_quantity_systems_integrations[]" placeholder="Product Quantity" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_systems_integrations[]" id="unit_systems_integrations_0" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
                                                     <option value="" selected disabled>Select Unit</option>
                                                     <option value="Spaces">Spaces</option>
                                                     <option value="Locations">Locations</option>
@@ -657,35 +848,82 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_opportunity_value_systems_integrations" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_opportunity_value_systems_integrations_0" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
                                     </div>
                                 </div>
+
+
                                 <div id="subscriptions-fields" class="additional-product-category card">
                                     <h5>Subscriptions</h5>
+
+                                    @if($subscriptions)
+                                    @foreach($subscriptions as $index => $subscription)
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_title_subscriptions" name="product_title_subscriptions[]" placeholder="Product Title">
+                                                <input type="text" class="form-control" id="product_title_subscriptions_{{ $index }}" name="product_title_subscriptions[]" placeholder="Product Title" value="{{ $subscription['title'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_price_subscriptions" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_price_subscriptions_{{ $index }}" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="{{ $subscription['price'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_quantity_subscriptions" name="product_quantity_subscriptions[]" placeholder="Product Quantity">
+                                                <input type="text" class="form-control" id="product_quantity_subscriptions_{{ $index }}" name="product_quantity_subscriptions[]" placeholder="Product Quantity" value="{{ $subscription['quantity'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <select name="unit_subscriptions[]" id="unit_subscriptions" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
+                                                <select name="unit_subscriptions[]" id="unit_subscriptions_{{ $index }}" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces" {{ isset($subscription['unit']) && $subscription['unit'] == 'Spaces' ? 'selected' : '' }}>Spaces</option>
+                                                    <option value="Locations" {{ isset($subscription['unit']) && $subscription['unit'] == 'Locations' ? 'selected' : '' }}>Locations</option>
+                                                    <option value="Count / Quantity" {{ isset($subscription['unit']) && $subscription['unit'] == 'Count / Quantity' ? 'selected' : '' }}>Count / Quantity</option>
+                                                    <option value="Vehicles" {{ isset($subscription['unit']) && $subscription['unit'] == 'Vehicles' ? 'selected' : '' }}>Vehicles</option>
+                                                    <option value="Sites" {{ isset($subscription['unit']) && $subscription['unit'] == 'Sites' ? 'selected' : '' }}>Sites</option>
+                                                    <option value="Chargers" {{ isset($subscription['unit']) && $subscription['unit'] == 'Chargers' ? 'selected' : '' }}>Chargers</option>
+                                                    <option value="Volume" {{ isset($subscription['unit']) && $subscription['unit'] == 'Volume' ? 'selected' : '' }}>Volume</option>
+                                                    <option value="Transactions Count" {{ isset($subscription['unit']) && $subscription['unit'] == 'Transactions Count' ? 'selected' : '' }}>Transactions Count</option>
+                                                    <option value="Other" {{ isset($subscription['unit']) && $subscription['unit'] == 'Other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_subscriptions_{{ $index }}" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="{{ $subscription['opportunity_value'] ?? '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_subscriptions_0" name="product_title_subscriptions[]" placeholder="Product Title" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_subscriptions_0" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_subscriptions_0" name="product_quantity_subscriptions[]" placeholder="Product Quantity" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_subscriptions[]" id="unit_subscriptions_0" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
                                                     <option value="" selected disabled>Select Unit</option>
                                                     <option value="Spaces">Spaces</option>
                                                     <option value="Locations">Locations</option>
@@ -701,35 +939,82 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_opportunity_value_subscriptions" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_opportunity_value_subscriptions_0" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
                                     </div>
                                 </div>
+
+
                                 <div id="tech-deployment-fields" class="additional-product-category card">
                                     <h5>Tech Deployment – Volume based</h5>
+
+                                    @if($tech_deployment_volume_based)
+                                    @foreach($tech_deployment_volume_based as $index => $tech_deployment)
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_title_tech_deployment" name="product_title_tech_deployment[]" placeholder="Product Title">
+                                                <input type="text" class="form-control" id="product_title_tech_deployment_{{ $index }}" name="product_title_tech_deployment[]" placeholder="Product Title" value="{{ $tech_deployment['title'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_price_tech_deployment" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_price_tech_deployment_{{ $index }}" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="{{ $tech_deployment['price'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_quantity_tech_deployment" name="product_quantity_tech_deployment[]" placeholder="Product Quantity">
+                                                <input type="text" class="form-control" id="product_quantity_tech_deployment_{{ $index }}" name="product_quantity_tech_deployment[]" placeholder="Product Quantity" value="{{ $tech_deployment['quantity'] ?? '' }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <select name="unit_tech_deployment[]" id="unit_tech_deployment" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
+                                                <select name="unit_tech_deployment[]" id="unit_tech_deployment_{{ $index }}" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Spaces' ? 'selected' : '' }}>Spaces</option>
+                                                    <option value="Locations" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Locations' ? 'selected' : '' }}>Locations</option>
+                                                    <option value="Count / Quantity" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Count / Quantity' ? 'selected' : '' }}>Count / Quantity</option>
+                                                    <option value="Vehicles" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Vehicles' ? 'selected' : '' }}>Vehicles</option>
+                                                    <option value="Sites" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Sites' ? 'selected' : '' }}>Sites</option>
+                                                    <option value="Chargers" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Chargers' ? 'selected' : '' }}>Chargers</option>
+                                                    <option value="Volume" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Volume' ? 'selected' : '' }}>Volume</option>
+                                                    <option value="Transactions Count" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Transactions Count' ? 'selected' : '' }}>Transactions Count</option>
+                                                    <option value="Other" {{ isset($tech_deployment['unit']) && $tech_deployment['unit'] == 'Other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_tech_deployment_{{ $index }}" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="{{ $tech_deployment['opportunity_value'] ?? '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_tech_deployment_0" name="product_title_tech_deployment[]" placeholder="Product Title" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_tech_deployment_0" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_tech_deployment_0" name="product_quantity_tech_deployment[]" placeholder="Product Quantity" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_tech_deployment[]" id="unit_tech_deployment_0" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
                                                     <option value="" selected disabled>Select Unit</option>
                                                     <option value="Spaces">Spaces</option>
                                                     <option value="Locations">Locations</option>
@@ -745,10 +1030,12 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="product_opportunity_value_tech_deployment" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                                                <input type="text" class="form-control" id="product_opportunity_value_tech_deployment_0" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
                                     </div>
