@@ -191,6 +191,10 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         color: #51459d;
         border-color: #51459d !important;
     }
+
+    .textarea-height {
+        height: 200px;       
+    }
 </style>
 <?php endif; ?>
 <?php if($color == 'theme-2'): ?>
@@ -774,7 +778,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="form-group col-sm-6">
-                                                            <textarea name="nda_text" class="form-control" id="nda_text"><?php echo e($proposal); ?></textarea>
+                                                            <textarea name="nda_text" class="form-control" id="nda_text" style="height: 300px;"><?php echo e($proposal); ?></textarea>
                                                         </div>
 
                                                         <div class="col-sm-12">
