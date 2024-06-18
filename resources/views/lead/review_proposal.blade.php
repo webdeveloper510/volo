@@ -447,7 +447,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
                                 <div id="hardware-one-time-fields" class="additional-product-category card">
                                     <h5>Hardware – One Time</h5>
-
+                                    @if($hardware_one_time)
                                     @foreach($hardware_one_time as $index => $hardware)
                                     <div class="row">
                                         <div class="col-6">
@@ -488,6 +488,46 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                         </div>
                                     </div>
                                     @endforeach
+                                    @else
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_title_hardware_one_time" name="product_title_hardware_one_time[]" placeholder="Product Title" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_price_hardware_one_time" name="product_price_hardware_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="product_quantity_hardware_one_time" name="product_quantity_hardware_one_time[]" placeholder="Product Quantity" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <select name="unit_hardware_one_time[]" id="unit_hardware_one_time" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
+                                                    <option value="" selected disabled>Select Unit</option>
+                                                    <option value="Spaces">Spaces</option>
+                                                    <option value="Locations">Locations</option>
+                                                    <option value="Count / Quantity">Count / Quantity</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Sites">Sites</option>
+                                                    <option value="Chargers">Chargers</option>
+                                                    <option value="Volume">Volume</option>
+                                                    <option value="Transactions Count">Transactions Count</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                         <div class="form-group">
+                                                <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
 
                                     <div class="col-12 plus-btn">
                                         <i class="fas fa-plus clone-btn"></i>
