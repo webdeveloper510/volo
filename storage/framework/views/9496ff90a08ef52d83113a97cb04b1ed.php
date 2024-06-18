@@ -32,7 +32,7 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort"><?php echo e(__('Company Name')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="company_name"><?php echo e(__('Company Name')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="primary_name"><?php echo e(__('Primary Contact')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="primary_email"><?php echo e(__('Email')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Phone Number')); ?> <span class="opticy"> </span></th>
@@ -45,11 +45,14 @@
                                         <tbody>
                                             <?php $__currentLoopData = $importedcustomers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customers): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><?php echo e(ucfirst($customers->company_name)); ?></td>
                                                 <td>
                                                     <a href="<?php echo e(route('customer.info',urlencode(encrypt($customers->id)))); ?>" title="<?php echo e(__('Client Details')); ?>" class="action-item text-primary" style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($customers->primary_name)); ?></b>
+                                                        <?php echo e(ucfirst($customers->company_name)); ?>
+
                                                     </a>
+                                                </td>
+                                                <td>
+                                                    <b> <?php echo e(ucfirst($customers->primary_name)); ?></b>
                                                 </td>
                                                 <td><?php echo e(ucfirst($customers->primary_email)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->primary_phone_number)); ?></td>

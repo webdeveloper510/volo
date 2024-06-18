@@ -31,7 +31,7 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort">{{__('Company Name')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="company_name">{{__('Company Name')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="primary_name">{{__('Primary Contact')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="primary_email">{{__('Email')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort">{{__('Phone Number')}} <span class="opticy"> </span></th>
@@ -44,11 +44,13 @@
                                         <tbody>
                                             @foreach($importedcustomers as $customers)
                                             <tr>
-                                                <td>{{ucfirst($customers->company_name)}}</td>
                                                 <td>
                                                     <a href="{{route('customer.info',urlencode(encrypt($customers->id)))}}" title="{{ __('Client Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
-                                                        <b> {{ucfirst($customers->primary_name)}}</b>
+                                                        {{ucfirst($customers->company_name)}}
                                                     </a>
+                                                </td>
+                                                <td>
+                                                    <b> {{ucfirst($customers->primary_name)}}</b>
                                                 </td>
                                                 <td>{{ucfirst($customers->primary_email)}}</td>
                                                 <td>{{ucfirst($customers->primary_phone_number)}}</td>
