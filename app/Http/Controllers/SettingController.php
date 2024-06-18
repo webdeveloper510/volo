@@ -2139,31 +2139,56 @@ class SettingController extends Controller
             }
         }
     }
+    // public function proposaldata(Request $request)
+    // {
+    //     $address = html_entity_decode($request->address);
+    //     $agreement = html_entity_decode($request->agreement);
+    //     $remarks = html_entity_decode($request->remarks);
+    //     $footer = html_entity_decode($request->footer);
+    //     $data = [
+    //         'title' =>  $request->title,
+    //         'address' =>  $address,
+    //         'agreement' =>  $agreement,
+    //         'remarks' =>  $remarks,
+    //         'footer' =>  $footer,
+    //     ];
+    //     $serialize = serialize($data);
+
+    //     \DB::insert(
+    //         'insert into settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
+    //         [
+    //             $serialize,
+    //             'proposal',
+    //             \Auth::user()->creatorId(),
+    //             date('Y-m-d H:i:s'),
+    //             date('Y-m-d H:i:s'),
+    //         ]
+    //     );
+    //     return redirect()->back()->with('success', __('Proposal Save.'));
+    // }
+
     public function proposaldata(Request $request)
     {
-        $address = html_entity_decode($request->address);
-        $agreement = html_entity_decode($request->agreement);
-        $remarks = html_entity_decode($request->remarks);
-        $footer = html_entity_decode($request->footer);
-        $data = [
-            'title' =>  $request->title,
-            'address' =>  $address,
-            'agreement' =>  $agreement,
-            'remarks' =>  $remarks,
-            'footer' =>  $footer,
-        ];
-        $serialize = serialize($data);
-        
-        \DB::insert(
-            'insert into settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
-            [
-                $serialize,
-                'proposal',
-                \Auth::user()->creatorId(),
-                date('Y-m-d H:i:s'),
-                date('Y-m-d H:i:s'),
-            ]
-        );
-        return redirect()->back()->with('success', __('Proposal Save.'));
+        $request->validate([
+            'nda_text' => 'required|string', 
+        ]);
+
+        $nda_text = $request->nda_text;
+        $serialize = serialize($nda_text);
+        try {
+            \DB::table('settings')->updateOrInsert(
+                ['name' => 'proposal'],
+                [
+                    'value' => $serialize, 
+                    'created_by' => \Auth::user()->creatorId(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            );
+
+            return redirect()->back()->with('success', __('NDA Saved.'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('Failed to save NDA. Please try again.'));
+        }
     }
 }

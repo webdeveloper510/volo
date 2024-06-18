@@ -98,10 +98,10 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 <?php endif; ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
-                <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
+                <!-- <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/loading.png')); ?>" alt="" style="width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Buffer')); ?></span>
-                </a>
+                </a> -->
                 <a href="#add-signature" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse22')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/signature.png')); ?>" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Authorised Signature')); ?></span>

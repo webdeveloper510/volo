@@ -98,10 +98,10 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 @endcan
                 @if (\Auth::user()->type == 'owner')
-                <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
+                <!-- <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/loading.png')}}" alt="" style="width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Buffer') }}</span>
-                </a>
+                </a> -->
                 <a href="#add-signature" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse22')">
                     <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/signature.png')}}" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Authorised Signature') }}</span>
