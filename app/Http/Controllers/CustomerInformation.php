@@ -183,6 +183,7 @@ class CustomerInformation extends Controller
                 [
                     'company_name' => 'required',
                     'entity_name' => 'required',
+                    'client_name' => 'required',
                     'primary_name' => 'required',
                     'primary_phone_number' => 'required|unique:import_users',
                     'primary_email' => 'required|email|unique:import_users',
@@ -200,6 +201,7 @@ class CustomerInformation extends Controller
 
             $UsersImports = new UserImport();
             $UsersImports->company_name = $request->company_name;
+            $UsersImports->client_name = $request->client_name;
             $UsersImports->entity_name = $request->entity_name;
             $UsersImports->primary_name = $request->primary_name;
             $UsersImports->primary_phone_number = $request->primary_phone_number;

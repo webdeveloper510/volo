@@ -38,15 +38,24 @@ $campaign_type = explode(',',$settings['campaign_type']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('entity_name',__('Entity Name'),['class'=>'form-label']) }}
+                            {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
-                            {{Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Entity Name'),'required'=>'required'))}}
+                            {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name'),'required'=>'required'))}}
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            {{Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label']) }}
+                            <span class="text-sm">
+                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                            </span>
+                            {{Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name'),'required'=>'required'))}}
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
                     <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
                 </div>
