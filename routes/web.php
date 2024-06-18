@@ -1305,6 +1305,14 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('setting/delete-eventtype',[SettingController::class,'delete_event_type'])->name('eventedit.setting');
 
 
+     //=======================================Product TYPE/ Category Type/ Subcategory Type==========================================//
+     Route::post('setting/product-type', [SettingController::class, 'product_type'])->name('product-type.setting');
+     Route::post('setting/category-type', [SettingController::class, 'category_type'])->name('category-type.setting');
+     Route::post('setting/subcategory-type', [SettingController::class, 'subcategory_type'])->name('subcategory-type.setting');
+     Route::post('setting/delete-producttype',[SettingController::class,'delete_product_type'])->name('delete-producttype.setting');
+     Route::post('setting/delete-categorytype',[SettingController::class,'delete_category_type'])->name('delete-categorytype.setting');
+     Route::post('setting/delete-subcategorytype',[SettingController::class,'delete_subcategory_type'])->name('delete-subcategorytype.setting');
+
     //=======================================Venue==========================================//
     Route::post('setting/venue', [SettingController::class, 'venue_select'])->name('venue.setting');
     Route::post('setting/delete-venue',[SettingController::class,'delete_venue'])->name('venueedit.setting');

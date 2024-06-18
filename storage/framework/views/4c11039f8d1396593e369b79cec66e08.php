@@ -45,6 +45,18 @@ if(isset($settings['event_type']) && !empty($settings['event_type'])){
 $eventtypes = explode(',',$settings['event_type']);
 }
 
+if(isset($settings['product_type']) && !empty($settings['product_type'])){
+$product_type = explode(',',$settings['product_type']);
+}
+
+if(isset($settings['category_type']) && !empty($settings['category_type'])){
+$category_type = explode(',',$settings['category_type']);
+}
+
+if(isset($settings['subcategory_type']) && !empty($settings['subcategory_type'])){
+$subcategory_type = explode(',',$settings['subcategory_type']);
+}
+
 $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -753,12 +765,16 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 <?php echo Form::open(['method' => 'POST', 'route' => 'buffer.proposal']); ?>
 
                                                 <?php
-                                                @$proposal = unserialize($settings['proposal']);
+                                                $proposal = isset($settings['proposal']) ? unserialize($settings['proposal']) : '';
+
+                                                if (is_array($proposal)) {
+                                                    $proposal = implode("\n", $proposal);
+                                                }
                                                 ?>
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="form-group col-sm-6">
-                                                            <textarea name="nda_text" class="form-control" id="nda_text"><?php echo e(__(@$proposal)); ?></textarea>
+                                                            <textarea name="nda_text" class="form-control" id="nda_text"><?php echo e($proposal); ?></textarea>
                                                         </div>
 
                                                         <div class="col-sm-12">
@@ -991,7 +1007,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <div id="eventsettings" class="accordion-item card mt-2">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse19" aria-expanded="false" aria-controls="collapse19">
-                                                <h5><?php echo e(__('Event Settings')); ?></h5>
+                                                <h5><?php echo e(__('Product Settings')); ?></h5>
                                             </button>
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse" aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
@@ -1001,19 +1017,19 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5><?php echo e(__('Event Type Settings')); ?></h5>
+                                                                    <h5><?php echo e(__('Product Type Settings')); ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                <?php echo e(Form::open(['route' => 'event_type.setting', 'method' => 'post'])); ?>
+                                                                <?php echo e(Form::open(['route' => 'product-type.setting', 'method' => 'post'])); ?>
 
                                                                 <?php echo csrf_field(); ?>
-                                                                <div class="form-group col-md-12">
-                                                                    <?php echo e(Form::label('event_type', __('Event Type'), ['class' => 'form-label'])); ?>
+                                                                <div class="form-group col-md-4">
+                                                                    <?php echo e(Form::label('product_type', __('Product'), ['class' => 'form-label'])); ?>
 
-                                                                    <?php echo e(Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required'])); ?>
+                                                                    <?php echo e(Form::text('product_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Product'), 'required' => 'required'])); ?>
 
                                                                 </div>
                                                                 <div class="text-end">
@@ -1023,19 +1039,103 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                 <?php echo e(Form::close()); ?>
 
                                                             </div>
-                                                            <?php if(isset($eventtypes) && !empty($eventtypes)): ?>
+                                                            <div class="row mt-3">
+                                                                <?php echo e(Form::open(['route' => 'category-type.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
+                                                                <div class="form-group col-md-4">
+                                                                    <?php echo e(Form::label('category_type', __('Category '), ['class' => 'form-label'])); ?>
+
+                                                                    <?php echo e(Form::text('category_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Category'), 'required' => 'required'])); ?>
+
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                                                </div>
+                                                                <?php echo e(Form::close()); ?>
+
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <?php echo e(Form::open(['route' => 'subcategory-type.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
+                                                                <div class="form-group col-md-4">
+                                                                    <?php echo e(Form::label('subcategory_type', __('Subcategory '), ['class' => 'form-label'])); ?>
+
+                                                                    <?php echo e(Form::text('subcategory_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Subcategory'), 'required' => 'required'])); ?>
+
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                                                </div>
+                                                                <?php echo e(Form::close()); ?>
+
+                                                            </div>
+                                                            <?php if(isset($product_type) && !empty($product_type)): ?>
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
-                                                                    <label class="form-label">Events List</label>
+                                                                    <label class="form-label">Product List</label>
                                                                     <div class="badges">
-                                                                        <?php $__currentLoopData = $eventtypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php $__currentLoopData = $product_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                         <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
                                                                             <?php echo e($types); ?>
 
                                                                             <?php if(Gate::check('Delete Role')): ?>
                                                                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
                                                                             <div class="action-btn  ms-2">
-                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('eventedit.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="<?php echo e(csrf_token()); ?>">
+                                                                                    <i class="ti ti-trash"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            <?php endif; ?>
+                                                                            <?php endif; ?>
+                                                                        </span>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <?php endif; ?>
+
+                                                            <?php if(isset($category_type) && !empty($category_type)): ?>
+                                                            <div class="row mt-3">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Category List</label>
+                                                                    <div class="badges">
+                                                                        <?php $__currentLoopData = $category_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                                            <?php echo e($types); ?>
+
+                                                                            <?php if(Gate::check('Delete Role')): ?>
+                                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
+                                                                            <div class="action-btn  ms-2">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="<?php echo e(csrf_token()); ?>">
+                                                                                    <i class="ti ti-trash"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            <?php endif; ?>
+                                                                            <?php endif; ?>
+                                                                        </span>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <?php endif; ?>
+
+                                                            <?php if(isset($subcategory_type) && !empty($subcategory_type)): ?>
+                                                            <div class="row mt-3">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Subcategory List</label>
+                                                                    <div class="badges">
+                                                                        <?php $__currentLoopData = $subcategory_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                                            <?php echo e($types); ?>
+
+                                                                            <?php if(Gate::check('Delete Role')): ?>
+                                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
+                                                                            <div class="action-btn  ms-2">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="<?php echo e(csrf_token()); ?>">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>
@@ -1515,11 +1615,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         </div>
                                     </div>
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
-                                    <div id="billing-setting" class="accordion-item card">
+                                    <div id="billing-setting" class="accordion-item card mt-3">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse20" aria-expanded="false" aria-controls="collapse20">
-                                                <h5><?php echo e(__('Billing Settings')); ?></h5>
-                                                <small class="text-muted"><?php echo e(__('Edit your billing details')); ?></small>
+                                                <h5><?php echo e(__('Client Groups/Buckets')); ?></h5>
+                                                <!-- <small class="text-muted"><?php echo e(__('Edit your billing details')); ?></small> -->
                                             </button>
                                         </h2>
                                         <div id="collapse20" class="accordion-collapse collapse" aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
@@ -1528,96 +1628,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
                                                 <?php echo csrf_field(); ?>
 
-                                                <div class="row cst-border">
-                                                    <?php if(isset($venue) && !empty($venue)): ?>
-                                                    <div class="col-sm-6 venue">
-                                                        <table class="table table-responsive table-bordered" style="width:100%">
-                                                            <tr>
-                                                                <th><?php echo e(__('Venue')); ?></th>
-                                                                <th><?php echo e(__('Venue Cost')); ?></th>
-                                                            </tr>
-                                                            <?php $__currentLoopData = $venue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $venueKey => $venueValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <tr>
-                                                                <td><?php echo e(__($venueKey)); ?></td>
-                                                                <td><input type="number" class="form-control" name="venue[<?php echo e(isset($venueKey) ? $venueKey : ''); ?>]" id="venue_<?php echo e($venueKey); ?>" value="<?php echo e(isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : ''); ?>" placeholder="<?php echo e(__($venueKey)); ?>" min="0">
-                                                                </td>
-                                                            </tr>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </table>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if(isset($function) && !empty($function)): ?>
-                                                    <div class="col-sm-6 function">
-                                                        <table class="table table-responsive table-bordered" style="width:100%">
-                                                            <tr>
-                                                                <th><?php echo e(__('Package')); ?></th>
-                                                                <th><?php echo e(__('Package Cost')); ?></th>
-                                                            </tr>
-                                                            <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $functionKey => $functionValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <tr>
-                                                                <td><b><?php echo e(__($functionValue->function)); ?></b></td>
-                                                                <td>
-                                                                    <?php $__currentLoopData = $functionValue->package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $packageKey=> $packageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <?php echo e(Form::label($packageValue, __($packageValue), ['class' => 'form-label'])); ?>
 
-                                                                    <input type="number" class="form-control" name="package[<?php echo e(isset($functionValue->function)? $functionValue->function :''); ?>][<?php echo e(isset($packageValue) ? $packageValue : ''); ?>]" id="package_<?php echo e(isset($packageKey)? $packageKey :''); ?>" value="<?php echo e(isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : ''); ?>" placeholder="Enter <?php echo e(isset($packageValue) ? $packageValue :''); ?> Cost" min="0">
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                </td>
-                                                            </tr>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </table>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <?php if(isset($bar) && !empty($bar)): ?>
-                                                    <div class="col-sm-6 bar mt-3">
-                                                        <table class="table table-responsive table-bordered" style="width:100%">
-                                                            <tr>
-                                                                <th><?php echo e(__('Bar')); ?></th>
-                                                                <th><?php echo e(__('Bar Cost')); ?></th>
-                                                            </tr>
-                                                            <?php $__currentLoopData = $bar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barKey => $barValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <tr>
-                                                                <td><b><?php echo e(__($barValue->bar)); ?></b></td>
-                                                                <td>
-                                                                    <?php $__currentLoopData = $barValue->barpackage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barpackageKey=>$barpackageValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <?php echo e(Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label'])); ?>
-
-                                                                    <input type="number" class="form-control" name="barpackage[<?php echo e(isset($barValue->bar) ? $barValue->bar : ''); ?>][<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>]" id="barpackage_<?php echo e(isset($barpackageKey) ? $barpackageKey : ''); ?>" value="<?php echo e(isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : ''); ?>" placeholder="<?php echo e(isset($barpackageValue) ? $barpackageValue : ''); ?>" min="0">
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                </td>
-                                                            </tr>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </table>
-                                                    </div>
-                                                    <?php endif; ?>
-                                                    <div class="col-sm-6 equipment">
-                                                        <div class="form-group">
-                                                            <?php echo e(Form::label('equipment', __('Equipment'), ['class' => 'form-label'])); ?>
-
-                                                            <input type="number" name="equipment" id="" class="form-control" value="<?php echo e(isset($billing['equipment']) ? $billing['equipment'] : ''); ?>" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <?php echo e(Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label'])); ?>
-
-                                                            <input type="number" name="welcomesetup" id="" class="form-control" value="<?php echo e(isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''); ?>" placeholder="Enter Welcome Setup Cost" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <?php echo e(Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label'])); ?>
-
-                                                            <input type="number" name="rehearsalsetup" class="form-control" value="<?php echo e(isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''); ?>" placeholder="Enter Rehearsel Setup Cost" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <?php echo e(Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label'])); ?>
-
-                                                            <input type="number" name="hotel_rooms" class="form-control" value="<?php echo e(isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''); ?>" placeholder="Enter Hotel Rooms Cost" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <?php echo e(Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label'])); ?>
-
-                                                            <input type="number" name="special_req" class="form-control" value="<?php echo e(isset($billing['special_req']) ? $billing['special_req'] : ''); ?>" placeholder="Enter  Cost" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="text-end">
                                                     <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
 

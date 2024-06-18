@@ -46,6 +46,18 @@ if(isset($settings['event_type']) && !empty($settings['event_type'])){
 $eventtypes = explode(',',$settings['event_type']);
 }
 
+if(isset($settings['product_type']) && !empty($settings['product_type'])){
+$product_type = explode(',',$settings['product_type']);
+}
+
+if(isset($settings['category_type']) && !empty($settings['category_type'])){
+$category_type = explode(',',$settings['category_type']);
+}
+
+if(isset($settings['subcategory_type']) && !empty($settings['subcategory_type'])){
+$subcategory_type = explode(',',$settings['subcategory_type']);
+}
+
 $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -955,7 +967,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                     <div id="eventsettings" class="accordion-item card mt-2">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse19" aria-expanded="false" aria-controls="collapse19">
-                                                <h5>{{ __('Event Settings') }}</h5>
+                                                <h5>{{ __('Product Settings') }}</h5>
                                             </button>
                                         </h2>
                                         <div id="collapse19" class="accordion-collapse collapse" aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
@@ -965,35 +977,107 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                         <div class="card-header">
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8">
-                                                                    <h5>{{ __('Event Type Settings') }}</h5>
+                                                                    <h5>{{ __('Product Type Settings') }}</h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'event_type.setting', 'method' => 'post']) }}
+                                                                {{ Form::open(['route' => 'product-type.setting', 'method' => 'post']) }}
                                                                 @csrf
-                                                                <div class="form-group col-md-12">
-                                                                    {{ Form::label('event_type', __('Event Type'), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('event_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Event Type'), 'required' => 'required']) }}
+                                                                <div class="form-group col-md-4">
+                                                                    {{ Form::label('product_type', __('Product'), ['class' => 'form-label']) }}
+                                                                    {{ Form::text('product_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Product'), 'required' => 'required']) }}
                                                                 </div>
                                                                 <div class="text-end">
                                                                     {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
                                                                 </div>
                                                                 {{ Form::close() }}
                                                             </div>
-                                                            @if(isset($eventtypes) && !empty($eventtypes))
+                                                            <div class="row mt-3">
+                                                                {{ Form::open(['route' => 'category-type.setting', 'method' => 'post']) }}
+                                                                @csrf
+                                                                <div class="form-group col-md-4">
+                                                                    {{ Form::label('category_type', __('Category '), ['class' => 'form-label']) }}
+                                                                    {{ Form::text('category_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Category'), 'required' => 'required']) }}
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                </div>
+                                                                {{ Form::close() }}
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                {{ Form::open(['route' => 'subcategory-type.setting', 'method' => 'post']) }}
+                                                                @csrf
+                                                                <div class="form-group col-md-4">
+                                                                    {{ Form::label('subcategory_type', __('Subcategory '), ['class' => 'form-label']) }}
+                                                                    {{ Form::text('subcategory_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Subcategory'), 'required' => 'required']) }}
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                </div>
+                                                                {{ Form::close() }}
+                                                            </div>
+                                                            @if(isset($product_type) && !empty($product_type))
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
-                                                                    <label class="form-label">Events List</label>
+                                                                    <label class="form-label">Product List</label>
                                                                     <div class="badges">
-                                                                        @foreach ($eventtypes as $types)
+                                                                        @foreach ($product_type as $types)
                                                                         <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
                                                                             {{ $types }}
                                                                             @if(Gate::check('Delete Role'))
                                                                             @can('Delete Role')
                                                                             <div class="action-btn  ms-2">
-                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('eventedit.setting') }}" data-token="{{ csrf_token() }}">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="{{ csrf_token() }}">
+                                                                                    <i class="ti ti-trash"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            @endcan
+                                                                            @endif
+                                                                        </span>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @endif
+
+                                                            @if(isset($category_type) && !empty($category_type))
+                                                            <div class="row mt-3">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Category List</label>
+                                                                    <div class="badges">
+                                                                        @foreach ($category_type as $types)
+                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                                            {{ $types }}
+                                                                            @if(Gate::check('Delete Role'))
+                                                                            @can('Delete Role')
+                                                                            <div class="action-btn  ms-2">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="{{ csrf_token() }}">
+                                                                                    <i class="ti ti-trash"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            @endcan
+                                                                            @endif
+                                                                        </span>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @endif
+
+                                                            @if(isset($subcategory_type) && !empty($subcategory_type))
+                                                            <div class="row mt-3">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Subcategory List</label>
+                                                                    <div class="badges">
+                                                                        @foreach ($subcategory_type as $types)
+                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                                            {{ $types }}
+                                                                            @if(Gate::check('Delete Role'))
+                                                                            @can('Delete Role')
+                                                                            <div class="action-btn  ms-2">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="{{ csrf_token() }}">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>
@@ -1439,11 +1523,11 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         </div>
                                     </div>
                                     @can('Manage Payment')
-                                    <div id="billing-setting" class="accordion-item card">
+                                    <div id="billing-setting" class="accordion-item card mt-3">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse20" aria-expanded="false" aria-controls="collapse20">
-                                                <h5>{{ __('Billing Settings') }}</h5>
-                                                <small class="text-muted">{{ __('Edit your billing details') }}</small>
+                                                <h5>{{ __('Client Groups/Buckets') }}</h5>
+                                                <!-- <small class="text-muted">{{ __('Edit your billing details') }}</small> -->
                                             </button>
                                         </h2>
                                         <div id="collapse20" class="accordion-collapse collapse" aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
@@ -1451,89 +1535,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 {{ Form::open(['route' => 'billing.setting', 'method' => 'post']) }}
                                                 @csrf
 
-                                                <div class="row cst-border">
-                                                    @if(isset($venue) && !empty($venue))
-                                                    <div class="col-sm-6 venue">
-                                                        <table class="table table-responsive table-bordered" style="width:100%">
-                                                            <tr>
-                                                                <th>{{__('Venue')}}</th>
-                                                                <th>{{__('Venue Cost')}}</th>
-                                                            </tr>
-                                                            @foreach($venue as $venueKey => $venueValue)
-                                                            <tr>
-                                                                <td>{{__($venueKey)}}</td>
-                                                                <td><input type="number" class="form-control" name="venue[{{ isset($venueKey) ? $venueKey : '' }}]" id="venue_{{$venueKey}}" value="{{ isset($billing['venue'][$venueKey]) ? $billing['venue'][$venueKey] : '' }}" placeholder="{{__($venueKey)}}" min="0">
-                                                                </td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </table>
-                                                    </div>
-                                                    @endif
-                                                    @if(isset($function) && !empty($function))
-                                                    <div class="col-sm-6 function">
-                                                        <table class="table table-responsive table-bordered" style="width:100%">
-                                                            <tr>
-                                                                <th>{{__('Package')}}</th>
-                                                                <th>{{__('Package Cost')}}</th>
-                                                            </tr>
-                                                            @foreach($function as $functionKey => $functionValue)
-                                                            <tr>
-                                                                <td><b>{{__($functionValue->function)}}</b></td>
-                                                                <td>
-                                                                    @foreach($functionValue->package as $packageKey=> $packageValue)
-                                                                    {{ Form::label($packageValue, __($packageValue), ['class' => 'form-label']) }}
-                                                                    <input type="number" class="form-control" name="package[{{isset($functionValue->function)? $functionValue->function :''}}][{{ isset($packageValue) ? $packageValue : '' }}]" id="package_{{isset($packageKey)? $packageKey :''}}" value="{{ isset($billing['package'][$functionValue->function][$packageValue]) ? $billing['package'][$functionValue->function][$packageValue] : '' }}" placeholder="Enter {{ isset($packageValue) ? $packageValue :''}} Cost" min="0">
-                                                                    @endforeach
-                                                                </td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </table>
-                                                    </div>
-                                                    @endif
-                                                    @if(isset($bar) && !empty($bar))
-                                                    <div class="col-sm-6 bar mt-3">
-                                                        <table class="table table-responsive table-bordered" style="width:100%">
-                                                            <tr>
-                                                                <th>{{__('Bar')}}</th>
-                                                                <th>{{__('Bar Cost')}}</th>
-                                                            </tr>
-                                                            @foreach($bar as $barKey => $barValue)
-                                                            <tr>
-                                                                <td><b>{{__($barValue->bar)}}</b></td>
-                                                                <td>
-                                                                    @foreach($barValue->barpackage as $barpackageKey=>$barpackageValue)
-                                                                    {{ Form::label($barpackageValue, __($barpackageValue), ['class' => 'form-label']) }}
-                                                                    <input type="number" class="form-control" name="barpackage[{{ isset($barValue->bar) ? $barValue->bar : '' }}][{{ isset($barpackageValue) ? $barpackageValue : '' }}]" id="barpackage_{{ isset($barpackageKey) ? $barpackageKey : '' }}" value="{{ isset($billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue]) ? $billing['barpackage'][isset($barValue->bar) ? $barValue->bar : ''][$barpackageValue] : '' }}" placeholder="{{ isset($barpackageValue) ? $barpackageValue : '' }}" min="0">
-                                                                    @endforeach
-                                                                </td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </table>
-                                                    </div>
-                                                    @endif
-                                                    <div class="col-sm-6 equipment">
-                                                        <div class="form-group">
-                                                            {{ Form::label('equipment', __('Equipment'), ['class' => 'form-label']) }}
-                                                            <input type="number" name="equipment" id="" class="form-control" value="{{ isset($billing['equipment']) ? $billing['equipment'] : ''}}" placeholder="Enter Equipments Cost (eg. Tent, Tables, Chairs)" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{ Form::label('welcomesetup', __('Welcome Setup'), ['class' => 'form-label']) }}
-                                                            <input type="number" name="welcomesetup" id="" class="form-control" value="{{ isset($billing['welcomesetup']) ? $billing['welcomesetup'] : ''}}" placeholder="Enter Welcome Setup Cost" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{ Form::label('rehearsalsetup', __('Rehearsel Setup'), ['class' => 'form-label']) }}
-                                                            <input type="number" name="rehearsalsetup" class="form-control" value="{{ isset($billing['rehearsalsetup']) ? $billing['rehearsalsetup'] : ''}}" placeholder="Enter Rehearsel Setup Cost" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{ Form::label('hotel_rooms', __('Hotel Rooms'), ['class' => 'form-label']) }}
-                                                            <input type="number" name="hotel_rooms" class="form-control" value="{{ isset($billing['hotel_rooms']) ? $billing['hotel_rooms'] : ''}}" placeholder="Enter Hotel Rooms Cost" required>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            {{ Form::label('special_req', __('Special Request/Others'), ['class' => 'form-label']) }}
-                                                            <input type="number" name="special_req" class="form-control" value="{{ isset($billing['special_req']) ? $billing['special_req'] : ''}}" placeholder="Enter  Cost" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                                 <div class="text-end">
                                                     {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
                                                 </div>

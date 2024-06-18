@@ -1588,6 +1588,113 @@ class SettingController extends Controller
             ]);
         return true;
     }
+
+    // Product Type 
+    public function product_type(Request $request)
+    {
+        // echo "product type";
+        // die;
+        $user = \Auth::user();
+        $inputValue =  $request->input('product_type');
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['product_type'] ?? '';
+        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        if (isset($settings['product_type']) && !empty($settings['product_type'])) {
+            DB::table('settings')
+                ->where('name', 'product_type')
+                ->update([
+                    'value' => $newValue,
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]);
+        } else {
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $inputValue,
+                    'product_type',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]
+            );
+        }
+        return redirect()->back()->with('success', __('Product Type Added.'));
+    }
+
+    // Category Type 
+    public function category_type(Request $request)
+    {
+        // echo "category type";
+        // die;
+        $user = \Auth::user();
+        $inputValue =  $request->input('category_type');
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['category_type'] ?? '';
+        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        if (isset($settings['category_type']) && !empty($settings['category_type'])) {
+            DB::table('settings')
+                ->where('name', 'category_type')
+                ->update([
+                    'value' => $newValue,
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]);
+        } else {
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $inputValue,
+                    'category_type',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]
+            );
+        }
+        return redirect()->back()->with('success', __('Category Type Added.'));
+    }
+
+
+    // Subcategory Type 
+    public function subcategory_type(Request $request)
+    {
+        // echo "subcategory type";
+        // die;
+        $user = \Auth::user();
+        $inputValue =  $request->input('subcategory_type');
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['subcategory_type'] ?? '';
+        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        if (isset($settings['subcategory_type']) && !empty($settings['subcategory_type'])) {
+            DB::table('settings')
+                ->where('name', 'subcategory_type')
+                ->update([
+                    'value' => $newValue,
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]);
+        } else {
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $inputValue,
+                    'subcategory_type',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]
+            );
+        }
+        return redirect()->back()->with('success', __('Subcategory Type Added.'));
+    }
+
     public function venue_select(Request $request)
     {
         $user = \Auth::user();
@@ -2170,7 +2277,7 @@ class SettingController extends Controller
     public function proposaldata(Request $request)
     {
         $request->validate([
-            'nda_text' => 'required|string', 
+            'nda_text' => 'required|string',
         ]);
 
         $nda_text = $request->nda_text;
@@ -2179,7 +2286,7 @@ class SettingController extends Controller
             \DB::table('settings')->updateOrInsert(
                 ['name' => 'proposal'],
                 [
-                    'value' => $serialize, 
+                    'value' => $serialize,
                     'created_by' => \Auth::user()->creatorId(),
                     'created_at' => now(),
                     'updated_at' => now(),

@@ -64,10 +64,6 @@ class LeadController extends Controller
                 $defualtView->module = 'lead';
                 $defualtView->view   = 'list';
             }
-
-            // echo "<pre>";
-            // print_r($leads);
-            // die;
             return view('lead.index', compact('leads', 'statuss'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
