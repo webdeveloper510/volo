@@ -723,12 +723,12 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             <div class="accordion-body1">
                                                 {!! Form::open(['method' => 'POST', 'route' => 'buffer.proposal']) !!}
                                                 @php
-                                                @$proposal = unserialize($settings['proposal']);
+                                                $proposal = isset($settings['proposal']) ? unserialize($settings['proposal']) : '';
                                                 @endphp
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="form-group col-sm-6">
-                                                            <textarea name="nda_text" class="form-control" id="nda_text">{{__(@$proposal)}}</textarea>
+                                                            <textarea name="nda_text" class="form-control" id="nda_text">{{ $proposal }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12">
