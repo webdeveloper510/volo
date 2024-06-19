@@ -1589,6 +1589,72 @@ class SettingController extends Controller
         return true;
     }
 
+    // Delete Product Type 
+    public function delete_product_type(Request $request)
+    {
+        echo "<pre>";
+        print_r($request->all());
+        die;
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $existingValues = explode(',', $setting['event_type']);
+        $updatedValues = array_diff($existingValues, [$request->badge]);
+        $newvalue = implode(',', $updatedValues);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        DB::table('settings')
+            ->where('name', 'event_type')
+            ->update([
+                'value' => $newvalue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
+
+    // Delete Category Type 
+    public function delete_category_type(Request $request)
+    {
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $existingValues = explode(',', $setting['event_type']);
+        $updatedValues = array_diff($existingValues, [$request->badge]);
+        $newvalue = implode(',', $updatedValues);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        DB::table('settings')
+            ->where('name', 'event_type')
+            ->update([
+                'value' => $newvalue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
+
+      // Delete Subcategory Type 
+      public function delete_subcategory_type(Request $request)
+      {
+          $user = \Auth::user();
+          $setting = Utility::settings();
+          $existingValues = explode(',', $setting['event_type']);
+          $updatedValues = array_diff($existingValues, [$request->badge]);
+          $newvalue = implode(',', $updatedValues);
+          $created_at = $updated_at = date('Y-m-d H:i:s');
+  
+          DB::table('settings')
+              ->where('name', 'event_type')
+              ->update([
+                  'value' => $newvalue,
+                  'created_by' => $user->id,
+                  'created_at' => $created_at,
+                  'updated_at' => $updated_at
+              ]);
+          return true;
+      }
+
     // Product Type 
     public function product_type(Request $request)
     {

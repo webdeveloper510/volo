@@ -1033,7 +1033,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                             @if(Gate::check('Delete Role'))
                                                                             @can('Delete Role')
                                                                             <div class="action-btn  ms-2">
-                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="{{ csrf_token() }}">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('delete-producttype.setting') }}" data-token="{{ csrf_token() }}">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>
@@ -1057,7 +1057,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                             @if(Gate::check('Delete Role'))
                                                                             @can('Delete Role')
                                                                             <div class="action-btn  ms-2">
-                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="{{ csrf_token() }}">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('delete-categorytype.setting') }}" data-token="{{ csrf_token() }}">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>
@@ -1081,7 +1081,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                             @if(Gate::check('Delete Role'))
                                                                             @can('Delete Role')
                                                                             <div class="action-btn  ms-2">
-                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="" data-token="{{ csrf_token() }}">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('delete-subcategorytype.setting') }}" data-token="{{ csrf_token() }}">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>

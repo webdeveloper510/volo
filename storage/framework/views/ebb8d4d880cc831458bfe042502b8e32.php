@@ -1,15 +1,16 @@
-@extends('layouts.admin')
-@section('breadcrumb')
-@endsection
-@section('page-title')
-{{ __('Home') }}
-@endsection
-@section('title')
-{{ __('Dashboard') }}
-@endsection
-@section('action-btn')
-@endsection
-@section('content')
+<?php $__env->startSection('breadcrumb'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Home')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Dashboard')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('action-btn'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 
 <div class="container-field">
     <div id="wrapper">
@@ -19,9 +20,9 @@
                     <h4>Team Member</h4>
                     <select name="team_member" class="form-control">
                         <option value="" selected disabled>Select Team Member</option>
-                        @foreach ($assinged_staff as $staff)
-                        <option value="{{ $staff->id }}">{{ $staff->name }}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
                 <div class="col-4 mb-4">
@@ -42,49 +43,51 @@
                     <h4>Products</h4>
                     <select name="products" class="form-control">
                         <option value="" selected disabled>Select Products</option>
-                        @foreach ($products as $product)
-                        <option value="{{ $product }}">{{ $product }}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($product); ?>"><?php echo e($product); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
 
                 <div class="row">
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Prospecting ({{ $activeLeadsCount }})</h5>
+                            <h5 class="card-title mb-2">Prospecting (<?php echo e($activeLeadsCount); ?>)</h5>
                             <h6 class="card-title mb-2">Total Value : <span></span></h6>
                             <div class="scrol-card">
-                                @foreach($activeLeads as $lead)
+                                <?php $__currentLoopData = $activeLeads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text">{{ $lead['leadname'] }}
-                                            <span>({{ $lead['type'] }})</span>
+                                        <h5 class="card-text"><?php echo e($lead['leadname']); ?>
+
+                                            <span>(<?php echo e($lead['type']); ?>)</span>
                                         </h5>
 
-                                        @if($lead['start_date'] == $lead['end_date'])
-                                        <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}}</p>
-                                        @else
-                                        <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}} -
-                                            {{ \Auth::user()->dateFormat($lead['end_date'])}}
+                                        <?php if($lead['start_date'] == $lead['end_date']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?></p>
+                                        <?php else: ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($lead['start_date'])->format('M d')); ?> -
+                                            <?php echo e(\Auth::user()->dateFormat($lead['end_date'])); ?>
+
                                         </p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Lead Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$lead['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
+                                        <?php endif; ?>
                                     </div>
 
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Discovery ({{ $activeEventCount }})</h5>
+                            <h5 class="card-title mb-2">Discovery (<?php echo e($activeEventCount); ?>)</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
                                 <div class="card">
@@ -258,8 +261,8 @@
     }
 </style>
 
-@endsection
-@push('script-page')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
 <script>
     if ('serviceWorker' in navigator) {
@@ -301,7 +304,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ route("store.token") }}',
+                    url: '<?php echo e(route("store.token")); ?>',
                     type: 'POST',
                     data: {
                         token: response
@@ -327,4 +330,5 @@
         });
     })
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/home.blade.php ENDPATH**/ ?>

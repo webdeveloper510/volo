@@ -29589,6 +29589,11 @@ h5.card-title.mb-2 {
     font-size: 16px !important;
 }
 
+h6.card-title.mb-2 {
+    padding: 5px;
+    font-size: 16px !important;
+}
+
 
 @media screen and (max-width: 1440px) {
 .navbar-nav.ms-auto {
