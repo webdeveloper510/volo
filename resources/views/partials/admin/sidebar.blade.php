@@ -277,6 +277,6 @@ $category = explode(',', $settings['campaign_type']);
                 var $this = $(this);
                 $this.attr('src', $this.attr('src'));
             });
-        }, 1000); 
+        }, 2000); 
     });
 </script>
