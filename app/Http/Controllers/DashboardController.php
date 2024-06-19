@@ -157,13 +157,26 @@ class DashboardController extends Controller
                     ->whereIn('sales_stage', ['New', 'Contacted'])
                     ->get();
 
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $prospectingOpportunitiesSum = $prospectingOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
+
                 $prospectingOpportunitiesCount = $prospectingOpportunities->count();
+
 
                 // Discovery Opportunities
                 $discoveryOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
                     ->where('lead_status', 1)
                     ->whereIn('sales_stage', ['Qualifying', 'Qualified'])
                     ->get();
+
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $discoveryOpportunitiesSum = $discoveryOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
 
                 $discoveryOpportunitiesCount = $discoveryOpportunities->count();
 
@@ -173,6 +186,12 @@ class DashboardController extends Controller
                     ->whereIn('sales_stage', ['NDA Signed', 'Demo or Meeting'])
                     ->get();
 
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $demoOrMeetingOpportunitiesSum = $demoOrMeetingOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
+
                 $demoOrMeetingOpportunitiesCount = $demoOrMeetingOpportunities->count();
 
                 // Proposal Opportunities
@@ -180,6 +199,12 @@ class DashboardController extends Controller
                     ->where('lead_status', 1)
                     ->where('sales_stage', 'Proposal')
                     ->get();
+
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $proposalOpportunitiesSum = $proposalOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
 
                 $proposalOpportunitiesCount = $proposalOpportunities->count();
 
@@ -189,6 +214,12 @@ class DashboardController extends Controller
                     ->where('sales_stage', 'Negotiation')
                     ->get();
 
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $negotiationOpportunitiesSum = $negotiationOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
+
                 $negotiationOpportunitiesCount = $negotiationOpportunities->count();
 
                 // Awaiting Decision Opportunities
@@ -196,6 +227,12 @@ class DashboardController extends Controller
                     ->where('lead_status', 1)
                     ->where('sales_stage', 'Awaiting Decision')
                     ->get();
+
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $awaitingDecisionOpportunitiesSum = $awaitingDecisionOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
 
                 $awaitingDecisionOpportunitiesCount = $awaitingDecisionOpportunities->count();
 
@@ -205,6 +242,13 @@ class DashboardController extends Controller
                     ->whereIn('sales_stage', ['Implementation', 'Follow-Up Needed'])
                     ->get();
 
+
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $postPurchaseOpportunitiesSum = $postPurchaseOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
+
                 $postPurchaseOpportunitiesCount = $postPurchaseOpportunities->count();
 
                 // Closed Won Opportunities
@@ -213,9 +257,15 @@ class DashboardController extends Controller
                     ->where('sales_stage', 'Closed Won')
                     ->get();
 
+                // Convert the 'value_of_opportunity' to integers and sum them up
+                $closedWonOpportunitiesSum = $closedWonOpportunities->reduce(function ($carry, $lead) {
+                    $value = str_replace(',', '', $lead->value_of_opportunity);
+                    return $carry + (int) $value;
+                }, 0);
+
                 $closedWonOpportunitiesCount = $closedWonOpportunities->count();
 
-                return view('home', compact('venue_dropdown', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount','closedWonOpportunities','closedWonOpportunitiesCount'));
+                return view('home', compact('venue_dropdown', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount','prospectingOpportunitiesSum','discoveryOpportunitiesSum','demoOrMeetingOpportunitiesSum','proposalOpportunitiesSum','negotiationOpportunitiesSum','awaitingDecisionOpportunitiesSum','postPurchaseOpportunitiesSum','closedWonOpportunitiesSum'));
             }
         } else {
 
