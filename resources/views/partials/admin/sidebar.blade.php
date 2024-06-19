@@ -8,7 +8,7 @@ $category = explode(',', $settings['campaign_type']);
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box loadthisimage">
                 <a href="#" class="navbar-brand">
-                    <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}" class="logo logo-lg nav-sidebar-logo" style="width: 100%; padding: 6px;" />
+                    <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}" class="logo logo-lg nav-sidebar-logo" style="width: 13%; padding: 6px;" />
                 </a>
             </div>
 
@@ -136,11 +136,15 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-list"></i></span>
                     <span class="dash-mtext">{{ __('View Campaigns') }} </span></a>
                 @endif
+
+
                 @if(\Request::route()->getName() == 'customer.info' ||
                 \Request::route()->getName() == 'event_customers'||\Request::route()->getName() == 'siteusers' ||
                 \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
                 'lead.userinfo'||\Request::route()->getName() ==
-                'event.userinfo'||\Request::route()->getName()=='categ')
+                'event.userinfo'||\Request::route()->getName()=='categ' ? ' active ' :
+                '')
+                
                 <a href="{{route('siteusers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'siteusers' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext">{{ __('All Clients') }} </span></a>
@@ -167,6 +171,7 @@ $category = explode(',', $settings['campaign_type']);
                 @endforeach
                 @endif -->
                 @endif
+
 
                 @if(\Request::route()->getName() == 'meeting.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
@@ -259,6 +264,7 @@ $category = explode(',', $settings['campaign_type']);
 </div>
 <script>
     function showAccordion(dataId) {
+        console.log(dataId);
         $('.accordion-collapse').css('display', 'none')
         if ($('#' + dataId).hasClass('show')) {
             $('#' + dataId).css('display', 'none');

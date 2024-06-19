@@ -136,11 +136,19 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-list"></i></span>
                     <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
                 <?php endif; ?>
+
+
                 <?php if(\Request::route()->getName() == 'customer.info' ||
                 \Request::route()->getName() == 'event_customers'||\Request::route()->getName() == 'siteusers' ||
                 \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
                 'lead.userinfo'||\Request::route()->getName() ==
-                'event.userinfo'||\Request::route()->getName()=='categ'): ?>
+                'event.userinfo'||\Request::route()->getName()=='categ' ? ' active ' :
+                ''): ?>
+
+                <?php
+                echo "here";
+                die;
+                ?>
                 <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'siteusers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext"><?php echo e(__('All Clients')); ?> </span></a>
@@ -167,6 +175,7 @@ $category = explode(',', $settings['campaign_type']);
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?> -->
                 <?php endif; ?>
+
 
                 <?php if(\Request::route()->getName() == 'meeting.index'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
@@ -259,6 +268,7 @@ $category = explode(',', $settings['campaign_type']);
 </div>
 <script>
     function showAccordion(dataId) {
+        console.log(dataId);
         $('.accordion-collapse').css('display', 'none')
         if ($('#' + dataId).hasClass('show')) {
             $('#' + dataId).css('display', 'none');
@@ -271,12 +281,12 @@ $category = explode(',', $settings['campaign_type']);
 </script>
 
 <script>
-    $(document).load(function() {
+    $(document).ready(function() {
         setTimeout(function() {
             $('.loadthisimage img').each(function() {
                 var $this = $(this);
                 $this.attr('src', $this.attr('src'));
             });
-        }, 1000); 
+        }, 2000); 
     });
 </script><?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/sidebar.blade.php ENDPATH**/ ?>
