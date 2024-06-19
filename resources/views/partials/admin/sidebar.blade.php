@@ -271,7 +271,7 @@ $category = explode(',', $settings['campaign_type']);
 </script>
 
 <script>
-    $(document).load(function() {
+    $(document).ready(function() {
         setTimeout(function() {
             $('.loadthisimage img').each(function() {
                 var $this = $(this);
