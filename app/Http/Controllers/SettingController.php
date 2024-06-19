@@ -1592,9 +1592,9 @@ class SettingController extends Controller
     // Delete Product Type 
     public function delete_product_type(Request $request)
     {
-        echo "<pre>";
-        print_r($request->all());
-        die;
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
         $user = \Auth::user();
         $setting = Utility::settings();
         $existingValues = explode(',', $setting['event_type']);
