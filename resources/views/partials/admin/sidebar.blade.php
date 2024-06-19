@@ -6,11 +6,13 @@ $category = explode(',', $settings['campaign_type']);
 <div id="sidebar-wrapper">
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
-            <div class="navbar-brand-box">
+            <div class="navbar-brand-box loadthisimage">
                 <a href="#" class="navbar-brand">
                     <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}" class="logo logo-lg nav-sidebar-logo" style="width: 100%; padding: 6px;" />
                 </a>
             </div>
+
+
             <div class="scrollbar">
                 @if(\Request::route()->getName() == 'lead.review')
                 <a href="#useradd-1" class="list-group-item list-group-item-action border-0">
@@ -266,4 +268,15 @@ $category = explode(',', $settings['campaign_type']);
             $('#' + dataId).addClass('show');
         }
     }
+</script>
+
+<script>
+    $(document).load(function() {
+        setTimeout(function() {
+            $('.loadthisimage img').each(function() {
+                var $this = $(this);
+                $this.attr('src', $this.attr('src'));
+            });
+        }, 1000); 
+    });
 </script>

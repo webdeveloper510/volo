@@ -58,8 +58,8 @@
 
         // Select the image and change its source and dimensions
         var logoImg = $(".nav-sidebar-logo");
-        var isTransparentBg = logoImg.attr("src").includes("new-volo-transparent-bg");
-        var newSrc = isTransparentBg ? "{{$logo.'volo-sm-icon.png'}}" : "{{$logo.'new-volo-transparent-bg'}}";
+        var isTransparentBg = logoImg.attr("src").includes("new-volo-transparent-bg.png");
+        var newSrc = isTransparentBg ? "{{$logo.'volo-sm-icon.png'}}" : "{{$logo.'new-volo-transparent-bg.png'}}";
 
         logoImg.attr("src", newSrc);
 
