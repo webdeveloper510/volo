@@ -50,7 +50,7 @@ $category = explode(',', $settings['campaign_type']);
                 @can('Manage User')
                 <a href="#user-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse17')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
-                    <span class="dash-mtext">{{ __('Assigned Team Member') }}</span>
+                    <span class="dash-mtext">{{ __('Team Member') }}</span>
                 </a>
                 @endcan
                 @can('Manage User')
@@ -69,7 +69,7 @@ $category = explode(',', $settings['campaign_type']);
                 @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting'))
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
-                    <span class="dash-mtext">{{ __('Trainings') }}</span>
+                    <span class="dash-mtext">{{ __('Products') }}</span>
                 </a>
 
                 <!-- <a href="#venue-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
@@ -95,7 +95,7 @@ $category = explode(',', $settings['campaign_type']);
                 @can('Manage Payment')
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse20')">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
-                    <span class="dash-mtext">{{ __('Invoice') }}</span>
+                    <span class="dash-mtext">{{ __('Clients') }}</span>
                 </a>
                 @endcan
                 @if (\Auth::user()->type == 'owner')

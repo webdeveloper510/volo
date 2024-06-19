@@ -50,7 +50,7 @@ $category = explode(',', $settings['campaign_type']);
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                 <a href="#user-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse17')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Assigned Team Member')); ?></span>
+                    <span class="dash-mtext"><?php echo e(__('Team Member')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
@@ -69,7 +69,7 @@ $category = explode(',', $settings['campaign_type']);
                 <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting')): ?>
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Trainings')); ?></span>
+                    <span class="dash-mtext"><?php echo e(__('Products')); ?></span>
                 </a>
 
                 <!-- <a href="#venue-settings" class="list-group-item list-group-item-action border-0"  onclick="showAccordion('collapse19')">
@@ -95,7 +95,7 @@ $category = explode(',', $settings['campaign_type']);
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse20')">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Invoice')); ?></span>
+                    <span class="dash-mtext"><?php echo e(__('Clients')); ?></span>
                 </a>
                 <?php endif; ?>
                 <?php if(\Auth::user()->type == 'owner'): ?>
