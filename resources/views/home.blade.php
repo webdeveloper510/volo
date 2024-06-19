@@ -51,32 +51,27 @@
                 <div class="row">
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Prospecting ({{ $activeLeadsCount }})</h5>
+                            <h5 class="card-title mb-2">Prospecting ({{ $prospectingOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : <span></span></h6>
                             <div class="scrol-card">
-                                @foreach($activeLeads as $lead)
+                                @foreach($prospectingOpportunities as $prospectingOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        <h5 class="card-text">{{ $lead['leadname'] }}
-                                            <span>({{ $lead['type'] }})</span>
+                                        <h5 class="card-text">
+                                            {{ $prospectingOpportunity['opportunity_name'] }}
                                         </h5>
 
-                                        @if($lead['start_date'] == $lead['end_date'])
-                                        <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}}</p>
-                                        @else
-                                        <p>{{ Carbon\Carbon::parse($lead['start_date'])->format('M d')}} -
-                                            {{ \Auth::user()->dateFormat($lead['end_date'])}}
-                                        </p>
+                                        @if($prospectingOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($prospectingOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
                                         @can('Show Lead')
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Lead Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$prospectingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Prospecting Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
                                         @endcan
                                     </div>
-
                                 </div>
                                 @endforeach
                             </div>
@@ -84,40 +79,85 @@
                     </div>
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Discovery ({{ $activeEventCount }})</h5>
+                            <h5 class="card-title mb-2">Discovery ({{ $discoveryOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
+                                @foreach($discoveryOpportunities as $discoveryOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
-                                        
+                                        <h5 class="card-text">
+                                            {{ $discoveryOpportunity['opportunity_name'] }}
+                                        </h5>
+
+                                        @if($discoveryOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$discoveryOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Discovery Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Demo or Meeting (N)</h5>
+                            <h5 class="card-title mb-2">Demo or Meeting ({{ $demoOrMeetingOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
+                                @foreach($demoOrMeetingOpportunities as $demoOrMeetingOpportunity)
                                 <div class="card">
-                                    <div class="card-body">
-                                        
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            {{ $demoOrMeetingOpportunity['opportunity_name'] }}
+                                        </h5>
+
+                                        @if($demoOrMeetingOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($demoOrMeetingOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$demoOrMeetingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Demo OR Meeting Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Proposal(1)</h5>
+                            <h5 class="card-title mb-2">Proposal ({{ $proposalOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
+                                @foreach($proposalOpportunities as $proposalOpportunity)
                                 <div class="card">
-                                    <div class="card-body">
-                                      
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            {{ $proposalOpportunity['opportunity_name'] }}
+                                        </h5>
+
+                                        @if($proposalOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($proposalOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$proposalOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Proposal Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -126,54 +166,113 @@
                 <div class="row mt-4">
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Negotiation (0)</h5>
+                            <h5 class="card-title mb-2">Negotiation ({{ $negotiationOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
+                                @foreach($negotiationOpportunities as $negotiationOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            {{ $negotiationOpportunity['opportunity_name'] }}
+                                        </h5>
 
+                                        @if($negotiationOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($negotiationOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$negotiationOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Negotiation Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
-
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Awaiting Decision (0)</h5>
+                            <h5 class="card-title mb-2">Awaiting Decision ({{ $awaitingDecisionOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
+                                @foreach($awaitingDecisionOpportunities as $awaitingDecisionOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            {{ $awaitingDecisionOpportunity['opportunity_name'] }}
+                                        </h5>
 
+                                        @if($awaitingDecisionOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($awaitingDecisionOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$awaitingDecisionOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Awaiting Decision Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Post Purchase (0)</h5>
+                            <h5 class="card-title mb-2">Post Purchase ({{ $postPurchaseOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
+                                @foreach($postPurchaseOpportunities as $postPurchaseOpportunity)
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            {{ $postPurchaseOpportunity['opportunity_name'] }}
+                                        </h5>
 
+                                        @if($postPurchaseOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($postPurchaseOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$postPurchaseOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Post Purchase Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Closed Won (0)</h5>
+                            <h5 class="card-title mb-2">Closed Won ({{ $closedWonOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : </h6>
                             <div class="scrol-card">
+                                @foreach($closedWonOpportunities as $closedWonOpportunity)
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            {{ $closedWonOpportunity['opportunity_name'] }}
+                                        </h5>
 
+                                        @if($closedWonOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($closedWonOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Lead')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$closedWonOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Closed Won Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

@@ -58,10 +58,6 @@ class DashboardController extends Controller
                 $data['invoiceColor']       = Invoice::$statuesColor;
 
                 $date = today()->format('Y-m-d');
-
-                $activeLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('lead_status', 1)->get();
-                $activeLeadsCount = Lead::where('created_by', \Auth::user()->creatorId())->where('lead_status', 1)->count();
-
                 $revenue = Meeting::all();
                 $events_revenue = 0;
                 foreach ($revenue as $key => $value) {
@@ -154,8 +150,72 @@ class DashboardController extends Controller
                 $plan = Plan::find($users->plan);
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
-                
-                return view('home', compact('venue_dropdown', 'activeLeadsCount', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'activeLeads', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff','products'));
+
+                // Prospecting Opportunities
+                $prospectingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['New', 'Contacted'])
+                    ->get();
+
+                $prospectingOpportunitiesCount = $prospectingOpportunities->count();
+
+                // Discovery Opportunities
+                $discoveryOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['Qualifying', 'Qualified'])
+                    ->get();
+
+                $discoveryOpportunitiesCount = $discoveryOpportunities->count();
+
+                // Demo or Meeting Opportunities
+                $demoOrMeetingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['NDA Signed', 'Demo or Meeting'])
+                    ->get();
+
+                $demoOrMeetingOpportunitiesCount = $demoOrMeetingOpportunities->count();
+
+                // Proposal Opportunities
+                $proposalOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Proposal')
+                    ->get();
+
+                $proposalOpportunitiesCount = $proposalOpportunities->count();
+
+                // Negotiation Opportunities
+                $negotiationOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Negotiation')
+                    ->get();
+
+                $negotiationOpportunitiesCount = $negotiationOpportunities->count();
+
+                // Awaiting Decision Opportunities
+                $awaitingDecisionOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Awaiting Decision')
+                    ->get();
+
+                $awaitingDecisionOpportunitiesCount = $awaitingDecisionOpportunities->count();
+
+                // Post Purchase Opportunities
+                $postPurchaseOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['Implementation', 'Follow-Up Needed'])
+                    ->get();
+
+                $postPurchaseOpportunitiesCount = $postPurchaseOpportunities->count();
+
+                // Closed Won Opportunities
+                $closedWonOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Closed Won')
+                    ->get();
+
+                $closedWonOpportunitiesCount = $closedWonOpportunities->count();
+
+                return view('home', compact('venue_dropdown', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount','closedWonOpportunities','closedWonOpportunitiesCount'));
             }
         } else {
 

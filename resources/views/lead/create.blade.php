@@ -193,8 +193,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             {{Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label']) }}
             <select class="form-control" name='assign_staff' required>
                 <option value="">Select Team Member</option>
-                @foreach($users as $user)
-                <option class="form-control" value="{{$user->id}}">{{$user->name}} ({{$user->type}})</option>
+                @foreach ($assinged_staff as $staff)
+                <option class="form-control" value="{{ $staff->id }}">{{ $staff->name }} ({{$staff->type}})</option>
                 @endforeach
             </select>
         </div>

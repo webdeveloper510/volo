@@ -82,7 +82,8 @@ class LeadController extends Controller
             $status = Lead::$status;
             $attendees_lead = Lead::where('created_by', \Auth::user()->creatorId())->where('status', 4)->where('lead_status', 1)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Client', 0);
-            return view('lead.create', compact('status', 'users', 'id', 'type', 'attendees_lead', 'clients'));
+            $assinged_staff = User::whereNotIn('id', [1, 3])->get();         
+            return view('lead.create', compact('status', 'users', 'id', 'type', 'attendees_lead', 'clients','assinged_staff'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

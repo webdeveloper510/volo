@@ -74,7 +74,19 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <span class="budget">{{ $lead->value_of_opportunity }}</span>
+                                                    <span class="budget">
+                                                        @if (!empty($lead->value_of_opportunity))
+                                                        @if ($lead->currency == 'GBP')
+                                                        £{{ $lead->value_of_opportunity }}
+                                                        @elseif ($lead->currency == 'USD')
+                                                        ${{ $lead->value_of_opportunity }}
+                                                        @elseif ($lead->currency == 'EUR')
+                                                        €{{ $lead->value_of_opportunity }}
+                                                        @else
+                                                        {{ $lead->value_of_opportunity }}
+                                                        @endif
+                                                        @endif
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     <select name="lead_status" id="lead_status" class="form-select" data-id="{{$lead->id}}">
