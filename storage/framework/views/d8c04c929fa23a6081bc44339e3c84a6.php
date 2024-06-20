@@ -43,20 +43,20 @@ $proposalstatus = \App\Models\Lead::$status;
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="container-fluid xyz p0">
-
                 <div class="row">
                     <div class="col-lg-12 ">
                         <div id="useradd-1" class="card">
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
-                                    <div class="post-search-panel">
+                                    <!-- <div class="post-search-panel">
                                         <input type="text" class="form-control" id="team_member" placeholder="Team Member">
-                                    </div>
+                                    </div> -->
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
                                                 <!-- <th scope="col" class="sort" data-sort="name"><?php echo e(__('Lead')); ?></th> -->
                                                 <th scope="col" class="sort" id="myInput" data-sort="name"><?php echo e(__('Company')); ?> <span class="opticy"></span></th>
+                                                <th scope="col" class="sort" id="teamMember" data-sort="assigned_user">Team Member <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Opportunity Value')); ?> <span class="opticy"></span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"></span></th>
                                                 <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
@@ -77,6 +77,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                         <b> <?php echo e(ucfirst($lead->opportunity_name)); ?></b>
                                                     </a>
                                                 </td>
+                                                <td><?php echo e($lead->assigned_user ? \App\Models\User::find($lead->assigned_user)->name : ''); ?></td>
                                                 <td>
                                                     <span class="budget">
                                                         <?php if(!empty($lead->value_of_opportunity)): ?>
@@ -371,12 +372,25 @@ $proposalstatus = \App\Models\Lead::$status;
         });
     });
 </script>
-<script>
-    $("#employee_filter").keyup(function() {
-        let table = new simpleDatatables.DataTable('#datatable');
-        console.log('dfsjfkdfa');
-        table.search(table).draw();
+
+<!-- <script>
+    document.getElementById('team_member').addEventListener('keyup', function() {
+        var input = this.value.toLowerCase();
+        var table = document.getElementById('datatable');
+        var rows = table.getElementsByTagName('tr');
+
+        for (var i = 1; i < rows.length; i++) { 
+            var teamMemberCell = rows[i].getElementsByTagName('td')[1]; // Adjust the index if necessary           
+            if (teamMemberCell) {
+                var teamMember = teamMemberCell.textContent || teamMemberCell.innerText;
+                if (teamMember.toLowerCase().indexOf(input) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
     });
-</script>
+</script> -->
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/index.blade.php ENDPATH**/ ?>
