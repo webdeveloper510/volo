@@ -999,30 +999,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                 </div>
                                                                 {{ Form::close() }}
                                                             </div>
-                                                            <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'category-type.setting', 'method' => 'post']) }}
-                                                                @csrf
-                                                                <div class="form-group col-md-4">
-                                                                    {{ Form::label('category_type', __('Category '), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('category_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Category'), 'required' => 'required']) }}
-                                                                </div>
-                                                                <div class="text-end">
-                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                                                </div>
-                                                                {{ Form::close() }}
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                {{ Form::open(['route' => 'subcategory-type.setting', 'method' => 'post']) }}
-                                                                @csrf
-                                                                <div class="form-group col-md-4">
-                                                                    {{ Form::label('subcategory_type', __('Subcategory '), ['class' => 'form-label']) }}
-                                                                    {{ Form::text('subcategory_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Subcategory'), 'required' => 'required']) }}
-                                                                </div>
-                                                                <div class="text-end">
-                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
-                                                                </div>
-                                                                {{ Form::close() }}
-                                                            </div>
                                                             @if(isset($product_type) && !empty($product_type))
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
@@ -1046,7 +1022,18 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                 </div>
                                                             </div>
                                                             @endif
-
+                                                            <div class="row mt-3">
+                                                                {{ Form::open(['route' => 'category-type.setting', 'method' => 'post']) }}
+                                                                @csrf
+                                                                <div class="form-group col-md-4">
+                                                                    {{ Form::label('category_type', __('Category '), ['class' => 'form-label']) }}
+                                                                    {{ Form::text('category_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Category'), 'required' => 'required']) }}
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                </div>
+                                                                {{ Form::close() }}
+                                                            </div>
                                                             @if(isset($category_type) && !empty($category_type))
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
@@ -1070,7 +1057,18 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                 </div>
                                                             </div>
                                                             @endif
-
+                                                            <div class="row mt-3">
+                                                                {{ Form::open(['route' => 'subcategory-type.setting', 'method' => 'post']) }}
+                                                                @csrf
+                                                                <div class="form-group col-md-4">
+                                                                    {{ Form::label('subcategory_type', __('Subcategory '), ['class' => 'form-label']) }}
+                                                                    {{ Form::text('subcategory_type',null,['class' => 'form-control ', 'placeholder' => __('Enter Subcategory'), 'required' => 'required']) }}
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                </div>
+                                                                {{ Form::close() }}
+                                                            </div>
                                                             @if(isset($subcategory_type) && !empty($subcategory_type))
                                                             <div class="row mt-3">
                                                                 <div class="form-group col-md-12">
@@ -1094,6 +1092,25 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                 </div>
                                                             </div>
                                                             @endif
+
+                                                            <div class="row mt-3">
+                                                                {{ Form::open(['route' => 'currency-conversion.setting', 'method' => 'post']) }}
+                                                                @csrf
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="col-4 need_full">
+                                                                        {{ Form::label('usd_to_gbp_conversion_rate', __('Conversion rate from USD to GBP'), ['class' => 'form-label me-2', 'style' => 'font-weight: 600;']) }}
+                                                                        {{ Form::text('usd_to_gbp_conversion_rate', $settings['usd_to_gbp_conversion_rate'], ['class' => 'form-control', 'placeholder' => __(''), 'required' => 'required']) }}
+                                                                    </div>
+                                                                    <div class="col-4 need_full" style="margin-left: 30px;">
+                                                                        {{ Form::label('eur_to_gbp_conversion_rate', __('Conversion rate from EUR to GBP'), ['class' => 'form-label me-2', 'style' => 'font-weight: 600;']) }}
+                                                                        {{ Form::text('eur_to_gbp_conversion_rate', $settings['eur_to_gbp_conversion_rate'], ['class' => 'form-control', 'placeholder' => __(''), 'required' => 'required']) }}
+                                                                    </div>
+                                                                    <div style="margin-top: 26px; margin-left: 19px;">
+                                                                        {{ Form::submit(__('Save'), ['class' => 'btn btn-primary']) }}
+                                                                    </div>
+                                                                </div>
+                                                                {{ Form::close() }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

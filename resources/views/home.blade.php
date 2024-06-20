@@ -52,13 +52,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Prospecting ({{ $prospectingOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($prospectingOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($prospectingOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($prospectingOpportunities as $prospectingOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $prospectingOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $prospectingOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($prospectingOpportunity['updated_at'])
@@ -80,13 +81,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Discovery ({{ $discoveryOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($discoveryOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($discoveryOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($discoveryOpportunities as $discoveryOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $discoveryOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $discoveryOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($discoveryOpportunity['updated_at'])
@@ -108,13 +110,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Demo or Meeting ({{ $demoOrMeetingOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($demoOrMeetingOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($demoOrMeetingOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($demoOrMeetingOpportunities as $demoOrMeetingOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $demoOrMeetingOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $demoOrMeetingOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($demoOrMeetingOpportunity['updated_at'])
@@ -136,13 +139,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Proposal ({{ $proposalOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($proposalOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($proposalOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($proposalOpportunities as $proposalOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $proposalOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $proposalOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($proposalOpportunity['updated_at'])
@@ -167,13 +171,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Negotiation ({{ $negotiationOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($negotiationOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($negotiationOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($negotiationOpportunities as $negotiationOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $negotiationOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $negotiationOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($negotiationOpportunity['updated_at'])
@@ -195,13 +200,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Awaiting Decision ({{ $awaitingDecisionOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($awaitingDecisionOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($awaitingDecisionOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($awaitingDecisionOpportunities as $awaitingDecisionOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $awaitingDecisionOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $awaitingDecisionOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($awaitingDecisionOpportunity['updated_at'])
@@ -223,13 +229,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Post Purchase ({{ $postPurchaseOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($postPurchaseOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($postPurchaseOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($postPurchaseOpportunities as $postPurchaseOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $postPurchaseOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $postPurchaseOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($postPurchaseOpportunity['updated_at'])
@@ -251,13 +258,14 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Closed Won ({{ $closedWonOpportunitiesCount }})</h5>
-                            <h6 class="card-title mb-2">Total Value : <span>{{ number_format($closedWonOpportunitiesSum) }}</span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($closedWonOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($closedWonOpportunities as $closedWonOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
                                             {{ $closedWonOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $closedWonOpportunity['primary_name'] }}</span>
                                         </h5>
 
                                         @if($closedWonOpportunity['updated_at'])
@@ -282,6 +290,10 @@
     </div>
 </div>
 <style>
+    span.client-name {
+        font-weight: 100 !important;
+    }
+
     h6 {
         font-size: 12px !important;
     }

@@ -53,7 +53,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Prospecting (<?php echo e($prospectingOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($prospectingOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($prospectingOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $prospectingOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prospectingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -61,6 +61,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($prospectingOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($prospectingOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($prospectingOpportunity['updated_at']): ?>
@@ -82,7 +83,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Discovery (<?php echo e($discoveryOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($discoveryOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($discoveryOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $discoveryOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $discoveryOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -90,6 +91,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($discoveryOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($discoveryOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($discoveryOpportunity['updated_at']): ?>
@@ -111,7 +113,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Demo or Meeting (<?php echo e($demoOrMeetingOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($demoOrMeetingOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($demoOrMeetingOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $demoOrMeetingOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $demoOrMeetingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -119,6 +121,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($demoOrMeetingOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($demoOrMeetingOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($demoOrMeetingOpportunity['updated_at']): ?>
@@ -140,7 +143,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Proposal (<?php echo e($proposalOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($proposalOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($proposalOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $proposalOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $proposalOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -148,6 +151,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($proposalOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($proposalOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($proposalOpportunity['updated_at']): ?>
@@ -172,7 +176,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Negotiation (<?php echo e($negotiationOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($negotiationOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($negotiationOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $negotiationOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $negotiationOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -180,6 +184,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($negotiationOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($negotiationOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($negotiationOpportunity['updated_at']): ?>
@@ -201,7 +206,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Awaiting Decision (<?php echo e($awaitingDecisionOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($awaitingDecisionOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($awaitingDecisionOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $awaitingDecisionOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $awaitingDecisionOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -209,6 +214,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($awaitingDecisionOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($awaitingDecisionOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($awaitingDecisionOpportunity['updated_at']): ?>
@@ -230,7 +236,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Post Purchase (<?php echo e($postPurchaseOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($postPurchaseOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($postPurchaseOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $postPurchaseOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $postPurchaseOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -238,6 +244,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($postPurchaseOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($postPurchaseOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($postPurchaseOpportunity['updated_at']): ?>
@@ -259,7 +266,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Closed Won (<?php echo e($closedWonOpportunitiesCount); ?>)</h5>
-                            <h6 class="card-title mb-2">Total Value : <span><?php echo e(number_format($closedWonOpportunitiesSum)); ?></span></h6>
+                            <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($closedWonOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $closedWonOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $closedWonOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
@@ -267,6 +274,7 @@
                                         <h5 class="card-text">
                                             <?php echo e($closedWonOpportunity['opportunity_name']); ?>
 
+                                            <span class="client-name"><?php echo e($closedWonOpportunity['primary_name']); ?></span>
                                         </h5>
 
                                         <?php if($closedWonOpportunity['updated_at']): ?>
@@ -291,6 +299,10 @@
     </div>
 </div>
 <style>
+    span.client-name {
+        font-weight: 100 !important;
+    }
+
     h6 {
         font-size: 12px !important;
     }

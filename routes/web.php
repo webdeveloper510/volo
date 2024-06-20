@@ -1306,6 +1306,7 @@ Route::group(['middleware' => ['verified']], function () {
 
 
      //=======================================Product TYPE/ Category Type/ Subcategory Type==========================================//
+     Route::post('setting/currency-conversion', [SettingController::class, 'currency_conversion'])->name('currency-conversion.setting');
      Route::post('setting/product-type', [SettingController::class, 'product_type'])->name('product-type.setting');
      Route::post('setting/category-type', [SettingController::class, 'category_type'])->name('category-type.setting');
      Route::post('setting/subcategory-type', [SettingController::class, 'subcategory_type'])->name('subcategory-type.setting');

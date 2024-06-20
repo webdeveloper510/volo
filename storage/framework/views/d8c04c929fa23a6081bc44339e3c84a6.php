@@ -48,7 +48,7 @@ $proposalstatus = \App\Models\Lead::$status;
                             <div class="card-body table-border-style">
                                 <div class="table-responsive">
                                     <div class="post-search-panel">
-                                        <input type="text" class="form-control" id="employee_filter" placeholder="Employee Filter">
+                                        <input type="text" class="form-control" id="team_member" placeholder="Team Member">
                                     </div>
                                     <table class="table datatable" id="datatable">
                                         <thead>

@@ -1569,6 +1569,48 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Event Type Added.'));
     }
 
+    public function currency_conversion(Request $request)
+    {
+        $user = \Auth::user();
+        $usdInputValue = $request->input('usd_to_gbp_conversion_rate');
+        $eurInputValue = $request->input('eur_to_gbp_conversion_rate');
+        $created_at = $updated_at = date('Y-m-d H:i:s');     
+
+        $settings = Utility::settings();
+
+        $usdExistingValue = $settings['usd_to_gbp_conversion_rate'] ?? '';
+        $eurExistingValue = $settings['eur_to_gbp_conversion_rate'] ?? '';
+
+        $usdNewValue = $usdExistingValue ?  $usdInputValue : $usdExistingValue;
+        $eurNewValue = $eurExistingValue ? $eurInputValue : $eurInputValue;
+
+        // Update or Insert USD to GBP Conversion Rate
+        DB::table('settings')->updateOrInsert(
+            ['name' => 'usd_to_gbp_conversion_rate'],
+            [
+                'value' => $usdNewValue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]
+        );
+
+        // Update or Insert EUR to GBP Conversion Rate
+        DB::table('settings')->updateOrInsert(
+            ['name' => 'eur_to_gbp_conversion_rate'],
+            [
+                'value' => $eurNewValue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]
+        );
+
+        return redirect()->back()->with('success', __('Conversion Rate Added.'));
+    }
+
+
+
     public function delete_event_type(Request $request)
     {
         $user = \Auth::user();
@@ -1634,26 +1676,26 @@ class SettingController extends Controller
         return true;
     }
 
-      // Delete Subcategory Type 
-      public function delete_subcategory_type(Request $request)
-      {
-          $user = \Auth::user();
-          $setting = Utility::settings();
-          $existingValues = explode(',', $setting['event_type']);
-          $updatedValues = array_diff($existingValues, [$request->badge]);
-          $newvalue = implode(',', $updatedValues);
-          $created_at = $updated_at = date('Y-m-d H:i:s');
-  
-          DB::table('settings')
-              ->where('name', 'event_type')
-              ->update([
-                  'value' => $newvalue,
-                  'created_by' => $user->id,
-                  'created_at' => $created_at,
-                  'updated_at' => $updated_at
-              ]);
-          return true;
-      }
+    // Delete Subcategory Type 
+    public function delete_subcategory_type(Request $request)
+    {
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $existingValues = explode(',', $setting['event_type']);
+        $updatedValues = array_diff($existingValues, [$request->badge]);
+        $newvalue = implode(',', $updatedValues);
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        DB::table('settings')
+            ->where('name', 'event_type')
+            ->update([
+                'value' => $newvalue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
 
     // Product Type 
     public function product_type(Request $request)
