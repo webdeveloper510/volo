@@ -29,14 +29,9 @@
                     <h4>Region</h4>
                     <select name="region" class="form-control">
                         <option value="" selected disabled>Select Region</option>
-                        <option value="India" class="form-control">India</option>
-                        <option value="Singapore" class="form-control">Singapore</option>
-                        <option value="Latin America" class="form-control">Latin America</option>
-                        <option value="Mexico" class="form-control">Mexico</option>
-                        <option value="Spain" class="form-control">Spain</option>
-                        <option value="France" class="form-control">France</option>
-                        <option value="UK" class="form-control">UK</option>
-                        <option value="USA" class="form-control">USA</option>
+                        <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($region); ?>" class="form-control"><?php echo e($region); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
                 <div class="col-4 mb-4">

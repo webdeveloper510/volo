@@ -1,6 +1,7 @@
 @php
 $settings = App\Models\Utility::settings();
 $campaign_type = explode(',',$settings['campaign_type']);
+$regions = explode(',', $settings['region']);
 @endphp
 <style>
     .fa-asterisk {
@@ -171,15 +172,9 @@ $campaign_type = explode(',',$settings['campaign_type']);
                             <label for="region">Region</label>
                             <select name="region" id="region" class="form-control">
                                 <option value="" selected disabled>Select Region</option>
-                                <option value="India" class="form-control">India</option>
-                                <option value="Singapore" class="form-control">Singapore</option>
-                                <option value="Latin America" class="form-control">Latin America</option>
-                                <option value="Mexico" class="form-control">Mexico</option>
-                                <option value="Spain" class="form-control">Spain</option>
-                                <option value="France" class="form-control">France</option>
-                                <option value="UK" class="form-control">UK</option>
-                                <option value="USA" class="form-control">USA</option>
-                                <option value="other" class="form-control">Other</option>
+                                @foreach($regions as $region)
+                                <option value="{{ $region }}" class="form-control">{{ $region }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

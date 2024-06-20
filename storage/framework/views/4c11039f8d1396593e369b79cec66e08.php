@@ -57,6 +57,10 @@ if(isset($settings['subcategory_type']) && !empty($settings['subcategory_type'])
 $subcategory_type = explode(',',$settings['subcategory_type']);
 }
 
+if(isset($settings['region']) && !empty($settings['region'])){
+$region_type = explode(',',$settings['region']);
+}
+
 $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -1109,6 +1113,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                 </div>
                                                             </div>
                                                             <?php endif; ?>
+
                                                             <div class="row mt-3">
                                                                 <?php echo e(Form::open(['route' => 'subcategory-type.setting', 'method' => 'post'])); ?>
 
@@ -1139,6 +1144,48 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
                                                                             <div class="action-btn  ms-2">
                                                                                 <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('delete-subcategorytype.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
+                                                                                    <i class="ti ti-trash"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            <?php endif; ?>
+                                                                            <?php endif; ?>
+                                                                        </span>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <?php endif; ?>
+
+                                                            <div class="row mt-3">
+                                                                <?php echo e(Form::open(['route' => 'region.setting', 'method' => 'post'])); ?>
+
+                                                                <?php echo csrf_field(); ?>
+                                                                <div class="form-group col-md-4">
+                                                                    <?php echo e(Form::label('region', __('Region '), ['class' => 'form-label'])); ?>
+
+                                                                    <?php echo e(Form::text('region',null,['class' => 'form-control ', 'placeholder' => __('Enter Region'), 'required' => 'required'])); ?>
+
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    <?php echo e(Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary'])); ?>
+
+                                                                </div>
+                                                                <?php echo e(Form::close()); ?>
+
+                                                            </div>
+                                                            <?php if(isset($region_type) && !empty($region_type)): ?>
+                                                            <div class="row mt-3">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Region List</label>
+                                                                    <div class="badges">
+                                                                        <?php $__currentLoopData = $region_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                                            <?php echo e($region); ?>
+
+                                                                            <?php if(Gate::check('Delete Role')): ?>
+                                                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Role')): ?>
+                                                                            <div class="action-btn  ms-2">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="<?php echo e(route('delete-region.setting')); ?>" data-token="<?php echo e(csrf_token()); ?>">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>

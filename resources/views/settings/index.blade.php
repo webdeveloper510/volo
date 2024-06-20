@@ -58,6 +58,10 @@ if(isset($settings['subcategory_type']) && !empty($settings['subcategory_type'])
 $subcategory_type = explode(',',$settings['subcategory_type']);
 }
 
+if(isset($settings['region']) && !empty($settings['region'])){
+$region_type = explode(',',$settings['region']);
+}
+
 $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));
@@ -1057,6 +1061,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                 </div>
                                                             </div>
                                                             @endif
+
                                                             <div class="row mt-3">
                                                                 {{ Form::open(['route' => 'subcategory-type.setting', 'method' => 'post']) }}
                                                                 @csrf
@@ -1081,6 +1086,42 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                             @can('Delete Role')
                                                                             <div class="action-btn  ms-2">
                                                                                 <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('delete-subcategorytype.setting') }}" data-token="{{ csrf_token() }}">
+                                                                                    <i class="ti ti-trash"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            @endcan
+                                                                            @endif
+                                                                        </span>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @endif
+
+                                                            <div class="row mt-3">
+                                                                {{ Form::open(['route' => 'region.setting', 'method' => 'post']) }}
+                                                                @csrf
+                                                                <div class="form-group col-md-4">
+                                                                    {{ Form::label('region', __('Region '), ['class' => 'form-label']) }}
+                                                                    {{ Form::text('region',null,['class' => 'form-control ', 'placeholder' => __('Enter Region'), 'required' => 'required']) }}
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    {{ Form::submit(__('Save'), ['class' => 'btn-submit btn btn-primary']) }}
+                                                                </div>
+                                                                {{ Form::close() }}
+                                                            </div>
+                                                            @if(isset($region_type) && !empty($region_type))
+                                                            <div class="row mt-3">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Region List</label>
+                                                                    <div class="badges">
+                                                                        @foreach ($region_type as $region)
+                                                                        <span class="badge rounded p-2 m-1 px-3 bg-primary" style="cursor:pointer">
+                                                                            {{ $region }}
+                                                                            @if(Gate::check('Delete Role'))
+                                                                            @can('Delete Role')
+                                                                            <div class="action-btn  ms-2">
+                                                                                <a href="javascript:void(0)" class="mx-3 btn btn-sm  align-items-center text-white event_show_confirm" data-bs-toggle="tooltip" title='Delete' data-url="{{ route('delete-region.setting') }}" data-token="{{ csrf_token() }}">
                                                                                     <i class="ti ti-trash"></i>
                                                                                 </a>
                                                                             </div>

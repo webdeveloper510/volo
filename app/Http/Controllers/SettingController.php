@@ -1767,6 +1767,39 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Category Type Added.'));
     }
 
+    // Region Type 
+    public function region(Request $request)
+    {
+        $user = \Auth::user();
+        $inputValue =  $request->input('region');
+        $settings = Utility::settings();
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+        $existingValue = $settings['region'] ?? '';
+        $newValue = $existingValue . ($existingValue ? ',' : '') . $inputValue;
+        if (isset($settings['region']) && !empty($settings['region'])) {
+            DB::table('settings')
+                ->where('name', 'region')
+                ->update([
+                    'value' => $newValue,
+                    'created_by' => $user->id,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]);
+        } else {
+            \DB::insert(
+                'INSERT INTO settings (`value`, `name`,`created_by`,`created_at`,`updated_at`) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), `updated_at` = VALUES(`updated_at`) ',
+                [
+                    $inputValue,
+                    'region',
+                    $user->id,
+                    $created_at,
+                    $updated_at,
+                ]
+            );
+        }
+        return redirect()->back()->with('success', __('Region Added.'));
+    }
+
 
     // Subcategory Type 
     public function subcategory_type(Request $request)
