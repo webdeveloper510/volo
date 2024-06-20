@@ -29739,6 +29739,7 @@ div#navbarCollapse ul.dash-navbar {
 .table-responsive {
     float: left;
     width: 100%;
+    position: relative;
     overflow-x: scroll;
 }
 

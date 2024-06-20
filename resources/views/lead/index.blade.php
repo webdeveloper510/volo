@@ -16,6 +16,8 @@ $proposalstatus = \App\Models\Lead::$status;
     .post-search-panel {
         width: 173px;
         margin-bottom: 10px;
+        position: absolute;
+        right: 19%;
     }
 </style>
 @endsection
