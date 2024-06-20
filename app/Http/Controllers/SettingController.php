@@ -1655,19 +1655,16 @@ class SettingController extends Controller
 
     // Delete Product Type 
     public function delete_product_type(Request $request)
-    {
-        // echo "<pre>";
-        // print_r($request->all());
-        // die;
+    {        
         $user = \Auth::user();
         $setting = Utility::settings();
-        $existingValues = explode(',', $setting['event_type']);
+        $existingValues = explode(',', $setting['product_type']);
         $updatedValues = array_diff($existingValues, [$request->badge]);
         $newvalue = implode(',', $updatedValues);
         $created_at = $updated_at = date('Y-m-d H:i:s');
 
         DB::table('settings')
-            ->where('name', 'event_type')
+            ->where('name', 'product_type')
             ->update([
                 'value' => $newvalue,
                 'created_by' => $user->id,
@@ -1682,13 +1679,13 @@ class SettingController extends Controller
     {
         $user = \Auth::user();
         $setting = Utility::settings();
-        $existingValues = explode(',', $setting['event_type']);
+        $existingValues = explode(',', $setting['category_type']);
         $updatedValues = array_diff($existingValues, [$request->badge]);
         $newvalue = implode(',', $updatedValues);
         $created_at = $updated_at = date('Y-m-d H:i:s');
 
         DB::table('settings')
-            ->where('name', 'event_type')
+            ->where('name', 'category_type')
             ->update([
                 'value' => $newvalue,
                 'created_by' => $user->id,
@@ -1703,13 +1700,13 @@ class SettingController extends Controller
     {
         $user = \Auth::user();
         $setting = Utility::settings();
-        $existingValues = explode(',', $setting['event_type']);
+        $existingValues = explode(',', $setting['subcategory_type']);
         $updatedValues = array_diff($existingValues, [$request->badge]);
         $newvalue = implode(',', $updatedValues);
         $created_at = $updated_at = date('Y-m-d H:i:s');
 
         DB::table('settings')
-            ->where('name', 'event_type')
+            ->where('name', 'subcategory_type')
             ->update([
                 'value' => $newvalue,
                 'created_by' => $user->id,
