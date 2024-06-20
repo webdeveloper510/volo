@@ -37,7 +37,7 @@ $regions = explode(',', $settings['region']);
                             {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
                         </div>
                     </div>
-                    <div class="col-6 need_full">
+                    <!-- <div class="col-6 need_full">
                         <div class="form-group">
                             {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
                             <span class="text-sm">
@@ -45,7 +45,7 @@ $regions = explode(',', $settings['region']);
                             </span>
                             {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name'),'required'=>'required'))}}
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-6 need_full">
                         <div class="form-group">
                             {{Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label']) }}

@@ -40,7 +40,7 @@ $regions = explode(',', $settings['region']);
 
                         </div>
                     </div>
-                    <div class="col-6 need_full">
+                    <!-- <div class="col-6 need_full">
                         <div class="form-group">
                             <?php echo e(Form::label('client_name',__('Client Name'),['class'=>'form-label'])); ?>
 
@@ -50,7 +50,7 @@ $regions = explode(',', $settings['region']);
                             <?php echo e(Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name'),'required'=>'required'))); ?>
 
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-6 need_full">
                         <div class="form-group">
                             <?php echo e(Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label'])); ?>
