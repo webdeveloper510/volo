@@ -1631,6 +1631,28 @@ class SettingController extends Controller
         return true;
     }
 
+    // Delete Region 
+    public function delete_region(Request $request)
+    {
+        $user = \Auth::user();
+        $setting = Utility::settings();
+        $existingValues = explode(',', $setting['region']);       
+        $updatedValues = array_diff($existingValues, [$request->badge]);       
+        $newvalue = implode(',', $updatedValues);       
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        DB::table('settings')
+            ->where('name', 'region')
+            ->update([
+                'value' => $newvalue,
+                'created_by' => $user->id,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        return true;
+    }
+
+
     // Delete Product Type 
     public function delete_product_type(Request $request)
     {
