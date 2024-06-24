@@ -35,6 +35,10 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
 
         }
     }
+
+    select#currency-select {
+        margin-left: 30px;
+    }
 </style>
 <div class="outer-layout">
     <header class="dash-header transprent-bg">
@@ -130,6 +134,15 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                             <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
                                             <span class="dash-mtext">{{ __('Settings') }}</span>
                                         </a>
+                                    </li>
+                                    <li class="dash-item">
+                                        <div class="dash-link">
+                                            <select id="currency-select" class="dash-select">
+                                                <option value="GBP">GBP</option>
+                                                <option value="USD">USD</option>
+                                                <option value="EUR">EUR</option>
+                                            </select>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

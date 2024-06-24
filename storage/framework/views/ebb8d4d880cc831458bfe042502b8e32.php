@@ -12,12 +12,28 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 
+<style>
+    label.filter-label {
+        font-weight: 700;
+    }
+
+    span.client-name {
+        font-weight: 100 !important;
+        font-size: 13px;
+    }
+
+    span.opportunity-price {
+        position: absolute;
+        margin-top: 54px;
+    }
+</style>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="row">
                 <div class="col-4 mb-4">
-                    <h4>Team Member</h4>
+                    <label class="filter-label">Team Member</label>
                     <select name="team_member" class="form-control">
                         <option value="" selected disabled>Select Team Member</option>
                         <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -26,7 +42,7 @@
                     </select>
                 </div>
                 <div class="col-4 mb-4">
-                    <h4>Region</h4>
+                    <label class="filter-label">Region</label>
                     <select name="region" class="form-control">
                         <option value="" selected disabled>Select Region</option>
                         <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -35,7 +51,7 @@
                     </select>
                 </div>
                 <div class="col-4 mb-4">
-                    <h4>Products</h4>
+                    <label class="filter-label">Products</label>
                     <select name="products" class="form-control">
                         <option value="" selected disabled>Select Products</option>
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -47,7 +63,7 @@
                 <div class="row">
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Prospecting (<?php echo e($prospectingOpportunitiesCount); ?>)</h5>
+                            <h5 class="card-title mb-2 opportunity-title">Prospecting (<?php echo e($prospectingOpportunitiesCount); ?>)</h5>
                             <h6 class="card-title mb-2">Total Value : <span>£<?php echo e(human_readable_number($prospectingOpportunitiesSum)); ?></span></h6>
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $prospectingOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prospectingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -58,7 +74,6 @@
 
                                             <span class="client-name"><?php echo e($prospectingOpportunity['primary_name']); ?></span>
                                         </h5>
-
                                         <?php if($prospectingOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($prospectingOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
@@ -69,8 +84,10 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($prospectingOpportunity['currency'])); ?><?php echo e($prospectingOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
+
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
@@ -99,6 +116,7 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($discoveryOpportunity['currency'])); ?><?php echo e($discoveryOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -129,6 +147,7 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($demoOrMeetingOpportunity['currency'])); ?><?php echo e($demoOrMeetingOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -159,6 +178,7 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($proposalOpportunity['currency'])); ?><?php echo e($proposalOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -192,6 +212,7 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($negotiationOpportunity['currency'])); ?><?php echo e($negotiationOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -222,6 +243,7 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($awaitingDecisionOpportunity['currency'])); ?><?php echo e($awaitingDecisionOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -252,6 +274,7 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($postPurchaseOpportunity['currency'])); ?><?php echo e($postPurchaseOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -282,6 +305,7 @@
                                             </a>
                                         </div>
                                         <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($closedWonOpportunity['currency'])); ?><?php echo e($closedWonOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -294,10 +318,6 @@
     </div>
 </div>
 <style>
-    span.client-name {
-        font-weight: 100 !important;
-    }
-
     h6 {
         font-size: 12px !important;
     }

@@ -11,12 +11,28 @@
 @endsection
 @section('content')
 
+<style>
+    label.filter-label {
+        font-weight: 700;
+    }
+
+    span.client-name {
+        font-weight: 100 !important;
+        font-size: 13px;
+    }
+
+    span.opportunity-price {
+        position: absolute;
+        margin-top: 54px;
+    }
+</style>
+
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
             <div class="row">
                 <div class="col-4 mb-4">
-                    <h4>Team Member</h4>
+                    <label class="filter-label">Team Member</label>
                     <select name="team_member" class="form-control">
                         <option value="" selected disabled>Select Team Member</option>
                         @foreach ($assinged_staff as $staff)
@@ -25,7 +41,7 @@
                     </select>
                 </div>
                 <div class="col-4 mb-4">
-                    <h4>Region</h4>
+                    <label class="filter-label">Region</label>
                     <select name="region" class="form-control">
                         <option value="" selected disabled>Select Region</option>
                         @foreach($regions as $region)
@@ -34,7 +50,7 @@
                     </select>
                 </div>
                 <div class="col-4 mb-4">
-                    <h4>Products</h4>
+                    <label class="filter-label">Products</label>
                     <select name="products" class="form-control">
                         <option value="" selected disabled>Select Products</option>
                         @foreach ($products as $product)
@@ -46,7 +62,7 @@
                 <div class="row">
                     <div class="col-3">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Prospecting ({{ $prospectingOpportunitiesCount }})</h5>
+                            <h5 class="card-title mb-2 opportunity-title">Prospecting ({{ $prospectingOpportunitiesCount }})</h5>
                             <h6 class="card-title mb-2">Total Value : <span>£{{ human_readable_number($prospectingOpportunitiesSum) }}</span></h6>
                             <div class="scrol-card">
                                 @foreach($prospectingOpportunities as $prospectingOpportunity)
@@ -56,7 +72,6 @@
                                             {{ $prospectingOpportunity['opportunity_name'] }}
                                             <span class="client-name">{{ $prospectingOpportunity['primary_name'] }}</span>
                                         </h5>
-
                                         @if($prospectingOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($prospectingOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
@@ -67,8 +82,10 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($prospectingOpportunity['currency']) }}{{ $prospectingOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
+
                                 @endforeach
                             </div>
                         </div>
@@ -96,6 +113,7 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($discoveryOpportunity['currency']) }}{{ $discoveryOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
                                 @endforeach
@@ -125,6 +143,7 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($demoOrMeetingOpportunity['currency']) }}{{ $demoOrMeetingOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
                                 @endforeach
@@ -154,6 +173,7 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($proposalOpportunity['currency']) }}{{ $proposalOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
                                 @endforeach
@@ -186,6 +206,7 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($negotiationOpportunity['currency']) }}{{ $negotiationOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
                                 @endforeach
@@ -215,6 +236,7 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($awaitingDecisionOpportunity['currency']) }}{{ $awaitingDecisionOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
                                 @endforeach
@@ -244,6 +266,7 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($postPurchaseOpportunity['currency']) }}{{ $postPurchaseOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
                                 @endforeach
@@ -273,6 +296,7 @@
                                             </a>
                                         </div>
                                         @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($closedWonOpportunity['currency']) }}{{ $closedWonOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
                                 @endforeach
@@ -285,10 +309,6 @@
     </div>
 </div>
 <style>
-    span.client-name {
-        font-weight: 100 !important;
-    }
-
     h6 {
         font-size: 12px !important;
     }

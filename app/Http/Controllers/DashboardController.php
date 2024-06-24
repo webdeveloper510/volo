@@ -154,7 +154,7 @@ class DashboardController extends Controller
 
                 $usdConversionRate = (float)$settings['usd_to_gbp_conversion_rate'];
                 $eurConversionRate = (float)$settings['eur_to_gbp_conversion_rate'];
-
+                
                 // Prospecting Opportunities
                 $prospectingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
                     ->where('lead_status', 1)
