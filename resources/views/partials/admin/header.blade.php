@@ -307,14 +307,14 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             closedwon_value = closedwon_value.toFixed(2);
 
             // Update HTML elements with formatted values
-            $(".prospecting-opportunities").text(prospecting_value);
-            $(".discovery-opportunities").text(discovery_value);
-            $(".meeting-opportunities").text(meeting_value);
-            $(".proposal-opportunities").text(proposal_value);
-            $(".negotiation-opportunities").text(negotiation_value);
-            $(".awaiting-opportunities").text(awaiting_value);
-            $(".postpurchase-opportunities").text(postpurchase_value);
-            $(".closedwon-opportunities").text(closedwon_value);
+            $(".prospecting-opportunities").text("£" + prospecting_value + "K");
+            $(".discovery-opportunities").text("£" + discovery_value + "K");
+            $(".meeting-opportunities").text("£" + meeting_value + "K");
+            $(".proposal-opportunities").text("£" + proposal_value + "K");
+            $(".negotiation-opportunities").text("£" + negotiation_value + "K");
+            $(".awaiting-opportunities").text("£" + awaiting_value + "K");
+            $(".postpurchase-opportunities").text("£" + postpurchase_value + "K");
+            $(".closedwon-opportunities").text("£" + closedwon_value + "K");
         });
     });
 </script>
