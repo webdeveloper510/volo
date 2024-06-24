@@ -25,6 +25,17 @@ $emailTemplate = App\Models\EmailTemplate::getemailtemplate();
 $defaultView = App\Models\UserDefualtView::select('module','route')->where('user_id', $users->id)->get()->pluck('route',
 'module')->toArray();
 
+$settings = App\Models\Utility::settings();
+$currency_options = '';
+
+if (isset($settings['currency_conversion']) && !empty($settings['currency_conversion'])) {
+$currency_conversion = json_decode($settings['currency_conversion'], true);
+
+foreach ($currency_conversion as $currency) {
+$currency_options .= '<option value="' . $currency['code'] . '">' . $currency['code'] . '</option>';
+}
+}
+
 ?>
 
 <?php if(isset($settings['cust_theme_bg']) && $settings['cust_theme_bg'] == 'on'): ?>
@@ -138,9 +149,8 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                                     <li class="dash-item">
                                         <div class="dash-link">
                                             <select id="currency-select" class="dash-select">
-                                                <option value="GBP">GBP</option>
-                                                <option value="USD">USD</option>
-                                                <option value="EUR">EUR</option>
+                                                <?php echo $currency_options; ?>
+
                                             </select>
                                         </div>
                                     </li>

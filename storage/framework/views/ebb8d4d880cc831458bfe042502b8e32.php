@@ -27,7 +27,6 @@
         margin-top: 54px;
     }
 </style>
-
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
