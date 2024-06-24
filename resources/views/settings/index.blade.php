@@ -321,10 +321,18 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         text-align: center;
         margin-left: 260px;
     }
+
+    i.ti.ti-trash.delete-btn {
+        color: #fff;
+        background: #ec3341;
+        padding: 10px;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
 </style>
 @endpush
 @push('script-page')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad."></script>
 <script>
     function myFunction() {
         var popup = document.getElementById("myPopup");
@@ -1181,7 +1189,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                                         </div>
                                                                         @if($index > 0)
                                                                         <div class="col-3">
-                                                                            <button type="button" class="btn btn-danger delete-btn" style="margin-left: 10px;">Delete</button>
+                                                                            <i class="ti ti-trash delete-btn"></i>
                                                                         </div>
                                                                         @else
                                                                         <div class="col-3"></div>
@@ -4307,7 +4315,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     <script>
         $(document).ready(function() {
             function addDeleteButton($element) {
-                var $deleteBtn = $('<button type="button" class="btn btn-danger delete-btn" style="margin-left: 10px;">Delete</button>');
+                var $deleteBtn = $('<i class="ti ti-trash delete-btn"></i>');
                 $element.find('.col-3:last').append($deleteBtn);
             }
 
@@ -4323,7 +4331,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
 
             // Delete button click handler (delegated to dynamically added buttons)
             $('#currency-fields-container').on('click', '.delete-btn', function() {
-                var $currencyField = $(this).closest('.currency-field');      
+                var $currencyField = $(this).closest('.currency-field');
                 var currencyCode = $currencyField.find('input[name="currency_code[]"]').val();
                 var currencySymbol = $currencyField.find('input[name="currency_symbol[]"]').val();
                 var conversionRateToUsd = $currencyField.find('input[name="conversion_rate_to_usd[]"]').val();
