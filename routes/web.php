@@ -1313,6 +1313,8 @@ Route::group(['middleware' => ['verified']], function () {
      Route::post('setting/delete-categorytype',[SettingController::class,'delete_category_type'])->name('delete-categorytype.setting');
      Route::post('setting/delete-subcategorytype',[SettingController::class,'delete_subcategory_type'])->name('delete-subcategorytype.setting');
      Route::post('setting/currency-conversion', [SettingController::class, 'currency_conversion'])->name('currency-conversion.setting');
+     Route::post('setting/delete-conversion', [SettingController::class, 'delete_conversion'])->name('delete-currency-conversion.setting');
+
      Route::post('setting/region', [SettingController::class, 'region'])->name('region.setting');
      Route::post('setting/delete-region', [SettingController::class, 'delete_region'])->name('delete-region.setting');
     //=======================================Venue==========================================//

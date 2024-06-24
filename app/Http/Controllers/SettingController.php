@@ -1569,46 +1569,134 @@ class SettingController extends Controller
         return redirect()->back()->with('success', __('Event Type Added.'));
     }
 
+    // public function currency_conversion(Request $request)
+    // {
+    //     echo "<pre>";
+    //     print_r($request->all());
+    //     die;
+    //     $user = \Auth::user();
+    //     $usdInputValue = $request->input('usd_to_gbp_conversion_rate');
+    //     $eurInputValue = $request->input('eur_to_gbp_conversion_rate');
+    //     $created_at = $updated_at = date('Y-m-d H:i:s');     
+
+    //     $settings = Utility::settings();
+
+    //     $usdExistingValue = $settings['usd_to_gbp_conversion_rate'] ?? '';
+    //     $eurExistingValue = $settings['eur_to_gbp_conversion_rate'] ?? '';
+
+    //     $usdNewValue = $usdExistingValue ?  $usdInputValue : $usdExistingValue;
+    //     $eurNewValue = $eurExistingValue ? $eurInputValue : $eurInputValue;
+
+    //     // Update or Insert USD to GBP Conversion Rate
+    //     DB::table('settings')->updateOrInsert(
+    //         ['name' => 'usd_to_gbp_conversion_rate'],
+    //         [
+    //             'value' => $usdNewValue,
+    //             'created_by' => $user->id,
+    //             'created_at' => $created_at,
+    //             'updated_at' => $updated_at
+    //         ]
+    //     );
+
+    //     // Update or Insert EUR to GBP Conversion Rate
+    //     DB::table('settings')->updateOrInsert(
+    //         ['name' => 'eur_to_gbp_conversion_rate'],
+    //         [
+    //             'value' => $eurNewValue,
+    //             'created_by' => $user->id,
+    //             'created_at' => $created_at,
+    //             'updated_at' => $updated_at
+    //         ]
+    //     );
+
+    //     return redirect()->back()->with('success', __('Conversion Rate Added.'));
+    // }
+
     public function currency_conversion(Request $request)
     {
+        // Validate the request
+        $validated = $request->validate([
+            'currency_code' => 'required|array',
+            'currency_symbol' => 'required|array',
+            'conversion_rate_to_usd' => 'required|array',
+            'currency_code.*' => 'required|string',
+            'currency_symbol.*' => 'required|string',
+            'conversion_rate_to_usd.*' => 'required|numeric',
+        ]);
+
+        // Prepare the data to be stored
+        $currencyData = [];
+        foreach ($validated['currency_code'] as $index => $code) {
+            $currencyData[] = [
+                'code' => $code,
+                'symbol' => $validated['currency_symbol'][$index],
+                'conversion_rate_to_usd' => $validated['conversion_rate_to_usd'][$index],
+            ];
+        }
+
+        // Convert the data to JSON
+        $currencyDataJson = json_encode($currencyData);
+
         $user = \Auth::user();
-        $usdInputValue = $request->input('usd_to_gbp_conversion_rate');
-        $eurInputValue = $request->input('eur_to_gbp_conversion_rate');
-        $created_at = $updated_at = date('Y-m-d H:i:s');     
+        $timestamp = now();
 
-        $settings = Utility::settings();
-
-        $usdExistingValue = $settings['usd_to_gbp_conversion_rate'] ?? '';
-        $eurExistingValue = $settings['eur_to_gbp_conversion_rate'] ?? '';
-
-        $usdNewValue = $usdExistingValue ?  $usdInputValue : $usdExistingValue;
-        $eurNewValue = $eurExistingValue ? $eurInputValue : $eurInputValue;
-
-        // Update or Insert USD to GBP Conversion Rate
+        // Update or Insert the currency conversion setting
         DB::table('settings')->updateOrInsert(
-            ['name' => 'usd_to_gbp_conversion_rate'],
+            ['name' => 'currency_conversion'],
             [
-                'value' => $usdNewValue,
+                'value' => $currencyDataJson,
                 'created_by' => $user->id,
-                'created_at' => $created_at,
-                'updated_at' => $updated_at
-            ]
-        );
-
-        // Update or Insert EUR to GBP Conversion Rate
-        DB::table('settings')->updateOrInsert(
-            ['name' => 'eur_to_gbp_conversion_rate'],
-            [
-                'value' => $eurNewValue,
-                'created_by' => $user->id,
-                'created_at' => $created_at,
-                'updated_at' => $updated_at
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
             ]
         );
 
         return redirect()->back()->with('success', __('Conversion Rate Added.'));
     }
 
+
+    public function delete_conversion(Request $request)
+    {
+        $currencyCode = $request->input('code');
+        $currencySymbol = $request->input('symbol');
+        $conversionRateToUsd = $request->input('rate');
+
+        // Retrieve the current settings
+        $settings = DB::table('settings')->where('name', 'currency_conversion')->first();
+
+        $user = \Auth::user();
+        $timestamp = now();
+
+        if ($settings) {
+            $currencyData = json_decode($settings->value, true);
+
+            $indexToDelete = -1;
+            foreach ($currencyData as $index => $currency) {
+                if ($currency['code'] === $currencyCode && $currency['symbol'] === $currencySymbol && $currency['conversion_rate_to_usd'] == $conversionRateToUsd) {
+                    $indexToDelete = $index;
+                    break;
+                }
+            }
+
+            if ($indexToDelete >= 0) {
+                array_splice($currencyData, $indexToDelete, 1);
+
+                DB::table('settings')->updateOrInsert(
+                    ['name' => 'currency_conversion'],
+                    [
+                        'value' => json_encode($currencyData),
+                        'created_by' => $user->id,
+                        'created_at' => $timestamp,
+                        'updated_at' => $timestamp
+                    ]
+                );
+
+                return response()->json(['success' => true]);
+            }
+        }
+
+        return response()->json(['success' => false]);
+    }
 
 
     public function delete_event_type(Request $request)
@@ -1636,9 +1724,9 @@ class SettingController extends Controller
     {
         $user = \Auth::user();
         $setting = Utility::settings();
-        $existingValues = explode(',', $setting['region']);       
-        $updatedValues = array_diff($existingValues, [$request->badge]);       
-        $newvalue = implode(',', $updatedValues);       
+        $existingValues = explode(',', $setting['region']);
+        $updatedValues = array_diff($existingValues, [$request->badge]);
+        $newvalue = implode(',', $updatedValues);
         $created_at = $updated_at = date('Y-m-d H:i:s');
 
         DB::table('settings')
@@ -1655,7 +1743,7 @@ class SettingController extends Controller
 
     // Delete Product Type 
     public function delete_product_type(Request $request)
-    {        
+    {
         $user = \Auth::user();
         $setting = Utility::settings();
         $existingValues = explode(',', $setting['product_type']);
