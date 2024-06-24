@@ -32,7 +32,7 @@ if (isset($settings['currency_conversion']) && !empty($settings['currency_conver
 $currency_conversion = json_decode($settings['currency_conversion'], true);
 
 foreach ($currency_conversion as $currency) {
-$currency_options .= '<option value="' . $currency['code'] . '">' . $currency['code'] . '</option>';
+$currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '">' . $currency['code'] . '</option>';
 }
 }
 
@@ -47,8 +47,16 @@ $currency_options .= '<option value="' . $currency['code'] . '">' . $currency['c
         }
     }
 
-    select#currency-select {
-        margin-left: 30px;
+    .currency-select {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+
+    .currency-select option {
+        padding: 8px 12px;
+        font-size: 14px;
     }
 </style>
 <div class="outer-layout">
@@ -146,16 +154,13 @@ $currency_options .= '<option value="' . $currency['code'] . '">' . $currency['c
                                             <span class="dash-mtext">{{ __('Settings') }}</span>
                                         </a>
                                     </li>
-                                    <li class="dash-item">
-                                        <div class="dash-link">
-                                            <select id="currency-select" class="dash-select">
-                                                {!! $currency_options !!}
-                                            </select>
-                                        </div>
-                                    </li>
                                 </ul>
                             </div>
-
+                            <div class="navbar-nav">
+                                <select id="currency-select" class="currency-select">
+                                    {!! $currency_options !!}
+                                </select>
+                            </div>
                             <div class="navbar-nav ">
                                 <li class="dropdown dash-h-item drp-company">
                                     <a class="dash-head-link dropdown-toggle arrow-none me-0" data-target="#sidenav-main" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -261,3 +266,55 @@ $currency_options .= '<option value="' . $currency['code'] . '">' . $currency['c
         @include('partials.admin.sidebar')
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#currency-select').on('change', function() {
+            var selectedCurrency = $(this).val();
+
+            // Parse selectedCurrency into a float number (assuming it represents a multiplier)
+            var multiplier = parseFloat(selectedCurrency);
+
+            // Extract and clean numerical values from text
+            var prospecting_value = parseFloat($(".prospecting-opportunities").text().replace(/[£K]/g, ''));
+            var discovery_value = parseFloat($(".discovery-opportunities").text().replace(/[£K]/g, ''));
+            var meeting_value = parseFloat($(".meeting-opportunities").text().replace(/[£K]/g, ''));
+            var proposal_value = parseFloat($(".proposal-opportunities").text().replace(/[£K]/g, ''));
+            var negotiation_value = parseFloat($(".negotiation-opportunities").text().replace(/[£K]/g, ''));
+            var awaiting_value = parseFloat($(".awaiting-opportunities").text().replace(/[£K]/g, ''));
+            var postpurchase_value = parseFloat($(".postpurchase-opportunities").text().replace(/[£K]/g, ''));
+            var closedwon_value = parseFloat($(".closedwon-opportunities").text().replace(/[£K]/g, ''));
+
+            // Multiply each value by the selectedCurrency multiplier
+            prospecting_value *= multiplier;
+            discovery_value *= multiplier;
+            meeting_value *= multiplier;
+            proposal_value *= multiplier;
+            negotiation_value *= multiplier;
+            awaiting_value *= multiplier;
+            postpurchase_value *= multiplier;
+            closedwon_value *= multiplier;
+
+            // Format values to two decimal places
+            prospecting_value = prospecting_value.toFixed(2);
+            discovery_value = discovery_value.toFixed(2);
+            meeting_value = meeting_value.toFixed(2);
+            proposal_value = proposal_value.toFixed(2);
+            negotiation_value = negotiation_value.toFixed(2);
+            awaiting_value = awaiting_value.toFixed(2);
+            postpurchase_value = postpurchase_value.toFixed(2);
+            closedwon_value = closedwon_value.toFixed(2);
+
+            // Update HTML elements with formatted values
+            $(".prospecting-opportunities").text(prospecting_value);
+            $(".discovery-opportunities").text(discovery_value);
+            $(".meeting-opportunities").text(meeting_value);
+            $(".proposal-opportunities").text(proposal_value);
+            $(".negotiation-opportunities").text(negotiation_value);
+            $(".awaiting-opportunities").text(awaiting_value);
+            $(".postpurchase-opportunities").text(postpurchase_value);
+            $(".closedwon-opportunities").text(closedwon_value);
+        });
+    });
+</script>
