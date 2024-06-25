@@ -81,7 +81,7 @@ $func_package = json_decode($meeting->func_package,true);
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        @if($meeting->attendees_lead != 0 )
+                                        <!-- @if($meeting->attendees_lead != 0 )
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('attendees_lead', __('Lead'), ['class' => 'form-label']) }}
@@ -92,10 +92,16 @@ $func_package = json_decode($meeting->func_package,true);
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('eventname', __('Event Name'), ['class' => 'form-label']) }}
-                                                {{Form::text('eventname',$meeting->eventname,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
+                                                {{Form::text('eventname',$meeting->name,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
                                             </div>
                                         </div>
-                                        @endif
+                                        @endif -->
+                                        <div class="col-6 need_full">
+                                            <div class="form-group">
+                                                {{ Form::label('event_name', __('Event Name'), ['class' => 'form-label']) }}
+                                                {{Form::text('event_name',$meeting->name,array('class'=>'form-control','required'=>'required','readonly'=>'readonly'))}}
+                                            </div>
+                                        </div>
 
                                         <div class="col-6 need_full">
                                             <div class="form-group">
@@ -111,14 +117,55 @@ $func_package = json_decode($meeting->func_package,true);
 
                                             </div>
                                         </div>
-                                        <div class="col-6 need_full">
+                                        <!-- <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
                                                 {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
                                             </div>
+                                        </div> -->
+
+                                        <div class="col-6 need_full">
+                                            <div class="form-group">
+                                                {{Form::label('location',__('Location'),['class'=>'form-label']) }}
+                                                {{Form::text('location',$meeting->venue_selection,array('class'=>'form-control','placeholder'=>__('Enter Location')))}}
+                                            </div>
+                                        </div>
+                                        <div class="col-6 need_full">
+                                            <div class="form-group">
+                                                {{ Form::label('start_date', __('Start Date'), ['class' => 'form-label']) }}
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
+                                                {!! Form::date('start_date', isset($meeting) && is_object($meeting) && isset($meeting->start_date) ? $meeting->start_date : date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+
+                                            </div>
+                                            @if ($errors->has('start_date'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('start_date') }}</strong>
+                                            </span>
+                                            @endif
+
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
+                                                {!! Form::date('end_date', isset($meeting) && is_object($meeting) && isset($meeting->end_date) ? $meeting->end_date : date('Y-m-d'), ['class' => 'form-control', 'required' => 'required']) !!}
+
+                                            </div>
+                                            @if ($errors->has('end_date'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('end_date') }}</strong>
+                                            </span>
+                                            @endif
+                                        </div>
+                                        <div class="card-footer text-end">
+                                            <input type="reset" id="resetForm" value="" style="display: none;">
+                                            {{ Form::submit(__('Save'), ['class' => 'btn  btn-primary ']) }}
                                         </div>
 
-                                        <div class="col-12  p-0 modaltitle pb-3 mb-3">
+
+
+                                        <!-- <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                             <h5 style="margin-left: 14px;">{{ __('Contact Information') }}</h5>
                                         </div>
                                         <div class="col-6 need_full">
@@ -154,9 +201,9 @@ $func_package = json_decode($meeting->func_package,true);
                                                 {{Form::label('relationship',__('Relationship'),['class'=>'form-label']) }}
                                                 {{Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))}}
                                             </div>
-                                        </div>
+                                        </div> -->
 
-                                        <div id="contact-info" style="display:none">
+                                        <!-- <div id="contact-info" style="display:none">
                                             <div class="row">
                                                 <div class="col-12  p-0 modaltitle pb-3 mb-3">
                                                     <h5 style="margin-left: 14px;">{{ __('Other Contact Information') }}</h5>
@@ -192,13 +239,13 @@ $func_package = json_decode($meeting->func_package,true);
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-12 text-end mt-3">
+                                        </div> -->
+                                        <!-- <div class="col-12 text-end mt-3">
                                             <button data-bs-toggle="tooltip" id="opencontact" title="{{ __('Add Contact') }}" class="btn btn-sm btn-primary btn-icon m-1">
                                                 <i class="ti ti-plus"></i>
                                             </button>
-                                        </div>
-                                        @if (isset($setting['is_enabled']) && $setting['is_enabled'] == 'on')
+                                        </div> -->
+                                        <!-- @if (isset($setting['is_enabled']) && $setting['is_enabled'] == 'on')
                                         <div class="form-group col-md-6">
                                             <label>{{ __('Synchronize in Google Calendar') }}</label>
                                             <div class="form-check form-switch pt-2">
@@ -206,12 +253,12 @@ $func_package = json_decode($meeting->func_package,true);
                                                 <label class="form-check-label" for="switch-shadow"></label>
                                             </div>
                                         </div>
-                                        @endif
+                                        @endif -->
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="event-details" class="card">
+                        <!-- <div id="event-details" class="card">
                             <div class="col-md-12">
                                 <div class="card-header">
                                     <div class="row">
@@ -247,13 +294,13 @@ $func_package = json_decode($meeting->func_package,true);
                                                 {!! Form::date('start_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div>
-                                        <!-- <div class="col-6 need_full">
+                                     <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('end_date', __('End Date'), ['class' => 'form-label']) }}
                                                 {!! Form::date('end_date', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                             </div>
                                         </div> -->
-                                        <div class="col-6 need_full">
+                        <!-- <div class="col-6 need_full">
                                             <div class="form-group">
                                                 {{ Form::label('start_time', __('Start Time'), ['class' => 'form-label']) }}
                                                 {!! Form::input('time', 'start_time',null, ['class' => 'form-control', 'required' => 'required']) !!}
@@ -341,12 +388,12 @@ $func_package = json_decode($meeting->func_package,true);
                                                 </div>
                                                 @endforeach
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="special_req" class="card">
+                                        </div> 
+                                    </div>-->
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="special_req" class="card">
                             <div class="col-md-12">
                                 <div class="card-header">
                                     <div class="row">
@@ -408,8 +455,8 @@ $func_package = json_decode($meeting->func_package,true);
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="other_info" class="card">
+                        </div> -->
+            <!-- <div id="other_info" class="card">
                             <div class="col-md-12">
                                 <div class="card-header">
                                     <div class="row">
@@ -439,110 +486,110 @@ $func_package = json_decode($meeting->func_package,true);
                                     {{ Form::submit(__('Save Changes'), ['class' => 'btn  btn-primary ']) }}
                                 </div>
                             </div>
-                        </div>
-                        {{ Form::close() }}
-                    </div>
-                </div>
-            </div>
+                        </div> -->
+            {{ Form::close() }}
         </div>
     </div>
+</div>
+</div>
+</div>
 </div>
 
 @endsection
 @push('script-page')
 <style>
-.iti.iti--allow-dropdown.iti--separate-dial-code {
-    width: 100%;
-}
+    .iti.iti--allow-dropdown.iti--separate-dial-code {
+        width: 100%;
+    }
 </style>
 
 <script>
     $(document).ready(function() {
-    var phoneNumber = "<?php echo $meeting->phone;?>";
-    var num = phoneNumber.trim();
-    // if (phoneNumber.trim().length < 10) {
-    //     alert('Please enter a valid phone number with at least 10 digits.');
-    //     return;
-    // }
-    var lastTenDigits = phoneNumber.substr(-10);
-    var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3, 3) + '-' +
-        lastTenDigits.substr(6);
-    $('#phone-input').val(formattedPhoneNumber);
-})
+        var phoneNumber = "<?php echo $meeting->phone; ?>";
+        var num = phoneNumber.trim();
+        // if (phoneNumber.trim().length < 10) {
+        //     alert('Please enter a valid phone number with at least 10 digits.');
+        //     return;
+        // }
+        var lastTenDigits = phoneNumber.substr(-10);
+        var formattedPhoneNumber = '(' + lastTenDigits.substr(0, 3) + ') ' + lastTenDigits.substr(3, 3) + '-' +
+            lastTenDigits.substr(6);
+        $('#phone-input').val(formattedPhoneNumber);
+    })
 </script>
 <script>
-$(document).ready(function() {
-    var input = document.querySelector("#phone-input");
-    var iti = window.intlTelInput(input, {
-        separateDialCode: true,
+    $(document).ready(function() {
+        var input = document.querySelector("#phone-input");
+        var iti = window.intlTelInput(input, {
+            separateDialCode: true,
+        });
+
+        var indiaCountryCode = iti.getSelectedCountryData().iso2;
+        var countryCode = iti.getSelectedCountryData().dialCode;
+        $('#country-code').val(countryCode);
+        if (indiaCountryCode !== 'us') {
+            iti.setCountry('us');
+        }
     });
+    // $(document).ready(function() {
+    //     $('#start_date, #end_date').change(function() {
+    //         var startDate = new Date($('#start_date').val());
+    //         var endDate = new Date($('#end_date').val());
 
-    var indiaCountryCode = iti.getSelectedCountryData().iso2;
-    var countryCode = iti.getSelectedCountryData().dialCode;
-    $('#country-code').val(countryCode);
-    if (indiaCountryCode !== 'us') {
-        iti.setCountry('us');
-    }
-});
-// $(document).ready(function() {
-//     $('#start_date, #end_date').change(function() {
-//         var startDate = new Date($('#start_date').val());
-//         var endDate = new Date($('#end_date').val());
-
-//         if ($(this).attr('id') === 'start_date' && endDate < startDate) {
-//             $('#end_date').val($('#start_date').val());
-//         } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
-//             $('#start_date').val($('#end_date').val());
-//         }
-//     });
-// });
+    //         if ($(this).attr('id') === 'start_date' && endDate < startDate) {
+    //             $('#end_date').val($('#start_date').val());
+    //         } else if ($(this).attr('id') === 'end_date' && endDate < startDate) {
+    //             $('#start_date').val($('#end_date').val());
+    //         }
+    //     });
+    // });
 </script>
 <script>
-const isNumericInput = (event) => {
-    const key = event.keyCode;
-    return ((key >= 48 && key <= 57) || // Allow number line
-        (key >= 96 && key <= 105) // Allow number pad
-    );
-};
-const isModifierKey = (event) => {
-    const key = event.keyCode;
-    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-        (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
-        (key > 36 && key < 41) || // Allow left, up, right, down
-        (
-            // Allow Ctrl/Command + A,C,V,X,Z
-            (event.ctrlKey === true || event.metaKey === true) &&
-            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-        )
-};
-const enforceFormat = (event) => {
-    // Input must be of a valid number format or a modifier key, and not longer than ten digits
-    if (!isNumericInput(event) && !isModifierKey(event)) {
-        event.preventDefault();
-    }
-};
-const formatToPhone = (event) => {
-    if (isModifierKey(event)) {
-        return;
-    }
-    // I am lazy and don't like to type things more than once
-    const target = event.target;
-    const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
-    const zip = input.substring(0, 3);
-    const middle = input.substring(3, 6);
-    const last = input.substring(6, 10);
+    const isNumericInput = (event) => {
+        const key = event.keyCode;
+        return ((key >= 48 && key <= 57) || // Allow number line
+            (key >= 96 && key <= 105) // Allow number pad
+        );
+    };
+    const isModifierKey = (event) => {
+        const key = event.keyCode;
+        return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+            (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+            (key > 36 && key < 41) || // Allow left, up, right, down
+            (
+                // Allow Ctrl/Command + A,C,V,X,Z
+                (event.ctrlKey === true || event.metaKey === true) &&
+                (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+            )
+    };
+    const enforceFormat = (event) => {
+        // Input must be of a valid number format or a modifier key, and not longer than ten digits
+        if (!isNumericInput(event) && !isModifierKey(event)) {
+            event.preventDefault();
+        }
+    };
+    const formatToPhone = (event) => {
+        if (isModifierKey(event)) {
+            return;
+        }
+        // I am lazy and don't like to type things more than once
+        const target = event.target;
+        const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
+        const zip = input.substring(0, 3);
+        const middle = input.substring(3, 6);
+        const last = input.substring(6, 10);
 
-    if (input.length > 6) {
-        target.value = `(${zip}) ${middle} - ${last}`;
-    } else if (input.length > 3) {
-        target.value = `(${zip}) ${middle}`;
-    } else if (input.length > 0) {
-        target.value = `(${zip}`;
-    }
-};
-const inputElement = document.getElementById('phone-input');
-inputElement.addEventListener('keydown', enforceFormat);
-inputElement.addEventListener('keyup', formatToPhone);
+        if (input.length > 6) {
+            target.value = `(${zip}) ${middle} - ${last}`;
+        } else if (input.length > 3) {
+            target.value = `(${zip}) ${middle}`;
+        } else if (input.length > 0) {
+            target.value = `(${zip}`;
+        }
+    };
+    const inputElement = document.getElementById('phone-input');
+    inputElement.addEventListener('keydown', enforceFormat);
+    inputElement.addEventListener('keyup', formatToPhone);
 </script>
 <script>
     var scrollSpy = new bootstrap.ScrollSpy(document.body, {
@@ -575,7 +622,7 @@ inputElement.addEventListener('keyup', formatToPhone);
             $('#package').show();
         }
     });
-    
+
     jQuery(function() {
         $('input[name="function[]"]').change(function() {
             $('div#mailFunctionSection > div').hide();
@@ -605,14 +652,14 @@ inputElement.addEventListener('keyup', formatToPhone);
         });
     });
     jQuery(function() {
-            $('input[type=radio][name = baropt]').change(function() {
-                $('div#barpacakgeoptions').hide();
-                var value = $(this).val();
-               if(value == 'Package Choice'){
-                    $('div#barpacakgeoptions').show();
-               }
-            });
+        $('input[type=radio][name = baropt]').change(function() {
+            $('div#barpacakgeoptions').hide();
+            var value = $(this).val();
+            if (value == 'Package Choice') {
+                $('div#barpacakgeoptions').show();
+            }
         });
+    });
 </script>
 
 <script>

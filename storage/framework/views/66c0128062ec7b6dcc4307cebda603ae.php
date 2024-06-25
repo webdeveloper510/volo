@@ -138,12 +138,12 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             </div>
                                             <div class="col-6" id="new_event" style="display: none;">
                                                 <div class="form-group">
-                                                    <?php echo e(Form::label('eventname', __('Training Name'), ['class' => 'form-label'])); ?>
+                                                    <?php echo e(Form::label('eventname', __('Event Name'), ['class' => 'form-label'])); ?>
 
                                                     <span class="text-sm">
                                                         <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                                     </span>
-                                                    <?php echo e(Form::text('eventname',null,array('class'=>'form-control','placeholder'=>__('Enter Training Name')))); ?>
+                                                    <?php echo e(Form::text('eventname',null,array('class'=>'form-control','placeholder'=>__('Enter Event Name')))); ?>
 
                                                 </div>
                                             </div>

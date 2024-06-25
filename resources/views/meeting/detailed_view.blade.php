@@ -22,15 +22,9 @@
                 <div class="row">
                     <dl class="row ">
                         <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Event')}}</span></dt>
-                        @if($event->name)
-                        <dd class="col-md-6 need_half"><span class="">{{ !empty($event->name) ? $event->name : '-' }}</span>
-                        </dd>
-                        @else
-                        <dd class="col-md-6 need_half"><span class="">{{$event->name}}</span></dd>
-                        @endif
+                        <dd class="col-md-6 need_half"><span class="">{{ !empty($event->name) ? $event->name : '-' }}</span></dd>
                         <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Assigned Team Member')}}</span></dt>
                         <dd class="col-md-6 need_half"><span class="">{{$assigned_to}}</span></dd>
-
                         <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Start Date')}}</span></dt>
                         @if($event->start_date)
                         <dd class="col-md-6 need_half"><span class="">{{\Auth::user()->dateFormat($event->start_date)}}</span>
