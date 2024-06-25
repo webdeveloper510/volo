@@ -171,7 +171,7 @@ $category = explode(',', $settings['campaign_type']);
 
                 @if(\Request::route()->getName() == 'meeting.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
-                    <span class="dash-mtext">{{ __('Trainings') }} </span></a>
+                    <span class="dash-mtext">{{ __('Events') }} </span></a>
 
                 </a>
                 @endif

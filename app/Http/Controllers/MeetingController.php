@@ -366,11 +366,16 @@ class MeetingController extends Controller
                     ->withErrors($validator)
                     ->withInput();
             }
-        
+
             $start_date = $request->input('start_date');
-            $end_date = $request->input('start_date');
+            $end_date = $request->input('end_date');
             $location = $request->input('location');
-      
+
+            // Ensure $location is an array
+            if (!is_array($location)) {
+                $location = [$location];
+            }
+
             $overlapping_event = Meeting::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
                 ->where(function ($query) use ($start_date, $end_date, $location) {
@@ -382,7 +387,6 @@ class MeetingController extends Controller
                         });
                     }
                 })->count();
-
             if ($overlapping_event > 0) {
                 return redirect()->back()->with('error', 'Event exists for corresponding time or location!');
             }
@@ -407,7 +411,7 @@ class MeetingController extends Controller
             $meeting['name']              = $request->event_name;
             $meeting['start_date']        = $request->start_date;
             $meeting['end_date']          = $request->end_date;
-            $meeting['email']              ='';
+            $meeting['email']              = '';
             $meeting['lead_address']       = '';
             $meeting['company_name']      = '';
             $meeting['relationship']       = '';
@@ -425,7 +429,7 @@ class MeetingController extends Controller
             $meeting['alter_email']         = '';
             $meeting['alter_relationship']  = '';
             $meeting['alter_lead_address']  = '';
-            $meeting['attendees_lead']      ='';
+            $meeting['attendees_lead']      = '';
             $meeting['eventname']           = '';
             $meeting['phone']               = '';
             $meeting['start_time']          = '';
@@ -434,28 +438,10 @@ class MeetingController extends Controller
             $meeting['floor_plan']          = '';
             $meeting['allergies']          = '';
             $meeting['created_by']          = \Auth::user()->creatorId();
-
             $meeting->save();
-            die;
             // echo "<pre>";print_r($meeting);die;
 
-            if (!empty($request->file('atttachment'))) {
-                $file = $request->file('atttachment');
-                $originalName = $file->getClientOriginalName();
-                $filename =  Str::random(3) . '_' . $originalName;
-                $folder = 'Event/' .  $meeting->id; // Example: uploads/1
-                try {
-                    $path = $file->storeAs($folder, $filename, 'public');
-                    $document = new EventDoc();
-                    $document->event_id =  $meeting->id; // Assuming you have a lead_id field
-                    $document->filename = $filename; // Store original file name
-                    $document->filepath = $path; // Store file path
-                    $document->save();
-                } catch (\Exception $e) {
-                    Log::error('File upload failed: ' . $e->getMessage());
-                    return redirect()->back()->with('error', 'File upload failed');
-                }
-            }
+
             // if (!empty($request->file('atttachment'))){
             //     $file =  $request->file('atttachment');
             //     $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
@@ -467,81 +453,81 @@ class MeetingController extends Controller
             //         return redirect()->back()->with('error', 'File upload failed');
             //     }
             // }
-            $existingcustomer = MasterCustomer::where('email', $request->email)->first();
-            if (!$existingcustomer) {
-                $customer = new MasterCustomer();
-                $customer->ref_id = $meeting->id;
-                $customer->name = $request->name;
-                $customer->email = $request->email;
-                $customer->phone = $phone;
-                $customer->address = $request->lead_address ?? '';
-                $customer->category = 'event';
-                $customer->type = $request->type;
-                $customer->save();
-            }
-            $Assign_user_phone = User::where('id', $request->user)->first();
-            $setting  = Utility::settings(\Auth::user()->creatorId());
-            $uArr = [
-                'meeting_name' => $request->name,
-                'meeting_start_date' => $request->start_date,
-                'meeting_due_date' => $request->start_date,
-            ];
-            $resp = Utility::sendEmailTemplate('meeting_assigned', [$meeting->id => $Assign_user_phone->email], $uArr);
-            if (isset($setting['twilio_meeting_create']) && $setting['twilio_meeting_create'] == 1) {
-                $uArr = [
-                    'meeting_name' => $request->name,
-                    'meeting_start_date' => $request->start_date,
-                    'meeting_due_date' => $request->start_date,
-                    'user_name' => \Auth::user()->name,
-                ];
-                Utility::send_twilio_msg($Assign_user_phone->phone, 'new_meeting', $uArr);
-            }
-            if ($request->get('is_check')  == '1') {
-                $type = 'meeting';
-                $request1 = new Meeting();
-                $request1->title = $request->name;
-                $request1->start_date = $request->start_date;
-                $request1->end_date = $request->start_date;
-                Utility::addCalendarData($request1, $type);
-            }
-            $url = 'https://fcm.googleapis.com/fcm/send';
-            // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
+            // $existingcustomer = MasterCustomer::where('email', $request->email)->first();
+            // if (!$existingcustomer) {
+            //     $customer = new MasterCustomer();
+            //     $customer->ref_id = $meeting->id;
+            //     $customer->name = $request->name;
+            //     $customer->email = $request->email;
+            //     $customer->phone = $phone;
+            //     $customer->address = $request->lead_address ?? '';
+            //     $customer->category = 'event';
+            //     $customer->type = $request->type;
+            //     $customer->save();
+            // }
+            // $Assign_user_phone = User::where('id', $request->user)->first();
+            // $setting  = Utility::settings(\Auth::user()->creatorId());
+            // $uArr = [
+            //     'meeting_name' => $request->name,
+            //     'meeting_start_date' => $request->start_date,
+            //     'meeting_due_date' => $request->start_date,
+            // ];
+            // $resp = Utility::sendEmailTemplate('meeting_assigned', [$meeting->id => $Assign_user_phone->email], $uArr);
+            // if (isset($setting['twilio_meeting_create']) && $setting['twilio_meeting_create'] == 1) {
+            //     $uArr = [
+            //         'meeting_name' => $request->name,
+            //         'meeting_start_date' => $request->start_date,
+            //         'meeting_due_date' => $request->start_date,
+            //         'user_name' => \Auth::user()->name,
+            //     ];
+            //     Utility::send_twilio_msg($Assign_user_phone->phone, 'new_meeting', $uArr);
+            // }
+            // if ($request->get('is_check')  == '1') {
+            //     $type = 'meeting';
+            //     $request1 = new Meeting();
+            //     $request1->title = $request->name;
+            //     $request1->start_date = $request->start_date;
+            //     $request1->end_date = $request->start_date;
+            //     Utility::addCalendarData($request1, $type);
+            // }
+            // $url = 'https://fcm.googleapis.com/fcm/send';
+            // // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
 
-            $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
-            // echo"<pre>";print_r($FcmToken);die;
-            $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
-            $data = [
-                "to" => $FcmToken,
-                "notification" => [
-                    "title" => 'Event created.',
-                    "body" => 'New Event is Created',
-                ]
-            ];
-            $encodedData = json_encode($data);
+            // $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
+            // // echo"<pre>";print_r($FcmToken);die;
+            // $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+            // $data = [
+            //     "to" => $FcmToken,
+            //     "notification" => [
+            //         "title" => 'Event created.',
+            //         "body" => 'New Event is Created',
+            //     ]
+            // ];
+            // $encodedData = json_encode($data);
 
-            $headers = [
-                'Authorization:key=' . $serverKey,
-                'Content-Type: application/json',
-            ];
+            // $headers = [
+            //     'Authorization:key=' . $serverKey,
+            //     'Content-Type: application/json',
+            // ];
 
-            $ch = curl_init();
+            // $ch = curl_init();
 
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // Disabling SSL Certificate support temporarly
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+            // curl_setopt($ch, CURLOPT_URL, $url);
+            // curl_setopt($ch, CURLOPT_POST, true);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            // curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            // // Disabling SSL Certificate support temporarly
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
             // Execute post
-            $result = curl_exec($ch);
-            if ($result === FALSE) {
-                die('Curl failed: ' . curl_error($ch));
-            }
+            // $result = curl_exec($ch);
+            // if ($result === FALSE) {
+            //     die('Curl failed: ' . curl_error($ch));
+            // }
             // Close connection
-            curl_close($ch);
+            // curl_close($ch);
             // if (\Auth::user()) {
             //     return redirect()->back()->with('success', __('Event created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
             // } else {
@@ -1487,11 +1473,10 @@ class MeetingController extends Controller
     public function detailed_info($id)
     {
         $id = decrypt(urldecode($id));
-        // echo "<pre>";print_r($id);die;
-        // $event = Meeting::find($id);
-        $event = Meeting::find($id);
-
-        return view('meeting.detailed_view', compact('event'));
+        $event = Meeting::find($id);       
+        $user = User::where('id', $event->user_id)->get();
+        $assigned_to = $user[0]->name;
+        return view('meeting.detailed_view', compact('event','assigned_to'));
     }
     public function event_user_info($id)
     {
