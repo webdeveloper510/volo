@@ -29585,8 +29585,10 @@ h5.card-text {
 h5.card-title.mb-2 {
     background: #cccccc17;
     padding: 5px;
-    color: #3ec9d6;
-    font-size: 16px !important;
+    color: #000;
+    justify-content: space-between;
+    display: flex;
+    font-size: 14px !important;
 }
 
 h6.card-title.mb-2 {

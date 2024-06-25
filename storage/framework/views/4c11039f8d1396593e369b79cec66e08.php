@@ -61,7 +61,6 @@ if(isset($settings['region']) && !empty($settings['region'])){
 $region_type = explode(',',$settings['region']);
 }
 
-
 $meta_image = \App\Models\Utility::get_file('uploads/metaevent/');
 $imagePath = public_path('upload/signature/autorised_signature.png');
 $imageData = base64_encode(file_get_contents($imagePath));

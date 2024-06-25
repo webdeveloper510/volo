@@ -64,6 +64,10 @@ class LeadController extends Controller
                 $defualtView->module = 'lead';
                 $defualtView->view   = 'list';
             }
+
+            // echo "<pre>";
+            // print_r($leads);
+            // die;
             return view('lead.index', compact('leads', 'statuss'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
@@ -211,6 +215,7 @@ class LeadController extends Controller
             $lead['secondary_contact'] = $request->secondary_phone_number ?? '';
             $lead['secondary_address'] = $request->secondary_address ?? '';
             $lead['secondary_designation'] = $request->secondary_designation ?? '';
+            $lead['region'] = $request->region ?? $request->existing_region;
             $lead['lead_address'] = '-';
             $lead['company_name'] = '-';
             $lead['relationship'] = '-';

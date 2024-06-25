@@ -20,6 +20,10 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         display: none;
     }
 
+    #new_region {
+        display: none;
+    }
+
     .plus-btn i.fas.fa-plus.clone-btn {
         color: #fff;
         background: #48494b;
@@ -92,9 +96,23 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     <div class="col-6 need_full" id="new_client">
         <div class="form-group">
             {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
+            <span class="text-sm">
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
         </div>
     </div>
+    <div class="col-6 need_full" id="new_region">
+        <div class="form-group">
+            {{Form::label('region',__('Region'),['class'=>'form-label']) }}
+            <span class="text-sm">
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
+            {{Form::text('region',null,array('class'=>'form-control','placeholder'=>__('Enter Region')))}}
+        </div>
+    </div>
+
+    <input type="hidden" id="existing_region" name="existing_region" value="">
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
         <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
     </div>
@@ -913,12 +931,16 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         $('input[name="newevent"]').on('click', function() {
             $('#client_select').hide();
             $('#new_client').hide();
+            $('#new_region').hide();
             var selectedValue = $(this).val();
             if (selectedValue == 'Existing') {
                 $('#client_select').show();
                 $('select[name="existing_client"]').trigger('change');
             } else {
+                console.log('here');
+                // return false;
                 $('#new_client').show();
+                $('#new_region').show();
                 clearInputFields();
             }
         });
@@ -1009,6 +1031,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                 $('input[name="secondary_email"]').val(data[0].secondary_email);
                 $('input[name="secondary_address"]').val(data[0].secondary_address);
                 $('input[name="secondary_designation"]').val(data[0].secondary_designation);
+
+                $('input[name="existing_region"]').val(data[0].region);
             }
         });
     }

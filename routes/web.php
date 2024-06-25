@@ -289,7 +289,7 @@ Route::get('invoice/pay/pdf/{id}', [InvoiceController::class, 'pdffrominvoice'])
 
 Route::group(['middleware' => ['verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'XSS']);
-
+    Route::get('/filter-data', [DashboardController::class, 'filterData'])->name('filter-data.dashboard');
 
     Route::group(
         [

@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-4 mb-4">
                     <label class="filter-label">Team Member</label>
-                    <select name="team_member" class="form-control">
+                    <select id="team_member" name="team_member" class="form-control">
                         <option value="" selected disabled>Select Team Member</option>
                         <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?></option>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-4 mb-4">
                     <label class="filter-label">Region</label>
-                    <select name="region" class="form-control">
+                    <select id="region" name="region" class="form-control">
                         <option value="" selected disabled>Select Region</option>
                         <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($region); ?>" class="form-control"><?php echo e($region); ?></option>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-4 mb-4">
                     <label class="filter-label">Products</label>
-                    <select name="products" class="form-control">
+                    <select id="products" name="products" class="form-control">
                         <option value="" selected disabled>Select Products</option>
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($product); ?>"><?php echo e($product); ?></option>
@@ -314,7 +314,7 @@
     }
 
     h5.card-text {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .flex-div {
@@ -358,10 +358,10 @@
         max-height: 210px;
         overflow-y: scroll;
     }
-
+/* 
     .inner_col {
         min-height: 320px;
-    }
+    } */
 
     @media only screen and (max-width: 1280px) {
         .flex-div {
@@ -453,5 +453,66 @@
         });
     })
 </script>
+
+<script>
+    $(document).ready(function() {
+        function handleFilterChange() {          
+            var teamMember = $('#team_member').val();
+            var region = $('#region').val();
+            var products = $('#products').val();
+
+            $.ajax({
+                url: '<?php echo e(route("filter-data.dashboard")); ?>',
+                method: 'GET',
+                data: {
+                    team_member: teamMember,
+                    region: region,
+                    products: products
+                },
+                success: function(response) {
+                    console.log(response);
+                    return false;
+                    // Update the dashboard with the new data
+                    $('.row .col-3').each(function(index, element) {
+                        var category = $(element).find('.card-title').text().split(' ')[0];
+                        var data = response[category.toLowerCase() + 'Opportunities'];
+                        var count = response[category.toLowerCase() + 'OpportunitiesCount'];
+                        var sum = response[category.toLowerCase() + 'OpportunitiesSum'];
+
+                        $(element).find('.card-title').text(category + ' (' + count + ')');
+                        $(element).find('.' + category.toLowerCase() + '-opportunities').text('£' + sum);
+
+                        var cardContainer = $(element).find('.scrol-card');
+                        cardContainer.empty();
+
+                        data.forEach(function(opportunity) {
+                            var cardHtml = '<div class="card"><div class="card-body new_bottomcard">' +
+                                '<h5 class="card-text">' + opportunity.opportunity_name +
+                                '<span class="client-name">' + opportunity.primary_name + '</span></h5>' +
+                                (opportunity.updated_at ? '<p>' + opportunity.updated_at + '</p>' : '') +
+                                '<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check("Show Lead")): ?>' +
+                                '<div class="action-btn bg-warning ms-2">' +
+                                '<a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route("lead.show", ' + opportunity.id + ')); ?>" data-bs-toggle="tooltip" title="<?php echo e(__("Quick View")); ?>" data-ajax-popup="true" data-title="<?php echo e(__("Opportunity Details")); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">' +
+                                '<i class="ti ti-eye"></i></a></div>' +
+                                '<?php endif; ?>' +
+                                '<span class="opportunity-price">' + opportunity.currency + opportunity.value_of_opportunity + '</span></div></div>';
+
+                            cardContainer.append(cardHtml);
+                        });
+                    });
+                },
+                error: function() {
+                    console.log('Error fetching data');
+                }
+            });
+        }
+
+        // Attach change event listeners to the filters
+        $('#team_member').change(handleFilterChange);
+        $('#region').change(handleFilterChange);
+        $('#products').change(handleFilterChange);
+    });
+</script>
+
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/home.blade.php ENDPATH**/ ?>

@@ -154,7 +154,7 @@ class DashboardController extends Controller
 
                 $usdConversionRate = (float)$settings['usd_to_gbp_conversion_rate'];
                 $eurConversionRate = (float)$settings['eur_to_gbp_conversion_rate'];
-                
+
                 // Prospecting Opportunities
                 $prospectingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
                     ->where('lead_status', 1)
@@ -359,7 +359,7 @@ class DashboardController extends Controller
 
                 $closedWonOpportunitiesCount = $closedWonOpportunities->count();
 
-                return view('home', compact('venue_dropdown', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum','regions'));
+                return view('home', compact('venue_dropdown', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum', 'regions'));
             }
         } else {
 
@@ -586,5 +586,33 @@ class DashboardController extends Controller
     public function pushnotify()
     {
         return view('pushnotification');
+    }
+
+    // Fiter dashboard data for Team member, Region and Products.
+    public function filterData(Request $request)
+    {
+        $teamMember = $request->input('team_member');
+        $region = $request->input('region');
+        // $products = $request->input('products');
+
+        // Start the query builder
+        $query = Lead::query();
+
+        // Apply filters based on the request inputs
+        if ($teamMember) {
+            $query->where('assigned_user', $teamMember);
+        }
+        if ($region) {
+            $query->where('region', $region);
+        }
+
+        // Retrieve the filtered data
+        $prospectingOpportunities = $query->whereIn('sales_stage', ['Contacted', 'New'])->get();
+
+        // Return JSON response with the filtered data
+        return response()->json([
+            'prospectingOpportunities' => $prospectingOpportunities,
+            'prospectingOpportunitiesCount' => $prospectingOpportunities->count(),
+        ]);
     }
 }
