@@ -91,19 +91,271 @@ class MeetingController extends Controller
      */
 
     // WORKING  17-01-2024
+    // public function store(Request $request)
+    // {
+    //     if (\Auth::user()->can('Create Meeting')) {
+    //         $validator = \Validator::make(
+    //             $request->all(),
+    //             [
+    //                 'name' => 'required|max:120',
+    //                 'start_date' => 'required',
+    //                 'email' => 'required|email|max:120',
+    //                 'type' => 'required',
+    //                 'venue' => 'required|max:120',
+    //                 'function' => 'required|max:120',
+    //                 'guest_count' => 'required',
+    //                 'user' => 'required'
+    //             ]
+    //         );
+    //         if ($validator->fails()) {
+    //             $messages = $validator->getMessageBag();
+    //             return redirect()
+    //                 ->back()->with('error', $messages->first())
+    //                 ->withErrors($validator)
+    //                 ->withInput();
+    //         }
+
+    //         $data = $request->all();
+    //         $package = [];
+    //         $additional = [];
+    //         $bar_pack = [];
+    //         foreach ($data as $key => $values) {
+    //             if (strpos($key, 'package_') === 0) {
+    //                 $newKey = strtolower(str_replace('package_', '', $key));
+    //                 $package[$newKey] = $values;
+    //             }
+    //             if (strpos($key, 'additional_') === 0) {
+    //                 // Extract the suffix from the key
+    //                 $newKey = strtolower(str_replace('additional_', '', $key));
+
+    //                 // Check if the key exists in the output array, if not, initialize it
+    //                 if (!isset($additional[$newKey])) {
+    //                     $additional[$newKey] = [];
+    //                 }
+    //                 $additional[$newKey] = $values;
+    //             }
+    //             if (strpos($key, 'bar_') === 0) {
+    //                 // Extract the suffix from the key
+    //                 $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
+
+    //                 // Check if the key exists in the output array, if not, initialize it
+    //                 if (!isset($bar_pack[$newKey])) {
+    //                     $bar_pack[$newKey] = [];
+    //                 }
+
+    //                 // Assign the values to the new key in the output array
+    //                 $bar_pack[$newKey] = $values;
+    //             }
+    //         }
+    //         $package = json_encode($package);
+    //         $additional = json_encode($additional);
+    //         $bar_pack = json_encode($bar_pack);
+    //         $start_date = $request->input('start_date');
+    //         $end_date = $request->input('start_date');
+    //         $start_time = $request->input('start_time');
+    //         $end_time = $request->input('end_time');
+    //         $venue_selected = $request->input('venue');
+
+    //         $overlapping_event = Meeting::where('start_date', '<=', $end_date)
+    //             ->where('end_date', '>=', $start_date)
+    //             ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
+    //                 foreach ($venue_selected as $v) {
+    //                     $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
+    //                         $q->where('venue_selection', 'LIKE', "%$v%")
+    //                             ->where('end_time', '>', $start_time)
+    //                             ->where('start_time', '<', $end_time)
+    //                             ->where('start_date', '<=', $end_date)
+    //                             ->where('end_date', '>=', $start_date);
+    //                     });
+    //                 }
+    //             })->count();
+
+    //         if ($overlapping_event > 0) {
+    //             return redirect()->back()->with('error', 'Event exists for correspomding time or venue!');
+    //         }
+
+    //         $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
+    //             ->where('end_date', '>=', $start_date)
+    //             ->where(function ($query) use ($start_date, $end_date, $venue_selected) {
+    //                 foreach ($venue_selected as $v) {
+    //                     $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
+    //                         $q->where('venue', 'LIKE', "%$v%")
+    //                             // ->where('end_time', '>', $start_time)
+    //                             // ->where('start_time', '<', $end_time)
+    //                             ->where('start_date', '<=', $end_date)
+    //                             ->where('end_date', '>=', $start_date);
+    //                     });
+    //                 }
+    //             })->count();
+
+    //         if ($overlapping_event > 0) {
+    //             return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
+    //         }
+    //         $phone = preg_replace('/\D/', '', $request->input('phone'));
+    //         $meeting                      = new Meeting();
+    //         $meeting['user_id']           = isset($request->user) ? implode(',', $request->user) : '';
+    //         $meeting['name']              = $request->name;
+    //         $meeting['start_date']        = $request->start_date;
+    //         $meeting['end_date']          = $request->start_date;
+    //         $meeting['email']              = $request->email;
+    //         $meeting['lead_address']       = $request->lead_address ?? '';
+    //         $meeting['company_name']      = $request->company_name;
+    //         $meeting['relationship']       = $request->relationship;
+    //         $meeting['type']               = $request->type;
+    //         $meeting['venue_selection']    = implode(',', $request->venue);
+    //         $meeting['func_package']       = $package;
+    //         $meeting['function']            = implode(',', $request->function);
+    //         $meeting['guest_count']         = $request->guest_count;
+    //         $meeting['room']                = $request->rooms ?? 0;
+    //         $meeting['meal']                = $request->meal ?? '';
+    //         $meeting['bar']                 = $request->baropt;
+    //         $meeting['bar_package']         = $bar_pack;
+    //         $meeting['spcl_request']        = $request->spcl_request;
+    //         $meeting['alter_name']          = $request->alter_name;
+    //         $meeting['alter_email']         = $request->alter_email;
+    //         $meeting['alter_relationship']  = $request->alter_relationship;
+    //         $meeting['alter_lead_address']  = $request->alter_lead_address;
+    //         $meeting['attendees_lead']      = $request->lead;
+    //         $meeting['eventname']           = $request->eventname ?? $request->name;
+    //         $meeting['phone']               = $phone;
+    //         $meeting['start_time']          = $request->start_time;
+    //         $meeting['end_time']            = $request->end_time;
+    //         $meeting['ad_opts']             = $additional;
+    //         $meeting['floor_plan']          = $request->uploadedImage;
+    //         $meeting['allergies']          = $request->allergies;
+    //         $meeting['created_by']          = \Auth::user()->creatorId();
+
+    //         $meeting->save();
+    //         // echo "<pre>";print_r($meeting);die;
+
+    //         if (!empty($request->file('atttachment'))) {
+    //             $file = $request->file('atttachment');
+    //             $originalName = $file->getClientOriginalName();
+    //             $filename =  Str::random(3) . '_' . $originalName;
+    //             $folder = 'Event/' .  $meeting->id; // Example: uploads/1
+    //             try {
+    //                 $path = $file->storeAs($folder, $filename, 'public');
+    //                 $document = new EventDoc();
+    //                 $document->event_id =  $meeting->id; // Assuming you have a lead_id field
+    //                 $document->filename = $filename; // Store original file name
+    //                 $document->filepath = $path; // Store file path
+    //                 $document->save();
+    //             } catch (\Exception $e) {
+    //                 Log::error('File upload failed: ' . $e->getMessage());
+    //                 return redirect()->back()->with('error', 'File upload failed');
+    //             }
+    //         }
+    //         // if (!empty($request->file('atttachment'))){
+    //         //     $file =  $request->file('atttachment');
+    //         //     $filename = 'Event_'.Str::random(7) . '.' . $file->getClientOriginalExtension();
+    //         //     $folder = 'Event/' . $meeting->id; 
+    //         //     try {
+    //         //         $path = $file->storeAs($folder, $filename, 'public');
+    //         //     } catch (\Exception $e) {
+    //         //         Log::error('File upload failed: ' . $e->getMessage());
+    //         //         return redirect()->back()->with('error', 'File upload failed');
+    //         //     }
+    //         // }
+    //         $existingcustomer = MasterCustomer::where('email', $request->email)->first();
+    //         if (!$existingcustomer) {
+    //             $customer = new MasterCustomer();
+    //             $customer->ref_id = $meeting->id;
+    //             $customer->name = $request->name;
+    //             $customer->email = $request->email;
+    //             $customer->phone = $phone;
+    //             $customer->address = $request->lead_address ?? '';
+    //             $customer->category = 'event';
+    //             $customer->type = $request->type;
+    //             $customer->save();
+    //         }
+    //         $Assign_user_phone = User::where('id', $request->user)->first();
+    //         $setting  = Utility::settings(\Auth::user()->creatorId());
+    //         $uArr = [
+    //             'meeting_name' => $request->name,
+    //             'meeting_start_date' => $request->start_date,
+    //             'meeting_due_date' => $request->start_date,
+    //         ];
+    //         $resp = Utility::sendEmailTemplate('meeting_assigned', [$meeting->id => $Assign_user_phone->email], $uArr);
+    //         if (isset($setting['twilio_meeting_create']) && $setting['twilio_meeting_create'] == 1) {
+    //             $uArr = [
+    //                 'meeting_name' => $request->name,
+    //                 'meeting_start_date' => $request->start_date,
+    //                 'meeting_due_date' => $request->start_date,
+    //                 'user_name' => \Auth::user()->name,
+    //             ];
+    //             Utility::send_twilio_msg($Assign_user_phone->phone, 'new_meeting', $uArr);
+    //         }
+    //         if ($request->get('is_check')  == '1') {
+    //             $type = 'meeting';
+    //             $request1 = new Meeting();
+    //             $request1->title = $request->name;
+    //             $request1->start_date = $request->start_date;
+    //             $request1->end_date = $request->start_date;
+    //             Utility::addCalendarData($request1, $type);
+    //         }
+    //         $url = 'https://fcm.googleapis.com/fcm/send';
+    //         // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
+
+    //         $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
+    //         // echo"<pre>";print_r($FcmToken);die;
+    //         $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+    //         $data = [
+    //             "to" => $FcmToken,
+    //             "notification" => [
+    //                 "title" => 'Event created.',
+    //                 "body" => 'New Event is Created',
+    //             ]
+    //         ];
+    //         $encodedData = json_encode($data);
+
+    //         $headers = [
+    //             'Authorization:key=' . $serverKey,
+    //             'Content-Type: application/json',
+    //         ];
+
+    //         $ch = curl_init();
+
+    //         curl_setopt($ch, CURLOPT_URL, $url);
+    //         curl_setopt($ch, CURLOPT_POST, true);
+    //         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    //         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    //         // Disabling SSL Certificate support temporarly
+    //         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    //         curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+    //         // Execute post
+    //         $result = curl_exec($ch);
+    //         if ($result === FALSE) {
+    //             die('Curl failed: ' . curl_error($ch));
+    //         }
+    //         // Close connection
+    //         curl_close($ch);
+    //         // if (\Auth::user()) {
+    //         //     return redirect()->back()->with('success', __('Event created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
+    //         // } else {
+    //         //     return redirect()->back()->with('error', __('Webhook call failed.') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
+    //         // }
+    //         if (\Auth::user()->type == 'owner') {
+    //             $meetings = Meeting::with('assign_user')->orderby('id', 'desc')->get();
+    //         } else {
+    //             $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id', 'desc')->get();
+    //         }
+    //         return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event created!'));
+    //     }
+    // }
+
+
     public function store(Request $request)
     {
         if (\Auth::user()->can('Create Meeting')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'name' => 'required|max:120',
+                    'event_name' => 'required|max:120',
+                    'location' => 'required',
                     'start_date' => 'required',
-                    'email' => 'required|email|max:120',
-                    'type' => 'required',
-                    'venue' => 'required|max:120',
-                    'function' => 'required|max:120',
-                    'guest_count' => 'required',
+                    'end_date' => 'required',
                     'user' => 'required'
                 ]
             );
@@ -114,56 +366,17 @@ class MeetingController extends Controller
                     ->withErrors($validator)
                     ->withInput();
             }
-
-            $data = $request->all();
-            $package = [];
-            $additional = [];
-            $bar_pack = [];
-            foreach ($data as $key => $values) {
-                if (strpos($key, 'package_') === 0) {
-                    $newKey = strtolower(str_replace('package_', '', $key));
-                    $package[$newKey] = $values;
-                }
-                if (strpos($key, 'additional_') === 0) {
-                    // Extract the suffix from the key
-                    $newKey = strtolower(str_replace('additional_', '', $key));
-
-                    // Check if the key exists in the output array, if not, initialize it
-                    if (!isset($additional[$newKey])) {
-                        $additional[$newKey] = [];
-                    }
-                    $additional[$newKey] = $values;
-                }
-                if (strpos($key, 'bar_') === 0) {
-                    // Extract the suffix from the key
-                    $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
-
-                    // Check if the key exists in the output array, if not, initialize it
-                    if (!isset($bar_pack[$newKey])) {
-                        $bar_pack[$newKey] = [];
-                    }
-
-                    // Assign the values to the new key in the output array
-                    $bar_pack[$newKey] = $values;
-                }
-            }
-            $package = json_encode($package);
-            $additional = json_encode($additional);
-            $bar_pack = json_encode($bar_pack);
+        
             $start_date = $request->input('start_date');
             $end_date = $request->input('start_date');
-            $start_time = $request->input('start_time');
-            $end_time = $request->input('end_time');
-            $venue_selected = $request->input('venue');
-
+            $location = $request->input('location');
+      
             $overlapping_event = Meeting::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $start_time, $end_time, $venue_selected) {
-                    foreach ($venue_selected as $v) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $start_time, $end_time, $v) {
-                            $q->where('venue_selection', 'LIKE', "%$v%")
-                                ->where('end_time', '>', $start_time)
-                                ->where('start_time', '<', $end_time)
+                ->where(function ($query) use ($start_date, $end_date, $location) {
+                    foreach ($location as $loc) {
+                        $query->orWhere(function ($q) use ($start_date, $end_date, $loc) {
+                            $q->where('venue_selection', 'LIKE', "%$loc%")
                                 ->where('start_date', '<=', $end_date)
                                 ->where('end_date', '>=', $start_date);
                         });
@@ -171,17 +384,15 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Event exists for correspomding time or venue!');
+                return redirect()->back()->with('error', 'Event exists for corresponding time or location!');
             }
 
             $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
                 ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $venue_selected) {
-                    foreach ($venue_selected as $v) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $v) {
-                            $q->where('venue', 'LIKE', "%$v%")
-                                // ->where('end_time', '>', $start_time)
-                                // ->where('start_time', '<', $end_time)
+                ->where(function ($query) use ($start_date, $end_date, $location) {
+                    foreach ($location as $loc) {
+                        $query->orWhere(function ($q) use ($start_date, $end_date, $loc) {
+                            $q->where('venue', 'LIKE', "%$loc%")
                                 ->where('start_date', '<=', $end_date)
                                 ->where('end_date', '>=', $start_date);
                         });
@@ -189,43 +400,43 @@ class MeetingController extends Controller
                 })->count();
 
             if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and venue');
+                return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and location');
             }
-            $phone = preg_replace('/\D/', '', $request->input('phone'));
             $meeting                      = new Meeting();
             $meeting['user_id']           = isset($request->user) ? implode(',', $request->user) : '';
-            $meeting['name']              = $request->name;
+            $meeting['name']              = $request->event_name;
             $meeting['start_date']        = $request->start_date;
-            $meeting['end_date']          = $request->start_date;
-            $meeting['email']              = $request->email;
-            $meeting['lead_address']       = $request->lead_address ?? '';
-            $meeting['company_name']      = $request->company_name;
-            $meeting['relationship']       = $request->relationship;
-            $meeting['type']               = $request->type;
-            $meeting['venue_selection']    = implode(',', $request->venue);
-            $meeting['func_package']       = $package;
-            $meeting['function']            = implode(',', $request->function);
-            $meeting['guest_count']         = $request->guest_count;
-            $meeting['room']                = $request->rooms ?? 0;
-            $meeting['meal']                = $request->meal ?? '';
-            $meeting['bar']                 = $request->baropt;
-            $meeting['bar_package']         = $bar_pack;
-            $meeting['spcl_request']        = $request->spcl_request;
-            $meeting['alter_name']          = $request->alter_name;
-            $meeting['alter_email']         = $request->alter_email;
-            $meeting['alter_relationship']  = $request->alter_relationship;
-            $meeting['alter_lead_address']  = $request->alter_lead_address;
-            $meeting['attendees_lead']      = $request->lead;
-            $meeting['eventname']           = $request->eventname ?? $request->name;
-            $meeting['phone']               = $phone;
-            $meeting['start_time']          = $request->start_time;
-            $meeting['end_time']            = $request->end_time;
-            $meeting['ad_opts']             = $additional;
-            $meeting['floor_plan']          = $request->uploadedImage;
-            $meeting['allergies']          = $request->allergies;
+            $meeting['end_date']          = $request->end_date;
+            $meeting['email']              ='';
+            $meeting['lead_address']       = '';
+            $meeting['company_name']      = '';
+            $meeting['relationship']       = '';
+            $meeting['type']               = '';
+            $meeting['venue_selection']    = $request->location;
+            $meeting['func_package']       = '';
+            $meeting['function']            = '';
+            $meeting['guest_count']         = '';
+            $meeting['room']                = '';
+            $meeting['meal']                = '';
+            $meeting['bar']                 = '';
+            $meeting['bar_package']         = '';
+            $meeting['spcl_request']        = '';
+            $meeting['alter_name']          = '';
+            $meeting['alter_email']         = '';
+            $meeting['alter_relationship']  = '';
+            $meeting['alter_lead_address']  = '';
+            $meeting['attendees_lead']      ='';
+            $meeting['eventname']           = '';
+            $meeting['phone']               = '';
+            $meeting['start_time']          = '';
+            $meeting['end_time']            = '';
+            $meeting['ad_opts']             = '';
+            $meeting['floor_plan']          = '';
+            $meeting['allergies']          = '';
             $meeting['created_by']          = \Auth::user()->creatorId();
 
             $meeting->save();
+            die;
             // echo "<pre>";print_r($meeting);die;
 
             if (!empty($request->file('atttachment'))) {
@@ -344,6 +555,9 @@ class MeetingController extends Controller
             return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Event created!'));
         }
     }
+
+
+
     /**
      * Display the specified resource.
      *

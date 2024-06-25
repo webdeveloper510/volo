@@ -196,7 +196,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             <!-- <div class="col-12  p-0 modaltitle pb-3 mb0">
                                                 <h5 style="margin-left: 14px;" class="mb-0"><?php echo e(__('Contact Information')); ?></h5>
                                             </div> -->
-                                            <div class="col-6 need_full">
+                                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('name',__('Name'),['class'=>'form-label'])); ?>
 
@@ -211,8 +211,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <strong><?php echo e($errors->first('name')); ?></strong>
                                                 </span>
                                                 <?php endif; ?>
-                                            </div>
-                                            <div class="col-6 need_full">
+                                            </div> -->
+                                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('phone',__('Phone'),['class'=>'form-label'])); ?>
 
@@ -225,8 +225,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     </div>
                                                 </div>
 
-                                            </div>
-                                            <div class="col-6 need_full">
+                                            </div> -->
+                                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
@@ -241,8 +241,8 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <strong><?php echo e($errors->first('email')); ?></strong>
                                                 </span>
                                                 <?php endif; ?>
-                                            </div>
-                                            <div class="col-6 need_full">
+                                            </div> -->
+                                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('lead_address',__('Address'),['class'=>'form-label'])); ?>
 
@@ -251,12 +251,20 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 
                                                 </div>
 
-                                            </div>
-                                            <div class="col-6 need_full">
+                                            </div> -->
+                                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('relationship',__('Relationship'),['class'=>'form-label'])); ?>
 
                                                     <?php echo e(Form::text('relationship',null,array('class'=>'form-control','placeholder'=>__('Enter Relationship')))); ?>
+
+                                                </div>
+                                            </div> -->
+                                            <div class="col-6 need_full">
+                                                <div class="form-group">
+                                                    <?php echo e(Form::label('location',__('Location'),['class'=>'form-label'])); ?>
+
+                                                    <?php echo e(Form::text('location',null,array('class'=>'form-control','placeholder'=>__('Enter Location')))); ?>
 
                                                 </div>
                                             </div>
@@ -292,6 +300,10 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <strong><?php echo e($errors->first('end_date')); ?></strong>
                                                 </span>
                                                 <?php endif; ?>
+                                            </div>
+                                            <div class="card-footer text-end">
+                                                <input type="reset" id="resetForm" value="" style="display: none;">
+                                                <?php echo e(Form::submit(__('Save'), ['class' => 'btn  btn-primary '])); ?>
 
                                             </div>
                                             <!-- <div id="contact-info" style="display:none">
@@ -347,7 +359,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     </div>
                                                 </div>
                                             </div> -->
-                                            <div class="col-12 text-end mt-3">
+                                            <!-- <div class="col-12 text-end mt-3">
                                                 <button data-bs-toggle="tooltip" id="opencontact" title="<?php echo e(__('Add Contact')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
                                                     <i class="ti ti-plus"></i>
                                                 </button>
@@ -359,14 +371,14 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     <input id="switch-shadow" class="form-check-input" value="1" name="is_check" type="checkbox">
                                                     <label class="form-check-label" for="switch-shadow"></label>
                                                 </div>
-                                            </div>
-                                            <?php endif; ?>
+                                            </div> -->
+                                            <!-- <?php endif; ?> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="event-details" class="card">
-                                <!-- <div class="col-md-12">
+                            <!-- <div id="event-details" class="card"> -->
+                            <!-- <div class="col-md-12">
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -374,9 +386,9 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                             </div>
                                         </div>
                                     </div> -->
-                                    <!-- <div class="card-body">
+                            <!-- <div class="card-body">
                                         <div class="row"> -->
-                                            <!-- <div class="col-6 need_full">
+                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('guest_count',__('Guest Count'),['class'=>'form-label'])); ?>
 
@@ -393,7 +405,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 <?php endif; ?>
                                             </div> -->
-                                            <!-- <div class="col-6 need_full">
+                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <label for="venue_selection" class="form-label">Venue</label>
                                                     <span class="text-sm">
@@ -415,7 +427,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 
 
 
-                                            <!-- <div class="col-6 need_full">
+                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('start_date', __('Start Date'), ['class' => 'form-label'])); ?>
 
@@ -449,7 +461,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <?php endif; ?>
 
                                             </div> -->
-                                            <!-- <div class="col-6 need_full">
+                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('start_time', __('Start Time'), ['class' => 'form-label'])); ?>
 
@@ -484,7 +496,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 <?php endif; ?>
                                             </div> -->
-                                            <!-- <div class="col-6 need_full">
+                            <!-- <div class="col-6 need_full">
                                                 <div class="form-group">
                                                     <?php echo e(Form::label('function', __('Function'), ['class' => 'form-label'])); ?>
 
@@ -509,7 +521,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 <?php endif; ?>
                                             </div> -->
-                                            <!-- <div class="col-6 need_full" id="mailFunctionSection">
+                            <!-- <div class="col-6 need_full" id="mailFunctionSection">
                                                 <?php if(isset($function) && !empty($function)): ?>
                                                 <?php $__currentLoopData = $function; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="form-group" data-main-index="<?php echo e($key); ?>" data-main-value="<?php echo e($value['function']); ?>" id="function_package" style="display: none;">
@@ -534,7 +546,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endif; ?>
                                             </div> -->
-                                            <!-- <div class="col-6 need_full" id="additionalSection">
+                            <!-- <div class="col-6 need_full" id="additionalSection">
                                                 <?php if(isset($additional_items) && !empty($additional_items)): ?>
                                                 <?php echo e(Form::label('additional', __('Additional items'), ['class' => 'form-label'])); ?>
 
@@ -560,7 +572,7 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 
                                             </div> -->
 
-                                            <!-- <div class="col-12">
+                            <!-- <div class="col-12">
                                                 <div class="row">
                                                     <label><b>Setup</b></label>
                                                     <?php $__currentLoopData = $setup; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -584,7 +596,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                             </div> -->
 
-                                        <!-- </div>
+                            <!-- </div>
                                     </div>
                                 </div>
                             </div> -->
@@ -705,11 +717,6 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                 </div>
                             </div>  -->
-                            <div class="card-footer text-end">
-                                <input type="reset" id="resetForm" value="" style="display: none;">
-                                <?php echo e(Form::submit(__('Save'), ['class' => 'btn  btn-primary '])); ?>
-
-                            </div>
                             <?php echo e(Form::close()); ?>
 
                         </div>
@@ -721,7 +728,7 @@ unset($__errorArgs, $__bag); ?>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
-<script>
+<!-- <script>
     $(document).ready(function() {
         // Attach a keyup event listener to input fields
         $('input').on('keyup', function() {
@@ -769,7 +776,7 @@ unset($__errorArgs, $__bag); ?>
                 }
             });
     });
-</script>
+</script> -->
 
 <script>
     $(document).ready(function() {

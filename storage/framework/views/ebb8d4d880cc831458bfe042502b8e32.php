@@ -20,6 +20,7 @@
     span.client-name {
         font-weight: 100 !important;
         font-size: 13px;
+        display: block;
     }
 
     span.opportunity-price {
@@ -358,7 +359,8 @@
         max-height: 210px;
         overflow-y: scroll;
     }
-/* 
+
+    /* 
     .inner_col {
         min-height: 320px;
     } */
@@ -456,7 +458,7 @@
 
 <script>
     $(document).ready(function() {
-        function handleFilterChange() {          
+        function handleFilterChange() {
             var teamMember = $('#team_member').val();
             var region = $('#region').val();
             var products = $('#products').val();
