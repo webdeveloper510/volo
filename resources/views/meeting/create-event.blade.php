@@ -268,6 +268,12 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 @endif
                                             </div>
+                                            <div class="col-6 need_full">
+                                                <div class="form-group">
+                                                    {{Form::label('link',__('Link'),['class'=>'form-label']) }}
+                                                    {{Form::text('link',null,array('class'=>'form-control','placeholder'=>__('Enter Link')))}}
+                                                </div>
+                                            </div>
                                             <div class="card-footer text-end">
                                                 <input type="reset" id="resetForm" value="" style="display: none;">
                                                 {{ Form::submit(__('Save'), ['class' => 'btn  btn-primary ']) }}

@@ -301,6 +301,14 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                 </span>
                                                 <?php endif; ?>
                                             </div>
+                                            <div class="col-6 need_full">
+                                                <div class="form-group">
+                                                    <?php echo e(Form::label('link',__('Link'),['class'=>'form-label'])); ?>
+
+                                                    <?php echo e(Form::text('link',null,array('class'=>'form-control','placeholder'=>__('Enter Link')))); ?>
+
+                                                </div>
+                                            </div>
                                             <div class="card-footer text-end">
                                                 <input type="reset" id="resetForm" value="" style="display: none;">
                                                 <?php echo e(Form::submit(__('Save'), ['class' => 'btn  btn-primary '])); ?>

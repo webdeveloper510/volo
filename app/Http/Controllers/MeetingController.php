@@ -436,7 +436,8 @@ class MeetingController extends Controller
             $meeting['end_time']            = '';
             $meeting['ad_opts']             = '';
             $meeting['floor_plan']          = '';
-            $meeting['allergies']          = '';
+            $meeting['allergies']          = ''; 
+            $meeting['link']          = $request->link;
             $meeting['created_by']          = \Auth::user()->creatorId();
             $meeting->save();
             // echo "<pre>";print_r($meeting);die;

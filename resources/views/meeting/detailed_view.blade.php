@@ -45,6 +45,9 @@
 
                         <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Location')}}</span></dt>
                         <dd class="col-md-6 need_half"><span class="">{{$event->venue_selection}}</span></dd>
+
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Link')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">{{$event->link}}</span></dd>
                     </dl>
                 </div>
             </div>
