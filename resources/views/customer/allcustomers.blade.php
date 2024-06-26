@@ -37,8 +37,8 @@
                                                 <th scope="col" class="sort">{{__('Phone Number')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort">{{__('Address')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort">{{__('Title/Designation')}} <span class="opticy"> </span></th>
-
                                                 <th scope="col" class="sort">{{__('Entity Name')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort">{{__('Category')}} <span class="opticy"> </span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -57,6 +57,7 @@
                                                 <td>{{ucfirst($customers->primary_address)}}</td>
                                                 <td>{{ucfirst($customers->primary_organization)}}</td>
                                                 <td>{{ucfirst($customers->entity_name)}}</td>
+                                                <td>{{ucfirst($customers->category_type)}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

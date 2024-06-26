@@ -285,10 +285,11 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             // Determine the multiplier based on the selected currency
             var multiplier;
             if (selectedCurrencyText === 'GBP') {
-                multiplier = 1; // Set multiplier to 1 for GBP
+                multiplier = 1; 
             } else {
-                multiplier = parseFloat(selectedCurrencyVal); // Use the selected currency value as the multiplier
+                multiplier = parseFloat(selectedCurrencyVal); 
             }
+            
 
             // Function to extract and convert value from "X.XK" format
             function extractAndConvertValue(id) {
@@ -318,14 +319,14 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             closedwon_value *= multiplier;
 
             // Format values to two decimal places
-            prospecting_value = prospecting_value.toFixed(2);
-            discovery_value = discovery_value.toFixed(2);
-            meeting_value = meeting_value.toFixed(2);
-            proposal_value = proposal_value.toFixed(2);
-            negotiation_value = negotiation_value.toFixed(2);
-            awaiting_value = awaiting_value.toFixed(2);
-            postpurchase_value = postpurchase_value.toFixed(2);
-            closedwon_value = closedwon_value.toFixed(2);
+            prospecting_value = prospecting_value.toFixed(1);
+            discovery_value = discovery_value.toFixed(1);
+            meeting_value = meeting_value.toFixed(1);
+            proposal_value = proposal_value.toFixed(1);
+            negotiation_value = negotiation_value.toFixed(1);
+            awaiting_value = awaiting_value.toFixed(1);
+            postpurchase_value = postpurchase_value.toFixed(1);
+            closedwon_value = closedwon_value.toFixed(1);
 
             // Determine currency symbol based on selected currency text
             var currencySymbol;
@@ -343,7 +344,6 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                     currencySymbol = '£';
                     break;
             }
-
             // Update HTML elements with formatted values and currency symbol
             $(".prospecting-opportunities").text(currencySymbol + prospecting_value + "K");
             $(".discovery-opportunities").text(currencySymbol + discovery_value + "K");

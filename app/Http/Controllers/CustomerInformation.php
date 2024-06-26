@@ -19,6 +19,7 @@ use App\Models\Campaigndata;
 use Twilio\Rest\Client;
 use App\Models\MasterCustomer;
 use App\Models\NotesCustomer;
+use App\Models\Category;
 use Str;
 
 class CustomerInformation extends Controller
@@ -157,7 +158,8 @@ class CustomerInformation extends Controller
     }
     public function uploaduserlist()
     {
-        return view('customer.uploaduserinfo');
+        $categories = Category::all();      
+        return view('customer.uploaduserinfo', compact('categories'));
     }
     public function exportuser(Request $request)
     {
@@ -216,6 +218,7 @@ class CustomerInformation extends Controller
             $UsersImports->region = !empty($request->region) ? $request->region : $request->other_region;;
             $UsersImports->industry = json_encode($request->industry);
             $UsersImports->engagement_level = $request->engagement_level;
+            $UsersImports->category_type = $request->category_type;            
             $UsersImports->revenue_booked_to_date = $request->revenue_booked_to_date;
             $UsersImports->referred_by = $request->referred_by;
             $UsersImports->pain_points = $request->pain_points;
@@ -329,7 +332,7 @@ class CustomerInformation extends Controller
     }
     public function siteusers()
     {
-        $importedcustomers = UserImport::distinct()->get();
+        $importedcustomers = UserImport::distinct()->get();   
         return view('customer.allcustomers', compact('importedcustomers'));
     }
     public function event_customers()

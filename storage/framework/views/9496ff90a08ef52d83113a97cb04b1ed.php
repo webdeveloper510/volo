@@ -38,8 +38,8 @@
                                                 <th scope="col" class="sort"><?php echo e(__('Phone Number')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Address')); ?> <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Title/Designation')); ?> <span class="opticy"> </span></th>
-
                                                 <th scope="col" class="sort"><?php echo e(__('Entity Name')); ?> <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Category')); ?> <span class="opticy"> </span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,6 +59,7 @@
                                                 <td><?php echo e(ucfirst($customers->primary_address)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->primary_organization)); ?></td>
                                                 <td><?php echo e(ucfirst($customers->entity_name)); ?></td>
+                                                <td><?php echo e(ucfirst($customers->category_type)); ?></td>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>

@@ -1,8 +1,8 @@
-@php
+<?php
 $settings = App\Models\Utility::settings();
 $campaign_type = explode(',',$settings['campaign_type']);
 $regions = explode(',', $settings['region']);
-@endphp
+?>
 <style>
     .fa-asterisk {
         font-size: xx-small;
@@ -26,54 +26,64 @@ $regions = explode(',', $settings['region']);
         </ul>
         <div class="tab-content">
             <div id="barmenu0" class="tab-pane fade in active show mt-5">
-                {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}}
+                <?php echo e(Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))); ?>
+
                 <div class="row">
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
+                            <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
+
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
-                            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))}}
+                            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name'),'required'=>'required'))); ?>
+
                         </div>
                     </div>
                     <!-- <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
+                            <?php echo e(Form::label('client_name',__('Client Name'),['class'=>'form-label'])); ?>
+
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
-                            {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name'),'required'=>'required'))}}
+                            <?php echo e(Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name'),'required'=>'required'))); ?>
+
                         </div>
                     </div> -->
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label']) }}
+                            <?php echo e(Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label'])); ?>
+
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
-                            {{Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name'),'required'=>'required'))}}
+                            <?php echo e(Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name'),'required'=>'required'))); ?>
+
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
-                    <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
+                    <h5 style="margin-left: 14px;"><?php echo e(__('Primary Contact Information')); ?></h5>
                 </div>
                 <div class="row">
                     <div class="col-6 need_full">
                         <input type="hidden" name="customerType" value="addForm" />
                         <div class="form-group">
-                            {{Form::label('primary_name',__('Name'),['class'=>'form-label']) }}
+                            <?php echo e(Form::label('primary_name',__('Name'),['class'=>'form-label'])); ?>
+
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
-                            {{Form::text('primary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                            <?php echo e(Form::text('primary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
+
                         </div>
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group ">
-                            {{Form::label('primary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
+                            <?php echo e(Form::label('primary_phone_number',__('Phone Number'),['class'=>'form-label'])); ?>
+
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
@@ -86,42 +96,51 @@ $regions = explode(',', $settings['region']);
 
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('primary_email',__('Email'),['class'=>'form-label']) }}
+                            <?php echo e(Form::label('primary_email',__('Email'),['class'=>'form-label'])); ?>
+
                             <span class="text-sm">
                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                             </span>
-                            {{Form::text('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
-                        </div>
-                    </div>
-                    <div class="col-6 need_full">
-                        <div class="form-group">
-                            {{Form::label('primary_address',__('Address'),['class'=>'form-label']) }}
+                            <?php echo e(Form::text('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
 
-                            {{Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
                         </div>
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label']) }}
-                            {{Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                            <?php echo e(Form::label('primary_address',__('Address'),['class'=>'form-label'])); ?>
+
+
+                            <?php echo e(Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
+                        </div>
+                    </div>
+                    <div class="col-6 need_full">
+                        <div class="form-group">
+                            <?php echo e(Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label'])); ?>
+
+                            <?php echo e(Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
-                    <h5 style="margin-left: 14px;">{{ __('Secondary Contact Information') }}</h5>
+                    <h5 style="margin-left: 14px;"><?php echo e(__('Secondary Contact Information')); ?></h5>
                 </div>
                 <div class="row">
                     <div class="col-6 need_full">
                         <input type="hidden" name="customerType" value="addForm" />
                         <div class="form-group">
-                            {{Form::label('secondary_name',__('Name'),['class'=>'form-label']) }}
-                            {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name')))}}
+                            <?php echo e(Form::label('secondary_name',__('Name'),['class'=>'form-label'])); ?>
+
+                            <?php echo e(Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name')))); ?>
+
                         </div>
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group ">
-                            {{Form::label('secondary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
+                            <?php echo e(Form::label('secondary_phone_number',__('Phone Number'),['class'=>'form-label'])); ?>
+
                             <div class="intl-tel-input">
                                 <input type="tel" id="phone-input1" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
                                 <!-- <input type="hidden" name="secondary_countrycode" id="secondary-country-code"> -->
@@ -130,26 +149,32 @@ $regions = explode(',', $settings['region']);
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('secondary_email',__('Email'),['class'=>'form-label']) }}
-                            {{Form::text('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
+                            <?php echo e(Form::label('secondary_email',__('Email'),['class'=>'form-label'])); ?>
+
+                            <?php echo e(Form::text('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
+
                         </div>
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('secondary_address',__('Address'),['class'=>'form-label']) }}
-                            {{Form::text('secondary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                            <?php echo e(Form::label('secondary_address',__('Address'),['class'=>'form-label'])); ?>
+
+                            <?php echo e(Form::text('secondary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
                         </div>
                     </div>
                     <div class="col-6 need_full">
                         <div class="form-group">
-                            {{Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label']) }}
-                            {{Form::text('secondary_designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                            <?php echo e(Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label'])); ?>
+
+                            <?php echo e(Form::text('secondary_designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
-                    <h5 style="margin-left: 14px;">{{ __('Other Information') }}</h5>
+                    <h5 style="margin-left: 14px;"><?php echo e(__('Other Information')); ?></h5>
                 </div>
                 <div class="row">
                     <div class="col-6 need_full">
@@ -172,9 +197,9 @@ $regions = explode(',', $settings['region']);
                             <label for="region">Region</label>
                             <select name="region" id="region" class="form-control">
                                 <option value="" selected disabled>Select Region</option>
-                                @foreach($regions as $region)
-                                <option value="{{ $region }}" class="form-control">{{ $region }}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($region); ?>" class="form-control"><?php echo e($region); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
                     </div>
@@ -242,9 +267,9 @@ $regions = explode(',', $settings['region']);
                             <label for="category_type">Category</label>
                             <select name="category_type" id="category" class="form-control">
                                 <option value="" selected disabled>Select Category</option>
-                                @foreach($categories as $category)
-                                <option value="{{ $category->name }}" class="form-control">{{ $category->name }}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($category->name); ?>" class="form-control"><?php echo e($category->name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
                     </div>
@@ -275,20 +300,24 @@ $regions = explode(',', $settings['region']);
                 </div>
                 <div class="col-6">
                     <div class="form-group" style="margin-top: 35px;">
-                        {{Form::label('name',__('Active'),['class'=>'form-label']) }}
+                        <?php echo e(Form::label('name',__('Active'),['class'=>'form-label'])); ?>
+
                         <input type="checkbox" class="form-check-input" name="is_active" checked>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                        {{Form::submit(__('Save'),array('class'=>'btn btn-primary  '))}}
+                        <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary  '))); ?>
+
                     </div>
                 </div>
-                {{Form::close()}}
+                <?php echo e(Form::close()); ?>
+
             </div>
             <div id="barmenu1" class="tab-pane fade mt-5">
-                {{Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))}}
+                <?php echo e(Form::open(array('route'=>['importuser'],'method'=>'post','enctype'=>'multipart/form-data'))); ?>
+
                 <div class="row">
                     <input type="hidden" name="customerType" value="uploadFile" />
                     <div class="col-12">
@@ -296,9 +325,9 @@ $regions = explode(',', $settings['region']);
                             <label for="category">Select Category</label>
                             <select name="category" id="category" class="form-control" required>
                                 <option selected disabled value="">Select Category</option>
-                                @foreach($campaign_type as $campaign)
-                                <option value="{{$campaign}}" class="form-control">{{$campaign}}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $campaign_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campaign): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($campaign); ?>" class="form-control"><?php echo e($campaign); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
                     </div>
@@ -309,18 +338,20 @@ $regions = explode(',', $settings['region']);
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            {{Form::submit(__('Save'),array('class'=>'btn btn-primary  '))}}
+                            <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary  '))); ?>
+
                         </div>
                     </div>
                 </div>
-                {{Form::close()}}
+                <?php echo e(Form::close()); ?>
+
 
                 <div class="row">
                     <div class="col-md-12">
                         <span>
                             <h4><b>User's Sample sheet</b></h4>
                         </span>
-                        <a href="{{asset('/samplecsvuser/usersheet.csv')}}" class="btn " title="Download" style="background-color:#77aaaf; color:white" download><i class="fa fa-download"></i></a>
+                        <a href="<?php echo e(asset('/samplecsvuser/usersheet.csv')); ?>" class="btn " title="Download" style="background-color:#77aaaf; color:white" download><i class="fa fa-download"></i></a>
                     </div>
 
                 </div>
@@ -497,4 +528,4 @@ $regions = explode(',', $settings['region']);
         $('#modelCommanModelLabel').text(text);
 
     }
-</script>
+</script><?php /**PATH C:\xampp\htdocs\volo\resources\views/customer/uploaduserinfo.blade.php ENDPATH**/ ?>
