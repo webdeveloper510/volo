@@ -286,6 +286,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             } else {
                 multiplier = parseFloat(selectedCurrencyVal); 
             }
+            
 
             // Function to extract and convert value from "X.XK" format
             function extractAndConvertValue(id) {
@@ -340,7 +341,6 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                     currencySymbol = '£';
                     break;
             }
-
             // Update HTML elements with formatted values and currency symbol
             $(".prospecting-opportunities").text(currencySymbol + prospecting_value + "K");
             $(".discovery-opportunities").text(currencySymbol + discovery_value + "K");
