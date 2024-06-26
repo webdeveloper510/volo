@@ -96,6 +96,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardTestingController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomOpportunitiesController;
+use App\Http\Controllers\ObjectiveTrackerController;
 use App\Models\Billing;
 use Google\Service\ServiceConsumerManagement\BillingConfig;
 use Illuminate\Support\Facades\DB;
@@ -944,6 +945,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('settings', [SettingController::class, 'index'])->name('settings');
             Route::post('payment-setting', [SettingController::class, 'savePaymentSettings'])->name('payment.setting');
             Route::post('owner-payment-setting', [SettingController::class, 'saveOwnerPaymentSettings'])->name('owner.payment.setting');
+            Route::get('objective-tracker', [ObjectiveTrackerController::class, 'index'])->name('objective-tracker');
         }
     );
     Route::group(

@@ -148,6 +148,11 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     <li class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span class="dash-mtext">{{__('E-Sign')}}</span></a>
                                     </li>
+                                    <li class="dash-item  {{ Request::route()->getName() == 'objective-tracker' ? 'active' : '' }}">
+                                        <a href="{{ route('objective-tracker') }}" class="dash-link">
+                                            <span class="dash-mtext">{{ __('Objective Tracker') }}</span>
+                                        </a>
+                                    </li>
                                     <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                                         <a href="{{ route('settings') }}" class="dash-link">
                                             <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
