@@ -62,17 +62,6 @@
         var newSrc = isTransparentBg ? "<?php echo e($logo.'volo-sm-icon.png'); ?>" : "<?php echo e($logo.'new-volo-transparent-bg.png'); ?>";
 
         logoImg.attr("src", newSrc);
-
-        // Set height and width based on the new source
-        // if (isTransparentBg) {
-        //     logoImg.css({
-        //         width: '100%',
-        //     });
-        // } else {
-        //     logoImg.css({
-        //         width: '100%',
-        //     });
-        // }
     });
 
 

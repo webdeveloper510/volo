@@ -150,11 +150,27 @@ class DashboardController extends Controller
                 $plan = Plan::find($users->plan);
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
-                $regions = explode(',', $setting['region']);
+                $regions = explode(',', $setting['region'], true);
 
-                $usdConversionRate = (float)$settings['usd_to_gbp_conversion_rate'];
-                $eurConversionRate = (float)$settings['eur_to_gbp_conversion_rate'];
+                $currency_data = json_decode($setting['currency_conversion'], true);
 
+                // Initialize variables to hold the conversion rates
+                $usd = $eur = $gbp = null;
+
+                // Iterate through the array and extract the conversion rates
+                foreach ($currency_data as $currency) {
+                    switch ($currency['code']) {
+                        case 'USD':
+                            $usd = $currency['conversion_rate_to_usd'];
+                            break;
+                        case 'EUR':
+                            $eur = $currency['conversion_rate_to_usd'];
+                            break;
+                        case 'GBP':
+                            $gbp = $currency['conversion_rate_to_usd'];
+                            break;
+                    }
+                }
 
                 // Prospecting Opportunities
                 $prospectingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
@@ -170,9 +186,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
@@ -196,9 +212,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
@@ -222,9 +238,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
@@ -248,9 +264,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
@@ -273,9 +289,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
@@ -298,9 +314,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
@@ -323,9 +339,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
@@ -348,9 +364,9 @@ class DashboardController extends Controller
                     $valueOfOpportunity = (float)$valueOfOpportunity;
 
                     if ($opportunity->currency == 'USD') {
-                        $convertedValue = $valueOfOpportunity * $usdConversionRate;
+                        $convertedValue = $valueOfOpportunity * $usd;
                     } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eurConversionRate;
+                        $convertedValue = $valueOfOpportunity * $eur;
                     } else {
                         $convertedValue = $valueOfOpportunity;
                     }
