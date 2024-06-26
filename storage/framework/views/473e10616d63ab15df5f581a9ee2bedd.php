@@ -282,8 +282,13 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             var selectedCurrencyVal = $(this).val();
             var selectedCurrencyText = $(this).find('option:selected').text();
 
-            // Parse selectedCurrency into a float number (assuming it represents a multiplier)
-            var multiplier = parseFloat(selectedCurrencyVal);
+            // Determine the multiplier based on the selected currency
+            var multiplier;
+            if (selectedCurrencyText === 'GBP') {
+                multiplier = 1; // Set multiplier to 1 for GBP
+            } else {
+                multiplier = parseFloat(selectedCurrencyVal); // Use the selected currency value as the multiplier
+            }
 
             // Function to extract and convert value from "X.XK" format
             function extractAndConvertValue(id) {
@@ -302,7 +307,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             var postpurchase_value = extractAndConvertValue("postpurchase-opportunities-sum");
             var closedwon_value = extractAndConvertValue("closedwon-opportunitie-sum");
 
-            // Multiply each value by the selectedCurrency multiplier
+            // Multiply each value by the selected currency multiplier
             prospecting_value *= multiplier;
             discovery_value *= multiplier;
             meeting_value *= multiplier;
@@ -311,16 +316,6 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             awaiting_value *= multiplier;
             postpurchase_value *= multiplier;
             closedwon_value *= multiplier;
-
-            console.log(prospecting_value);
-            console.log(discovery_value);
-            console.log(meeting_value);
-            console.log(proposal_value);
-            console.log(negotiation_value);
-            console.log(awaiting_value);
-            console.log(postpurchase_value);
-            console.log(closedwon_value);
-
 
             // Format values to two decimal places
             prospecting_value = prospecting_value.toFixed(2);
@@ -332,7 +327,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             postpurchase_value = postpurchase_value.toFixed(2);
             closedwon_value = closedwon_value.toFixed(2);
 
-            // Determine currency symbol based on selectedCurrencyText
+            // Determine currency symbol based on selected currency text
             var currencySymbol;
             switch (selectedCurrencyText) {
                 case 'USD':
