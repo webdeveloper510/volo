@@ -155,6 +155,7 @@ class DashboardController extends Controller
                 $usdConversionRate = (float)$settings['usd_to_gbp_conversion_rate'];
                 $eurConversionRate = (float)$settings['eur_to_gbp_conversion_rate'];
 
+
                 // Prospecting Opportunities
                 $prospectingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
                     ->where('lead_status', 1)
@@ -593,7 +594,7 @@ class DashboardController extends Controller
     {
         $teamMember = $request->input('team_member');
         $region = $request->input('region');
-        $products = $request->input('products');  
+        $products = $request->input('products');
 
         // Start the query builder
         $query = Lead::query();
@@ -606,18 +607,16 @@ class DashboardController extends Controller
             $query->where('region', $region);
         }
         if ($products) {
-            $query->whereJsonContains('products', 'like', ['name' => "%$query%"]);
+            $query->where(function ($q) use ($products) {
+                $q->whereRaw("JSON_SEARCH(products, 'all', ?) IS NOT NULL", [$products]);
+            });
         }
 
-       $result = $query->get();
+        $result = $query->get();
+        echo "<pre>";
+        print_r($result);
+        die;
 
-        // Retrieve the filtered data
-        $prospectingOpportunities = $query->whereIn('sales_stage', ['Contacted', 'New'])->get();
-
-        // Return JSON response with the filtered data
-        return response()->json([
-            'prospectingOpportunities' => $prospectingOpportunities,
-            'prospectingOpportunitiesCount' => $prospectingOpportunities->count(),
-        ]);
+        return response()->json($result);
     }
 }

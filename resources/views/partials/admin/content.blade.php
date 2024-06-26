@@ -337,7 +337,7 @@
     }
 
     .navbar-brand-box a img {
-        width: 74px;
+        width: 50% !important;
         height: auto;
     }
 
