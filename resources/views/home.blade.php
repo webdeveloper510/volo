@@ -63,6 +63,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2 opportunity-title">Prospecting ({{ $prospectingOpportunitiesCount }}) <span class="prospecting-opportunities">£{{ human_readable_number($prospectingOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="{{ human_readable_number($prospectingOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($prospectingOpportunities as $prospectingOpportunity)
                                 <div class="card">
@@ -92,6 +93,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Discovery ({{ $discoveryOpportunitiesCount }}) <span class="discovery-opportunities">£{{ human_readable_number($discoveryOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="{{ human_readable_number($discoveryOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($discoveryOpportunities as $discoveryOpportunity)
                                 <div class="card">
@@ -121,6 +123,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Demo or Meeting ({{ $demoOrMeetingOpportunitiesCount }}) <span class="meeting-opportunities">£{{ human_readable_number($demoOrMeetingOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="{{ human_readable_number($demoOrMeetingOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($demoOrMeetingOpportunities as $demoOrMeetingOpportunity)
                                 <div class="card">
@@ -150,6 +153,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Proposal ({{ $proposalOpportunitiesCount }}) <span class="proposal-opportunities">£{{ human_readable_number($proposalOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="{{ human_readable_number($proposalOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($proposalOpportunities as $proposalOpportunity)
                                 <div class="card">
@@ -182,6 +186,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Negotiation ({{ $negotiationOpportunitiesCount }}) <span class="negotiation-opportunities">£{{ human_readable_number($negotiationOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="{{ human_readable_number($negotiationOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($negotiationOpportunities as $negotiationOpportunity)
                                 <div class="card">
@@ -211,6 +216,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Awaiting Decision ({{ $awaitingDecisionOpportunitiesCount }}) <span class="awaiting-opportunities">£{{ human_readable_number($awaitingDecisionOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="{{ human_readable_number($awaitingDecisionOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($awaitingDecisionOpportunities as $awaitingDecisionOpportunity)
                                 <div class="card">
@@ -240,6 +246,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Post Purchase ({{ $postPurchaseOpportunitiesCount }}) <span class="postpurchase-opportunities">£{{ human_readable_number($postPurchaseOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="{{ human_readable_number($postPurchaseOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($postPurchaseOpportunities as $postPurchaseOpportunity)
                                 <div class="card">
@@ -269,6 +276,7 @@
                     <div class="col-3">
                         <div class="inner_col">
                             <h5 class="card-title mb-2">Closed Won ({{ $closedWonOpportunitiesCount }}) <span class="closedwon-opportunities">£{{ human_readable_number($closedWonOpportunitiesSum) }}</span></h5>
+                            <input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="{{ human_readable_number($closedWonOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($closedWonOpportunities as $closedWonOpportunity)
                                 <div class="card">

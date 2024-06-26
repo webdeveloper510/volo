@@ -279,20 +279,28 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
 <script>
     $(document).ready(function() {
         $('#currency-select').on('change', function() {
-            var selectedCurrency = $(this).val();
+            var selectedCurrencyVal = $(this).val();
+            var selectedCurrencyText = $(this).find('option:selected').text();
 
             // Parse selectedCurrency into a float number (assuming it represents a multiplier)
-            var multiplier = parseFloat(selectedCurrency);
+            var multiplier = parseFloat(selectedCurrencyVal);
 
-            // Extract and clean numerical values from text
-            var prospecting_value = parseFloat($(".prospecting-opportunities").text().replace(/[£K]/g, ''));
-            var discovery_value = parseFloat($(".discovery-opportunities").text().replace(/[£K]/g, ''));
-            var meeting_value = parseFloat($(".meeting-opportunities").text().replace(/[£K]/g, ''));
-            var proposal_value = parseFloat($(".proposal-opportunities").text().replace(/[£K]/g, ''));
-            var negotiation_value = parseFloat($(".negotiation-opportunities").text().replace(/[£K]/g, ''));
-            var awaiting_value = parseFloat($(".awaiting-opportunities").text().replace(/[£K]/g, ''));
-            var postpurchase_value = parseFloat($(".postpurchase-opportunities").text().replace(/[£K]/g, ''));
-            var closedwon_value = parseFloat($(".closedwon-opportunities").text().replace(/[£K]/g, ''));
+            // Function to extract and convert value from "X.XK" format
+            function extractAndConvertValue(id) {
+                var value = $('#' + id).val();
+                var numericValue = parseFloat(value.replace(/[^\d.]/g, ''));
+                return numericValue;
+            }
+
+            // Extract numeric values from hidden input fields
+            var prospecting_value = extractAndConvertValue("prospecting-opportunities-sum");
+            var discovery_value = extractAndConvertValue("discovery-opportunities-sum");
+            var meeting_value = extractAndConvertValue("meeting-opportunities-sum");
+            var proposal_value = extractAndConvertValue("proposal-opportunities-sum");
+            var negotiation_value = extractAndConvertValue("negotiation-opportunities-sum");
+            var awaiting_value = extractAndConvertValue("awaiting-opportunities-sum");
+            var postpurchase_value = extractAndConvertValue("postpurchase-opportunities-sum");
+            var closedwon_value = extractAndConvertValue("closedwon-opportunitie-sum");
 
             // Multiply each value by the selectedCurrency multiplier
             prospecting_value *= multiplier;
@@ -304,6 +312,16 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             postpurchase_value *= multiplier;
             closedwon_value *= multiplier;
 
+            console.log(prospecting_value);
+            console.log(discovery_value);
+            console.log(meeting_value);
+            console.log(proposal_value);
+            console.log(negotiation_value);
+            console.log(awaiting_value);
+            console.log(postpurchase_value);
+            console.log(closedwon_value);
+
+
             // Format values to two decimal places
             prospecting_value = prospecting_value.toFixed(2);
             discovery_value = discovery_value.toFixed(2);
@@ -314,15 +332,32 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             postpurchase_value = postpurchase_value.toFixed(2);
             closedwon_value = closedwon_value.toFixed(2);
 
-            // Update HTML elements with formatted values
-            $(".prospecting-opportunities").text("£" + prospecting_value + "K");
-            $(".discovery-opportunities").text("£" + discovery_value + "K");
-            $(".meeting-opportunities").text("£" + meeting_value + "K");
-            $(".proposal-opportunities").text("£" + proposal_value + "K");
-            $(".negotiation-opportunities").text("£" + negotiation_value + "K");
-            $(".awaiting-opportunities").text("£" + awaiting_value + "K");
-            $(".postpurchase-opportunities").text("£" + postpurchase_value + "K");
-            $(".closedwon-opportunities").text("£" + closedwon_value + "K");
+            // Determine currency symbol based on selectedCurrencyText
+            var currencySymbol;
+            switch (selectedCurrencyText) {
+                case 'USD':
+                    currencySymbol = '$';
+                    break;
+                case 'EUR':
+                    currencySymbol = '€';
+                    break;
+                case 'GBP':
+                    currencySymbol = '£';
+                    break;
+                default:
+                    currencySymbol = '£';
+                    break;
+            }
+
+            // Update HTML elements with formatted values and currency symbol
+            $(".prospecting-opportunities").text(currencySymbol + prospecting_value + "K");
+            $(".discovery-opportunities").text(currencySymbol + discovery_value + "K");
+            $(".meeting-opportunities").text(currencySymbol + meeting_value + "K");
+            $(".proposal-opportunities").text(currencySymbol + proposal_value + "K");
+            $(".negotiation-opportunities").text(currencySymbol + negotiation_value + "K");
+            $(".awaiting-opportunities").text(currencySymbol + awaiting_value + "K");
+            $(".postpurchase-opportunities").text(currencySymbol + postpurchase_value + "K");
+            $(".closedwon-opportunities").text(currencySymbol + closedwon_value + "K");
         });
     });
 </script><?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/header.blade.php ENDPATH**/ ?>

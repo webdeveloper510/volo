@@ -82,6 +82,8 @@
         background-color: #f1f1f1;
     }
 </style>
+
+
 @section('content')
 <div class="row">
     <div class="col-sm-12">

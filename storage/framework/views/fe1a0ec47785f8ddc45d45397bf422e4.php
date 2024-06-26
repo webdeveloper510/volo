@@ -84,6 +84,8 @@
         background-color: #f1f1f1;
     }
 </style>
+
+
 <?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-sm-12">
