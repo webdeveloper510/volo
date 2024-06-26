@@ -593,7 +593,7 @@ class DashboardController extends Controller
     {
         $teamMember = $request->input('team_member');
         $region = $request->input('region');
-        // $products = $request->input('products');
+        $products = $request->input('products');  
 
         // Start the query builder
         $query = Lead::query();
@@ -605,6 +605,11 @@ class DashboardController extends Controller
         if ($region) {
             $query->where('region', $region);
         }
+        if ($products) {
+            $query->whereJsonContains('products', 'like', ['name' => "%$query%"]);
+        }
+
+       $result = $query->get();
 
         // Retrieve the filtered data
         $prospectingOpportunities = $query->whereIn('sales_stage', ['Contacted', 'New'])->get();
