@@ -281,7 +281,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
 
             // Determine the multiplier based on the selected currency
             var multiplier;
-            if (selectedCurrencyText === 'GBP') {
+            if (selectedCurrencyText === 'USD') {
                 multiplier = 1; 
             } else {
                 multiplier = parseFloat(selectedCurrencyVal); 
@@ -338,7 +338,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                     currencySymbol = '£';
                     break;
                 default:
-                    currencySymbol = '£';
+                    currencySymbol = '$';
                     break;
             }
             // Update HTML elements with formatted values and currency symbol
