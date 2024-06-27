@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'The Volo Fleet'),
 
     /*
     |--------------------------------------------------------------------------
@@ -190,7 +190,7 @@ return [
          */
 
         /*
-         * Application Service Providers...
+         * Application Service Providers... 3_logo-light.png
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,

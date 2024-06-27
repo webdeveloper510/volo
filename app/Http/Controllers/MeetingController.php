@@ -22,6 +22,7 @@ use App\Models\EventDoc;
 use App\Models\MasterCustomer;
 use App\Mail\SendBillingMail;
 use App\Mail\AgreementResponseMail;
+use App\Mail\EventEmail;
 use App\Mail\AgreementMail;
 use App\Models\NotesEvents;
 use App\Models\AgreementInfo;
@@ -367,45 +368,46 @@ class MeetingController extends Controller
                     ->withInput();
             }
 
-            $start_date = $request->input('start_date');
-            $end_date = $request->input('end_date');
-            $location = $request->input('location');
+            // $start_date = $request->input('start_date');
+            // $end_date = $request->input('end_date');
+            // $location = $request->input('location');
 
             // Ensure $location is an array
-            if (!is_array($location)) {
-                $location = [$location];
-            }
+            // if (!is_array($location)) {
+            //     $location = [$location];
+            // }
 
-            $overlapping_event = Meeting::where('start_date', '<=', $end_date)
-                ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $location) {
-                    foreach ($location as $loc) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $loc) {
-                            $q->where('venue_selection', 'LIKE', "%$loc%")
-                                ->where('start_date', '<=', $end_date)
-                                ->where('end_date', '>=', $start_date);
-                        });
-                    }
-                })->count();
-            if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Event exists for corresponding time or location!');
-            }
+            // $overlapping_event = Meeting::where('start_date', '<=', $end_date)
+            //     ->where('end_date', '>=', $start_date)
+            //     ->where(function ($query) use ($start_date, $end_date, $location) {
+            //         foreach ($location as $loc) {
+            //             $query->orWhere(function ($q) use ($start_date, $end_date, $loc) {
+            //                 $q->where('venue_selection', 'LIKE', "%$loc%")
+            //                     ->where('start_date', '<=', $end_date)
+            //                     ->where('end_date', '>=', $start_date);
+            //             });
+            //         }
+            //     })->count();
+            // if ($overlapping_event > 0) {
+            //     return redirect()->back()->with('error', 'Event exists for corresponding time or location!');
+            // }
 
-            $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
-                ->where('end_date', '>=', $start_date)
-                ->where(function ($query) use ($start_date, $end_date, $location) {
-                    foreach ($location as $loc) {
-                        $query->orWhere(function ($q) use ($start_date, $end_date, $loc) {
-                            $q->where('venue', 'LIKE', "%$loc%")
-                                ->where('start_date', '<=', $end_date)
-                                ->where('end_date', '>=', $start_date);
-                        });
-                    }
-                })->count();
+            // $overlapping_event = Blockdate::where('start_date', '<=', $end_date)
+            //     ->where('end_date', '>=', $start_date)
+            //     ->where(function ($query) use ($start_date, $end_date, $location) {
+            //         foreach ($location as $loc) {
+            //             $query->orWhere(function ($q) use ($start_date, $end_date, $loc) {
+            //                 $q->where('venue', 'LIKE', "%$loc%")
+            //                     ->where('start_date', '<=', $end_date)
+            //                     ->where('end_date', '>=', $start_date);
+            //             });
+            //         }
+            //     })->count();
 
-            if ($overlapping_event > 0) {
-                return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and location');
-            }
+            // if ($overlapping_event > 0) {
+            //     return redirect()->back()->with('error', 'Date is Blocked for corrosponding time and location');
+            // }
+
             $meeting                      = new Meeting();
             $meeting['user_id']           = isset($request->user) ? implode(',', $request->user) : '';
             $meeting['name']              = $request->event_name;
@@ -436,11 +438,50 @@ class MeetingController extends Controller
             $meeting['end_time']            = '';
             $meeting['ad_opts']             = '';
             $meeting['floor_plan']          = '';
-            $meeting['allergies']          = ''; 
+            $meeting['allergies']           = '';
             $meeting['link']          = $request->link;
+            $meeting['notes']          = $request->notes_remarks;
             $meeting['created_by']          = \Auth::user()->creatorId();
             $meeting->save();
-            // echo "<pre>";print_r($meeting);die;
+
+            // Get settings
+            $settings = Utility::settings();
+            $meetingId = $meeting->id;
+            $subject = 'Testing event email';
+            $content = $request->notes;
+
+            // Get user details
+            $userDetails = User::where('id', $request->user)->select('email', 'name')->first();
+            $assigned_by = \Auth::user()->name;
+
+            if ($meeting && $userDetails) {
+                try {
+                    // Configure mail settings
+                    config(
+                        [
+                            'mail.driver'       => $settings['mail_driver'],
+                            'mail.host'         => $settings['mail_host'],
+                            'mail.port'         => $settings['mail_port'],
+                            'mail.username'     => $settings['mail_username'],
+                            'mail.password'     => $settings['mail_password'],
+                            'mail.from.address' => $settings['mail_from_address'],
+                            'mail.from.name'    => $settings['mail_from_name'],
+                        ]
+                    );
+
+                    // Send email
+                    Mail::to($userDetails->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $userDetails, $assigned_by));
+
+                    // return redirect()->back()->with('success', 'Email Sent Successfully');
+                    return redirect()->route('calendernew.index')->with('success', __('Event created and Email send Successfuly'));
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error', 'Email Not Sent: ' . $e->getMessage());
+                }
+            } else {
+                return redirect()->back()->with('error', 'Meeting or User details not found');
+            }
+
+            die;
 
 
             // if (!empty($request->file('atttachment'))){
@@ -1474,10 +1515,10 @@ class MeetingController extends Controller
     public function detailed_info($id)
     {
         $id = decrypt(urldecode($id));
-        $event = Meeting::find($id);       
+        $event = Meeting::find($id);
         $user = User::where('id', $event->user_id)->get();
         $assigned_to = $user[0]->name;
-        return view('meeting.detailed_view', compact('event','assigned_to'));
+        return view('meeting.detailed_view', compact('event', 'assigned_to'));
     }
     public function event_user_info($id)
     {
@@ -1521,5 +1562,29 @@ class MeetingController extends Controller
         $notes->event_id = $id;
         $notes->save();
         return true;
+    }
+
+    public function acceptEvent(Request $request)
+    {
+        $meetingId = $request->input('meeting_id');
+        $status = $request->input('event_response');
+        $meeting = Meeting::findOrFail($meetingId);
+
+        $meeting->status = $status;
+        $meeting->save();
+
+        return redirect()->back()->with('success', 'Event accepted successfully.');
+    }
+
+    public function declineEvent(Request $request)
+    {
+        $meetingId = $request->input('meeting_id');
+        $status = $request->input('event_response');
+        $meeting = Meeting::findOrFail($meetingId);
+
+        $meeting->status = $status;
+        $meeting->save();
+
+        return redirect()->back()->with('success', 'Event declined successfully.');
     }
 }

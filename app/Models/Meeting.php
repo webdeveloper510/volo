@@ -21,7 +21,7 @@ class Meeting extends Model
         'attendees_user',
         'attendees_lead',
         'food_package',
-        'total','ad_opts','phone'
+        'total','ad_opts','phone','notes','link'
     ];
     public static $status   = [
         'Share Agreement',

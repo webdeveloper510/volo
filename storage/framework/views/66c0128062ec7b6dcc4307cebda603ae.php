@@ -309,6 +309,14 @@ $leadId = decrypt(urldecode(request()->query('lead')));
 
                                                 </div>
                                             </div>
+                                            <div class="col-6 need_full">
+                                                <div class="form-group">
+                                                    <?php echo e(Form::label('notes_remarks', __('Notes/Remarks'), ['class' => 'form-label'])); ?>
+
+                                                    <?php echo e(Form::textarea('notes_remarks', null, ['class' => 'form-control', 'placeholder' => __('Enter Notes/Remarks'), 'rows' => 4])); ?>
+
+                                                </div>
+                                            </div>
                                             <div class="card-footer text-end">
                                                 <input type="reset" id="resetForm" value="" style="display: none;">
                                                 <?php echo e(Form::submit(__('Save'), ['class' => 'btn  btn-primary '])); ?>

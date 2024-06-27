@@ -274,6 +274,12 @@ $leadId = decrypt(urldecode(request()->query('lead')));
                                                     {{Form::text('link',null,array('class'=>'form-control','placeholder'=>__('Enter Link')))}}
                                                 </div>
                                             </div>
+                                            <div class="col-6 need_full">
+                                                <div class="form-group">
+                                                    {{ Form::label('notes_remarks', __('Notes/Remarks'), ['class' => 'form-label']) }}
+                                                    {{ Form::textarea('notes_remarks', null, ['class' => 'form-control', 'placeholder' => __('Enter Notes/Remarks'), 'rows' => 4]) }}
+                                                </div>
+                                            </div>
                                             <div class="card-footer text-end">
                                                 <input type="reset" id="resetForm" value="" style="display: none;">
                                                 {{ Form::submit(__('Save'), ['class' => 'btn  btn-primary ']) }}
