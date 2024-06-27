@@ -321,6 +321,7 @@
     }
 
     .navbar-brand-box {
+        padding: 22px !important;
         text-align: center;
         border-bottom: 1px solid #e3e1e1;
     }
