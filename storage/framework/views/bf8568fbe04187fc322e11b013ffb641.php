@@ -321,13 +321,13 @@
     }
 
     .navbar-brand-box {
-        padding: 22px !important;
+        padding: 17px !important;
         text-align: center;
         border-bottom: 1px solid #e3e1e1;
     }
 
     .navbar-brand-box a img {
-        width: 50% !important;
+        width: 100% !important;
         height: auto;
     }
 
