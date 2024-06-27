@@ -828,12 +828,12 @@ function display_count() {
             },
         });
     }
-    function openPopupForm(start, end) {
-        var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
-        $("input[name = 'start_date']").attr('value', start);
-        $("input[name = 'end_date']").attr('value', enddate);
-        $("div#popup-form").show();
-    }
+    // function openPopupForm(start, end) {
+    //     var enddate = moment(end).subtract(1, 'days').format('yyyy-MM-DD');
+    //     $("input[name = 'start_date']").attr('value', start);
+    //     $("input[name = 'end_date']").attr('value', enddate);
+    //     $("div#popup-form").show();
+    // }
     function closePopupForm() {
         $('#popup-form').hide();
         $('#overlay').hide();

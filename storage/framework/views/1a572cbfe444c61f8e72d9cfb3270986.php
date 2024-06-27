@@ -130,14 +130,14 @@ $logo = \App\Models\Utility::get_file('uploads/logo/');
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="event_response" value="1">
                 <input type="hidden" name="meeting_id" value="<?php echo e($meetingId); ?>">
-                <button type="submit" class="button-accept">Accept</button>
+                <button type="submit" class="button-accept" style="cursor: pointer;">Accept</button>
             </form>
 
             <form method="POST" action="<?php echo e(route('decline_event')); ?>">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="event_response" value="0">
                 <input type="hidden" name="meeting_id" value="<?php echo e($meetingId); ?>">
-                <button type="submit" class="button-decline">Decline</button>
+                <button type="submit" class="button-decline" style="cursor: pointer;">Decline</button>
             </form>
         </div>
 

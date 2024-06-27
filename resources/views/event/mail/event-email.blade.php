@@ -130,14 +130,14 @@ $logo = \App\Models\Utility::get_file('uploads/logo/');
                 @csrf
                 <input type="hidden" name="event_response" value="1">
                 <input type="hidden" name="meeting_id" value="{{ $meetingId }}">
-                <button type="submit" class="button-accept">Accept</button>
+                <button type="submit" class="button-accept" style="cursor: pointer;">Accept</button>
             </form>
 
             <form method="POST" action="{{ route('decline_event') }}">
                 @csrf
                 <input type="hidden" name="event_response" value="0">
                 <input type="hidden" name="meeting_id" value="{{ $meetingId }}">
-                <button type="submit" class="button-decline">Decline</button>
+                <button type="submit" class="button-decline" style="cursor: pointer;">Decline</button>
             </form>
         </div>
 
