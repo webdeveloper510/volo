@@ -323,9 +323,10 @@
     }
 
     .inner_col {
-        padding: 10px;
-        border: 1px dotted #ccc;
-        border-radius: 20px;
+        background: white;
+        padding: 0px;
+        border: 1px solid #ccc;
+        border-radius: 0px;
         margin-top: 10px;
     }
 
@@ -352,9 +353,10 @@
 
     .inner_col .scrol-card {
         padding: 10px;
-        border: 1px dotted #ccc;
+        background: white;
         border-radius: 20px;
-        margin-top: 10px;
+        /* margin-top: 10px; */
+        padding-top: 20px;
         max-height: 210px;
         overflow-y: scroll;
     }

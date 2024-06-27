@@ -4827,7 +4827,8 @@ span.badge {
 }
 
 .card-title {
-    margin-bottom: var(--bs-card-title-spacer-y);
+    font-size: 1.0rem !important;
+    /* margin-bottom: var(--bs-card-title-spacer-y); */
 }
 
 .card-subtitle {
@@ -9161,9 +9162,14 @@ span.badge {
     background-color: rgba(var(--bs-info-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-warning {
+/* .bg-warning {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;
+} */
+
+.bg-warning {
+    --bs-bg-opacity: 1;
+    background-color: rgb(123 189 93) !important;
 }
 
 .bg-danger {
@@ -21843,7 +21849,7 @@ body:not(.minimenu) .dash-sidebar .dash-submenu .dash-submenu .dash-submenu > .d
 
 .card {
     box-shadow: 0 6px 30px rgba(182, 186, 203, 0.3);
-    margin-bottom: 24px;
+    margin-bottom: 10px;
     transition: box-shadow 0.2s ease-in-out;
 }
 
@@ -29542,7 +29548,7 @@ table.dataTable tbody > tr.selected th.select-checkbox:after {
     min-height: 100px;
     padding: 15px;
 	position: relative;
-    background-color: #f8f9fa !important;
+    /* background-color: #f8f9fa !important; */
     
 }
 .new_bottomcard
@@ -29583,13 +29589,15 @@ h5.card-text {
     float: left;
 }
 h5.card-title.mb-2 {
-    background: #cccccc17;
-    padding: 5px;
+    border-bottom: 1px solid lightgrey;
+    background: transparent;
+    padding: 10px 10px 10px;
     color: #000;
     justify-content: space-between;
     display: flex;
-    font-size: 14px !important;
+    /* font-size: 14px !important; */
 }
+
 
 h6.card-title.mb-2 {
     padding: 5px;

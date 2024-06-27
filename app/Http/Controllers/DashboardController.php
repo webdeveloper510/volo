@@ -150,7 +150,7 @@ class DashboardController extends Controller
                 $plan = Plan::find($users->plan);
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
-                $regions = explode(',', $setting['region'], true);
+                $regions = explode(',', $setting['region']);
 
                 $currency_data = json_decode($setting['currency_conversion'], true);
 
@@ -375,7 +375,6 @@ class DashboardController extends Controller
                 }
 
                 $closedWonOpportunitiesCount = $closedWonOpportunities->count();
-
                 return view('home', compact('venue_dropdown', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum', 'regions'));
             }
         } else {
