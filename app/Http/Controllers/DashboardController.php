@@ -151,6 +151,7 @@ class DashboardController extends Controller
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
+                
 
                 $currency_data = json_decode($setting['currency_conversion'], true);
 
@@ -388,6 +389,7 @@ class DashboardController extends Controller
             }
         }
     }
+
     public function getOrderChart($arrParam)
     {
         $arrDuration = [];
