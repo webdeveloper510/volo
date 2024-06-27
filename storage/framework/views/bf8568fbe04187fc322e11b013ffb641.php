@@ -334,7 +334,7 @@
     }
 
     .padding-10 {
-        padding: 10px !important;
+        padding: 6px 10px 10px 10px !important;
     }
 
     .padding-16 {
