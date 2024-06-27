@@ -1,14 +1,16 @@
-@extends('layouts.admin')
-@section('page-title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('objective-tracker') }}">{{ __('Objective Tracker') }}</a></li>
-<li class="breadcrumb-item">{{ __('Objective Tracker') }}</li>
-@endsection
+
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('objective-tracker')); ?>"><?php echo e(__('Objective Tracker')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Objective Tracker')); ?></li>
+<?php $__env->stopSection(); ?>
 <style>
     .container {
         display: flex;
@@ -131,7 +133,7 @@
 </style>
 
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-sm-12">
         <div class="row">
@@ -141,7 +143,7 @@
 
                         <div class="table-responsive overflow_hidden">
                             <a href="">
-                                <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
+                                <img src="<?php echo e($logo.'new-volo-transparent-bg.png'); ?>" alt="logo" class='logo_img'>
                             </a>
                             <div class="row">
                                 <div class="col-4 mt-3">
@@ -163,15 +165,15 @@
                                             <td>
                                                 <select class="input_form" name="employee" id="">
                                                     <option value="" selected disabled>Select Employee</option>
-                                                    @foreach ($users as $user)
-                                                    <option value="{{$user->id}}">{{$user->name}}</option>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select class="input_form">
-                                                    @for ($year = 2024; $year <= 2050; $year++) <option value="{{ $year }}">{{ $year }}</option>
-                                                        @endfor
+                                                    <?php for($year = 2024; $year <= 2050; $year++): ?> <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
+                                                        <?php endfor; ?>
                                                 </select>
                                             </td>
                                         </tr>
@@ -718,7 +720,7 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -765,3 +767,5 @@
         });
     });
 </script>
+
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/objective_tracker/index.blade.php ENDPATH**/ ?>
