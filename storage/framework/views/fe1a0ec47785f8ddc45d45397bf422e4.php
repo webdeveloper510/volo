@@ -227,11 +227,11 @@
                                             Category
                                             <i class="fa fa-caret-down category-dropdown icon_btn"></i>
                                             <div class="dropdown-content category-dropdown-content " style='margin-top: 8px;'>
-                                                <a href="#">BDRG</a>
-                                                <a href="#">Innovation</a>
-                                                <a href="#">MVP D&D</a>
-                                                <a href="#">O&P</a>
-                                                <a href="#">People & Culture</a>
+                                                <label><input type="checkbox" name="categories[]" value="BDRG"> BDRG</label><br>
+                                                <label><input type="checkbox" name="categories[]" value="Innovation"> Innovation</label><br>
+                                                <label><input type="checkbox" name="categories[]" value="MVP D&D"> MVP D&D</label><br>
+                                                <label><input type="checkbox" name="categories[]" value="O&P"> O&P</label><br>
+                                                <label><input type="checkbox" name="categories[]" value="People & Culture"> People & Culture</label>
                                             </div>
                                         </th>
 
@@ -239,188 +239,95 @@
                                             Objective
                                             <i class="fa fa-caret-down objective-dropdown icon_btn"></i>
                                             <div class="dropdown-content objective-dropdown-content">
-                                                <a href="#">Award allocated EIP awards
-                                                    and cascade SO into entire
-                                                    team.</a>
-                                                <a href="#">Complete platform
-                                                    consolidation agreements.</a>
-                                                <a href="#">Define system integration
-                                                    roles with each MVP
-                                                    execution to ensure seamless
-                                                    prospect management during
-                                                    pre-sales and closure
-                                                    processes.</a>
-                                                <a href="#">Ensure accounting and
-                                                    financial reporting
-                                                    alignment with Volo on a
-                                                    consolidated and
-                                                    non-idiosyncratic method.</a>
-                                                <a href="#">Grow net revenue from $4.6m
-                                                    to $5.2m in additional fees
-                                                    to Ajar.</a>
-                                                <a href="#">In liaison with other
-                                                    leaders grow commercial
-                                                    cross pollination by $1m.</a>
-                                                <a href="#">Lead the integration and
-                                                    alignment of Ajar and
-                                                    Volofleet.</a>
-                                                <a href="#">Refine people and Ajar
-                                                    identity process as a
-                                                    'portfolio company'.</a>
-                                                <a href="#">Reset organisational tone
-                                                    for performance and
-                                                    meritocracy, through the
-                                                    establishment of measurable
-                                                    S.O.s, best attitude,
-                                                    practice and S.O.Ps.</a>
+                                                <label><input type="checkbox" name="objective[]" value="Award allocated EIP awards and cascade SO into entire team."> Award allocated EIP awards and cascade SO into entire team.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="Complete platform consolidation agreements."> Complete platform consolidation agreements.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="Define system integration roles with each MVP execution to ensure seamless prospect management during pre-sales and closure processes."> Define system integration roles with each MVP execution to ensure seamless prospect management during pre-sales and closure processes.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="Ensure accounting and financial reporting alignment with Volo on a consolidated and non-idiosyncratic method."> Ensure accounting and financial reporting alignment with Volo on a consolidated and non-idiosyncratic method.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="Grow net revenue from $4.6m to $5.2m in additional fees to Ajar."> Grow net revenue from $4.6m to $5.2m in additional fees to Ajar.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="In liaison with other leaders grow commercial cross pollination by $1m."> In liaison with other leaders grow commercial cross pollination by $1m.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="Lead the integration and alignment of Ajar and Volofleet."> Lead the integration and alignment of Ajar and Volofleet.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="Refine people and Ajar identity process as a 'portfolio company'."> Refine people and Ajar identity process as a 'portfolio company'.</label><br>
+                                                <label><input type="checkbox" name="objective[]" value="Reset organisational tone for performance and meritocracy, through the establishment of measurable S.O.s, best attitude, practice and S.O.Ps."> Reset organisational tone for performance and meritocracy, through the establishment of measurable S.O.s, best attitude, practice and S.O.Ps.</label><br>
                                             </div>
                                         </th>
                                         <th scope="col" class="Category_set">
                                             Measure
                                             <i class="fa fa-caret-down measure-dropdown icon_btn"></i>
                                             <div class="dropdown-content measure-dropdown-content">
-                                                <a href="#">Complete all EIP document
-                                                    packs for Ajar participants
-                                                    in Volo EIP</a>
-                                                <a href="#">$1m USD/ £800k GBP of sales
-                                                    achieved between Volo/Ajar
-                                                    group of companies from
-                                                    internal introductions
-                                                    and/or cross selling
-                                                    products and services.</a>
-                                                <a href="#">1. Ajar x Volo
-                                                    Consolidation & purchase
-                                                    agreement executed 2. Ajar x
-                                                    Volo MSA executed 3. Ajar x
-                                                    Volo MOU(s) executed 4.
-                                                    Voloforce UK x Volofleet
-                                                    purchase agreement
-                                                    executed</a>
-                                                <a href="">Ajartec branding &
-                                                    marketing materials updated
-                                                    to include 'A Volofleet
-                                                    portfolio company'*</a>
-                                                <a href="">Create skills matrix for
-                                                    Systems Integration team.
-                                                    Map complimentary technology
-                                                    & services from Systems
-                                                    Integration team to Volo
-                                                    product suite to maxminise
-                                                    sales potential.</a>
-                                                <a href="">Deliver financial year net
-                                                    revenue of $5.2m USD/ £4.15m
-                                                    GBP for Ajartec</a>
-                                                <a href="">Establish consistent
-                                                    reporting format for Ajar
-                                                    Sales & Accounts data to
-                                                    Ash. Facilitate cross
-                                                    discipline meetings between
-                                                    Ajar team and Volo business
-                                                    units.
-                                                </a>
-                                                <a href="">Financial reporting
-                                                    standards and frequency of
-                                                    issuing reports agreed with
-                                                    Ash Anand. Q1 reports all
-                                                    issued.</a>
-                                                <a href="">Strategic objectives and
-                                                    measures for Ajartec agreed
-                                                    and documented, issued out
-                                                    to key relevant people as
-                                                    part of EIP packs.
-                                                </a>
+                                                <label><input type="checkbox" name="measure[]" value="Complete all EIP document packs for Ajar participants in Volo EIP"> Complete all EIP document packs for Ajar participants in Volo EIP</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="$1m USD/ £800k GBP of sales achieved between Volo/Ajar group of companies from internal introductions and/or cross selling products and services.">$1m USD/ £800k GBP of sales achieved between Volo/Ajar group of companies from internal introductions and/or cross selling products and services.</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="1. Ajar x Volo Consolidation & purchase agreement executed 2. Ajar x Volo MSA executed 3. Ajar x Volo MOU(s) executed 4. Voloforce UK x Volofleet purchase agreement executed">1. Ajar x Volo Consolidation & purchase agreement executed 2. Ajar x Volo MSA executed 3. Ajar x Volo MOU(s) executed 4. Voloforce UK x Volofleet purchase agreement executed</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="Ajartec branding & marketing materials updated to include 'A Volofleet portfolio company'">Ajartec branding & marketing materials updated to include 'A Volofleet portfolio company'</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="Create skills matrix for Systems Integration team. Map complimentary technology & services from Systems Integration team to Volo product suite to maxminise sales potential.">Create skills matrix for Systems Integration team. Map complimentary technology & services from Systems Integration team to Volo product suite to maximize sales potential.</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="Deliver financial year net revenue of $5.2m USD/ £4.15m GBP for Ajartec">Deliver financial year net revenue of $5.2m USD/ £4.15m GBP for Ajartec</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="Establish consistent reporting format for Ajar Sales & Accounts data to Ash. Facilitate cross discipline meetings between Ajar team and Volo business units.">Establish consistent reporting format for Ajar Sales & Accounts data to Ash. Facilitate cross discipline meetings between Ajar team and Volo business units.</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="Financial reporting standards and frequency of issuing reports agreed with Ash Anand. Q1 reports all issued.">Financial reporting standards and frequency of issuing reports agreed with Ash Anand. Q1 reports all issued.</label><br>
+                                                <label><input type="checkbox" name="measure[]" value="Strategic objectives and measures for Ajartec agreed and documented, issued out to key relevant people as part of EIP packs.">Strategic objectives and measures for Ajartec agreed and documented, issued out to key relevant people as part of EIP packs.</label><br>
                                             </div>
                                         </th>
                                         <th scope="col" class="Category_set">
                                             Key Dates
                                             <i class="fa fa-caret-down key-dates-dropdown icon_btn"></i>
                                             <div class="dropdown-content key-dates-dropdown-content">
-                                                <a href="#">3/31/2024</a>
-                                                <a href="#">6/28/2024</a>
-                                                <a href="#">12/31/2024</a>
-                                                <a href="#">NA</a>
+                                                <label><input type="checkbox" name="key_dates[]" value="3/31/2024"> 3/31/2024</label><br>
+                                                <label><input type="checkbox" name="key_dates[]" value="6/28/2024"> 6/28/2024</label><br>
+                                                <label><input type="checkbox" name="key_dates[]" value="12/31/2024"> 12/31/2024</label><br>
+                                                <label><input type="checkbox" name="key_dates[]" value="NA"> NA</label><br>
+
                                             </div>
                                         </th>
                                         <th scope="col" class="Category_set">
                                             Status
                                             <i class="fa fa-caret-down status-dropdown icon_btn"></i>
                                             <div class="dropdown-content status-dropdown-content">
-                                                <a href="#">Complete</a>
-                                                <a href="#">In Progress</a>
-                                                <a href="#">Outstanding</a>
+                                                <label><input type="checkbox" name="status[]" value="Complete"> Complete</label><br>
+                                                <label><input type="checkbox" name="status[]" value="In Progress"> In Progress</label><br>
+                                                <label><input type="checkbox" name="status[]" value="Outstanding"> Outstanding</label><br>
                                             </div>
                                         </th>
                                         <th scope="col">
                                             Q1 Updates
                                             <i class="fa fa-caret-down q1-updates-dropdown icon_btn"></i>
                                             <div class="dropdown-content q1-updates-dropdown-content">
-                                                <a href="">(Blanks)</a>
-                                                <a href="#">(this is broken down into
-                                                    Ajar Sales team $250k chunks
-                                                    to incentivise their buy in
-                                                    & support. Also see updates
-                                                    for MK/OM/TM.) JK works
-                                                    quoted via DCL for Zev Hub
-                                                    (unsuccessful) & Solent
-                                                    transport microhub (live)
-                                                </a>
-                                                <a href="#">£2,750,738.74 gross revenue
-                                                    Q1. Need to run through net
-                                                    calculation with Ash.</a>
-                                                <a href="#">All documents executed</a>
-                                                <a href="">Currently being reviewed in
-                                                    consultation with Bev to get
-                                                    better measures in place.</a>
-                                                <a href="">Ongoing workstream aiming
-                                                    to complete during q2.
-                                                    *there's been various
-                                                    discussions on this subject
-                                                    throughout the last several
-                                                    months (including with PB)
-                                                    and general feeling is it
-                                                    should be platform or
-                                                    partner company. Portfolio
-                                                    company is deemed to signify
-                                                    being owned by Volofleet and
-                                                    projects wrong message
-                                                    currently.</a>
-                                                <a href="">Reports & formats agreed
-                                                    with Ash, all requested info
-                                                    provided for Q1. On-going
-                                                    for rest of year</a>
+                                                <label><input type="checkbox" name="q1_updates[]" value="(Blanks)"> (Blanks)</label><br>
+                                                <label><input type="checkbox" name="q1_updates[]" value="(this is broken down into Ajar Sales team $250k chunks to incentivise their buy in & support. Also see updates for MK/OM/TM.) JK works quoted via DCL for Zev Hub (unsuccessful) & Solent transport microhub (live)"> (this is broken down into Ajar Sales team $250k chunks to incentivise their buy in & support. Also see updates for MK/OM/TM.) JK works quoted via DCL for Zev Hub (unsuccessful) & Solent transport microhub (live)</label><br>
+                                                <label><input type="checkbox" name="q1_updates[]" value="£2,750,738.74 gross revenue Q1. Need to run through net calculation with Ash."> £2,750,738.74 gross revenue Q1. Need to run through net calculation with Ash.</label><br>
+                                                <label><input type="checkbox" name="q1_updates[]" value="All documents executed"> All documents executed</label><br>
+                                                <label><input type="checkbox" name="q1_updates[]" value="Currently being reviewed in consultation with Bev to get better measures in place."> Currently being reviewed in consultation with Bev to get better measures in place.</label><br>
+                                                <label><input type="checkbox" name="q1_updates[]" value="Ongoing workstream aiming to complete during q2. *there's been various discussions on this subject throughout the last several months (including with PB) and general feeling is it should be platform or partner company. Portfolio company is deemed to signify being owned by Volofleet and projects wrong message currently."> Ongoing workstream aiming to complete during q2. *there's been various discussions on this subject throughout the last several months (including with PB) and general feeling is it should be platform or partner company. Portfolio company is deemed to signify being owned by Volofleet and projects wrong message currently.</label><br>
+                                                <label><input type="checkbox" name="q1_updates[]" value="Reports & formats agreed with Ash, all requested info provided for Q1. On-going for rest of year"> Reports & formats agreed with Ash, all requested info provided for Q1. On-going for rest of year</label><br>
                                             </div>
                                         </th>
                                         <th scope="col" class="Category_set">
                                             Q2 Updates
                                             <i class="fa fa-caret-down q2-updates-dropdown icon_btn"></i>
                                             <div class="dropdown-content q2-updates-dropdown-content">
-                                                <a href="">(Blanks)</a>
-                                                <a href="#">N/A</a>
+                                                <label><input type="checkbox" name="q2_updates[]" value="(Blanks)"> (Blanks)</label><br>
+                                                <label><input type="checkbox" name="q2_updates[]" value="N/A"> N/A</label><br>
                                             </div>
                                         </th>
                                         <th scope="col" class="Category_set">
                                             Q3 Updates
                                             <i class="fa fa-caret-down q3-updates-dropdown icon_btn"></i>
                                             <div class="dropdown-content q3-updates-dropdown-content">
-                                                <a href="">(Blanks)</a>
-                                                <a href="#">N/A</a>
+                                                <label><input type="checkbox" name="q3_updates[]" value="(Blanks)"> (Blanks)</label><br>
+                                                <label><input type="checkbox" name="q3_updates[]" value="N/A"> N/A</label><br>
                                             </div>
                                         </th>
                                         <th scope="col" class="Category_set">
                                             Q4 Updates
                                             <i class="fa fa-caret-down q4-updates-dropdown icon_btn"></i>
                                             <div class="dropdown-content q4-updates-dropdown-content">
-                                                <a href="">(Blanks)</a>
-                                                <a href="#">N/A</a>
+                                                <label><input type="checkbox" name="q4_updates[]" value="(Blanks)"> (Blanks)</label><br>
+                                                <label><input type="checkbox" name="q4_updates[]" value="N/A"> N/A</label><br>
                                             </div>
                                         </th>
                                         <th scope="col" class="Category_set">
                                             EOY Review
                                             <i class="fa fa-caret-down eoy-review-dropdown icon_btn"></i>
                                             <div class="dropdown-content eoy-review-dropdown-content">
-                                                <a href="">(Blanks)</a>
-                                                <a href="#">Outstanding work.Have a
-                                                    beer on us</a>
+                                                <label><input type="checkbox" name="eoy_review[]" value="(Blanks)"> (Blanks)</label><br>
+                                                <label><input type="checkbox" name="eoy_review[]" value="Outstanding work.Have a beer on us"> Outstanding work. Have a beer on us</label><br>
                                             </div>
                                         </th>
                                     </tr>
@@ -767,5 +674,4 @@
         });
     });
 </script>
-
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/objective_tracker/index.blade.php ENDPATH**/ ?>
