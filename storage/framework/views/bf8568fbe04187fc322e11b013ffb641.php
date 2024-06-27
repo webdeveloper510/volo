@@ -62,8 +62,15 @@
         var newSrc = isTransparentBg ? "<?php echo e($logo.'volo-sm-icon.png'); ?>" : "<?php echo e($logo.'new-volo-transparent-bg.png'); ?>";
 
         logoImg.attr("src", newSrc);
-    });
 
+        // Update the padding for .navbar-brand-box
+        var navbarBrandBox = $(".navbar-brand-box");
+        if (isTransparentBg) {
+            navbarBrandBox.removeClass("padding-16").addClass("padding-10");
+        } else {
+            navbarBrandBox.removeClass("padding-10").addClass("padding-16");
+        }
+    });
 
     function initMenu() {
         $('#menu ul').hide();
@@ -321,9 +328,17 @@
     }
 
     .navbar-brand-box {
-        padding: 17px !important;
+        padding: 16px !important;
         text-align: center;
         border-bottom: 1px solid #e3e1e1;
+    }
+
+    .padding-10 {
+        padding: 10px !important;
+    }
+
+    .padding-16 {
+        padding: 16px !important;
     }
 
     .navbar-brand-box a img {

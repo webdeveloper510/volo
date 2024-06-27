@@ -8,7 +8,7 @@ $category = explode(',', $settings['campaign_type']);
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
             <div class="navbar-brand-box loadthisimage">
                 <a href="#" class="navbar-brand">
-                    <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}" class="logo logo-lg nav-sidebar-logo"/>
+                    <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="{{ config('app.name', 'The Sector Eight') }}" class="logo logo-lg nav-sidebar-logo" />
                 </a>
             </div>
 
@@ -279,6 +279,6 @@ $category = explode(',', $settings['campaign_type']);
                 var $this = $(this);
                 $this.attr('src', $this.attr('src'));
             });
-        }, 2000); 
+        }, 2000);
     });
 </script>
