@@ -532,8 +532,8 @@
 
         if (data && data.prospectingOpportunities && data.prospectingOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Prospecting (' + data.prospectingOpportunitiesCount + ') <span class="prospecting-opportunities">$' + data.prospectingOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="' + data.prospectingOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Prospecting (' + data.prospectingOpportunitiesCount + ') <span class="prospecting-opportunities">$' + human_readable_number(data.prospectingOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="' + human_readable_number(data.prospectingOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.prospectingOpportunities, function(index, opportunity) {
@@ -585,8 +585,8 @@
 
         if (data && data.discoveryOpportunities && data.discoveryOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Discovery (' + data.discoveryOpportunitiesCount + ') <span class="discovery-opportunities">$' + data.discoveryOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="' + data.discoveryOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Discovery (' + data.discoveryOpportunitiesCount + ') <span class="discovery-opportunities">$' + human_readable_number(data.discoveryOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="' + human_readable_number(data.discoveryOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.discoveryOpportunities, function(index, opportunity) {
@@ -637,8 +637,8 @@
 
         if (data && data.demoOrMeetingOpportunities && data.demoOrMeetingOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Demo or Meeting (' + data.demoOrMeetingOpportunitiesCount + ') <span class="meeting-opportunities">$' + data.demoOrMeetingOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="' + data.demoOrMeetingOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Demo or Meeting (' + data.demoOrMeetingOpportunitiesCount + ') <span class="meeting-opportunities">$' + human_readable_number(data.demoOrMeetingOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="' + human_readable_number(data.demoOrMeetingOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.demoOrMeetingOpportunities, function(index, opportunity) {
@@ -689,8 +689,8 @@
 
         if (data && data.proposalOpportunities && data.proposalOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Proposal (' + data.proposalOpportunitiesCount + ') <span class="proposal-opportunities">$' + data.proposalOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="' + data.proposalOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Proposal (' + data.proposalOpportunitiesCount + ') <span class="proposal-opportunities">$' + human_readable_number(data.proposalOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="' + human_readable_number(data.proposalOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.proposalOpportunities, function(index, opportunity) {
@@ -741,8 +741,8 @@
 
         if (data && data.negotiationOpportunities && data.negotiationOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Negotiation (' + data.negotiationOpportunitiesCount + ') <span class="negotiation-opportunities">$' + data.negotiationOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="' + data.negotiationOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Negotiation (' + data.negotiationOpportunitiesCount + ') <span class="negotiation-opportunities">$' + human_readable_number(data.negotiationOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="' + human_readable_number(data.negotiationOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.negotiationOpportunities, function(index, opportunity) {
@@ -793,8 +793,8 @@
 
         if (data && data.awaitingDecisionOpportunities && data.awaitingDecisionOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Awaiting Decision (' + data.awaitingDecisionOpportunitiesCount + ') <span class="awaiting-opportunities">$' + data.awaitingDecisionOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="' + data.awaitingDecisionOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Awaiting Decision (' + data.awaitingDecisionOpportunitiesCount + ') <span class="awaiting-opportunities">$' + human_readable_number(data.awaitingDecisionOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="' + human_readable_number(data.awaitingDecisionOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.awaitingDecisionOpportunities, function(index, opportunity) {
@@ -845,8 +845,8 @@
 
         if (data && data.postPurchaseOpportunities && data.postPurchaseOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Post Purchase (' + data.postPurchaseOpportunitiesCount + ') <span class="postpurchase-opportunities">$' + data.postPurchaseOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="' + data.postPurchaseOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Post Purchase (' + data.postPurchaseOpportunitiesCount + ') <span class="postpurchase-opportunities">$' + human_readable_number(data.postPurchaseOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="' + human_readable_number(data.postPurchaseOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.postPurchaseOpportunities, function(index, opportunity) {
@@ -897,8 +897,8 @@
 
         if (data && data.closedWonOpportunities && data.closedWonOpportunities.length > 0) {
             html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Closed Won (' + data.closedWonOpportunitiesCount + ') <span class="closedwon-opportunities">$' + data.closedWonOpportunitiesSum + '</span></h5>';
-            html += '<input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="' + data.closedWonOpportunitiesSum + '">';
+            html += '<h5 class="card-title mb-2 opportunity-title">Closed Won (' + data.closedWonOpportunitiesCount + ') <span class="closedwon-opportunities">$' + human_readable_number(data.closedWonOpportunitiesSum) + '</span></h5>';
+            html += '<input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="' + human_readable_number(data.closedWonOpportunitiesSum) + '">';
             html += '<div class="scrol-card">';
 
             $.each(data.closedWonOpportunities, function(index, opportunity) {
@@ -958,6 +958,17 @@
                 return '';
         }
     }
+
+    function human_readable_number(number) {
+        if (number >= 1000000) {
+            return (number / 1000000).toFixed(1) + 'M';
+        }
+        if (number >= 1000) {
+            return (number / 1000).toFixed(1) + 'K';
+        }
+        return number.toLocaleString();
+    }
 </script>
+
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/home.blade.php ENDPATH**/ ?>
