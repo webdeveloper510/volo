@@ -138,7 +138,6 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body table-border-style">
-
                         <div class="table-responsive overflow_hidden">
                             <a href="">
                                 <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
@@ -224,7 +223,7 @@
                                         <th scope="col" class="Category_set">
                                             Category
                                             <i class="fa fa-caret-down category-dropdown icon_btn"></i>
-                                            <div class="dropdown-content category-dropdown-content " style='margin-top: 8px;'>
+                                            <div class="dropdown-content category-dropdown-content">
                                                 <label><input type="checkbox" name="categories[]" value="BDRG"> BDRG</label><br>
                                                 <label><input type="checkbox" name="categories[]" value="Innovation"> Innovation</label><br>
                                                 <label><input type="checkbox" name="categories[]" value="MVP D&D"> MVP D&D</label><br>

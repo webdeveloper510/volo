@@ -151,7 +151,7 @@ class DashboardController extends Controller
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
-                
+
 
                 $currency_data = json_decode($setting['currency_conversion'], true);
 
@@ -171,7 +171,7 @@ class DashboardController extends Controller
                             $gbp = $currency['conversion_rate_to_usd'];
                             break;
                     }
-                }           
+                }
 
                 // Prospecting Opportunities
                 $prospectingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
@@ -184,8 +184,8 @@ class DashboardController extends Controller
 
                 foreach ($prospectingOpportunities as $opportunity) {
                     $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;                  
-                    
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
                     if ($opportunity->currency == 'GBP') {
                         $convertedValue = $valueOfOpportunity * $gbp;
                     } elseif ($opportunity->currency == 'EUR') {
@@ -613,27 +613,217 @@ class DashboardController extends Controller
         $region = $request->input('region');
         $products = $request->input('products');
 
-        // Start the query builder
-        $query = Lead::query();
-
-        // Apply filters based on the request inputs
-        if ($teamMember) {
-            $query->where('assigned_user', $teamMember);
+        // Get currency conversion
+        $setting = Utility::settings();
+        $currency_data = json_decode($setting['currency_conversion'], true);
+        $usd = $eur = $gbp = null;
+        foreach ($currency_data as $currency) {
+            switch ($currency['code']) {
+                case 'USD':
+                    $usd = $currency['conversion_rate_to_usd'];
+                    break;
+                case 'EUR':
+                    $eur = $currency['conversion_rate_to_usd'];
+                    break;
+                case 'GBP':
+                    $gbp = $currency['conversion_rate_to_usd'];
+                    break;
+            }
         }
-        if ($region) {
-            $query->where('region', $region);
-        }
-        if ($products) {
-            $query->where(function ($q) use ($products) {
-                $q->whereRaw("JSON_SEARCH(products, 'all', ?) IS NOT NULL", [$products]);
-            });
+
+        // Get all leads
+        $leads = Lead::all();
+
+        $opportunities = [];
+        $prospectingOpportunitiesSum =
+            $prospectingOpportunitiesCount =
+            $discoveryOpportunitiesSum =
+            $discoveryOpportunitiesCount =
+            $demoOrMeetingOpportunitiesSum =
+            $demoOrMeetingOpportunitiesCount =
+            $proposalOpportunitiesSum =
+            $proposalOpportunitiesCount =
+            $negotiationOpportunitiesSum =
+            $negotiationOpportunitiesCount =
+            $awaitingDecisionOpportunitiesSum =
+            $awaitingDecisionOpportunitiesCount =
+            $postPurchaseOpportunitiesSum =
+            $postPurchaseOpportunitiesCount =
+            $closedWonOpportunitiesSum =
+            $closedWonOpportunitiesCount = 0;
+
+        foreach ($leads as $lead) {
+            if ($lead->assigned_user == $teamMember) {
+                // Fetch record for Prospecting Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && in_array($lead->sales_stage, ['New', 'Contacted'])) {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $prospectingOpportunitiesSum += $convertedValue;
+                    $prospectingOpportunitiesCount++;
+
+                    $opportunities['opportunities']['prospectingOpportunities'][] = $lead;
+                    $opportunities['opportunities']['prospectingOpportunitiesSum'] = human_readable_number($prospectingOpportunitiesSum);
+                    $opportunities['opportunities']['prospectingOpportunitiesCount'] = $prospectingOpportunitiesCount;
+                }
+
+                // Fetch record for Discovery Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && in_array($lead->sales_stage, ['Qualifying', 'Qualified'])) {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $discoveryOpportunitiesSum += $convertedValue;
+                    $discoveryOpportunitiesCount++;
+
+                    $opportunities['opportunities']['discoveryOpportunities'][] = $lead;
+                    $opportunities['opportunities']['discoveryOpportunitiesSum'] = human_readable_number($discoveryOpportunitiesSum);
+                    $opportunities['opportunities']['discoveryOpportunitiesCount'] = $discoveryOpportunitiesCount;
+                }
+
+                // Fetch record for DemoOrMeeting Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && in_array($lead->sales_stage, ['NDA Signed', 'Demo or Meeting'])) {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $demoOrMeetingOpportunitiesSum += $convertedValue;
+                    $demoOrMeetingOpportunitiesCount++;
+
+                    $opportunities['opportunities']['demoOrMeetingOpportunities'][] = $lead;
+                    $opportunities['opportunities']['demoOrMeetingOpportunitiesSum'] = human_readable_number($demoOrMeetingOpportunitiesSum);
+                    $opportunities['opportunities']['demoOrMeetingOpportunitiesCount'] = $demoOrMeetingOpportunitiesCount;
+                }
+
+                // Fetch record for Proposal Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && $lead->sales_stage == 'Proposal') {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $proposalOpportunitiesSum += $convertedValue;
+                    $proposalOpportunitiesCount++;
+
+                    $opportunities['opportunities']['proposalOpportunities'][] = $lead;
+                    $opportunities['opportunities']['proposalOpportunitiesSum'] = human_readable_number($proposalOpportunitiesSum);
+                    $opportunities['opportunities']['proposalOpportunitiesCount'] = $proposalOpportunitiesCount;
+                }
+
+                // Fetch record for Negotiation Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && $lead->sales_stage == 'Negotiation') {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $negotiationOpportunitiesSum += $convertedValue;
+                    $negotiationOpportunitiesCount++;
+
+                    $opportunities['opportunities']['negotiationOpportunities'][] = $lead;
+                    $opportunities['opportunities']['negotiationOpportunitiesSum'] = human_readable_number($negotiationOpportunitiesSum);
+                    $opportunities['opportunities']['negotiationOpportunitiesCount'] = $negotiationOpportunitiesCount;
+                }
+
+                // Fetch record for Awaiting Decision Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && $lead->sales_stage == 'Awaiting Decision') {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $awaitingDecisionOpportunitiesSum += $convertedValue;
+                    $awaitingDecisionOpportunitiesCount++;
+
+                    $opportunities['opportunities']['awaitingDecisionOpportunities'][] = $lead;
+                    $opportunities['opportunities']['awaitingDecisionOpportunitiesSum'] = human_readable_number($awaitingDecisionOpportunitiesSum);
+                    $opportunities['opportunities']['awaitingDecisionOpportunitiesCount'] = $awaitingDecisionOpportunitiesCount;
+                }
+
+                // Fetch record for Post Purchase Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && in_array($lead->sales_stage, ['Implementation', 'Follow-Up Needed'])) {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $postPurchaseOpportunitiesSum += $convertedValue;
+                    $postPurchaseOpportunitiesCount++;
+
+                    $opportunities['opportunities']['postPurchaseOpportunities'][] = $lead;
+                    $opportunities['opportunities']['postPurchaseOpportunitiesSum'] = human_readable_number($postPurchaseOpportunitiesSum);
+                    $opportunities['opportunities']['postPurchaseOpportunitiesCount'] = $postPurchaseOpportunitiesCount;
+                }
+
+                // Fetch record for Closed Won Opportunity
+                if ($lead->created_by == \Auth::user()->creatorId() && $lead->lead_status == 1 && $lead->sales_stage == 'Closed Won') {
+                    $valueOfOpportunity = str_replace(',', '', $lead->value_of_opportunity);
+                    $valueOfOpportunity = (float) $valueOfOpportunity;
+
+                    if ($lead->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($lead->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $closedWonOpportunitiesSum += $convertedValue;
+                    $closedWonOpportunitiesCount++;
+
+                    $opportunities['opportunities']['closedWonOpportunities'][] = $lead;
+                    $opportunities['opportunities']['closedWonOpportunitiesSum'] = human_readable_number($closedWonOpportunitiesSum);
+                    $opportunities['opportunities']['closedWonOpportunitiesCount'] = $closedWonOpportunitiesCount;
+                }
+            }
         }
 
-        $result = $query->get();
-        echo "<pre>";
-        print_r($result);
-        die;
-
-        return response()->json($result);
+        return response()->json($opportunities);
     }
 }
