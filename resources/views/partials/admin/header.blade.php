@@ -282,15 +282,19 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
             // Determine the multiplier based on the selected currency
             var multiplier;
             if (selectedCurrencyText === 'USD') {
-                multiplier = 1; 
+                multiplier = 1;
             } else {
-                multiplier = parseFloat(selectedCurrencyVal); 
+                multiplier = parseFloat(selectedCurrencyVal);
             }
-            
 
             // Function to extract and convert value from "X.XK" format
             function extractAndConvertValue(id) {
                 var value = $('#' + id).val();
+
+                if (value === undefined) {
+                    value = '0';
+                }
+
                 var numericValue = parseFloat(value.replace(/[^\d.]/g, ''));
                 return numericValue;
             }
@@ -341,6 +345,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                     currencySymbol = '$';
                     break;
             }
+
             // Update HTML elements with formatted values and currency symbol
             $(".prospecting-opportunities").text(currencySymbol + prospecting_value + "K");
             $(".discovery-opportunities").text(currencySymbol + discovery_value + "K");
