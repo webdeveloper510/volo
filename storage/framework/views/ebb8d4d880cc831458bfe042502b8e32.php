@@ -1,15 +1,16 @@
-@extends('layouts.admin')
-@section('breadcrumb')
-@endsection
-@section('page-title')
-{{ __('Home') }}
-@endsection
-@section('title')
-{{ __('Dashboard') }}
-@endsection
-@section('action-btn')
-@endsection
-@section('content')
+<?php $__env->startSection('breadcrumb'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Home')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Dashboard')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('action-btn'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 
 <style>
     label.filter-label {
@@ -42,9 +43,9 @@
                     <label class="filter-label">Team Member</label>
                     <select id="team_member" name="team_member[]" class="form-control" multiple>
                         <option value="" disabled>Select Team Member</option>
-                        @foreach ($assinged_staff as $staff)
-                        <option value="{{ $staff->id }}">{{ $staff->name }}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <option value="clear_team_member_filter">Clear Filter</option>
                     </select>
                 </div>
@@ -52,9 +53,9 @@
                     <label class="filter-label">Region</label>
                     <select id="region" name="region[]" class="form-control" multiple>
                         <option value="" disabled>Select Region</option>
-                        @foreach($regions as $region)
-                        <option value="{{ $region }}">{{ $region }}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($region); ?>"><?php echo e($region); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <option value="clear_region_filter">Clear Filter</option>
                     </select>
                 </div>
@@ -62,9 +63,9 @@
                     <label class="filter-label">Products</label>
                     <select id="products" name="products[]" class="form-control" multiple>
                         <option value="" disabled>Select Products</option>
-                        @foreach ($products as $product)
-                        <option value="{{ $product }}">{{ $product }}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($product); ?>"><?php echo e($product); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <option value="clear_products_filter">Clear Filter</option>
                     </select>
                 </div>
@@ -72,121 +73,125 @@
                 <div class="row">
                     <div class="col-3 prospecting-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2 opportunity-title">Prospecting ({{ $prospectingOpportunitiesCount }}) <span class="prospecting-opportunities">${{ human_readable_number($prospectingOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="{{ human_readable_number($prospectingOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2 opportunity-title">Prospecting (<?php echo e($prospectingOpportunitiesCount); ?>) <span class="prospecting-opportunities">$<?php echo e(human_readable_number($prospectingOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="<?php echo e(human_readable_number($prospectingOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($prospectingOpportunities as $prospectingOpportunity)
+                                <?php $__currentLoopData = $prospectingOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prospectingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $prospectingOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $prospectingOpportunity['primary_name'] }}</span>
+                                            <?php echo e($prospectingOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($prospectingOpportunity['primary_name']); ?></span>
                                         </h5>
-                                        @if($prospectingOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($prospectingOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($prospectingOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($prospectingOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$prospectingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Prospecting Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$prospectingOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Prospecting Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($prospectingOpportunity['currency']) }}{{ $prospectingOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($prospectingOpportunity['currency'])); ?><?php echo e($prospectingOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
 
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-3 discovery-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Discovery ({{ $discoveryOpportunitiesCount }}) <span class="discovery-opportunities">${{ human_readable_number($discoveryOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="{{ human_readable_number($discoveryOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2">Discovery (<?php echo e($discoveryOpportunitiesCount); ?>) <span class="discovery-opportunities">$<?php echo e(human_readable_number($discoveryOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="<?php echo e(human_readable_number($discoveryOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($discoveryOpportunities as $discoveryOpportunity)
+                                <?php $__currentLoopData = $discoveryOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $discoveryOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $discoveryOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $discoveryOpportunity['primary_name'] }}</span>
+                                            <?php echo e($discoveryOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($discoveryOpportunity['primary_name']); ?></span>
                                         </h5>
 
-                                        @if($discoveryOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($discoveryOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$discoveryOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Discovery Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$discoveryOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Discovery Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($discoveryOpportunity['currency']) }}{{ $discoveryOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($discoveryOpportunity['currency'])); ?><?php echo e($discoveryOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-3 demo-meeting-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Demo or Meeting ({{ $demoOrMeetingOpportunitiesCount }}) <span class="meeting-opportunities">${{ human_readable_number($demoOrMeetingOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="{{ human_readable_number($demoOrMeetingOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2">Demo or Meeting (<?php echo e($demoOrMeetingOpportunitiesCount); ?>) <span class="meeting-opportunities">$<?php echo e(human_readable_number($demoOrMeetingOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="<?php echo e(human_readable_number($demoOrMeetingOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($demoOrMeetingOpportunities as $demoOrMeetingOpportunity)
+                                <?php $__currentLoopData = $demoOrMeetingOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $demoOrMeetingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $demoOrMeetingOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $demoOrMeetingOpportunity['primary_name'] }}</span>
+                                            <?php echo e($demoOrMeetingOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($demoOrMeetingOpportunity['primary_name']); ?></span>
                                         </h5>
 
-                                        @if($demoOrMeetingOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($demoOrMeetingOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($demoOrMeetingOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($demoOrMeetingOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$demoOrMeetingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Demo OR Meeting Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$demoOrMeetingOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Demo OR Meeting Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($demoOrMeetingOpportunity['currency']) }}{{ $demoOrMeetingOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($demoOrMeetingOpportunity['currency'])); ?><?php echo e($demoOrMeetingOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-3 proposal-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Proposal ({{ $proposalOpportunitiesCount }}) <span class="proposal-opportunities">${{ human_readable_number($proposalOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="{{ human_readable_number($proposalOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2">Proposal (<?php echo e($proposalOpportunitiesCount); ?>) <span class="proposal-opportunities">$<?php echo e(human_readable_number($proposalOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="<?php echo e(human_readable_number($proposalOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($proposalOpportunities as $proposalOpportunity)
+                                <?php $__currentLoopData = $proposalOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $proposalOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $proposalOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $proposalOpportunity['primary_name'] }}</span>
+                                            <?php echo e($proposalOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($proposalOpportunity['primary_name']); ?></span>
                                         </h5>
 
-                                        @if($proposalOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($proposalOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($proposalOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($proposalOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$proposalOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Proposal Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$proposalOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Proposal Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($proposalOpportunity['currency']) }}{{ $proposalOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($proposalOpportunity['currency'])); ?><?php echo e($proposalOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
@@ -195,121 +200,125 @@
                 <div class="row mt-4 ">
                     <div class="col-3 negotiation-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Negotiation ({{ $negotiationOpportunitiesCount }}) <span class="negotiation-opportunities">${{ human_readable_number($negotiationOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="{{ human_readable_number($negotiationOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2">Negotiation (<?php echo e($negotiationOpportunitiesCount); ?>) <span class="negotiation-opportunities">$<?php echo e(human_readable_number($negotiationOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="<?php echo e(human_readable_number($negotiationOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($negotiationOpportunities as $negotiationOpportunity)
+                                <?php $__currentLoopData = $negotiationOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $negotiationOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $negotiationOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $negotiationOpportunity['primary_name'] }}</span>
+                                            <?php echo e($negotiationOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($negotiationOpportunity['primary_name']); ?></span>
                                         </h5>
 
-                                        @if($negotiationOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($negotiationOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($negotiationOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($negotiationOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$negotiationOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Negotiation Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$negotiationOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Negotiation Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($negotiationOpportunity['currency']) }}{{ $negotiationOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($negotiationOpportunity['currency'])); ?><?php echo e($negotiationOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-3 awaiting-decision-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Awaiting Decision ({{ $awaitingDecisionOpportunitiesCount }}) <span class="awaiting-opportunities">${{ human_readable_number($awaitingDecisionOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="{{ human_readable_number($awaitingDecisionOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2">Awaiting Decision (<?php echo e($awaitingDecisionOpportunitiesCount); ?>) <span class="awaiting-opportunities">$<?php echo e(human_readable_number($awaitingDecisionOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="<?php echo e(human_readable_number($awaitingDecisionOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($awaitingDecisionOpportunities as $awaitingDecisionOpportunity)
+                                <?php $__currentLoopData = $awaitingDecisionOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $awaitingDecisionOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $awaitingDecisionOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $awaitingDecisionOpportunity['primary_name'] }}</span>
+                                            <?php echo e($awaitingDecisionOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($awaitingDecisionOpportunity['primary_name']); ?></span>
                                         </h5>
 
-                                        @if($awaitingDecisionOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($awaitingDecisionOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($awaitingDecisionOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($awaitingDecisionOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$awaitingDecisionOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Awaiting Decision Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$awaitingDecisionOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Awaiting Decision Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($awaitingDecisionOpportunity['currency']) }}{{ $awaitingDecisionOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($awaitingDecisionOpportunity['currency'])); ?><?php echo e($awaitingDecisionOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-3 post-purchase-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Post Purchase ({{ $postPurchaseOpportunitiesCount }}) <span class="postpurchase-opportunities">${{ human_readable_number($postPurchaseOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="{{ human_readable_number($postPurchaseOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2">Post Purchase (<?php echo e($postPurchaseOpportunitiesCount); ?>) <span class="postpurchase-opportunities">$<?php echo e(human_readable_number($postPurchaseOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="<?php echo e(human_readable_number($postPurchaseOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($postPurchaseOpportunities as $postPurchaseOpportunity)
+                                <?php $__currentLoopData = $postPurchaseOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $postPurchaseOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $postPurchaseOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $postPurchaseOpportunity['primary_name'] }}</span>
+                                            <?php echo e($postPurchaseOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($postPurchaseOpportunity['primary_name']); ?></span>
                                         </h5>
 
-                                        @if($postPurchaseOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($postPurchaseOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($postPurchaseOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($postPurchaseOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$postPurchaseOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Post Purchase Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$postPurchaseOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Post Purchase Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($postPurchaseOpportunity['currency']) }}{{ $postPurchaseOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($postPurchaseOpportunity['currency'])); ?><?php echo e($postPurchaseOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-3 closed-won-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Closed Won ({{ $closedWonOpportunitiesCount }}) <span class="closedwon-opportunities">${{ human_readable_number($closedWonOpportunitiesSum) }}</span></h5>
-                            <input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="{{ human_readable_number($closedWonOpportunitiesSum) }}">
+                            <h5 class="card-title mb-2">Closed Won (<?php echo e($closedWonOpportunitiesCount); ?>) <span class="closedwon-opportunities">$<?php echo e(human_readable_number($closedWonOpportunitiesSum)); ?></span></h5>
+                            <input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="<?php echo e(human_readable_number($closedWonOpportunitiesSum)); ?>">
                             <div class="scrol-card">
-                                @foreach($closedWonOpportunities as $closedWonOpportunity)
+                                <?php $__currentLoopData = $closedWonOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $closedWonOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
-                                            {{ $closedWonOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $closedWonOpportunity['primary_name'] }}</span>
+                                            <?php echo e($closedWonOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($closedWonOpportunity['primary_name']); ?></span>
                                         </h5>
 
-                                        @if($closedWonOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($closedWonOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Lead')
+                                        <?php if($closedWonOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($closedWonOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$closedWonOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Closed Won Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$closedWonOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Closed Won Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($closedWonOpportunity['currency']) }}{{ $closedWonOpportunity['value_of_opportunity'] }}</span>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($closedWonOpportunity['currency'])); ?><?php echo e($closedWonOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
@@ -397,8 +406,8 @@
     }
 </style>
 
-@endsection
-@push('script-page')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
 <script>
     if ('serviceWorker' in navigator) {
@@ -440,7 +449,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ route("store.token") }}',
+                    url: '<?php echo e(route("store.token")); ?>',
                     type: 'POST',
                     data: {
                         token: response
@@ -476,7 +485,7 @@
             var products = $('#products').val();
 
             $.ajax({
-                url: '{{ route("filter-data.dashboard") }}',
+                url: '<?php echo e(route("filter-data.dashboard")); ?>',
                 method: 'GET',
                 data: {
                     team_member: teamMember,
@@ -487,7 +496,7 @@
                     var data = response.opportunities;
                     console.log(data);
                     return false;
-                    var baseUrl = "{{ url('/') }}";
+                    var baseUrl = "<?php echo e(url('/')); ?>";
 
                     // Calling function for generate dynamic html
                     var prospectingOpportunityHtml = generateProspectingOpportunityHTML(baseUrl, data);
@@ -966,4 +975,5 @@
     }
 </script>
 
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/home.blade.php ENDPATH**/ ?>

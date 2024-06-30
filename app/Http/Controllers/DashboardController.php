@@ -610,6 +610,8 @@ class DashboardController extends Controller
     public function filterData(Request $request)
     {
         $teamMember = $request->input('team_member');
+        echo $teamMember;
+        die;
         $region = $request->input('region');
         $products = $request->input('products');
 
