@@ -489,11 +489,28 @@
                     var data = response.opportunities;
                     console.log('Data:', data);
 
+                    // List of all possible opportunity types
+                    var allOpportunityTypes = [
+                        'prospecting',
+                        'discovery',
+                        'demo_meeting',
+                        'proposal',
+                        'negotiation',
+                        'awaiting_decision',
+                        'post_purchase',
+                        'closed_won'
+                    ];
+
                     // Loop through each opportunity type and generate HTML
-                    Object.keys(data).forEach(function(type) {
-                        var opportunityData = data[type];
-                        var opportunityHtml = generateOpportunityHTML(type, baseUrl, opportunityData);
-                        $('.' + type.toLowerCase() + '-div').html(opportunityHtml);
+                    allOpportunityTypes.forEach(function(type) {
+                        if (data[type]) {
+                            var opportunityData = data[type];
+                            var opportunityHtml = generateOpportunityHTML(type, baseUrl, opportunityData);
+                            $('.' + type.replace('_', '-') + '-div').html(opportunityHtml);
+                        } else {
+                            // Clear the div if no data for this opportunity type
+                            $('.' + type.replace('_', '-') + '-div').html(generateNoRecordHTML(type));
+                        }
                     });
                 },
                 error: function() {
@@ -525,17 +542,23 @@
                 html += '</div>'; // close scrol-card
                 html += '</div>'; // close inner_col
             } else {
-                html += '<div class="inner_col">';
-                html += '<h5 class="card-title mb-2 opportunity-title">' + capitalizeFirstLetter(type) + ' (0) <span class="' + type.toLowerCase() + '-opportunities">$0</span></h5>';
-                html += '<div class="scrol-card">';
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<span class="no-record">No records found</span>';
-                html += '</div>'; // close card-body
-                html += '</div>'; // close card
-                html += '</div>'; // close scrol-card
-                html += '</div>'; // close inner_col
+                html = generateNoRecordHTML(type);
             }
+
+            return html;
+        }
+
+        function generateNoRecordHTML(type) {
+            var html = '<div class="inner_col">';
+            html += '<h5 class="card-title mb-2 opportunity-title">' + capitalizeFirstLetter(type) + ' (0) <span class="' + type.toLowerCase() + '-opportunities">$0</span></h5>';
+            html += '<div class="scrol-card">';
+            html += '<div class="card">';
+            html += '<div class="card-body new_bottomcard">';
+            html += '<span class="no-record">No records found</span>';
+            html += '</div>'; // close card-body
+            html += '</div>'; // close card
+            html += '</div>'; // close scrol-card
+            html += '</div>'; // close inner_col
 
             return html;
         }
