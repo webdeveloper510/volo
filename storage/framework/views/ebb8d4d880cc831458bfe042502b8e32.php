@@ -480,6 +480,7 @@
 <script>
     $(document).ready(function() {
         function handleFilterChange() {
+            var baseUrl = "<?php echo e(url('/')); ?>";
             var teamMember = $('#team_member').val();
             var region = $('#region').val();
             var products = $('#products').val();
@@ -493,30 +494,16 @@
                     products: products
                 },
                 success: function(response) {
+                    console.log('Response:', response);
                     var data = response.opportunities;
-                    console.log(data);
-                    return false;
-                    var baseUrl = "<?php echo e(url('/')); ?>";
+                    console.log('Data:', data);
 
-                    // Calling function for generate dynamic html
-                    var prospectingOpportunityHtml = generateProspectingOpportunityHTML(baseUrl, data);
-                    var discoveryOpportunityHTML = generateDiscoveryOpportunityHTML(baseUrl, data);
-                    var demoOrMeetingOpportunityHTML = generateDemoOrMeetingOpportunityHTML(baseUrl, data);
-                    var proposalOpportunityHTML = generateProposalOpportunityHTML(baseUrl, data);
-                    var negotiationOpportunityHTML = generateNegotiationOpportunityHTML(baseUrl, data);
-                    var awaitingDecisionOpportunityHTML = generateAwaitingDecisionOpportunityHTML(baseUrl, data);
-                    var postPurchaseOpportunityHTML = generatePostPurchaseOpportunityHTML(baseUrl, data);
-                    var closedWonOpportunityHTML = generateClosedWonOpportunityHTML(baseUrl, data);
-
-                    // Appending the generated html to corresponding div
-                    $('.prospecting-div').html(prospectingOpportunityHtml);
-                    $('.discovery-div').html(discoveryOpportunityHTML);
-                    $('.demo-meeting-div').html(demoOrMeetingOpportunityHTML);
-                    $('.proposal-div').html(proposalOpportunityHTML);
-                    $('.negotiation-div').html(negotiationOpportunityHTML);
-                    $('.awaiting-decision-div').html(awaitingDecisionOpportunityHTML);
-                    $('.post-purchase-div').html(postPurchaseOpportunityHTML);
-                    $('.closed-won-div').html(closedWonOpportunityHTML);
+                    // Loop through each opportunity type and generate HTML
+                    Object.keys(data).forEach(function(type) {
+                        var opportunityData = data[type];
+                        var opportunityHtml = generateOpportunityHTML(type, baseUrl, opportunityData);
+                        $('.' + type.toLowerCase() + '-div').html(opportunityHtml);
+                    });
                 },
                 error: function() {
                     console.log('Error fetching data');
@@ -525,455 +512,103 @@
         }
 
         // Attach change event listeners to the filters
-        $('#team_member').change(handleFilterChange);
-        $('#region').change(handleFilterChange);
-        $('#products').change(handleFilterChange);
+        $('#team_member, #region, #products').change(handleFilterChange);
+
+        function generateOpportunityHTML(type, baseUrl, data) {
+            var html = '';
+
+            if (data && data.lead && data.lead.length > 0) {
+                var count = data.count;
+                var sum = data.sum;
+                var sumDisplay = sum ? human_readable_number(sum) : '0';
+
+                html += '<div class="inner_col">';
+                html += '<h5 class="card-title mb-2 opportunity-title">' + capitalizeFirstLetter(type) + ' (' + count + ') <span class="' + type.toLowerCase() + '-opportunities">$' + sumDisplay + '</span></h5>';
+                html += '<input type="hidden" id="' + type.toLowerCase() + '-opportunities-sum" name="' + type.toLowerCase() + '-opportunities-sum" value="' + sumDisplay + '">';
+                html += '<div class="scrol-card">';
+
+                data.lead.forEach(function(lead) {
+                    html += generateLeadCard(baseUrl, lead, type);
+                });
+
+                html += '</div>'; // close scrol-card
+                html += '</div>'; // close inner_col
+            } else {
+                html += '<div class="inner_col">';
+                html += '<h5 class="card-title mb-2 opportunity-title">' + capitalizeFirstLetter(type) + ' (0) <span class="' + type.toLowerCase() + '-opportunities">$0</span></h5>';
+                html += '<div class="scrol-card">';
+                html += '<div class="card">';
+                html += '<div class="card-body new_bottomcard">';
+                html += '<span class="no-record">No records found</span>';
+                html += '</div>'; // close card-body
+                html += '</div>'; // close card
+                html += '</div>'; // close scrol-card
+                html += '</div>'; // close inner_col
+            }
+
+            return html;
+        }
+
+        function generateLeadCard(baseUrl, lead, type) {
+            var html = '';
+
+            html += '<div class="card">';
+            html += '<div class="card-body new_bottomcard">';
+            html += '<h5 class="card-text">' + lead.opportunity_name + '<span class="client-name">' + lead.primary_name + '</span></h5>';
+
+            if (lead.updated_at) {
+                var updatedAt = new Date(lead.updated_at);
+                var formattedDate = getFormattedDate(updatedAt);
+                html += '<p>' + formattedDate + '</p>';
+            }
+
+            html += '<div class="action-btn bg-warning ms-2">';
+            html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + lead.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="' + capitalizeFirstLetter(type) + ' Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
+            html += '<i class="ti ti-eye"></i>';
+            html += '</a>';
+            html += '</div>';
+
+            html += '<span class="opportunity-price">' + getCurrencySign(lead.currency) + ' ' + lead.value_of_opportunity + '</span>';
+            html += '</div>'; // close card-body
+            html += '</div>'; // close card
+
+            return html;
+        }
+
+        function getFormattedDate(date) {
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+            return monthNames[date.getMonth()] + ' ' + date.getDate();
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function human_readable_number(number) {
+            if (number >= 1000000) {
+                return (number / 1000000).toFixed(1) + 'M';
+            }
+            if (number >= 1000) {
+                return (number / 1000).toFixed(1) + 'K';
+            }
+            return number.toLocaleString();
+        }
+
+        function getCurrencySign(currency) {
+            switch (currency.toUpperCase()) {
+                case 'GBP':
+                    return '£';
+                case 'USD':
+                    return '$';
+                case 'EUR':
+                    return '€';
+                default:
+                    return '';
+            }
+        }
     });
 </script>
-
-<script>
-    function generateProspectingOpportunityHTML(baseUrl, data) {
-        var html = '';
-
-        if (data && data.prospectingOpportunities && data.prospectingOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Prospecting (' + data.prospectingOpportunitiesCount + ') <span class="prospecting-opportunities">$' + human_readable_number(data.prospectingOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="' + human_readable_number(data.prospectingOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.prospectingOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Prospecting Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Prospecting (0) <span class="prospecting-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-
-    function generateDiscoveryOpportunityHTML(baseUrl, data) {
-        console.log(data);
-        var html = '';
-
-        if (data && data.discoveryOpportunities && data.discoveryOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Discovery (' + data.discoveryOpportunitiesCount + ') <span class="discovery-opportunities">$' + human_readable_number(data.discoveryOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="' + human_readable_number(data.discoveryOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.discoveryOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Discovery Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Discovery (0) <span class="discovery-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-
-    function generateDemoOrMeetingOpportunityHTML(baseUrl, data) {
-        var html = '';
-
-        if (data && data.demoOrMeetingOpportunities && data.demoOrMeetingOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Demo or Meeting (' + data.demoOrMeetingOpportunitiesCount + ') <span class="meeting-opportunities">$' + human_readable_number(data.demoOrMeetingOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="' + human_readable_number(data.demoOrMeetingOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.demoOrMeetingOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Demo OR Meeting Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Demo or Meeting (0) <span class="meeting-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-
-    function generateProposalOpportunityHTML(baseUrl, data) {
-        var html = '';
-
-        if (data && data.proposalOpportunities && data.proposalOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Proposal (' + data.proposalOpportunitiesCount + ') <span class="proposal-opportunities">$' + human_readable_number(data.proposalOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="' + human_readable_number(data.proposalOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.proposalOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Proposal Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Proposal (0) <span class="proposal-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-
-    function generateNegotiationOpportunityHTML(baseUrl, data) {
-        var html = '';
-
-        if (data && data.negotiationOpportunities && data.negotiationOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Negotiation (' + data.negotiationOpportunitiesCount + ') <span class="negotiation-opportunities">$' + human_readable_number(data.negotiationOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="' + human_readable_number(data.negotiationOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.negotiationOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Negotiation Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Negotiation (0) <span class="negotiation-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-
-    function generateAwaitingDecisionOpportunityHTML(baseUrl, data) {
-        var html = '';
-
-        if (data && data.awaitingDecisionOpportunities && data.awaitingDecisionOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Awaiting Decision (' + data.awaitingDecisionOpportunitiesCount + ') <span class="awaiting-opportunities">$' + human_readable_number(data.awaitingDecisionOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="' + human_readable_number(data.awaitingDecisionOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.awaitingDecisionOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Awaiting Decision Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Awaiting Decision (0) <span class="awaiting-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-
-    function generatePostPurchaseOpportunityHTML(baseUrl, data) {
-        var html = '';
-
-        if (data && data.postPurchaseOpportunities && data.postPurchaseOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Post Purchase (' + data.postPurchaseOpportunitiesCount + ') <span class="postpurchase-opportunities">$' + human_readable_number(data.postPurchaseOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="' + human_readable_number(data.postPurchaseOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.postPurchaseOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Post Purchase Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Post Purchase (0) <span class="postpurchase-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-
-    function generateClosedWonOpportunityHTML(baseUrl, data) {
-        var html = '';
-
-        if (data && data.closedWonOpportunities && data.closedWonOpportunities.length > 0) {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Closed Won (' + data.closedWonOpportunitiesCount + ') <span class="closedwon-opportunities">$' + human_readable_number(data.closedWonOpportunitiesSum) + '</span></h5>';
-            html += '<input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="' + human_readable_number(data.closedWonOpportunitiesSum) + '">';
-            html += '<div class="scrol-card">';
-
-            $.each(data.closedWonOpportunities, function(index, opportunity) {
-                html += '<div class="card">';
-                html += '<div class="card-body new_bottomcard">';
-                html += '<h5 class="card-text">' + opportunity.opportunity_name + '<span class="client-name">' + opportunity.primary_name + '</span></h5>';
-
-                if (opportunity.updated_at) {
-                    var updatedAt = new Date(opportunity.updated_at);
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-                    ];
-                    var formattedDate = monthNames[updatedAt.getMonth()] + ' ' + updatedAt.getDate();
-                    html += '<p>' + formattedDate + '</p>';
-                }
-
-                html += '<div class="action-btn bg-warning ms-2">';
-                html += '<a href="javascript:void(0);" data-size="md" data-url="' + baseUrl + '/lead/' + opportunity.id + '" data-bs-toggle="tooltip" title="Quick View" data-ajax-popup="true" data-title="Closed Won Opportunity Details" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">';
-                html += '<i class="ti ti-eye"></i>';
-                html += '</a>';
-                html += '</div>';
-
-                html += '<span class="opportunity-price">' + getCurrencySign(opportunity.currency) + ' ' + opportunity.value_of_opportunity + '</span>';
-                html += '</div>';
-                html += '</div>';
-            });
-
-            html += '</div>';
-            html += '</div>';
-        } else {
-            html += '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">Closed Won (0) <span class="closedwon-opportunities">$0</span></h5>';
-            html += '<div class="scrol-card">';
-            html += '<div class="card">';
-            html += '<div class="card-body new_bottomcard">';
-            html += '<span class="no-record">No records found</span>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return html;
-    }
-</script>
-
-<script>
-    function getCurrencySign(currency) {
-        switch (currency.toUpperCase()) {
-            case 'GBP':
-                return '£';
-            case 'USD':
-                return '$';
-            case 'EUR':
-                return '€';
-            default:
-                return '';
-        }
-    }
-
-    function human_readable_number(number) {
-        if (number >= 1000000) {
-            return (number / 1000000).toFixed(1) + 'M';
-        }
-        if (number >= 1000) {
-            return (number / 1000).toFixed(1) + 'K';
-        }
-        return number.toLocaleString();
-    }
-</script>
-
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/home.blade.php ENDPATH**/ ?>

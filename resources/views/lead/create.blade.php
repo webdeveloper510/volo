@@ -344,17 +344,17 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            <input type="checkbox" id="hardware-one-time" name="products[]" value="Hardware – One Time" onchange="showAdditionalProductCategoryFields()">
-            <label for="hardware-one-time">Hardware – One Time</label><br>
+            <input type="checkbox" id="hardware-one-time" name="products[]" value="Hardware One Time" onchange="showAdditionalProductCategoryFields()">
+            <label for="hardware-one-time">Hardware One Time</label><br>
 
-            <input type="checkbox" id="hardware-maintenance" name="products[]" value="Hardware – Maintenance Contracts" onchange="showAdditionalProductCategoryFields()">
-            <label for="hardware-maintenance">Hardware – Maintenance Contracts</label><br>
+            <input type="checkbox" id="hardware-maintenance" name="products[]" value="Hardware Maintenance Contracts" onchange="showAdditionalProductCategoryFields()">
+            <label for="hardware-maintenance">Hardware Maintenance Contracts</label><br>
 
-            <input type="checkbox" id="software-recurring" name="products[]" value="Software – Recurring" onchange="showAdditionalProductCategoryFields()">
-            <label for="software-recurring">Software – Recurring</label><br>
+            <input type="checkbox" id="software-recurring" name="products[]" value="Software Recurring" onchange="showAdditionalProductCategoryFields()">
+            <label for="software-recurring">Software Recurring</label><br>
 
-            <input type="checkbox" id="software-one-time" name="products[]" value="Software – One Time" onchange="showAdditionalProductCategoryFields()">
-            <label for="software-one-time">Software – One Time</label><br>
+            <input type="checkbox" id="software-one-time" name="products[]" value="Software One Time" onchange="showAdditionalProductCategoryFields()">
+            <label for="software-one-time">Software One Time</label><br>
 
             <input type="checkbox" id="systems-integrations" name="products[]" value="Systems Integrations" onchange="showAdditionalProductCategoryFields()">
             <label for="systems-integrations">Systems Integrations</label><br>
@@ -362,8 +362,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <input type="checkbox" id="subscriptions" name="products[]" value="Subscriptions" onchange="showAdditionalProductCategoryFields()">
             <label for="subscriptions">Subscriptions</label><br>
 
-            <input type="checkbox" id="tech-deployment" name="products[]" value="Tech Deployment – Volume based" onchange="showAdditionalProductCategoryFields()">
-            <label for="tech-deployment">Tech Deployment – Volume based</label><br>
+            <input type="checkbox" id="tech-deployment" name="products[]" value="Tech Deployment Volume based" onchange="showAdditionalProductCategoryFields()">
+            <label for="tech-deployment">Tech Deployment Volume based</label><br>
         </div>
     </div>
 
