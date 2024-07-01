@@ -1,12 +1,12 @@
 <?php
-    $settings = \App\Models\Utility::settings();
-    $color = !empty($settings['color']) ? $settings['color'] : 'theme-3';
-    $logo = \App\Models\Utility::get_file('uploads/logo/');
-    $company_favicon = Utility::getValByName('company_favicon');
-    $users = \Auth::user();
-    $currantLang = $users->currentLanguage();
-    $languages = \App\Models\Utility::languages();
-    $footer_text = isset($settings['footer_text']) ? $settings['footer_text'] : '';
+$settings = \App\Models\Utility::settings();
+$color = !empty($settings['color']) ? $settings['color'] : 'theme-3';
+$logo = \App\Models\Utility::get_file('uploads/logo/');
+$company_favicon = Utility::getValByName('company_favicon');
+$users = \Auth::user();
+$currantLang = $users->currentLanguage();
+$languages = \App\Models\Utility::languages();
+$footer_text = isset($settings['footer_text']) ? $settings['footer_text'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="<?php echo e($settings['SITE_RTL'] == 'on' ? 'rtl' : ''); ?>">
@@ -47,8 +47,7 @@
         </div>
     </footer> -->
 
-    <div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModal"
-        aria-hidden="true">
+    <div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -61,8 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="commonModalOver" tabindex="-1" role="dialog" aria-labelledby="commonModal"
-        aria-hidden="true">
+    <div class="modal fade" id="commonModalOver" tabindex="-1" role="dialog" aria-labelledby="commonModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -161,5 +159,4 @@
 </body>
 
 
-</html>
-<?php /**PATH C:\xampp\htdocs\volo\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\volo\resources\views/layouts/admin.blade.php ENDPATH**/ ?>

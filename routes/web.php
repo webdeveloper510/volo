@@ -943,7 +943,6 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('settings', [SettingController::class, 'index'])->name('settings');
             Route::post('payment-setting', [SettingController::class, 'savePaymentSettings'])->name('payment.setting');
             Route::post('owner-payment-setting', [SettingController::class, 'saveOwnerPaymentSettings'])->name('owner.payment.setting');
-            Route::get('objective-tracker', [ObjectiveTrackerController::class, 'index'])->name('objective-tracker');
         }
     );
     Route::group(
@@ -1516,6 +1515,21 @@ Route::group(
         Route::post('create-categories', [CategoriesController::class, 'createCategory'])->name('categories.create');
         Route::post('update-categories', [CategoriesController::class, 'updateCategory'])->name('category.update');
         Route::post('delete-categories', [CategoriesController::class, 'destroyCategory'])->name('category.destroy');
+    }
+);
+
+// Routes for Objective Tracker
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('objective', [ObjectiveTrackerController::class, 'index'])->name('objective.index');
+        Route::get('objective/create/{type}/{id}', [ObjectiveTrackerController::class, 'create'])->name('objective.create');
+        Route::post('objective/store', [ObjectiveTrackerController::class, 'store'])->name('objective.store');
     }
 );
 

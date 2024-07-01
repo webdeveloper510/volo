@@ -6,9 +6,16 @@
 {{ __('Objective Tracker') }}
 @endsection
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('objective-tracker') }}">{{ __('Objective Tracker') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('objective.index') }}">{{ __('Objective Tracker') }}</a></li>
 <li class="breadcrumb-item">{{ __('Objective Tracker') }}</li>
 @endsection
+
+@section('action-btn')
+<a href="#" data-url="{{ route('objective.create', ['objective', 0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Create New Objective') }}" title="{{ __('Create') }}" class="btn btn-sm btn-primary btn-icon m-1">
+    <i class="ti ti-plus"></i>
+</a>
+@endsection
+
 <style>
     .container {
         display: flex;
@@ -129,7 +136,6 @@
 
     }
 </style>
-
 
 @section('content')
 <div class="row">

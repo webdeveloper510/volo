@@ -8,9 +8,16 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
-<li class="breadcrumb-item"><a href="<?php echo e(route('objective-tracker')); ?>"><?php echo e(__('Objective Tracker')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('objective.index')); ?>"><?php echo e(__('Objective Tracker')); ?></a></li>
 <li class="breadcrumb-item"><?php echo e(__('Objective Tracker')); ?></li>
 <?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('action-btn'); ?>
+<a href="#" data-url="<?php echo e(route('objective.create', ['objective', 0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Objective')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
+    <i class="ti ti-plus"></i>
+</a>
+<?php $__env->stopSection(); ?>
+
 <style>
     .container {
         display: flex;
@@ -131,7 +138,6 @@
 
     }
 </style>
-
 
 <?php $__env->startSection('content'); ?>
 <div class="row">
