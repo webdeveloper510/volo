@@ -470,6 +470,24 @@
 <!-- Filter Opportunities data -->
 <script>
     $(document).ready(function() {
+        $('#team_member').change(function() {
+            if ($(this).val().includes('clear_team_member_filter')) {
+                $(this).val([]).trigger('change');
+            }
+        });
+
+        $('#region').change(function() {
+            if ($(this).val().includes('clear_region_filter')) {
+                $(this).val([]).trigger('change');
+            }
+        });
+
+        $('#products').change(function() {
+            if ($(this).val().includes('clear_products_filter')) {
+                $(this).val([]).trigger('change');
+            }
+        });
+
         function handleFilterChange() {
             var baseUrl = "{{ url('/') }}";
             var teamMember = $('#team_member').val();

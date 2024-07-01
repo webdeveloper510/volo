@@ -36,6 +36,34 @@ class CategoriesController extends Controller
                 'category' => $category,
                 'message' => 'Category created successfully!'
             ]);
-        } 
+        }
+    }
+
+    public function updateCategory(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:categories,id',
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = Category::find($request->id);
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect()->back()->with('success', 'Category updated successfully.');
+    }
+
+    public function softDeleteCategory(Request $request)
+    {
+        $category = Category::find($request->id);
+
+        if ($category) {
+            $category->is_deleted = 1;
+            $category->save();
+
+            return response()->json(['success' => true, 'message' => 'Category marked as deleted successfully.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Category not found.'], 404);
     }
 }

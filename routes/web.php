@@ -1508,3 +1508,5 @@ Route::group(
 // Categories controller routes
 Route::get('create-categories', [CategoriesController::class, 'index'])->name('categories.index');
 Route::post('create-categories', [CategoriesController::class, 'createCategory'])->name('categories.create');
+Route::post('update-categories', [CategoriesController::class, 'updateCategory'])->name('category.update');
+Route::post('delete-categories', [CategoriesController::class, 'softDeleteCategory'])->name('category.softDelete');
