@@ -18,9 +18,6 @@ class CalenderNewController extends Controller
         $blockeddate = Blockdate::all();
         return view('calender_new.index',compact('blockeddate'));
     }
-    public function index(){
-        
-    }
     public function get_event_data(Request $request)
     {
         $events = Meeting::where('start_date', $request->start)->get();
