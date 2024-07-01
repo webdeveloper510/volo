@@ -471,7 +471,7 @@ class MeetingController extends Controller
                     );
 
                     // Send email
-                    Mail::to('testing.test3215@gmail.com')->send(new EventEmail($meeting, $subject, $content, $meetingId, $userDetails, $assigned_by));
+                    Mail::to($userDetails->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $userDetails, $assigned_by));
 
                     // return redirect()->back()->with('success', 'Email Sent Successfully');
                     return redirect()->route('calendernew.index')->with('success', __('Event created and Email send Successfuly'));
