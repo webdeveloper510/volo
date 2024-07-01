@@ -1,11 +1,11 @@
 @php
-    $settings = \App\Models\Utility::settings();
+$settings = \App\Models\Utility::settings();
 
-    $color = !empty($settings['color']) ? $settings['color'] : 'theme-3';
-    $logo = \App\Models\Utility::get_file('uploads/logo/');
-    $company_favicon = Utility::getValByName('company_favicon');
+$color = !empty($settings['color']) ? $settings['color'] : 'theme-3';
+$logo = \App\Models\Utility::get_file('uploads/logo/');
+$company_favicon = Utility::getValByName('company_favicon');
 
-    $footer_text = isset($settings['footer_text']) ? $settings['footer_text'] : '';
+$footer_text = isset($settings['footer_text']) ? $settings['footer_text'] : '';
 @endphp
 
 <head>
@@ -13,7 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
         {{ Utility::getValByName('title_text') ? Utility::getValByName('title_text') : config('app.name', 'The Sector Eight') }}
-        - @yield('page-title')</title>
+        - @yield('page-title')
+    </title>
 
     <!-- Primary Meta Tags -->
 
@@ -37,9 +38,7 @@
 
     {{-- <link rel="shortcut icon" href="{{ asset(Storage::url('logo/favicon.png')) }}"> --}}
 
-    <link rel="icon"
-        href="{{ $logo . '/' . (isset($company_favicon) && !empty($company_favicon) ? $company_favicon : 'favicon.png') }}"
-        type="image/png" sizes="16x16">
+    <link rel="icon" href="{{ $logo . '/' . (isset($company_favicon) && !empty($company_favicon) ? $company_favicon : 'favicon.png') }}" type="image/png" sizes="16x16">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/animate.min.css') }}">
@@ -58,13 +57,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     <!-- vendor css -->
     @if ($settings['SITE_RTL'] == 'on')
-        <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/custom-rtl.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom-rtl.css') }}">
     @else
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
     @endif
     @if (isset($settings['cust_darklayout']) && $settings['cust_darklayout'] == 'on')
-        <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
+    <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
     @endif
 
 
@@ -75,12 +74,11 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
     @if (isset($settings['cust_darklayout']) && $settings['cust_darklayout'] == 'on')
-        <link rel="stylesheet" href="{{ asset('css/custom-dark.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom-dark.css') }}">
     @endif
 
     @if (Auth::user())
-        <meta name="url" content="{{ url('') . '/' . config('chatify.routes.prefix') }}"
-            data-user="{{ Auth::user()->id }}">
+    <meta name="url" content="{{ url('') . '/' . config('chatify.routes.prefix') }}" data-user="{{ Auth::user()->id }}">
     @endif
 
 
@@ -94,5 +92,7 @@
 
     <!-- Option 1: Include in HTML -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     @stack('css-page')
 </head>

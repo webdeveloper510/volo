@@ -10,7 +10,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $allCategory = Category::all();
+        $allCategory = Category::where('is_deleted', 0)->get();
         return view('category.index', compact('allCategory'));
     }
 
@@ -53,17 +53,16 @@ class CategoriesController extends Controller
         return redirect()->back()->with('success', 'Category updated successfully.');
     }
 
-    public function softDeleteCategory(Request $request)
+    public function destroyCategory(Request $request)
     {
         $category = Category::find($request->id);
 
         if ($category) {
             $category->is_deleted = 1;
             $category->save();
-
-            return response()->json(['success' => true, 'message' => 'Category marked as deleted successfully.']);
+            return response()->json(['success' => 'Category marked as deleted successfully.']);
         }
 
-        return response()->json(['success' => false, 'message' => 'Category not found.'], 404);
+        return response()->json(['error' => 'Category not found.'], 404);
     }
 }

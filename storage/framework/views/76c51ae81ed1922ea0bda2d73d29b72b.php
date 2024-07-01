@@ -1,11 +1,11 @@
 <?php
-    $settings = \App\Models\Utility::settings();
+$settings = \App\Models\Utility::settings();
 
-    $color = !empty($settings['color']) ? $settings['color'] : 'theme-3';
-    $logo = \App\Models\Utility::get_file('uploads/logo/');
-    $company_favicon = Utility::getValByName('company_favicon');
+$color = !empty($settings['color']) ? $settings['color'] : 'theme-3';
+$logo = \App\Models\Utility::get_file('uploads/logo/');
+$company_favicon = Utility::getValByName('company_favicon');
 
-    $footer_text = isset($settings['footer_text']) ? $settings['footer_text'] : '';
+$footer_text = isset($settings['footer_text']) ? $settings['footer_text'] : '';
 ?>
 
 <head>
@@ -14,7 +14,8 @@
     <title>
         <?php echo e(Utility::getValByName('title_text') ? Utility::getValByName('title_text') : config('app.name', 'The Sector Eight')); ?>
 
-        - <?php echo $__env->yieldContent('page-title'); ?></title>
+        - <?php echo $__env->yieldContent('page-title'); ?>
+    </title>
 
     <!-- Primary Meta Tags -->
 
@@ -38,9 +39,7 @@
 
     
 
-    <link rel="icon"
-        href="<?php echo e($logo . '/' . (isset($company_favicon) && !empty($company_favicon) ? $company_favicon : 'favicon.png')); ?>"
-        type="image/png" sizes="16x16">
+    <link rel="icon" href="<?php echo e($logo . '/' . (isset($company_favicon) && !empty($company_favicon) ? $company_favicon : 'favicon.png')); ?>" type="image/png" sizes="16x16">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/plugins/animate.min.css')); ?>">
@@ -59,13 +58,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     <!-- vendor css -->
     <?php if($settings['SITE_RTL'] == 'on'): ?>
-        <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-rtl.css')); ?>">
-        <link rel="stylesheet" href="<?php echo e(asset('css/custom-rtl.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-rtl.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/custom-rtl.css')); ?>">
     <?php else: ?>
-        <link rel="stylesheet" href="<?php echo e(asset('assets/css/style.css')); ?>" id="main-style-link">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/style.css')); ?>" id="main-style-link">
     <?php endif; ?>
     <?php if(isset($settings['cust_darklayout']) && $settings['cust_darklayout'] == 'on'): ?>
-        <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-dark.css')); ?>" id="main-style-link">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-dark.css')); ?>" id="main-style-link">
     <?php endif; ?>
 
 
@@ -76,12 +75,11 @@
     <link rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>">
 
     <?php if(isset($settings['cust_darklayout']) && $settings['cust_darklayout'] == 'on'): ?>
-        <link rel="stylesheet" href="<?php echo e(asset('css/custom-dark.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/custom-dark.css')); ?>">
     <?php endif; ?>
 
     <?php if(Auth::user()): ?>
-        <meta name="url" content="<?php echo e(url('') . '/' . config('chatify.routes.prefix')); ?>"
-            data-user="<?php echo e(Auth::user()->id); ?>">
+    <meta name="url" content="<?php echo e(url('') . '/' . config('chatify.routes.prefix')); ?>" data-user="<?php echo e(Auth::user()->id); ?>">
     <?php endif; ?>
 
 
@@ -95,6 +93,7 @@
 
     <!-- Option 1: Include in HTML -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <?php echo $__env->yieldPushContent('css-page'); ?>
-</head>
-<?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/head.blade.php ENDPATH**/ ?>
+</head><?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/head.blade.php ENDPATH**/ ?>

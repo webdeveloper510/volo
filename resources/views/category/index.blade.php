@@ -12,17 +12,11 @@
     <i class="ti ti-plus"></i>
 </a>
 @endsection
-
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
 <li class="breadcrumb-item">{{__('Categories')}}</li>
 @endsection
 @section('content')
-@if(session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
 <div class="container-field">
     <div id="wrapper">
         <div id="page-content-wrapper">
@@ -49,12 +43,12 @@
                                                 <td>{{ $category->created_at->format('F j, Y') }}</td>
                                                 <td>
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="javascript:void(0);" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white edit-category-btn" data-id="{{ $category->id }}" data-name="{{ $category->name }}">
+                                                        <a href="javascript:void(0);" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white edit-category-btn" data-bs-toggle="tooltip" title='Edit' data-id="{{ $category->id }}" data-name="{{ $category->name }}">
                                                             <i class="ti ti-edit"></i>
                                                         </a>
                                                     </div>
                                                     <div class="action-btn bg-danger ms-2">
-                                                        <a href="javascript:void(0);" class="mx-3 btn btn-sm align-items-center text-white delete-category-btn" data-id="{{ $category->id }}" data-name="{{ $category->name }}">
+                                                        <a href="javascript:void(0);" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white delete-category-btn" data-bs-toggle="tooltip" title='Delete' data-id="{{ $category->id }}" data-name="{{ $category->name }}">
                                                             <i class="ti ti-trash"></i>
                                                         </a>
                                                     </div>
@@ -122,31 +116,11 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editCategoryModalLabel">{{ __('Delete Category') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete <span id="deleteCategoryName"></span>?</p>
-                <input type="hidden" id="deletedCategoryId" name="deletedCategoryId">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 @endsection
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@push('script-page')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
         $('#createCategoryForm').on('submit', function(e) {
@@ -193,37 +167,65 @@
 
 <script>
     $(document).ready(function() {
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
         $('.delete-category-btn').on('click', function() {
             var categoryId = $(this).data('id');
-            var categoryName = $(this).data('name');
-            $('#deleteCategoryName').text(categoryName);
-            $('#deletedCategoryId').val(categoryId);
-            $('#confirmDeleteModal').modal('show');
-        });
 
-        $('#confirmDeleteBtn').on('click', function() {
-            var deletedCategoryId = $('#deletedCategoryId').val();
-
-            $.ajax({
-                url: "{{ route('category.softDelete') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    id: deletedCategoryId
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success(response.message);
-                    } else {
-                        toastr.error(response.message);
-                    }
-                },
-                error: function() {
-                    toastr.error('Error marking category as deleted');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This category will be marked as deleted!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#ff3a6e',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('category.destroy') }}",
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            id: categoryId
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.success,
+                                    'success'
+                                );
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                toastr.error(response.error);
+                            }
+                        },
+                        error: function() {
+                            toastr.error('Error marking category as deleted.');
+                        }
+                    });
                 }
             });
-
-            $('#confirmDeleteModal').modal('hide');
         });
     });
 </script>
+@endpush

@@ -1,5 +1,7 @@
 <?php
+
 namespace Database\Seeders;
+
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -134,6 +136,18 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Delete Lead',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'Edit Category',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'Delete Category',
                 'guard_name' => 'web',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -1056,7 +1070,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'super admin',
                 'created_by' => 0,
-                ]
+            ]
         );
         $superAdminPermissions = [
             ['name' => 'Show User'],
@@ -1083,7 +1097,7 @@ class UsersTableSeeder extends Seeder
                 'username' => 'Super Admin',
                 'name' => 'Super Admin',
                 'email' => 'superadmin@example.com',
-                'email_verified_at'=>date("H:i:s"),
+                'email_verified_at' => date("H:i:s"),
                 'password' => Hash::make('1234'),
                 'type' => 'super admin',
                 'lang' => 'en',
@@ -1122,6 +1136,8 @@ class UsersTableSeeder extends Seeder
             ['name' => 'Show Lead'],
             ['name' => 'Manage Lead'],
             ['name' => 'Delete Lead'],
+            ['name' => 'Edit Category'],
+            ['name' => 'Delete Category'],
             ['name' => 'Create Opportunities'],
             ['name' => 'Delete Opportunities'],
             ['name' => 'Manage Opportunities'],
@@ -1291,14 +1307,13 @@ class UsersTableSeeder extends Seeder
         Utility::userDefaultData();
         Utility::languagecreate();
         $data = [
-            ['name'=>'local_storage_validation', 'value'=> 'jpg,jpeg,png,xlsx,xls,csv,pdf', 'created_by'=> 1, 'created_at'=> now(), 'updated_at'=> now()],
-            ['name'=>'wasabi_storage_validation', 'value'=> 'jpg,jpeg,png,xlsx,xls,csv,pdf', 'created_by'=> 1, 'created_at'=> now(), 'updated_at'=> now()],
-            ['name'=>'s3_storage_validation', 'value'=> 'jpg,jpeg,png,xlsx,xls,csv,pdf', 'created_by'=> 1, 'created_at'=> now(), 'updated_at'=> now()],
-            ['name'=>'local_storage_max_upload_size', 'value'=> 2048000, 'created_by'=> 1, 'created_at'=> now(), 'updated_at'=> now()],
-            ['name'=>'wasabi_max_upload_size', 'value'=> 2048000, 'created_by'=> 1, 'created_at'=> now(), 'updated_at'=> now()],
-            ['name'=>'s3_max_upload_size', 'value'=> 2048000, 'created_by'=> 1, 'created_at'=> now(), 'updated_at'=> now()]
+            ['name' => 'local_storage_validation', 'value' => 'jpg,jpeg,png,xlsx,xls,csv,pdf', 'created_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'wasabi_storage_validation', 'value' => 'jpg,jpeg,png,xlsx,xls,csv,pdf', 'created_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 's3_storage_validation', 'value' => 'jpg,jpeg,png,xlsx,xls,csv,pdf', 'created_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'local_storage_max_upload_size', 'value' => 2048000, 'created_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'wasabi_max_upload_size', 'value' => 2048000, 'created_by' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 's3_max_upload_size', 'value' => 2048000, 'created_by' => 1, 'created_at' => now(), 'updated_at' => now()]
         ];
         \DB::table('settings')->insert($data);
     }
-
 }
