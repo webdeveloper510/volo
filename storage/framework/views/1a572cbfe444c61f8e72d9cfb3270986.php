@@ -69,7 +69,7 @@ $logo = \App\Models\Utility::get_file('uploads/logo/');
 
 <body>
     <div class="container">
-        <p>Dear {{ ucfirst($userDetails->name) }}, an event has been assigned to you by {{ ucfirst($assigned_by) }}. The details are provided below. Please accept or decline the event by clicking the button below.</p>
+        <p>Dear <?php echo e(ucfirst($userDetails->name)); ?>, an event has been assigned to you by <?php echo e(ucfirst($assigned_by)); ?>. The details are provided below. Please accept or decline the event by clicking the button below.</p>
         <h1>Event Details</h1>
         <table>
             <thead>
@@ -84,25 +84,25 @@ $logo = \App\Models\Utility::get_file('uploads/logo/');
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $meeting->name ?? '--' }}</td>
-                    <td>{{ $meeting->venue_selection ?? '--' }}</td>
-                    <td>{{ $meeting->start_date ?? '--' }}</td>
-                    <td>{{ $meeting->end_date ?? '--' }}</td>
-                    <td><a href="{{ $meeting->link ?? '#' }}">click here</a></td>
-                    <td>{{ $meeting->notes ?? '--' }}</td>
+                    <td><?php echo e($meeting->name ?? '--'); ?></td>
+                    <td><?php echo e($meeting->venue_selection ?? '--'); ?></td>
+                    <td><?php echo e($meeting->start_date ?? '--'); ?></td>
+                    <td><?php echo e($meeting->end_date ?? '--'); ?></td>
+                    <td><a href="<?php echo e($meeting->link ?? '#'); ?>">click here</a></td>
+                    <td><?php echo e($meeting->notes ?? '--'); ?></td>
                 </tr>
             </tbody>
         </table>
 
         <div class="button-container" style="text-align: center; margin-top: 20px;">
-            <a href="{{ url('/accept-event?meeting_id=' . urlencode(Crypt::encrypt($meetingId)) . '&event_response=1') }}" style="background-color: #5cb85c; color: white; padding: 10px 20px; border-radius: 4px; font-size: 16px; text-decoration: none; display: inline-block; cursor: pointer;">Accept</a>
-            <a href="{{ url('/decline-event?meeting_id=' . urlencode(Crypt::encrypt($meetingId)) . '&event_response=0') }}" style="background-color: #d9534f; color: white; padding: 10px 20px; border-radius: 4px; font-size: 16px; text-decoration: none; display: inline-block; cursor: pointer;">Decline</a>
+            <a href="<?php echo e(url('/accept-event?meeting_id=' . urlencode(Crypt::encrypt($meetingId)) . '&event_response=1')); ?>" style="background-color: #5cb85c; color: white; padding: 10px 20px; border-radius: 4px; font-size: 16px; text-decoration: none; display: inline-block; cursor: pointer;">Accept</a>
+            <a href="<?php echo e(url('/decline-event?meeting_id=' . urlencode(Crypt::encrypt($meetingId)) . '&event_response=0')); ?>" style="background-color: #d9534f; color: white; padding: 10px 20px; border-radius: 4px; font-size: 16px; text-decoration: none; display: inline-block; cursor: pointer;">Decline</a>
         </div>
 
         <p>Thank you for your time and collaboration.</p>
         <p><strong>With regards,</strong></p>
         <div class="logo">
-            <img src="{{ $logo.'volo-transparent-bg.png' }}" alt="{{ config('app.name', 'The Volo Fleet') }}" height="50" />
+            <img src="<?php echo e($logo.'volo-transparent-bg.png'); ?>" alt="<?php echo e(config('app.name', 'The Volo Fleet')); ?>" height="50" />
         </div>
     </div>
     <div class="footer">
@@ -110,4 +110,4 @@ $logo = \App\Models\Utility::get_file('uploads/logo/');
     </div>
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\volo\resources\views/event/mail/event-email.blade.php ENDPATH**/ ?>

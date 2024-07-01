@@ -533,8 +533,6 @@ Route::group(['middleware' => ['verified']], function () {
             ],
         ],
         function () {
-            Route::post('/accept-event', [MeetingController::class, 'acceptEvent'])->name('accept_event');
-            Route::post('/decline-event', [MeetingController::class, 'declineEvent'])->name('decline_event');
             Route::get('event/grid', [MeetingController::class, 'grid'])->name('meeting.grid');
             Route::post('meeting/getparent', [MeetingController::class, 'getparent'])->name('meeting.getparent');
             Route::resource('meeting', MeetingController::class);
@@ -1518,5 +1516,9 @@ Route::group(
         Route::post('create-categories', [CategoriesController::class, 'createCategory'])->name('categories.create');
         Route::post('update-categories', [CategoriesController::class, 'updateCategory'])->name('category.update');
         Route::post('delete-categories', [CategoriesController::class, 'destroyCategory'])->name('category.destroy');
-    }                                                                                             
+    }
 );
+
+// Routes for Accept and Decline event
+Route::get('/accept-event', [MeetingController::class, 'handleEventResponse'])->name('accept_event');
+Route::get('/decline-event', [MeetingController::class, 'handleEventResponse'])->name('decline_event');

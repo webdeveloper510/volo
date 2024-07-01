@@ -36,6 +36,7 @@ use DB;
 use App\Mail\SendEventMail;
 use App\Mail\TestingMail;
 use Str;
+use Illuminate\Support\Facades\Crypt;
 
 class MeetingController extends Controller
 {
@@ -470,7 +471,7 @@ class MeetingController extends Controller
                     );
 
                     // Send email
-                    Mail::to($userDetails->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $userDetails, $assigned_by));
+                    Mail::to('testing.test3215@gmail.com')->send(new EventEmail($meeting, $subject, $content, $meetingId, $userDetails, $assigned_by));
 
                     // return redirect()->back()->with('success', 'Email Sent Successfully');
                     return redirect()->route('calendernew.index')->with('success', __('Event created and Email send Successfuly'));
@@ -481,7 +482,7 @@ class MeetingController extends Controller
                 return redirect()->back()->with('error', 'Meeting or User details not found');
             }
 
-            die;
+            // die;
 
 
             // if (!empty($request->file('atttachment'))){
@@ -1564,27 +1565,31 @@ class MeetingController extends Controller
         return true;
     }
 
-    public function acceptEvent(Request $request)
+    public function handleEventResponse(Request $request)
     {
-        $meetingId = $request->input('meeting_id');
-        $status = $request->input('event_response');
-        $meeting = Meeting::findOrFail($meetingId);
+        try {
+            $meetingId = Crypt::decrypt(urldecode($request->input('meeting_id')));
+            $status = $request->input('event_response');
+            $meeting = Meeting::findOrFail($meetingId);
 
-        $meeting->status = $status;
-        $meeting->save();
+            if ($status == 1) {
+                $meeting->status = $status;
+                $message = 'Event accepted successfully.';
+                $event_status = true;
+            } else {
+                $meeting->status = $status;
+                $message = 'Event declined successfully.';
+                $event_status = false;
+            }
 
-        return redirect()->back()->with('success', 'Event accepted successfully.');
-    }
+            $meeting->save();
 
-    public function declineEvent(Request $request)
-    {
-        $meetingId = $request->input('meeting_id');
-        $status = $request->input('event_response');
-        $meeting = Meeting::findOrFail($meetingId);
-
-        $meeting->status = $status;
-        $meeting->save();
-
-        return redirect()->back()->with('success', 'Event declined successfully.');
+            return view('event.mail.response', [
+                'message' => $message,
+                'event_status' => $event_status,
+            ]);
+        } catch (\Exception $e) {
+            return redirect('/')->with('error', 'Invalid meeting ID.');
+        }
     }
 }
