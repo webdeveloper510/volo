@@ -15,10 +15,10 @@
     }
 
     h1 {
-        color: #88B04B;
+        color: #696b66;
         font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
         font-weight: 900;
-        font-size: 40px;
+        font-size: 23px;
         margin-bottom: 10px;
     }
 
@@ -44,16 +44,29 @@
         display: inline-block;
         margin: 0 auto;
     }
+
+    .checkmark {
+        color: green;
+    }
+
+    .cross {
+        color: red;
+    }
 </style>
 
 <body>
     <div class="card">
-        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-            <i class="checkmark">✓</i>
+        <div class="icon-container">
+            <?php if($event_status): ?>
+            <i class="icon checkmark">✓</i>
+            <?php else: ?>
+            <i class="icon cross">✗</i>
+            <?php endif; ?>
         </div>
         <h1><?php echo e($message); ?></h1>
-        <div class="mt-3">
-            <a href="<?php echo e(route('login')); ?>">Go to Login Page</a>
+        <p>Thank you for your response.</p>
+        <div class="mt-3" style="margin-top: 20px;">
+            <a href="<?php echo e(route('login')); ?>" style="background-color: #5e6164; color: white; padding: 10px 20px; border-radius: 4px; font-size: 16px; text-decoration: none; display: inline-block; cursor: pointer;">Go to Login Page</a>
         </div>
     </div>
 </body>

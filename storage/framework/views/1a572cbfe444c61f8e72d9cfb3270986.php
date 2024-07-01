@@ -101,9 +101,7 @@ $logo = \App\Models\Utility::get_file('uploads/logo/');
 
         <p>Thank you for your time and collaboration.</p>
         <p><strong>With regards,</strong></p>
-        <div class="logo">
-            <img src="<?php echo e($logo.'volo-transparent-bg.png'); ?>" alt="<?php echo e(config('app.name', 'The Volo Fleet')); ?>" height="50" />
-        </div>
+        <p><b>The Volo Fleet</b></p>
     </div>
     <div class="footer">
         <p>This email was generated automatically. Please do not reply.</p>
