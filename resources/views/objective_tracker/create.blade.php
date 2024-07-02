@@ -1,6 +1,10 @@
 @php
-$years = range(2024, 2050);
-$years = array_combine($years, $years);
+$currentYear = date('Y');
+$years = [
+$currentYear - 1 => $currentYear - 1,
+$currentYear => $currentYear,
+$currentYear + 1 => $currentYear + 1
+];
 @endphp
 <style>
     .fa-asterisk {
@@ -137,6 +141,19 @@ $years = array_combine($years, $years);
             </select>
         </div>
     </div>
+    <!-- <div class="col-6 need_full">
+        <div class="form-group">
+            <label for="update">Update</label>
+            <select name="update" class="form-control">
+                <option value="" selected disabled>Select Update</option>
+                <option value="q1_updates">Q1 Updates</option>
+                <option value="q2_updates">Q2 Updates</option>
+                <option value="q3_updates">Q3 Updates</option>
+                <option value="q4_updates">Q4 Updates</option>
+                <option value="eoy_review">EOY Review</option>
+            </select>
+        </div>
+    </div>
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="q1_updates">Q1 Updates</label>
@@ -192,9 +209,42 @@ $years = array_combine($years, $years);
             </select>
         </div>
     </div>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
-</div>
-{{Form::close()}}
+</div> -->
+    <div class="col-6 need_full">
+        <div class="form-group">
+            <label for="update">Update</label>
+            <select name="update" class="form-control">
+                <option value="" selected disabled>Select Update</option>
+                <optgroup label="Q1 Updates">
+                    <option value="(Blanks)">(Blanks)</option>
+                    <option value="(this is broken down into Ajar Sales team $250k chunks to incentivise their buy in & support. Also see updates for MK/OM/TM.) JK works quoted via DCL for Zev Hub (unsuccessful) & Solent transport microhub (live)">(this is broken down into Ajar Sales team $250k chunks to incentivise their buy in & support. Also see updates for MK/OM/TM.) JK works quoted via DCL for Zev Hub (unsuccessful) & Solent transport microhub (live)</option>
+                    <option value="£2,750,738.74 gross revenue Q1. Need to run through net calculation with Ash.">£2,750,738.74 gross revenue Q1. Need to run through net calculation with Ash.</option>
+                    <option value="All documents executed">All documents executed</option>
+                    <option value="Currently being reviewed in consultation with Bev to get better measures in place.">Currently being reviewed in consultation with Bev to get better measures in place.</option>
+                    <option value="Ongoing workstream aiming to complete during q2. *there's been various discussions on this subject throughout the last several months (including with PB) and general feeling is it should be platform or partner company. Portfolio company is deemed to signify being owned by Volofleet and projects wrong message currently.">Ongoing workstream aiming to complete during q2. *there's been various discussions on this subject throughout the last several months (including with PB) and general feeling is it should be platform or partner company. Portfolio company is deemed to signify being owned by Volofleet and projects wrong message currently.</option>
+                    <option value="Reports & formats agreed with Ash, all requested info provided for Q1. On-going for rest of year">Reports & formats agreed with Ash, all requested info provided for Q1. On-going for rest of year</option>
+                </optgroup>
+                <optgroup label="Q2 Updates">
+                    <option value="(Blanks)">(Blanks)</option>
+                    <option value="N/A">N/A</option>
+                </optgroup>
+                <optgroup label="Q3 Updates">
+                    <option value="(Blanks)">(Blanks)</option>
+                    <option value="N/A">N/A</option>
+                </optgroup>
+                <optgroup label="Q4 Updates">
+                    <option value="(Blanks)">(Blanks)</option>
+                    <option value="N/A">N/A</option>
+                </optgroup>
+                <optgroup label="EOY Review">
+                    <option value="(Blanks)">(Blanks)</option>
+                    <option value="Outstanding work. Have a beer on us">Outstanding work. Have a beer on us</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
+        {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    </div>
+    {{Form::close()}}
