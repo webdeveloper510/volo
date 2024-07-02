@@ -279,30 +279,24 @@ $currentYear + 1 => $currentYear + 1
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="outstanding">
-                                                    Outstanding
-                                                </td>
-                                                <td class="outstanding">2</td>
-                                                <td>22%</td>
+                                                <td class="outstanding">Outstanding</td>
+                                                <td class="outstanding">{{ $outstandingTask ? $outstandingTask : 0 }}</td>
+                                                <td>{{ $outstandingTaskPercentage }}%</td>
                                             </tr>
                                             <tr>
-                                                <td class="in-progress">
-                                                    In Progress
-                                                </td>
-                                                <td class="in-progress">5</td>
-                                                <td>56%</td>
+                                                <td class="in-progress">In Progress</td>
+                                                <td class="in-progress">{{ $inProgressTask ? $inProgressTask : 0 }}</td>
+                                                <td>{{ $inProgressTaskPercentage }}%</td>
                                             </tr>
                                             <tr>
-                                                <td class="complete">
-                                                    Complete
-                                                </td>
-                                                <td class="complete">2</td>
-                                                <td>22%</td>
+                                                <td class="complete">Complete</td>
+                                                <td class="complete">{{ $completeTask ? $completeTask : 0 }}</td>
+                                                <td>{{ $completeTaskPercentage }}%</td>
                                             </tr>
                                             <tr>
                                                 <td>Total:</td>
-                                                <td>9</td>
-                                                <td>100%</td>
+                                                <td>{{ $totalTask }}</td>
+                                                <td>{{ $totalTaskPercentage }}%</td>
                                             </tr>
                                         </tbody>
                                     </table>

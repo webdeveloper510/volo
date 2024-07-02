@@ -13,8 +13,23 @@ class ObjectiveTrackerController extends Controller
     {
         $users = User::where('created_by', \Auth::user()->creatorId())->get();
         $logo = \App\Models\Utility::get_file('uploads/logo/');
+
+        // Get all objectives
         $objectives = Objective::all();
-        return view('objective_tracker.index', compact('logo', 'users', 'objectives'));
+
+        // Get objectives count based on status
+        $completeTask = Objective::where('status', 'Complete')->count();
+        $inProgressTask = Objective::where('status', 'In Progress')->count();
+        $outstandingTask = Objective::where('status', 'Outstanding')->count();
+        $totalTask = $completeTask + $inProgressTask + $outstandingTask;
+
+        // Get objectives percentage based on status
+        $completeTaskPercentage = $totalTask > 0 ? round(($completeTask / $totalTask) * 100, 2) : 0;
+        $inProgressTaskPercentage = $totalTask > 0 ? round(($inProgressTask / $totalTask) * 100, 2) : 0;
+        $outstandingTaskPercentage = $totalTask > 0 ? round(($outstandingTask / $totalTask) * 100, 2) : 0;
+        $totalTaskPercentage = 100;
+
+        return view('objective_tracker.index', compact('logo', 'users', 'objectives', 'completeTask', 'inProgressTask', 'outstandingTask', 'totalTask', 'completeTaskPercentage', 'inProgressTaskPercentage', 'outstandingTaskPercentage', 'totalTaskPercentage'));
     }
 
     public function create($type, $id)

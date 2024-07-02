@@ -281,30 +281,24 @@ $currentYear + 1 => $currentYear + 1
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="outstanding">
-                                                    Outstanding
-                                                </td>
-                                                <td class="outstanding">2</td>
-                                                <td>22%</td>
+                                                <td class="outstanding">Outstanding</td>
+                                                <td class="outstanding"><?php echo e($outstandingTask ? $outstandingTask : 0); ?></td>
+                                                <td><?php echo e($outstandingTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
-                                                <td class="in-progress">
-                                                    In Progress
-                                                </td>
-                                                <td class="in-progress">5</td>
-                                                <td>56%</td>
+                                                <td class="in-progress">In Progress</td>
+                                                <td class="in-progress"><?php echo e($inProgressTask ? $inProgressTask : 0); ?></td>
+                                                <td><?php echo e($inProgressTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
-                                                <td class="complete">
-                                                    Complete
-                                                </td>
-                                                <td class="complete">2</td>
-                                                <td>22%</td>
+                                                <td class="complete">Complete</td>
+                                                <td class="complete"><?php echo e($completeTask ? $completeTask : 0); ?></td>
+                                                <td><?php echo e($completeTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td>Total:</td>
-                                                <td>9</td>
-                                                <td>100%</td>
+                                                <td><?php echo e($totalTask); ?></td>
+                                                <td><?php echo e($totalTaskPercentage); ?>%</td>
                                             </tr>
                                         </tbody>
                                     </table>
