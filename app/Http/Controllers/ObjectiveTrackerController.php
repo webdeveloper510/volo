@@ -26,9 +26,9 @@ class ObjectiveTrackerController extends Controller
 
     public function store(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // die;
+        echo "<pre>";
+        print_r($request->all());
+        die;
 
         if ($request->objectiveType == 'New') {
             $validator = \Validator::make(

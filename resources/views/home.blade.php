@@ -33,6 +33,18 @@
         color: #a99595;
         margin: 24px 0px 0px 44px;
     }
+
+    #team_member {
+        background: none;
+    }
+
+    #region {
+        background: none;
+    }
+
+    #products {
+        background: none;
+    }
 </style>
 <div class="container-field">
     <div id="wrapper">
