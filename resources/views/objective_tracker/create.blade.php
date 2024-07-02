@@ -90,22 +90,41 @@ $currentYear + 1 => $currentYear + 1
             </select>
         </div>
     </div>
+    <div class="col-12  p-0 modaltitle pb-3 mb-3">
+        <h5 style="margin-left: 14px;">{{ __('Objective') }}</h5>
+    </div>
     <div class="col-6 need_full">
-        <div class="form-group">
-            <label for="objective">Objective</label>
-            <select name="objective" class="form-control">
-                <option value="" selected disabled>Select Objective</option>
-                <option value="Award allocated EIP awards and cascade SO into entire team.">Award allocated EIP awards and cascade SO into entire team.</option>
-                <option value="Complete platform consolidation agreements.">Complete platform consolidation agreements.</option>
-                <option value="Define system integration roles with each MVP execution to ensure seamless prospect management during pre-sales and closure processes.">Define system integration roles with each MVP execution to ensure seamless prospect management during pre-sales and closure processes.</option>
-                <option value="Ensure accounting and financial reporting alignment with Volo on a consolidated and non-idiosyncratic method.">Ensure accounting and financial reporting alignment with Volo on a consolidated and non-idiosyncratic method.</option>
-                <option value="Grow net revenue from $4.6m to $5.2m in additional fees to Ajar.">Grow net revenue from $4.6m to $5.2m in additional fees to Ajar.</option>
-                <option value="In liaison with other leaders grow commercial cross pollination by $1m.">In liaison with other leaders grow commercial cross pollination by $1m.</option>
-                <option value="Lead the integration and alignment of Ajar and Volofleet.">Lead the integration and alignment of Ajar and Volofleet.</option>
-                <option value="Refine people and Ajar identity process as a 'portfolio company'.">Refine people and Ajar identity process as a 'portfolio company'.</option>
-                <option value="Reset organisational tone for performance and meritocracy, through the establishment of measurable S.O.s, best attitude, practice, and S.O.Ps.">Reset organisational tone for performance and meritocracy, through the establishment of measurable S.O.s, best attitude, practice, and S.O.Ps.</option>
-            </select>
-        </div>
+        <textarea rows="5" cols="60" name="objective" class="form-control" disabled>Select Objective</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Award allocated EIP awards and cascade SO into entire team.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Complete platform consolidation agreements.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Define system integration roles with each MVP execution to ensure seamless prospect management during pre-sales and closure processes.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Ensure accounting and financial reporting alignment with Volo on a consolidated and non-idiosyncratic method.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Grow net revenue from $4.6m to $5.2m in additional fees to Ajar.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">In liaison with other leaders grow commercial cross pollination by $1m.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Lead the integration and alignment of Ajar and Volofleet.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Refine people and Ajar identity process as a 'portfolio company'.</textarea>
+    </div>
+    <div class="col-6 mt-2 need_full">
+        <textarea rows="5" cols="60" name="objective" class="form-control">Reset organisational tone for performance and meritocracy, through the establishment of measurable S.O.s, best attitude, practice, and S.O.Ps.</textarea>
+    </div>
+    <div class="col-12  p-0 modaltitle pb-3 mb-3">
+        <h5 style="margin-left: 14px;">{{ __('Measure') }}</h5>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
