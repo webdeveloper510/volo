@@ -26,9 +26,9 @@ class ObjectiveTrackerController extends Controller
 
     public function store(Request $request)
     {
-        echo "<pre>";
-        print_r($request->all());
-        die;
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
 
         if ($request->objectiveType == 'New') {
             $validator = \Validator::make(
@@ -41,11 +41,12 @@ class ObjectiveTrackerController extends Controller
                     'measure' => 'required',
                     'key_dates' => 'required',
                     'status' => 'required',
-                    'q1_updates' => 'required',
-                    'q2_updates' => 'required',
-                    'q3_updates' => 'required',
-                    'q4_updates' => 'required',
-                    'eoy_review' => 'required'
+                    // 'q1_updates' => 'required',
+                    // 'q2_updates' => 'required',
+                    // 'q3_updates' => 'required',
+                    // 'q4_updates' => 'required',
+                    // 'eoy_review' => 'required',
+                    'update' => 'required',
                 ]
             );
 
@@ -64,11 +65,13 @@ class ObjectiveTrackerController extends Controller
             $objective->measure = $request->measure;
             $objective->key_dates = $request->key_dates;
             $objective->status = $request->status;
-            $objective->q1_updates = $request->q1_updates;
-            $objective->q2_updates = $request->q2_updates;
-            $objective->q3_updates = $request->q3_updates;
-            $objective->q4_updates = $request->q4_updates;
-            $objective->eoy_review = $request->eoy_review;
+            $objective->q1_updates = '';
+            $objective->q2_updates = '';
+            $objective->q3_updates = '';
+            $objective->q4_updates = '';
+            $objective->eoy_review = '';
+            $objective->update = $request->update;
+            $objective->update_type = $request->update_optgroup;
             $objective->save();
 
             if ($objective) {

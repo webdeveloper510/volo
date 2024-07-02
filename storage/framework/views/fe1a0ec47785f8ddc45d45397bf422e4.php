@@ -1,32 +1,34 @@
-@php
+<?php
 $currentYear = date('Y');
 $years = [
 $currentYear - 1 => $currentYear - 1,
 $currentYear => $currentYear,
 $currentYear + 1 => $currentYear + 1
 ];
-@endphp
+?>
 
-@extends('layouts.admin')
+
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
-@section('page-title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('objective.index') }}">{{ __('Objective Tracker') }}</a></li>
-<li class="breadcrumb-item">{{ __('Objective Tracker') }}</li>
-@endsection
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
 
-@section('action-btn')
-<a href="#" data-url="{{ route('objective.create', ['objective', 0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Create New Objective') }}" title="{{ __('Create') }}" class="btn btn-sm btn-primary btn-icon m-1">
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('objective.index')); ?>"><?php echo e(__('Objective Tracker')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Objective Tracker')); ?></li>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('action-btn'); ?>
+<a href="#" data-url="<?php echo e(route('objective.create', ['objective', 0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Objective')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-@endsection
+<?php $__env->stopSection(); ?>
 
 <style>
     .container {
@@ -222,7 +224,7 @@ $currentYear + 1 => $currentYear + 1
     /* Datatable css end here */
 </style>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-sm-12">
         <div class="row">
@@ -231,7 +233,7 @@ $currentYear + 1 => $currentYear + 1
                     <div class="card-body table-border-style">
                         <div class="table-responsive overflow_hidden">
                             <a href="">
-                                <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
+                                <img src="<?php echo e($logo.'new-volo-transparent-bg.png'); ?>" alt="logo" class='logo_img'>
                             </a>
                             <div class="row">
                                 <div class="col-4 mt-3">
@@ -253,16 +255,16 @@ $currentYear + 1 => $currentYear + 1
                                             <td>
                                                 <select class="input_form" name="employee" id="">
                                                     <option value="" selected disabled>Select Employee</option>
-                                                    @foreach ($users as $user)
-                                                    <option value="{{$user->id}}">{{$user->name}}</option>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select class="input_form">
-                                                    @foreach ($years as $year)
-                                                    <option value="{{ $year }}">{{ $year }}</option>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $years; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </td>
                                         </tr>
                                     </table>
@@ -421,13 +423,13 @@ $currentYear + 1 => $currentYear + 1
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($objectives as $objective)
+                                    <?php $__currentLoopData = $objectives; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $objective): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td class="border_table_set">{{ $objective->category }}</td>
-                                        <td class="border_table_set">{{ $objective->objective }}</td>
-                                        <td class="border_table_set">{{ $objective->measure }}</td>
-                                        <td class="border_table_set">{{ \Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y') }}</td>
-                                        @php
+                                        <td class="border_table_set"><?php echo e($objective->category); ?></td>
+                                        <td class="border_table_set"><?php echo e($objective->objective); ?></td>
+                                        <td class="border_table_set"><?php echo e($objective->measure); ?></td>
+                                        <td class="border_table_set"><?php echo e(\Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y')); ?></td>
+                                        <?php
                                         $color = '';
 
                                         if(isset($objective->status)) {
@@ -439,53 +441,58 @@ $currentYear + 1 => $currentYear + 1
                                         $color = 'color: red;';
                                         }
                                         }
-                                        @endphp
+                                        ?>
 
                                         <td class="border_table_set" style="width: 135px;">
-                                            <select name="update_status" class="form-control status-dropdown" style="{{ $color }}" onchange="updateStatusColor(this)">
-                                                <option value="Complete" style="color: green;" {{ $objective->status == 'Complete' ? 'selected' : '' }}>Complete</option>
-                                                <option value="In Progress" style="color: orange;" {{ $objective->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
-                                                <option value="Outstanding" style="color: red;" {{ $objective->status == 'Outstanding' ? 'selected' : '' }}>Outstanding</option>
+                                            <select name="update_status" class="form-control status-dropdown" style="<?php echo e($color); ?>" onchange="updateStatusColor(this)">
+                                                <option value="Complete" style="color: green;" <?php echo e($objective->status == 'Complete' ? 'selected' : ''); ?>>Complete</option>
+                                                <option value="In Progress" style="color: orange;" <?php echo e($objective->status == 'In Progress' ? 'selected' : ''); ?>>In Progress</option>
+                                                <option value="Outstanding" style="color: red;" <?php echo e($objective->status == 'Outstanding' ? 'selected' : ''); ?>>Outstanding</option>
                                             </select>
                                         </td>
 
                                         <td class="border_table_set">
-                                            @if(isset($objective->update) && $objective->update_type == 'Q1 Updates')
-                                            {{ $objective->update }}
-                                            @else
+                                            <?php if(isset($objective->update) && $objective->update_type == 'Q1 Updates'): ?>
+                                            <?php echo e($objective->update); ?>
+
+                                            <?php else: ?>
                                             N/A
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td class="border_table_set">
-                                            @if(isset($objective->update) && $objective->update_type == 'Q2 Updates')
-                                            {{ $objective->update }}
-                                            @else
+                                            <?php if(isset($objective->update) && $objective->update_type == 'Q2 Updates'): ?>
+                                            <?php echo e($objective->update); ?>
+
+                                            <?php else: ?>
                                             N/A
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td class="border_table_set">
-                                            @if(isset($objective->update) && $objective->update_type == 'Q3 Updates')
-                                            {{ $objective->update }}
-                                            @else
+                                            <?php if(isset($objective->update) && $objective->update_type == 'Q3 Updates'): ?>
+                                            <?php echo e($objective->update); ?>
+
+                                            <?php else: ?>
                                             N/A
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td class="border_table_set">
-                                            @if(isset($objective->update) && $objective->update_type == 'Q4 Updates')
-                                            {{ $objective->update }}
-                                            @else
+                                            <?php if(isset($objective->update) && $objective->update_type == 'Q4 Updates'): ?>
+                                            <?php echo e($objective->update); ?>
+
+                                            <?php else: ?>
                                             N/A
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td class="border_table_set">
-                                            @if(isset($objective->update) && $objective->update_type == 'EOY Review')
-                                            {{ $objective->update }}
-                                            @else
+                                            <?php if(isset($objective->update) && $objective->update_type == 'EOY Review'): ?>
+                                            <?php echo e($objective->update); ?>
+
+                                            <?php else: ?>
                                             N/A
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <!-- <tr>
                                         <td contenteditable="true" class='border_table_set'>BDRG</td>
                                         <td contenteditable="true" class='border_table_set'>
@@ -780,7 +787,7 @@ $currentYear + 1 => $currentYear + 1
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- <script>
@@ -900,3 +907,4 @@ $currentYear + 1 => $currentYear + 1
         select.style.color = color;
     }
 </script>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/objective_tracker/index.blade.php ENDPATH**/ ?>

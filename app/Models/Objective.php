@@ -9,5 +9,20 @@ class Objective extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'year', 'category', 'objective', 'measure', 'key_dates', 'status', 'q1_updates', 'q2_updates', 'q3_updates', 'q4_updates', 'eoy_review'];
+    protected $fillable = [
+        'user_id',
+        'year',
+        'category',
+        'objective',
+        'measure',
+        'key_dates',
+        'status',
+        // 'q1_updates',
+        // 'q2_updates',
+        // 'q3_updates',
+        // 'q4_updates',
+        // 'eoy_review'
+        'update',
+        'update_type'
+    ];
 }
