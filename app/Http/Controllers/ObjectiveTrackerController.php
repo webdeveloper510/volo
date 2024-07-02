@@ -17,13 +17,12 @@ class ObjectiveTrackerController extends Controller
         // Get all objectives
         $objectives = Objective::all();
 
-        // Get objectives count based on status
+        // Calculate the task counts and percentages
         $completeTask = Objective::where('status', 'Complete')->count();
         $inProgressTask = Objective::where('status', 'In Progress')->count();
         $outstandingTask = Objective::where('status', 'Outstanding')->count();
         $totalTask = $completeTask + $inProgressTask + $outstandingTask;
 
-        // Get objectives percentage based on status
         $completeTaskPercentage = $totalTask > 0 ? round(($completeTask / $totalTask) * 100, 2) : 0;
         $inProgressTaskPercentage = $totalTask > 0 ? round(($inProgressTask / $totalTask) * 100, 2) : 0;
         $outstandingTaskPercentage = $totalTask > 0 ? round(($outstandingTask / $totalTask) * 100, 2) : 0;
@@ -95,5 +94,34 @@ class ObjectiveTrackerController extends Controller
                 return redirect()->back()->with('success', 'Something went wrong.');
             }
         }
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $objective = Objective::find($request->id);
+        $objective->status = $request->status;
+        $objective->save();
+
+        // Calculate the task counts and percentages
+        $totalTask = Objective::count();
+        $outstandingTask = Objective::where('status', 'Outstanding')->count();
+        $inProgressTask = Objective::where('status', 'In Progress')->count();
+        $completeTask = Objective::where('status', 'Complete')->count();
+
+        $outstandingTaskPercentage = $totalTask ? round(($outstandingTask / $totalTask) * 100, 2) : 0;
+        $inProgressTaskPercentage = $totalTask ? round(($inProgressTask / $totalTask) * 100, 2) : 0;
+        $completeTaskPercentage = $totalTask ? round(($completeTask / $totalTask) * 100, 2) : 0;
+        $totalTaskPercentage = 100;
+
+        return response()->json([
+            'totalTask' => $totalTask,
+            'outstandingTask' => $outstandingTask,
+            'inProgressTask' => $inProgressTask,
+            'completeTask' => $completeTask,
+            'outstandingTaskPercentage' => $outstandingTaskPercentage,
+            'inProgressTaskPercentage' => $inProgressTaskPercentage,
+            'completeTaskPercentage' => $completeTaskPercentage,
+            'totalTaskPercentage' => $totalTaskPercentage,
+        ]);
     }
 }

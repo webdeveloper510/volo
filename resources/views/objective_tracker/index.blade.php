@@ -280,23 +280,23 @@ $currentYear + 1 => $currentYear + 1
                                         <tbody>
                                             <tr>
                                                 <td class="outstanding">Outstanding</td>
-                                                <td class="outstanding">{{ $outstandingTask ? $outstandingTask : 0 }}</td>
-                                                <td>{{ $outstandingTaskPercentage }}%</td>
+                                                <td class="outstanding outstanding-count">{{ $outstandingTask ? $outstandingTask : 0 }}</td>
+                                                <td class="outstanding outstanding-percentage">{{ $outstandingTaskPercentage }}%</td>
                                             </tr>
                                             <tr>
                                                 <td class="in-progress">In Progress</td>
-                                                <td class="in-progress">{{ $inProgressTask ? $inProgressTask : 0 }}</td>
-                                                <td>{{ $inProgressTaskPercentage }}%</td>
+                                                <td class="in-progress in-progress-count">{{ $inProgressTask ? $inProgressTask : 0 }}</td>
+                                                <td class="in-progress in-progress-percentage">{{ $inProgressTaskPercentage }}%</td>
                                             </tr>
                                             <tr>
                                                 <td class="complete">Complete</td>
-                                                <td class="complete">{{ $completeTask ? $completeTask : 0 }}</td>
-                                                <td>{{ $completeTaskPercentage }}%</td>
+                                                <td class="complete complete-count">{{ $completeTask ? $completeTask : 0 }}</td>
+                                                <td class="complete complete-percentage">{{ $completeTaskPercentage }}%</td>
                                             </tr>
                                             <tr>
                                                 <td>Total:</td>
-                                                <td>{{ $totalTask }}</td>
-                                                <td>{{ $totalTaskPercentage }}%</td>
+                                                <td class="total total-count">{{ $totalTask }}</td>
+                                                <td class="total total-percentage">{{ $totalTaskPercentage }}%</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -436,7 +436,7 @@ $currentYear + 1 => $currentYear + 1
                                         @endphp
 
                                         <td class="border_table_set" style="width: 135px;">
-                                            <select name="update_status" class="form-control status-dropdown" style="{{ $color }}" onchange="updateStatusColor(this)">
+                                            <select name="update_status" class="form-control status-dropdown" style="{{ $color }}" data-objective-id="{{ $objective->id }}" onchange="updateStatus(this)">
                                                 <option value="Complete" style="color: green;" {{ $objective->status == 'Complete' ? 'selected' : '' }}>Complete</option>
                                                 <option value="In Progress" style="color: orange;" {{ $objective->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
                                                 <option value="Outstanding" style="color: red;" {{ $objective->status == 'Outstanding' ? 'selected' : '' }}>Outstanding</option>
@@ -888,9 +888,33 @@ $currentYear + 1 => $currentYear + 1
     });
 </script>
 <script>
-    function updateStatusColor(select) {
-        var selectedOption = select.options[select.selectedIndex];
-        var color = selectedOption.style.color;
-        select.style.color = color;
+    function updateStatus(select) {
+        const objectiveId = select.dataset.objectiveId;
+        const newStatus = select.value;
+
+        $.ajax({
+            url: "{{ route('objective-status.update') }}",
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: objectiveId,
+                status: newStatus
+            },
+            success: function(response) {
+                console.log(response);
+                // Update the counts and percentages in the HTML
+                $('.outstanding-count').text(response.outstandingTask);
+                $('.outstanding-percentage').text(response.outstandingTaskPercentage + '%');
+                $('.in-progress-count').text(response.inProgressTask);
+                $('.in-progress-percentage').text(response.inProgressTaskPercentage + '%');
+                $('.complete-count').text(response.completeTask);
+                $('.complete-percentage').text(response.completeTaskPercentage + '%');
+                $('.total-count').text(response.totalTask);
+                $('.total-percentage').text(response.totalTaskPercentage + '%');
+
+                // Optionally, update the color of the dropdown
+                select.style.color = newStatus === 'Complete' ? 'green' : newStatus === 'In Progress' ? 'orange' : 'red';
+            }
+        });
     }
 </script>

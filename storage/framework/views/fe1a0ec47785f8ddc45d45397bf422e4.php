@@ -282,23 +282,23 @@ $currentYear + 1 => $currentYear + 1
                                         <tbody>
                                             <tr>
                                                 <td class="outstanding">Outstanding</td>
-                                                <td class="outstanding"><?php echo e($outstandingTask ? $outstandingTask : 0); ?></td>
-                                                <td><?php echo e($outstandingTaskPercentage); ?>%</td>
+                                                <td class="outstanding outstanding-count"><?php echo e($outstandingTask ? $outstandingTask : 0); ?></td>
+                                                <td class="outstanding outstanding-percentage"><?php echo e($outstandingTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td class="in-progress">In Progress</td>
-                                                <td class="in-progress"><?php echo e($inProgressTask ? $inProgressTask : 0); ?></td>
-                                                <td><?php echo e($inProgressTaskPercentage); ?>%</td>
+                                                <td class="in-progress in-progress-count"><?php echo e($inProgressTask ? $inProgressTask : 0); ?></td>
+                                                <td class="in-progress in-progress-percentage"><?php echo e($inProgressTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td class="complete">Complete</td>
-                                                <td class="complete"><?php echo e($completeTask ? $completeTask : 0); ?></td>
-                                                <td><?php echo e($completeTaskPercentage); ?>%</td>
+                                                <td class="complete complete-count"><?php echo e($completeTask ? $completeTask : 0); ?></td>
+                                                <td class="complete complete-percentage"><?php echo e($completeTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td>Total:</td>
-                                                <td><?php echo e($totalTask); ?></td>
-                                                <td><?php echo e($totalTaskPercentage); ?>%</td>
+                                                <td class="total total-count"><?php echo e($totalTask); ?></td>
+                                                <td class="total total-percentage"><?php echo e($totalTaskPercentage); ?>%</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -438,7 +438,7 @@ $currentYear + 1 => $currentYear + 1
                                         ?>
 
                                         <td class="border_table_set" style="width: 135px;">
-                                            <select name="update_status" class="form-control status-dropdown" style="<?php echo e($color); ?>" onchange="updateStatusColor(this)">
+                                            <select name="update_status" class="form-control status-dropdown" style="<?php echo e($color); ?>" data-objective-id="<?php echo e($objective->id); ?>" onchange="updateStatus(this)">
                                                 <option value="Complete" style="color: green;" <?php echo e($objective->status == 'Complete' ? 'selected' : ''); ?>>Complete</option>
                                                 <option value="In Progress" style="color: orange;" <?php echo e($objective->status == 'In Progress' ? 'selected' : ''); ?>>In Progress</option>
                                                 <option value="Outstanding" style="color: red;" <?php echo e($objective->status == 'Outstanding' ? 'selected' : ''); ?>>Outstanding</option>
@@ -895,10 +895,34 @@ $currentYear + 1 => $currentYear + 1
     });
 </script>
 <script>
-    function updateStatusColor(select) {
-        var selectedOption = select.options[select.selectedIndex];
-        var color = selectedOption.style.color;
-        select.style.color = color;
+    function updateStatus(select) {
+        const objectiveId = select.dataset.objectiveId;
+        const newStatus = select.value;
+
+        $.ajax({
+            url: "<?php echo e(route('objective-status.update')); ?>",
+            type: 'POST',
+            data: {
+                _token: '<?php echo e(csrf_token()); ?>',
+                id: objectiveId,
+                status: newStatus
+            },
+            success: function(response) {
+                console.log(response);
+                // Update the counts and percentages in the HTML
+                $('.outstanding-count').text(response.outstandingTask);
+                $('.outstanding-percentage').text(response.outstandingTaskPercentage + '%');
+                $('.in-progress-count').text(response.inProgressTask);
+                $('.in-progress-percentage').text(response.inProgressTaskPercentage + '%');
+                $('.complete-count').text(response.completeTask);
+                $('.complete-percentage').text(response.completeTaskPercentage + '%');
+                $('.total-count').text(response.totalTask);
+                $('.total-percentage').text(response.totalTaskPercentage + '%');
+
+                // Optionally, update the color of the dropdown
+                select.style.color = newStatus === 'Complete' ? 'green' : newStatus === 'In Progress' ? 'orange' : 'red';
+            }
+        });
     }
 </script>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/objective_tracker/index.blade.php ENDPATH**/ ?>
