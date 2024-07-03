@@ -424,8 +424,8 @@ $currentYear + 1 => $currentYear + 1
                                     <tr>
                                         <td class="border_table_set">{{ !empty($objective->user->name) ? $objective->user->name : '' }}</td>
                                         <td class="border_table_set">{{ $objective->category }}</td>
-                                        <td class="border_table_set">{{ $objective->objective }}</td>
-                                        <td class="border_table_set">{{ $objective->measure }}</td>
+                                        <td class="border_table_set">{{ !empty($objective->objective) ? $objective->objective : 'N/A' }}</td>
+                                        <td class="border_table_set">{{ !empty($objective->measure) ? $objective->measure : 'N/A' }}</td>
                                         <td class="border_table_set">{{ \Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y') }}</td>
                                         @php
                                         $color = '';

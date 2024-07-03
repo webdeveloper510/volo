@@ -92,18 +92,7 @@ $currentYear + 1 => $currentYear + 1
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="measure">Measure</label>
-            <select name="measure" class="form-control">
-                <option value="" selected disabled>Select Measure</option>
-                <option value="Complete all EIP document packs for Ajar participants in Volo EIP">Complete all EIP document packs for Ajar participants in Volo EIP</option>
-                <option value="$1m USD/ £800k GBP of sales achieved between Volo/Ajar group of companies from internal introductions and/or cross selling products and services.">$1m USD/ £800k GBP of sales achieved between Volo/Ajar group of companies from internal introductions and/or cross selling products and services.</option>
-                <option value="1. Ajar x Volo Consolidation & purchase agreement executed 2. Ajar x Volo MSA executed 3. Ajar x Volo MOU(s) executed 4. Voloforce UK x Volofleet purchase agreement executed">1. Ajar x Volo Consolidation & purchase agreement executed 2. Ajar x Volo MSA executed 3. Ajar x Volo MOU(s) executed 4. Voloforce UK x Volofleet purchase agreement executed</option>
-                <option value="Ajartec branding & marketing materials updated to include 'A Volofleet portfolio company'">Ajartec branding & marketing materials updated to include 'A Volofleet portfolio company'</option>
-                <option value="Create skills matrix for Systems Integration team. Map complimentary technology & services from Systems Integration team to Volo product suite to maximize sales potential.">Create skills matrix for Systems Integration team. Map complimentary technology & services from Systems Integration team to Volo product suite to maximize sales potential.</option>
-                <option value="In liaison with other leaders grow commercial cross pollination by $1m.">In liaison with other leaders grow commercial cross pollination by $1m.</option>
-                <option value="Establish consistent reporting format for Ajar Sales & Accounts data to Ash. Facilitate cross discipline meetings between Ajar team and Volo business units.">Establish consistent reporting format for Ajar Sales & Accounts data to Ash. Facilitate cross discipline meetings between Ajar team and Volo business units.</option>
-                <option value="Financial reporting standards and frequency of issuing reports agreed with Ash Anand. Q1 reports all issued.">Financial reporting standards and frequency of issuing reports agreed with Ash Anand. Q1 reports all issued.</option>
-                <option value="Strategic objectives and measures for Ajartec agreed and documented, issued out to key relevant people as part of EIP packs.">Strategic objectives and measures for Ajartec agreed and documented, issued out to key relevant people as part of EIP packs.</option>
-            </select>
+            <textarea class="form-control" name="measure" placeholder="Enter Measure"></textarea>
         </div>
     </div>
     <div class="col-6 need_full">

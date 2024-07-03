@@ -426,8 +426,8 @@ $currentYear + 1 => $currentYear + 1
                                     <tr>
                                         <td class="border_table_set"><?php echo e(!empty($objective->user->name) ? $objective->user->name : ''); ?></td>
                                         <td class="border_table_set"><?php echo e($objective->category); ?></td>
-                                        <td class="border_table_set"><?php echo e($objective->objective); ?></td>
-                                        <td class="border_table_set"><?php echo e($objective->measure); ?></td>
+                                        <td class="border_table_set"><?php echo e(!empty($objective->objective) ? $objective->objective : 'N/A'); ?></td>
+                                        <td class="border_table_set"><?php echo e(!empty($objective->measure) ? $objective->measure : 'N/A'); ?></td>
                                         <td class="border_table_set"><?php echo e(\Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y')); ?></td>
                                         <?php
                                         $color = '';
