@@ -515,9 +515,9 @@
                     products: products
                 },
                 success: function(response) {
-                    console.log('Response:', response);
+                    // console.log('Response:', response);
                     var data = response.opportunities;
-                    console.log('Data:', data);
+                    // console.log('Data:', data);
 
                     // List of all possible opportunity types
                     var allOpportunityTypes = [
@@ -560,8 +560,17 @@
                 var sum = data.sum;
                 var sumDisplay = sum ? human_readable_number(sum) : '0';
 
+                function formatTypeText(text) {
+                    return text
+                        .split('_')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                        .join(' ');
+                }
+
+                var formattedType = formatTypeText(type);
+
                 html += '<div class="inner_col">';
-                html += '<h5 class="card-title mb-2 opportunity-title">' + capitalizeFirstLetter(type) + ' (' + count + ') <span class="' + type.toLowerCase() + '-opportunities">$' + sumDisplay + '</span></h5>';
+                html += '<h5 class="card-title mb-2 opportunity-title">' + formattedType + ' (' + count + ') <span class="' + type.toLowerCase() + '-opportunities">$' + sumDisplay + '</span></h5>';
                 html += '<input type="hidden" id="' + type.toLowerCase() + '-opportunities-sum" name="' + type.toLowerCase() + '-opportunities-sum" value="' + sumDisplay + '">';
                 html += '<div class="scrol-card">';
 
@@ -579,8 +588,17 @@
         }
 
         function generateNoRecordHTML(type) {
+            function formatTypeText(text) {
+                return text
+                    .split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    .join(' ');
+            }
+
+            var formattedType = formatTypeText(type);
+
             var html = '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">' + capitalizeFirstLetter(type) + ' (0) <span class="' + type.toLowerCase() + '-opportunities">$0</span></h5>';
+            html += '<h5 class="card-title mb-2 opportunity-title">' + formattedType + ' (0) <span class="' + type.toLowerCase() + '-opportunities">$0</span></h5>';
             html += '<div class="scrol-card">';
             html += '<div class="card">';
             html += '<div class="card-body new_bottomcard">';

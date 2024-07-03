@@ -6,11 +6,9 @@ $currentYear => $currentYear,
 $currentYear + 1 => $currentYear + 1
 ];
 @endphp
+<link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 
 @extends('layouts.admin')
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-<script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
 @section('page-title')
 {{ __('Objective Tracker') }}
 @endsection
@@ -776,7 +774,8 @@ $currentYear + 1 => $currentYear + 1
 </div>
 @endsection
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
 <!-- <script>
     $(document).ready(function() {
         // Toggle dropdowns on click
@@ -901,8 +900,6 @@ $currentYear + 1 => $currentYear + 1
                 status: newStatus
             },
             success: function(response) {
-                console.log(response);
-                // Update the counts and percentages in the HTML
                 $('.outstanding-count').text(response.outstandingTask);
                 $('.outstanding-percentage').text(response.outstandingTaskPercentage + '%');
                 $('.in-progress-count').text(response.inProgressTask);
