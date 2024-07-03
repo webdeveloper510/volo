@@ -6,8 +6,6 @@ $currentYear => $currentYear,
 $currentYear + 1 => $currentYear + 1
 ];
 @endphp
-<link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-
 @extends('layouts.admin')
 @section('page-title')
 {{ __('Objective Tracker') }}
@@ -25,7 +23,7 @@ $currentYear + 1 => $currentYear + 1
     <i class="ti ti-plus"></i>
 </a>
 @endsection
-
+<!-- <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" /> -->
 <style>
     .container {
         display: flex;
@@ -100,7 +98,7 @@ $currentYear + 1 => $currentYear + 1
     }
 
     .table-header_add {
-        background-color: #90D67A;
+        background-color: #7bbd5d;
         color: #fff;
         text-align: center;
     }
@@ -130,10 +128,14 @@ $currentYear + 1 => $currentYear + 1
 
     }
 
+    th.Category_set {
+        color: white;
+        background-color: #7bbd5d;
+    }
+
     /* Datatable css start here */
-    .cb-dropdown-wrap {
+    /* .cb-dropdown-wrap {
         max-height: 80px;
-        /* At most, around 3/4 visible items. */
         position: relative;
         height: 23px;
     }
@@ -155,7 +157,6 @@ $currentYear + 1 => $currentYear + 1
         border: 1px solid #888;
     }
 
-    /* For selected filter. */
     .active .cb-dropdown {
         background: white;
     }
@@ -166,7 +167,6 @@ $currentYear + 1 => $currentYear + 1
         transition: 0.2s height ease-in-out;
     }
 
-    /* For selected items. */
     .cb-dropdown li.active {
         background: #lightgray;
     }
@@ -176,8 +176,6 @@ $currentYear + 1 => $currentYear + 1
         position: relative;
         cursor: pointer;
         line-height: 19px;
-        /* Match height of .cb-dropdown-wrap */
-
     }
 
     .cb-dropdown li label>input {
@@ -192,7 +190,6 @@ $currentYear + 1 => $currentYear + 1
         display: block;
         margin-left: 3px;
         margin-right: 20px;
-        /* At least, width of the checkbox. */
         font-family: sans-serif;
         font-size: 0.8em;
         font-weight: normal;
@@ -200,7 +197,6 @@ $currentYear + 1 => $currentYear + 1
 
     }
 
-    /* This fixes the vertical aligning of the sorting icon. */
     table.dataTable thead .sorting,
     table.dataTable thead .sorting_asc,
     table.dataTable thead .sorting_desc,
@@ -211,11 +207,10 @@ $currentYear + 1 => $currentYear + 1
 
     .content-wrpr ul,
     .content-wrpr ol {
-        /*nkim 010419*/
         margin-left: 0px;
         !important;
         width: 85%;
-    }
+    } */
 
     /* Datatable css end here */
 </style>
@@ -233,10 +228,7 @@ $currentYear + 1 => $currentYear + 1
                             </a>
                             <div class="row">
                                 <div class="col-4 mt-3">
-                                    <table class="table" style="
-                                            width: 100%;
-                                            border-collapse: collapse;
-                                        ">
+                                    <table class="table" style="width: 100%; border-collapse: collapse;">
                                         <tr class="table-header table-header_add">
                                             <th colspan="2">
                                                 Doe Ref: Objective
@@ -249,18 +241,20 @@ $currentYear + 1 => $currentYear + 1
                                         </tr>
                                         <tr class='border_table_set'>
                                             <td>
-                                                <select class="input_form" name="employee" id="">
-                                                    <option value="" selected disabled>Select Employee</option>
+                                                <select class="input_form" name="user_name" id="user_name">
+                                                    <option value="" selected disabled>Select Name</option>
                                                     @foreach ($users as $user)
                                                     <option value="{{$user->id}}">{{$user->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
                                             <td>
-                                                <select class="input_form">
+                                                <select class="input_form" name="period" id="period">
+                                                    <option value="" selected disabled>Select Period</option>
                                                     @foreach ($years as $year)
                                                     <option value="{{ $year }}">{{ $year }}</option>
                                                     @endforeach
+                                                </select>
                                             </td>
                                         </tr>
                                     </table>
@@ -302,124 +296,21 @@ $currentYear + 1 => $currentYear + 1
                             </div>
                             <table id="objectiveTrackerDatatable" class="display" cellspacing="0" width="100%">
                                 <thead>
-                                    <tr class='tr_icon_border'>
-                                        <th scope="col" class="Category_set">
-                                            Team Member
-                                            <i class="fa fa-caret-down category-dropdown icon_btn"></i>
-                                            <div class="dropdown-content category-dropdown-content">
-                                                <label><input type="checkbox" name="teammember[]" value=""></label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            Category
-                                            <i class="fa fa-caret-down category-dropdown icon_btn"></i>
-                                            <div class="dropdown-content category-dropdown-content">
-                                                <label><input type="checkbox" name="categories[]" value="BDRG"> BDRG</label><br>
-                                                <label><input type="checkbox" name="categories[]" value="Innovation"> Innovation</label><br>
-                                                <label><input type="checkbox" name="categories[]" value="MVP D&D"> MVP D&D</label><br>
-                                                <label><input type="checkbox" name="categories[]" value="O&P"> O&P</label><br>
-                                                <label><input type="checkbox" name="categories[]" value="People & Culture"> People & Culture</label>
-                                            </div>
-                                        </th>
-
-                                        <th scope="col" class="Category_set">
-                                            Objective
-                                            <i class="fa fa-caret-down objective-dropdown icon_btn"></i>
-                                            <div class="dropdown-content objective-dropdown-content">
-                                                <label><input type="checkbox" name="objective[]" value="Award allocated EIP awards and cascade SO into entire team."> Award allocated EIP awards and cascade SO into entire team.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="Complete platform consolidation agreements."> Complete platform consolidation agreements.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="Define system integration roles with each MVP execution to ensure seamless prospect management during pre-sales and closure processes."> Define system integration roles with each MVP execution to ensure seamless prospect management during pre-sales and closure processes.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="Ensure accounting and financial reporting alignment with Volo on a consolidated and non-idiosyncratic method."> Ensure accounting and financial reporting alignment with Volo on a consolidated and non-idiosyncratic method.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="Grow net revenue from $4.6m to $5.2m in additional fees to Ajar."> Grow net revenue from $4.6m to $5.2m in additional fees to Ajar.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="In liaison with other leaders grow commercial cross pollination by $1m."> In liaison with other leaders grow commercial cross pollination by $1m.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="Lead the integration and alignment of Ajar and Volofleet."> Lead the integration and alignment of Ajar and Volofleet.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="Refine people and Ajar identity process as a 'portfolio company'."> Refine people and Ajar identity process as a 'portfolio company'.</label><br>
-                                                <label><input type="checkbox" name="objective[]" value="Reset organisational tone for performance and meritocracy, through the establishment of measurable S.O.s, best attitude, practice and S.O.Ps."> Reset organisational tone for performance and meritocracy, through the establishment of measurable S.O.s, best attitude, practice and S.O.Ps.</label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            Measure
-                                            <i class="fa fa-caret-down measure-dropdown icon_btn"></i>
-                                            <div class="dropdown-content measure-dropdown-content">
-                                                <label><input type="checkbox" name="measure[]" value="Complete all EIP document packs for Ajar participants in Volo EIP"> Complete all EIP document packs for Ajar participants in Volo EIP</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="$1m USD/ £800k GBP of sales achieved between Volo/Ajar group of companies from internal introductions and/or cross selling products and services.">$1m USD/ £800k GBP of sales achieved between Volo/Ajar group of companies from internal introductions and/or cross selling products and services.</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="1. Ajar x Volo Consolidation & purchase agreement executed 2. Ajar x Volo MSA executed 3. Ajar x Volo MOU(s) executed 4. Voloforce UK x Volofleet purchase agreement executed">1. Ajar x Volo Consolidation & purchase agreement executed 2. Ajar x Volo MSA executed 3. Ajar x Volo MOU(s) executed 4. Voloforce UK x Volofleet purchase agreement executed</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="Ajartec branding & marketing materials updated to include 'A Volofleet portfolio company'">Ajartec branding & marketing materials updated to include 'A Volofleet portfolio company'</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="Create skills matrix for Systems Integration team. Map complimentary technology & services from Systems Integration team to Volo product suite to maxminise sales potential.">Create skills matrix for Systems Integration team. Map complimentary technology & services from Systems Integration team to Volo product suite to maximize sales potential.</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="Deliver financial year net revenue of $5.2m USD/ £4.15m GBP for Ajartec">Deliver financial year net revenue of $5.2m USD/ £4.15m GBP for Ajartec</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="Establish consistent reporting format for Ajar Sales & Accounts data to Ash. Facilitate cross discipline meetings between Ajar team and Volo business units.">Establish consistent reporting format for Ajar Sales & Accounts data to Ash. Facilitate cross discipline meetings between Ajar team and Volo business units.</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="Financial reporting standards and frequency of issuing reports agreed with Ash Anand. Q1 reports all issued.">Financial reporting standards and frequency of issuing reports agreed with Ash Anand. Q1 reports all issued.</label><br>
-                                                <label><input type="checkbox" name="measure[]" value="Strategic objectives and measures for Ajartec agreed and documented, issued out to key relevant people as part of EIP packs.">Strategic objectives and measures for Ajartec agreed and documented, issued out to key relevant people as part of EIP packs.</label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            Key Dates
-                                            <i class="fa fa-caret-down key-dates-dropdown icon_btn"></i>
-                                            <div class="dropdown-content key-dates-dropdown-content">
-                                                <label><input type="checkbox" name="key_dates[]" value="3/31/2024"> 3/31/2024</label><br>
-                                                <label><input type="checkbox" name="key_dates[]" value="6/28/2024"> 6/28/2024</label><br>
-                                                <label><input type="checkbox" name="key_dates[]" value="12/31/2024"> 12/31/2024</label><br>
-                                                <label><input type="checkbox" name="key_dates[]" value="NA"> NA</label><br>
-
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            Status
-                                            <i class="fa fa-caret-down status-dropdown icon_btn"></i>
-                                            <div class="dropdown-content status-dropdown-content">
-                                                <label><input type="checkbox" name="status[]" value="Complete"> Complete</label><br>
-                                                <label><input type="checkbox" name="status[]" value="In Progress"> In Progress</label><br>
-                                                <label><input type="checkbox" name="status[]" value="Outstanding"> Outstanding</label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col">
-                                            Q1 Updates
-                                            <i class="fa fa-caret-down q1-updates-dropdown icon_btn"></i>
-                                            <div class="dropdown-content q1-updates-dropdown-content">
-                                                <label><input type="checkbox" name="q1_updates[]" value="(Blanks)"> (Blanks)</label><br>
-                                                <label><input type="checkbox" name="q1_updates[]" value="(this is broken down into Ajar Sales team $250k chunks to incentivise their buy in & support. Also see updates for MK/OM/TM.) JK works quoted via DCL for Zev Hub (unsuccessful) & Solent transport microhub (live)"> (this is broken down into Ajar Sales team $250k chunks to incentivise their buy in & support. Also see updates for MK/OM/TM.) JK works quoted via DCL for Zev Hub (unsuccessful) & Solent transport microhub (live)</label><br>
-                                                <label><input type="checkbox" name="q1_updates[]" value="£2,750,738.74 gross revenue Q1. Need to run through net calculation with Ash."> £2,750,738.74 gross revenue Q1. Need to run through net calculation with Ash.</label><br>
-                                                <label><input type="checkbox" name="q1_updates[]" value="All documents executed"> All documents executed</label><br>
-                                                <label><input type="checkbox" name="q1_updates[]" value="Currently being reviewed in consultation with Bev to get better measures in place."> Currently being reviewed in consultation with Bev to get better measures in place.</label><br>
-                                                <label><input type="checkbox" name="q1_updates[]" value="Ongoing workstream aiming to complete during q2. *there's been various discussions on this subject throughout the last several months (including with PB) and general feeling is it should be platform or partner company. Portfolio company is deemed to signify being owned by Volofleet and projects wrong message currently."> Ongoing workstream aiming to complete during q2. *there's been various discussions on this subject throughout the last several months (including with PB) and general feeling is it should be platform or partner company. Portfolio company is deemed to signify being owned by Volofleet and projects wrong message currently.</label><br>
-                                                <label><input type="checkbox" name="q1_updates[]" value="Reports & formats agreed with Ash, all requested info provided for Q1. On-going for rest of year"> Reports & formats agreed with Ash, all requested info provided for Q1. On-going for rest of year</label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            Q2 Updates
-                                            <i class="fa fa-caret-down q2-updates-dropdown icon_btn"></i>
-                                            <div class="dropdown-content q2-updates-dropdown-content">
-                                                <label><input type="checkbox" name="q2_updates[]" value="(Blanks)"> (Blanks)</label><br>
-                                                <label><input type="checkbox" name="q2_updates[]" value="N/A"> N/A</label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            Q3 Updates
-                                            <i class="fa fa-caret-down q3-updates-dropdown icon_btn"></i>
-                                            <div class="dropdown-content q3-updates-dropdown-content">
-                                                <label><input type="checkbox" name="q3_updates[]" value="(Blanks)"> (Blanks)</label><br>
-                                                <label><input type="checkbox" name="q3_updates[]" value="N/A"> N/A</label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            Q4 Updates
-                                            <i class="fa fa-caret-down q4-updates-dropdown icon_btn"></i>
-                                            <div class="dropdown-content q4-updates-dropdown-content">
-                                                <label><input type="checkbox" name="q4_updates[]" value="(Blanks)"> (Blanks)</label><br>
-                                                <label><input type="checkbox" name="q4_updates[]" value="N/A"> N/A</label><br>
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="Category_set">
-                                            EOY Review
-                                            <i class="fa fa-caret-down eoy-review-dropdown icon_btn"></i>
-                                            <div class="dropdown-content eoy-review-dropdown-content">
-                                                <label><input type="checkbox" name="eoy_review[]" value="(Blanks)"> (Blanks)</label><br>
-                                                <label><input type="checkbox" name="eoy_review[]" value="Outstanding work.Have a beer on us"> Outstanding work. Have a beer on us</label><br>
-                                            </div>
-                                        </th>
+                                    <tr>
+                                        <th class="Category_set">Team Member</th>
+                                        <th class="Category_set">Category</th>
+                                        <th class="Category_set">Objective</th>
+                                        <th class="Category_set">Measure</th>
+                                        <th class="Category_set">Key Dates</th>
+                                        <th class="Category_set">Status</th>
+                                        <th class="Category_set">Q1 Updates</th>
+                                        <th class="Category_set">Q2 Updates</th>
+                                        <th class="Category_set">Q3 Updates</th>
+                                        <th class="Category_set">Q4 Updates</th>
+                                        <th class="Category_set">EOY Review</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="objectives-tbody">
                                     @foreach ($objectives as $objective)
                                     <tr>
                                         <td class="border_table_set">{{ !empty($objective->user->name) ? $objective->user->name : '' }}</td>
@@ -466,291 +357,6 @@ $currentYear + 1 => $currentYear + 1
                                         </td>
                                     </tr>
                                     @endforeach
-                                    <!-- <tr>
-                                        <td contenteditable="true" class='border_table_set'>BDRG</td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Lead the integration and alignment
-                                            of Ajar and Volofleet.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'> Establish consistent reporting
-                                                format for Ajar Sales & Accounts
-                                                data to Ash. Facilitate cross
-                                                discipline meetings between Ajar
-                                                team and Volo business units.</p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            6/28/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            In Progress
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr> -->
-
-                                    <!-- <tr>
-                                        <td contenteditable="true" class='border_table_set'>BDRG</td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Grow net revenue from $4.6m to $5.2m
-                                            in additional fees to Ajar.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'> Deliver financial year net revenue
-                                                of $5.2m USD/ £4.15m GBP for Ajartec</p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            12/31/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            In Progress
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            £2,750,738.74 gross revenue Q1. Need
-                                            to run through net calculation with
-                                            Ash.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td contenteditable="true" class='border_table_set'>MVP D&D</td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                Define system integration roles with
-                                                each MVP execution to ensure
-                                                seamless prospect management during
-                                                pre-sales and closure processes.
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'> Create skills matrix for Systems
-                                                Integration team. Map complimentary
-                                                technology & services from Systems
-                                                Integration team to Volo product
-                                                suite to maxminise sales potential.</p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>N/A</td>
-                                        <td contenteditable="true">
-                                            Outstanding
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td contenteditable="true" class='border_table_set'>O&P</td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Complete platform consolidation
-                                            agreements.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                1. Ajar x Volo Consolidation &
-                                                purchase agreement executed 2. Ajar
-                                                x Volo MSA executed 3. Ajar x Volo
-                                                MOU(s) executed 4. Voloforce UK x
-                                                Volofleet purchase agreement
-                                                executed
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            3/31/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>Complete</td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            All documents executed
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>N/A</td>
-                                        <td contenteditable="true" class='border_table_set'>N/A</td>
-                                        <td contenteditable="true" class='border_table_set'>N/A</td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Outstanding work.Have a beer on us
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td contenteditable="true" class='border_table_set'>O&P</td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>Ensure accounting and financial
-                                                reporting alignment with Volo on a
-                                                consolidated and non-idiosyncratic
-                                                method.</p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                Financial reporting standards and
-                                                frequency of issuing reports agreed
-                                                with Ash Anand. Q1 reports all
-                                                issued.
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            3/31/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            In Progress
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                Reports & formats agreed with Ash,
-                                                all requested info provided for Q1.
-                                                On-going for rest of year
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Innovation
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            In liaison with other leaders grow
-                                            commercial cross pollination by $1m.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                $1m USD/ £800k GBP of sales achieved
-                                                between Volo/Ajar group of companies
-                                                from internal introductions and/or
-                                                cross selling products and services.
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            12/31/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            In Progress
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                (this is broken down into Ajar Sales
-                                                team $250k chunks to incentivise
-                                                their buy in & support. Also see
-                                                updates for MK/OM/TM.) JK works
-                                                quoted via DCL for Zev Hub
-                                                (unsuccessful) & Solent transport
-                                                microhub (live)
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            People & Culture
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Refine people and Ajar identity
-                                            process as a 'portfolio company'.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Ajartec branding & marketing
-                                            materials updated to include 'A
-                                            Volofleet portfolio company'*
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            6/28/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Outstanding
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                Ongoing workstream aiming to
-                                                complete during q2. *there's been
-                                                various discussions on this subject
-                                                throughout the last several months
-                                                (including with PB) and general
-                                                feeling is it should be platform or
-                                                partner company. Portfolio company
-                                                is deemed to signify being owned by
-                                                Volofleet and projects wrong message
-                                                currently.
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            People & Culture
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                Reset organisational tone for
-                                                performance and meritocracy, through
-                                                the establishment of measurable
-                                                S.O.s, best attitude, practice and
-                                                S.O.Ps.
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            <p class='table_data'>
-                                                Strategic objectives and measures
-                                                for Ajartec agreed and documented,
-                                                issued out to key relevant people as
-                                                part of EIP packs.
-                                            </p>
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            3/31/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            In Progress
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Currently being reviewed in
-                                            consultation with Bev to get better
-                                            measures in place.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            People & Culture
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Award allocated EIP awards and
-                                            cascade SO into entire team.
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            Complete all EIP document packs for
-                                            Ajar participants in Volo EIP
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>
-                                            3/31/2024
-                                        </td>
-                                        <td contenteditable="true" class='border_table_set'>Complete</td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                        <td contenteditable="true" class='border_table_set'></td>
-                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
@@ -760,120 +366,7 @@ $currentYear + 1 => $currentYear + 1
         </div>
     </div>
 </div>
-@endsection
 
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
-<!-- <script>
-    $(document).ready(function() {
-        // Toggle dropdowns on click
-        $(".category-dropdown").click(function() {
-            $(".category-dropdown-content").toggle();
-        });
-
-        $(".objective-dropdown").click(function() {
-            $(".objective-dropdown-content").toggle();
-        });
-
-        $(".measure-dropdown").click(function() {
-            $(".measure-dropdown-content").toggle();
-        });
-
-        $(".key-dates-dropdown").click(function() {
-            $(".key-dates-dropdown-content").toggle();
-        });
-
-        $(".status-dropdown").click(function() {
-            $(".status-dropdown-content").toggle();
-        });
-
-        $(".q1-updates-dropdown").click(function() {
-            $(".q1-updates-dropdown-content").toggle();
-        });
-
-        $(".q2-updates-dropdown").click(function() {
-            $(".q2-updates-dropdown-content").toggle();
-        });
-
-        $(".q3-updates-dropdown").click(function() {
-            $(".q3-updates-dropdown-content").toggle();
-        });
-
-        $(".q4-updates-dropdown").click(function() {
-            $(".q4-updates-dropdown-content").toggle();
-        });
-
-        $(".eoy-review-dropdown").click(function() {
-            $(".eoy-review-dropdown-content").toggle();
-        });
-    });
-</script> -->
-
-<script>
-    $(document).ready(function() {
-        function cbDropdown(column) {
-            return $('<ul>', {
-                'class': 'cb-dropdown'
-            }).appendTo($('<div>', {
-                'class': 'cb-dropdown-wrap'
-            }).appendTo(column));
-
-        }
-
-        $('#objectiveTrackerDatatable').DataTable({
-            initComplete: function() {
-                this.api().columns().every(function() {
-                    var column = this;
-                    var ddmenu = cbDropdown($(column.header()))
-                        .on('change', ':checkbox', function() {
-                            console.log('here');
-                            var active;
-                            var vals = $(':checked', ddmenu).map(function(index, element) {
-                                active = true;
-                                return $.fn.dataTable.util.escapeRegex($(element).val());
-                            }).toArray().join('|');
-
-                            column
-                                .search(vals.length > 0 ? '^(' + vals + ')$' : '', true, false)
-                                .draw();
-
-                            // Highlight the current item if selected.
-                            if (this.checked) {
-                                $(this).closest('li').addClass('active');
-                            } else {
-                                $(this).closest('li').removeClass('active');
-                            }
-
-                            // Highlight the current filter if selected.
-                            var active2 = ddmenu.parent().is('.active');
-                            if (active && !active2) {
-                                ddmenu.parent().addClass('active');
-                            } else if (!active && active2) {
-                                ddmenu.parent().removeClass('active');
-                            }
-                        });
-
-                    column.data().unique().sort().each(function(d, j) {
-                        var // wrapped
-                            $label = $('<label>'),
-                            $text = $('<span>', {
-                                text: d
-                            }),
-                            $cb = $('<input>', {
-                                type: 'checkbox',
-                                value: d
-                            });
-
-                        $text.appendTo($label);
-                        $cb.appendTo($label);
-
-                        ddmenu.append($('<li>').append($label));
-                    });
-                });
-            }
-        });
-    });
-</script>
 <script>
     function updateStatus(select) {
         const objectiveId = select.dataset.objectiveId;
@@ -903,3 +396,75 @@ $currentYear + 1 => $currentYear + 1
         });
     }
 </script>
+
+<script>
+    $(document).ready(function() {
+        function handleFilterChange() {
+            var userId = $('#user_name').val();
+            var period = $('#period').val();
+
+            $.ajax({
+                url: '{{ route("filter-objective.objective") }}',
+                method: 'GET',
+                data: {
+                    user_id: userId,
+                    period: period
+                },
+                success: function(response) {
+                    // Update task counts and percentages
+                    $('.outstanding-count').text(response.outstandingTask);
+                    $('.outstanding-percentage').text(response.outstandingTaskPercentage + '%');
+                    $('.in-progress-count').text(response.inProgressTask);
+                    $('.in-progress-percentage').text(response.inProgressTaskPercentage + '%');
+                    $('.complete-count').text(response.completeTask);
+                    $('.complete-percentage').text(response.completeTaskPercentage + '%');
+                    $('.total-count').text(response.totalTask);
+                    $('.total-percentage').text(response.totalTaskPercentage + '%');
+
+                    // Clear the current objectives table
+                    $('#objectives-tbody').empty();
+
+                    // Populate the objectives table with the new data
+                    response.objectives.forEach(function(objective) {
+                        var color = '';
+                        if (objective.status == 'Complete') {
+                            color = 'color: green;';
+                        } else if (objective.status == 'In Progress') {
+                            color = 'color: orange;';
+                        } else if (objective.status == 'Outstanding') {
+                            color = 'color: red;';
+                        }
+
+                        var objectiveRow = `
+                            <tr>
+                                <td class="border_table_set">${objective.user ? objective.user.name : ''}</td>
+                                <td class="border_table_set">${objective.category}</td>
+                                <td class="border_table_set">${objective.objective ? objective.objective : 'N/A'}</td>
+                                <td class="border_table_set">${objective.measure ? objective.measure : 'N/A'}</td>
+                                <td class="border_table_set">${objective.key_dates ? new Date(objective.key_dates).toLocaleDateString() : ''}</td>
+                                <td class="border_table_set" style="width: 135px;">
+                                    <select name="update_status" class="form-control status-dropdown" style="${color}" data-objective-id="${objective.id}" onchange="updateStatus(this)">
+                                        <option value="Complete" style="color: green;" ${objective.status == 'Complete' ? 'selected' : ''}>Complete</option>
+                                        <option value="In Progress" style="color: orange;" ${objective.status == 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                        <option value="Outstanding" style="color: red;" ${objective.status == 'Outstanding' ? 'selected' : ''}>Outstanding</option>
+                                    </select>
+                                </td>
+                                <td class="border_table_set">${objective.q1_updates ? objective.q1_updates : 'N/A'}</td>
+                                <td class="border_table_set">${objective.q2_updates ? objective.q2_updates : 'N/A'}</td>
+                                <td class="border_table_set">${objective.q3_updates ? objective.q3_updates : 'N/A'}</td>
+                                <td class="border_table_set">${objective.q4_updates ? objective.q4_updates : 'N/A'}</td>
+                                <td class="border_table_set">${objective.eoy_review ? objective.eoy_review : 'N/A'}</td>
+                            </tr>
+                        `;
+
+                        $('#objectives-tbody').append(objectiveRow);
+                    });
+                }
+            });
+        }
+
+        // Attach change event listeners to the filters
+        $('#user_name, #period').change(handleFilterChange);
+    });
+</script>
+@endsection

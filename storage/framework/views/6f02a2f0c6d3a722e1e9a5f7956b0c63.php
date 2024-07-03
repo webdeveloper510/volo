@@ -84,7 +84,7 @@ $currentYear + 1 => $currentYear + 1
     <div class="col-6 need_full">
         <div class="form-group">
             <label for="category">Category</label>
-            <input class="form-control" type="text" name="category" value="" placeholder="Enter Category">
+            <input class="form-control" type="text" name="category" placeholder="Enter Category">
         </div>
     </div>
     <div class="col-6 need_full">

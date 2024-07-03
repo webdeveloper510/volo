@@ -1531,6 +1531,7 @@ Route::group(
         Route::get('objective/create/{type}/{id}', [ObjectiveTrackerController::class, 'create'])->name('objective.create');
         Route::post('objective/store', [ObjectiveTrackerController::class, 'store'])->name('objective.store');
         Route::post('update-objective-status', [ObjectiveTrackerController::class, 'updateStatus'])->name('objective-status.update');
+        Route::get('filter-objective', [ObjectiveTrackerController::class, 'filterObjective'])->name('filter-objective.objective');
     }
 );
 

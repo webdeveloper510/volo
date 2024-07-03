@@ -15,7 +15,7 @@ class ObjectiveTrackerController extends Controller
         $logo = \App\Models\Utility::get_file('uploads/logo/');
 
         // Get all objectives with user data
-        $objectives = Objective::with('user')->get();    
+        $objectives = Objective::with('user')->get();
 
         // Calculate the task counts and percentages
         $completeTask = Objective::where('status', 'Complete')->count();
@@ -108,6 +108,48 @@ class ObjectiveTrackerController extends Controller
         $totalTaskPercentage = 100;
 
         return response()->json([
+            'totalTask' => $totalTask,
+            'outstandingTask' => $outstandingTask,
+            'inProgressTask' => $inProgressTask,
+            'completeTask' => $completeTask,
+            'outstandingTaskPercentage' => $outstandingTaskPercentage,
+            'inProgressTaskPercentage' => $inProgressTaskPercentage,
+            'completeTaskPercentage' => $completeTaskPercentage,
+            'totalTaskPercentage' => $totalTaskPercentage,
+        ]);
+    }
+
+    public function filterObjective(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $period = $request->input('period');
+
+        // Get filtered data from objectives table
+        $query = Objective::query()->with('user');
+
+        if (!empty($user_id)) {
+            $query->where('user_id', $user_id);
+        }
+
+        if (!empty($period)) {
+            $query->where('year', $period);
+        }
+
+        $objectives = $query->get();
+
+        // Calculate totals and percentages based on the filtered objectives
+        $totalTask = $objectives->count();
+        $outstandingTask = $objectives->where('status', 'Outstanding')->count();
+        $inProgressTask = $objectives->where('status', 'In Progress')->count();
+        $completeTask = $objectives->where('status', 'Complete')->count();
+
+        $outstandingTaskPercentage = $totalTask ? round(($outstandingTask / $totalTask) * 100, 2) : 0;
+        $inProgressTaskPercentage = $totalTask ? round(($inProgressTask / $totalTask) * 100, 2) : 0;
+        $completeTaskPercentage = $totalTask ? round(($completeTask / $totalTask) * 100, 2) : 0;
+        $totalTaskPercentage = 100;
+
+        return response()->json([
+            'objectives' => $objectives,
             'totalTask' => $totalTask,
             'outstandingTask' => $outstandingTask,
             'inProgressTask' => $inProgressTask,
