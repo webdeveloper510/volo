@@ -436,4 +436,9 @@ class User extends Authenticatable implements MustVerifyEmail
             );
         }
     }
+
+    public function objectives()
+    {
+        return $this->hasMany(Objective::class, 'user_id');
+    }
 }

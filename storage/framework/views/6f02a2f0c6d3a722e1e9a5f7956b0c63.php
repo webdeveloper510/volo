@@ -1,11 +1,11 @@
-@php
+<?php
 $currentYear = date('Y');
 $years = [
 $currentYear - 1 => $currentYear - 1,
 $currentYear => $currentYear,
 $currentYear + 1 => $currentYear + 1
 ];
-@endphp
+?>
 <style>
     .fa-asterisk {
         font-size: xx-small;
@@ -57,24 +57,28 @@ $currentYear + 1 => $currentYear + 1
     }
 </style>
 
-{{Form::open(array('route' => 'objective.store','method'=>'post'))}}
+<?php echo e(Form::open(array('route' => 'objective.store','method'=>'post'))); ?>
+
 <input type="hidden" name="objectiveType" value="New" />
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('employee',__('Employee'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('employee',__('Employee'),['class'=>'form-label'])); ?>
+
             <select class="form-control" name='employee' required>
                 <option value="">Select Employee</option>
-                @foreach ($assinged_staff as $staff)
-                <option class="form-control" value="{{ $staff->id }}">{{ $staff->name }} ({{$staff->type}})</option>
-                @endforeach
+                <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option class="form-control" value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?> (<?php echo e($staff->type); ?>)</option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{ Form::label('period', __('Period'), ['class' => 'form-label']) }}
-            {{ Form::select('year', $years, null, ['class' => 'form-control', 'placeholder' => __('Select Period'), 'required' => 'required']) }}
+            <?php echo e(Form::label('period', __('Period'), ['class' => 'form-label'])); ?>
+
+            <?php echo e(Form::select('year', $years, null, ['class' => 'form-control', 'placeholder' => __('Select Period'), 'required' => 'required'])); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
@@ -108,8 +112,10 @@ $currentYear + 1 => $currentYear + 1
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{ Form::label('key_dates', __('Key Dates'), ['class' => 'form-label']) }}
-            {{ Form::date('key_dates', null, ['class' => 'form-control']) }}
+            <?php echo e(Form::label('key_dates', __('Key Dates'), ['class' => 'form-label'])); ?>
+
+            <?php echo e(Form::date('key_dates', null, ['class' => 'form-control'])); ?>
+
         </div>
     </div>
     <div class="col-6 need_full">
@@ -156,7 +162,9 @@ $currentYear + 1 => $currentYear + 1
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+
 </div>
-{{Form::close()}}
-</div>
+<?php echo e(Form::close()); ?>
+
+</div><?php /**PATH C:\xampp\htdocs\volo\resources\views/objective_tracker/create.blade.php ENDPATH**/ ?>

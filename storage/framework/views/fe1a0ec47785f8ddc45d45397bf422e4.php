@@ -1,30 +1,32 @@
-@php
+<?php
 $currentYear = date('Y');
 $years = [
 $currentYear - 1 => $currentYear - 1,
 $currentYear => $currentYear,
 $currentYear + 1 => $currentYear + 1
 ];
-@endphp
+?>
 <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 
-@extends('layouts.admin')
-@section('page-title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('objective.index') }}">{{ __('Objective Tracker') }}</a></li>
-<li class="breadcrumb-item">{{ __('Objective Tracker') }}</li>
-@endsection
 
-@section('action-btn')
-<a href="#" data-url="{{ route('objective.create', ['objective', 0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Create New Objective') }}" title="{{ __('Create') }}" class="btn btn-sm btn-primary btn-icon m-1">
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('objective.index')); ?>"><?php echo e(__('Objective Tracker')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Objective Tracker')); ?></li>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('action-btn'); ?>
+<a href="#" data-url="<?php echo e(route('objective.create', ['objective', 0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Objective')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-@endsection
+<?php $__env->stopSection(); ?>
 
 <style>
     .container {
@@ -220,7 +222,7 @@ $currentYear + 1 => $currentYear + 1
     /* Datatable css end here */
 </style>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-sm-12">
         <div class="row">
@@ -229,7 +231,7 @@ $currentYear + 1 => $currentYear + 1
                     <div class="card-body table-border-style">
                         <div class="table-responsive overflow_hidden">
                             <a href="">
-                                <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
+                                <img src="<?php echo e($logo.'new-volo-transparent-bg.png'); ?>" alt="logo" class='logo_img'>
                             </a>
                             <div class="row">
                                 <div class="col-4 mt-3">
@@ -251,16 +253,16 @@ $currentYear + 1 => $currentYear + 1
                                             <td>
                                                 <select class="input_form" name="employee" id="">
                                                     <option value="" selected disabled>Select Employee</option>
-                                                    @foreach ($users as $user)
-                                                    <option value="{{$user->id}}">{{$user->name}}</option>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select class="input_form">
-                                                    @foreach ($years as $year)
-                                                    <option value="{{ $year }}">{{ $year }}</option>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $years; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </td>
                                         </tr>
                                     </table>
@@ -278,23 +280,23 @@ $currentYear + 1 => $currentYear + 1
                                         <tbody>
                                             <tr>
                                                 <td class="outstanding">Outstanding</td>
-                                                <td class="outstanding outstanding-count">{{ $outstandingTask ? $outstandingTask : 0 }}</td>
-                                                <td class="outstanding outstanding-percentage">{{ $outstandingTaskPercentage }}%</td>
+                                                <td class="outstanding outstanding-count"><?php echo e($outstandingTask ? $outstandingTask : 0); ?></td>
+                                                <td class="outstanding outstanding-percentage"><?php echo e($outstandingTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td class="in-progress">In Progress</td>
-                                                <td class="in-progress in-progress-count">{{ $inProgressTask ? $inProgressTask : 0 }}</td>
-                                                <td class="in-progress in-progress-percentage">{{ $inProgressTaskPercentage }}%</td>
+                                                <td class="in-progress in-progress-count"><?php echo e($inProgressTask ? $inProgressTask : 0); ?></td>
+                                                <td class="in-progress in-progress-percentage"><?php echo e($inProgressTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td class="complete">Complete</td>
-                                                <td class="complete complete-count">{{ $completeTask ? $completeTask : 0 }}</td>
-                                                <td class="complete complete-percentage">{{ $completeTaskPercentage }}%</td>
+                                                <td class="complete complete-count"><?php echo e($completeTask ? $completeTask : 0); ?></td>
+                                                <td class="complete complete-percentage"><?php echo e($completeTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td>Total:</td>
-                                                <td class="total total-count">{{ $totalTask }}</td>
-                                                <td class="total total-percentage">{{ $totalTaskPercentage }}%</td>
+                                                <td class="total total-count"><?php echo e($totalTask); ?></td>
+                                                <td class="total total-percentage"><?php echo e($totalTaskPercentage); ?>%</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -420,14 +422,14 @@ $currentYear + 1 => $currentYear + 1
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($objectives as $objective)
+                                    <?php $__currentLoopData = $objectives; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $objective): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td class="border_table_set">{{ !empty($objective->user->name) ? $objective->user->name : '' }}</td>
-                                        <td class="border_table_set">{{ $objective->category }}</td>
-                                        <td class="border_table_set">{{ $objective->objective }}</td>
-                                        <td class="border_table_set">{{ $objective->measure }}</td>
-                                        <td class="border_table_set">{{ \Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y') }}</td>
-                                        @php
+                                        <td class="border_table_set"><?php echo e(!empty($objective->user->name) ? $objective->user->name : ''); ?></td>
+                                        <td class="border_table_set"><?php echo e($objective->category); ?></td>
+                                        <td class="border_table_set"><?php echo e($objective->objective); ?></td>
+                                        <td class="border_table_set"><?php echo e($objective->measure); ?></td>
+                                        <td class="border_table_set"><?php echo e(\Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y')); ?></td>
+                                        <?php
                                         $color = '';
 
                                         if(isset($objective->status)) {
@@ -439,33 +441,38 @@ $currentYear + 1 => $currentYear + 1
                                         $color = 'color: red;';
                                         }
                                         }
-                                        @endphp
+                                        ?>
 
                                         <td class="border_table_set" style="width: 135px;">
-                                            <select name="update_status" class="form-control status-dropdown" style="{{ $color }}" data-objective-id="{{ $objective->id }}" onchange="updateStatus(this)">
-                                                <option value="Complete" style="color: green;" {{ $objective->status == 'Complete' ? 'selected' : '' }}>Complete</option>
-                                                <option value="In Progress" style="color: orange;" {{ $objective->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
-                                                <option value="Outstanding" style="color: red;" {{ $objective->status == 'Outstanding' ? 'selected' : '' }}>Outstanding</option>
+                                            <select name="update_status" class="form-control status-dropdown" style="<?php echo e($color); ?>" data-objective-id="<?php echo e($objective->id); ?>" onchange="updateStatus(this)">
+                                                <option value="Complete" style="color: green;" <?php echo e($objective->status == 'Complete' ? 'selected' : ''); ?>>Complete</option>
+                                                <option value="In Progress" style="color: orange;" <?php echo e($objective->status == 'In Progress' ? 'selected' : ''); ?>>In Progress</option>
+                                                <option value="Outstanding" style="color: red;" <?php echo e($objective->status == 'Outstanding' ? 'selected' : ''); ?>>Outstanding</option>
                                             </select>
                                         </td>
 
                                         <td class="border_table_set">
-                                            {{ !empty($objective->q1_updates) ? $objective->q1_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q1_updates) ? $objective->q1_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set">
-                                            {{ !empty($objective->q2_updates) ? $objective->q2_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q2_updates) ? $objective->q2_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set">
-                                            {{ !empty($objective->q3_updates) ? $objective->q3_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q3_updates) ? $objective->q3_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set">
-                                            {{ !empty($objective->q4_updates) ? $objective->q4_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q4_updates) ? $objective->q4_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set">
-                                            {{ !empty($objective->eoy_review) ? $objective->eoy_review : 'N/A' }}
+                                            <?php echo e(!empty($objective->eoy_review) ? $objective->eoy_review : 'N/A'); ?>
+
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <!-- <tr>
                                         <td contenteditable="true" class='border_table_set'>BDRG</td>
                                         <td contenteditable="true" class='border_table_set'>
@@ -760,7 +767,7 @@ $currentYear + 1 => $currentYear + 1
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
@@ -880,10 +887,10 @@ $currentYear + 1 => $currentYear + 1
         const newStatus = select.value;
 
         $.ajax({
-            url: "{{ route('objective-status.update') }}",
+            url: "<?php echo e(route('objective-status.update')); ?>",
             type: 'POST',
             data: {
-                _token: '{{ csrf_token() }}',
+                _token: '<?php echo e(csrf_token()); ?>',
                 id: objectiveId,
                 status: newStatus
             },
@@ -903,3 +910,4 @@ $currentYear + 1 => $currentYear + 1
         });
     }
 </script>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/objective_tracker/index.blade.php ENDPATH**/ ?>

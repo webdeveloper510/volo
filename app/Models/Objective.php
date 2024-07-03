@@ -17,12 +17,15 @@ class Objective extends Model
         'measure',
         'key_dates',
         'status',
-        // 'q1_updates',
-        // 'q2_updates',
-        // 'q3_updates',
-        // 'q4_updates',
-        // 'eoy_review'
-        'update',
-        'update_type'
+        'q1_updates',
+        'q2_updates',
+        'q3_updates',
+        'q4_updates',
+        'eoy_review'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

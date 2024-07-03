@@ -14,8 +14,8 @@ class ObjectiveTrackerController extends Controller
         $users = User::where('created_by', \Auth::user()->creatorId())->get();
         $logo = \App\Models\Utility::get_file('uploads/logo/');
 
-        // Get all objectives
-        $objectives = Objective::all();
+        // Get all objectives with user data
+        $objectives = Objective::with('user')->get();    
 
         // Calculate the task counts and percentages
         $completeTask = Objective::where('status', 'Complete')->count();
@@ -55,12 +55,6 @@ class ObjectiveTrackerController extends Controller
                     'measure' => 'required',
                     'key_dates' => 'required',
                     'status' => 'required',
-                    // 'q1_updates' => 'required',
-                    // 'q2_updates' => 'required',
-                    // 'q3_updates' => 'required',
-                    // 'q4_updates' => 'required',
-                    // 'eoy_review' => 'required',
-                    'update' => 'required',
                 ]
             );
 
@@ -79,13 +73,13 @@ class ObjectiveTrackerController extends Controller
             $objective->measure = $request->measure;
             $objective->key_dates = $request->key_dates;
             $objective->status = $request->status;
-            $objective->q1_updates = '';
-            $objective->q2_updates = '';
-            $objective->q3_updates = '';
-            $objective->q4_updates = '';
-            $objective->eoy_review = '';
-            $objective->update = $request->update;
-            $objective->update_type = $request->update_optgroup;
+            $objective->q1_updates = $request->q1_updates;
+            $objective->q2_updates = $request->q2_updates;
+            $objective->q3_updates = $request->q3_updates;
+            $objective->q4_updates = $request->q4_updates;
+            $objective->eoy_review = $request->eoy_review;
+            $objective->update = '';
+            $objective->update_type = '';
             $objective->save();
 
             if ($objective) {
