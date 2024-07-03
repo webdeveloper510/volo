@@ -243,8 +243,8 @@ $currentYear + 1 => $currentYear + 1
                                             <td>
                                                 <select class="input_form" name="user_name" id="user_name">
                                                     <option value="" selected disabled>Select Name</option>
-                                                    @foreach ($users as $user)
-                                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                                    @foreach ($assinged_staff as $staff)
+                                                    <option value="{{$staff->id}}">{{$staff->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </td>

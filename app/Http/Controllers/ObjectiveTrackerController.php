@@ -11,7 +11,7 @@ class ObjectiveTrackerController extends Controller
 {
     public function index()
     {
-        $users = User::where('created_by', \Auth::user()->creatorId())->get();
+        $assinged_staff = User::whereNotIn('id', [1, 3])->get();
         $logo = \App\Models\Utility::get_file('uploads/logo/');
 
         // Get all objectives with user data
@@ -28,7 +28,7 @@ class ObjectiveTrackerController extends Controller
         $outstandingTaskPercentage = $totalTask > 0 ? round(($outstandingTask / $totalTask) * 100, 2) : 0;
         $totalTaskPercentage = 100;
 
-        return view('objective_tracker.index', compact('logo', 'users', 'objectives', 'completeTask', 'inProgressTask', 'outstandingTask', 'totalTask', 'completeTaskPercentage', 'inProgressTaskPercentage', 'outstandingTaskPercentage', 'totalTaskPercentage'));
+        return view('objective_tracker.index', compact('logo', 'assinged_staff', 'objectives', 'completeTask', 'inProgressTask', 'outstandingTask', 'totalTask', 'completeTaskPercentage', 'inProgressTaskPercentage', 'outstandingTaskPercentage', 'totalTaskPercentage'));
     }
 
     public function create($type, $id)
