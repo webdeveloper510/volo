@@ -160,4 +160,56 @@ class ObjectiveTrackerController extends Controller
             'totalTaskPercentage' => $totalTaskPercentage,
         ]);
     }
+
+    public function updateStatusForFilterObjectives(Request $request)
+    {
+        $objectiveId = $request->input('objective_id');
+        $status = $request->input('status');
+        $userId = $request->input('user_id');
+        $period = $request->input('period');
+
+        $objective = Objective::find($objectiveId);
+
+        if (!$objective) {
+            return response()->json(['error' => 'Objective not found'], 404);
+        }
+
+        $objective->status = $status;
+        $objective->save();
+
+        // Get filtered data from objectives table
+        $query = Objective::query()->with('user');
+
+        if (!empty($userId)) {
+            $query->where('user_id', $userId);
+        }
+
+        if (!empty($period)) {
+            $query->where('year', $period);
+        }
+
+        $filteredObjectives = $query->get();
+
+        // Calculate totals and percentages based on the filtered objectives
+        $totalTask = $filteredObjectives->count();
+        $outstandingTask = $filteredObjectives->where('status', 'Outstanding')->count();
+        $inProgressTask = $filteredObjectives->where('status', 'In Progress')->count();
+        $completeTask = $filteredObjectives->where('status', 'Complete')->count();
+
+        $outstandingTaskPercentage = $totalTask ? round(($outstandingTask / $totalTask) * 100, 2) : 0;
+        $inProgressTaskPercentage = $totalTask ? round(($inProgressTask / $totalTask) * 100, 2) : 0;
+        $completeTaskPercentage = $totalTask ? round(($completeTask / $totalTask) * 100, 2) : 0;
+        $totalTaskPercentage = 100;
+
+        return response()->json([
+            'totalTask' => $totalTask,
+            'outstandingTask' => $outstandingTask,
+            'inProgressTask' => $inProgressTask,
+            'completeTask' => $completeTask,
+            'outstandingTaskPercentage' => $outstandingTaskPercentage,
+            'inProgressTaskPercentage' => $inProgressTaskPercentage,
+            'completeTaskPercentage' => $completeTaskPercentage,
+            'totalTaskPercentage' => $totalTaskPercentage,
+        ]);
+    }
 }

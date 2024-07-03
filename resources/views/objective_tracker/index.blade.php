@@ -23,7 +23,6 @@ $currentYear + 1 => $currentYear + 1
     <i class="ti ti-plus"></i>
 </a>
 @endsection
-<!-- <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" /> -->
 <style>
     .container {
         display: flex;
@@ -133,86 +132,9 @@ $currentYear + 1 => $currentYear + 1
         background-color: #7bbd5d;
     }
 
-    /* Datatable css start here */
-    /* .cb-dropdown-wrap {
-        max-height: 80px;
-        position: relative;
-        height: 23px;
+    table#objectiveTrackerDatatable {
+        margin-top: 30px;
     }
-
-    .cb-dropdown,
-    .cb-dropdown li {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .cb-dropdown {
-        position: absolute;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #fff;
-        border: 1px solid #888;
-    }
-
-    .active .cb-dropdown {
-        background: white;
-    }
-
-    .cb-dropdown-wrap:hover .cb-dropdown {
-        height: 80px;
-        overflow: auto;
-        transition: 0.2s height ease-in-out;
-    }
-
-    .cb-dropdown li.active {
-        background: #lightgray;
-    }
-
-    .cb-dropdown li label {
-        display: block;
-        position: relative;
-        cursor: pointer;
-        line-height: 19px;
-    }
-
-    .cb-dropdown li label>input {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 16px;
-
-    }
-
-    .cb-dropdown li label>span {
-        display: block;
-        margin-left: 3px;
-        margin-right: 20px;
-        font-family: sans-serif;
-        font-size: 0.8em;
-        font-weight: normal;
-        text-align: left;
-
-    }
-
-    table.dataTable thead .sorting,
-    table.dataTable thead .sorting_asc,
-    table.dataTable thead .sorting_desc,
-    table.dataTable thead .sorting_asc_disabled,
-    table.dataTable thead .sorting_desc_disabled {
-        background-position: 100% 10px;
-    }
-
-    .content-wrpr ul,
-    .content-wrpr ol {
-        margin-left: 0px;
-        !important;
-        width: 85%;
-    } */
-
-    /* Datatable css end here */
 </style>
 
 @section('content')
@@ -223,12 +145,12 @@ $currentYear + 1 => $currentYear + 1
                 <div class="card">
                     <div class="card-body table-border-style">
                         <div class="table-responsive overflow_hidden">
-                            <a href="">
-                                <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
-                            </a>
                             <div class="row">
                                 <div class="col-4 mt-3">
-                                    <table class="table" style="width: 100%; border-collapse: collapse;">
+                                    <a href="">
+                                        <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
+                                    </a>
+                                    <table class="table" style="width: 100%; border-collapse: collapse; margin-top:8px;">
                                         <tr class="table-header table-header_add">
                                             <th colspan="2">
                                                 Doe Ref: Objective
@@ -443,7 +365,7 @@ $currentYear + 1 => $currentYear + 1
                                 <td class="border_table_set">${objective.measure ? objective.measure : 'N/A'}</td>
                                 <td class="border_table_set">${objective.key_dates ? new Date(objective.key_dates).toLocaleDateString() : ''}</td>
                                 <td class="border_table_set" style="width: 135px;">
-                                    <select name="update_status" class="form-control status-dropdown" style="${color}" data-objective-id="${objective.id}" onchange="updateStatus(this)">
+                                    <select name="update_status" class="form-control status-dropdown" style="${color}" data-objective-id="${objective.id}" onchange="updateStatusForFilterObjectives(this)">
                                         <option value="Complete" style="color: green;" ${objective.status == 'Complete' ? 'selected' : ''}>Complete</option>
                                         <option value="In Progress" style="color: orange;" ${objective.status == 'In Progress' ? 'selected' : ''}>In Progress</option>
                                         <option value="Outstanding" style="color: red;" ${objective.status == 'Outstanding' ? 'selected' : ''}>Outstanding</option>
@@ -466,5 +388,47 @@ $currentYear + 1 => $currentYear + 1
         // Attach change event listeners to the filters
         $('#user_name, #period').change(handleFilterChange);
     });
+</script>
+
+<script>
+    function updateStatusForFilterObjectives(select) {
+        const objectiveId = select.dataset.objectiveId;
+        const newStatus = select.value;
+        const userId = $('#user_name').val();
+        const period = $('#period').val();
+
+        // console.log('objectiveId :' + objectiveId);
+        // console.log('newStatus :' + newStatus);
+        // console.log('userId :' + userId);
+        // console.log('period :' + period);
+        // return false;
+
+        $.ajax({
+            url: "{{ route('objective-status-filter.update') }}",
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                objective_id: objectiveId,
+                status: newStatus,
+                user_id: userId,
+                period: period
+
+            },
+            success: function(response) {
+                console.log(response);
+                $('.outstanding-count').text(response.outstandingTask);
+                $('.outstanding-percentage').text(response.outstandingTaskPercentage + '%');
+                $('.in-progress-count').text(response.inProgressTask);
+                $('.in-progress-percentage').text(response.inProgressTaskPercentage + '%');
+                $('.complete-count').text(response.completeTask);
+                $('.complete-percentage').text(response.completeTaskPercentage + '%');
+                $('.total-count').text(response.totalTask);
+                $('.total-percentage').text(response.totalTaskPercentage + '%');
+
+                // Optionally, update the color of the dropdown
+                select.style.color = newStatus === 'Complete' ? 'green' : newStatus === 'In Progress' ? 'orange' : 'red';
+            }
+        });
+    }
 </script>
 @endsection
