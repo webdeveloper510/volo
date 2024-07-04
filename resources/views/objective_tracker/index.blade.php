@@ -229,7 +229,7 @@ $currentYear + 1 => $currentYear + 1
                                                 <div class="dropdown-menu" aria-labelledby="dropdownTeamMember">
                                                     @foreach($uniqueTeamMembers as $teamMember)
                                                     <div class="dropdown-item">
-                                                        <input type="checkbox" class="team-member-filter" value="{{ $teamMember->user_id }}"> {{ $teamMember->user->name }}
+                                                        <input type="checkbox" class="team-member-filter" value="{{ $teamMember->user->name }}"> {{ $teamMember->user->name }}
                                                     </div>
                                                     @endforeach
                                                 </div>
@@ -537,7 +537,7 @@ $currentYear + 1 => $currentYear + 1
             var categories = getSelectedCheckboxes('.category-filter');
             var statuses = getSelectedCheckboxes('.status-filter');
 
-            // console.log(teamMembers);
+            console.log(teamMembers);
             // console.log(categories);
             // console.log(statuses);
 

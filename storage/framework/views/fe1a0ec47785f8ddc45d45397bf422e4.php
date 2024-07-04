@@ -231,7 +231,7 @@ $currentYear + 1 => $currentYear + 1
                                                 <div class="dropdown-menu" aria-labelledby="dropdownTeamMember">
                                                     <?php $__currentLoopData = $uniqueTeamMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $teamMember): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="dropdown-item">
-                                                        <input type="checkbox" class="team-member-filter" value="<?php echo e($teamMember->user_id); ?>"> <?php echo e($teamMember->user->name); ?>
+                                                        <input type="checkbox" class="team-member-filter" value="<?php echo e($teamMember->user->name); ?>"> <?php echo e($teamMember->user->name); ?>
 
                                                     </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -548,8 +548,8 @@ $currentYear + 1 => $currentYear + 1
             var statuses = getSelectedCheckboxes('.status-filter');
 
             console.log(teamMembers);
-            console.log(categories);
-            console.log(statuses);
+            // console.log(categories);
+            // console.log(statuses);
 
             $('#objectives-tbody tr').each(function() {
                 var showRow = true;
