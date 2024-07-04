@@ -1533,6 +1533,7 @@ Route::group(
         Route::post('update-objective-status', [ObjectiveTrackerController::class, 'updateStatus'])->name('objective-status.update');
         Route::post('update-objective-status-filter', [ObjectiveTrackerController::class, 'updateStatusForFilterObjectives'])->name('objective-status-filter.update');
         Route::get('filter-objective', [ObjectiveTrackerController::class, 'filterObjective'])->name('filter-objective.objective');
+        Route::post('update-objective', [ObjectiveTrackerController::class, 'updateObjective'])->name('update-objective.objective');
     }
 );
 

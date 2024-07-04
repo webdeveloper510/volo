@@ -212,4 +212,66 @@ class ObjectiveTrackerController extends Controller
             'totalTaskPercentage' => $totalTaskPercentage,
         ]);
     }
+
+    // public function updateObjective(Request $request)
+    // {
+    //     $objective = Objective::find($request->id);
+    //     $objective->category = $request->category;
+    //     $objective->objective = $request->objective;
+    //     $objective->measure = $request->measure;
+    //     $objective->key_dates = $request->keyDates;
+    //     $objective->status = $request->status;
+    //     $objective->q1_updates = $request->q1Updates;
+    //     $objective->q2_updates = $request->q2Updates;
+    //     $objective->q3_updates = $request->q3Updates;
+    //     $objective->q4_updates = $request->q4Updates;
+    //     $objective->eoy_review = $request->eoyReview;
+    //     $objective->save();
+
+    //     // Return a success response
+    //     return response()->json(['message' => 'Objective updated successfully', 'objective' => $objective]);
+
+    // }
+
+    public function updateObjective(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'id' => 'required|exists:objectives,id',
+            'category' => 'required|string|max:255',
+            'objective' => 'required|string|max:255',
+            'measure' => 'required|string|max:255',
+            'keyDates' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+            'q1Updates' => 'nullable|string',
+            'q2Updates' => 'nullable|string',
+            'q3Updates' => 'nullable|string',
+            'q4Updates' => 'nullable|string',
+            'eoyReview' => 'nullable|string',
+        ]);
+
+        // Retrieve the objective by id
+        $objective = Objective::find($validatedData['id']);
+
+        // Check if the objective exists
+        if (!$objective) {
+            return response()->json(['message' => 'Objective not found', 'http_response_code' => 404], 404);
+        }
+
+        // Update the objective fields
+        $objective->category = $validatedData['category'];
+        $objective->objective = $validatedData['objective'];
+        $objective->measure = $validatedData['measure'];
+        $objective->key_dates = $validatedData['keyDates'];
+        $objective->status = $validatedData['status'];
+        $objective->q1_updates = $validatedData['q1Updates'];
+        $objective->q2_updates = $validatedData['q2Updates'];
+        $objective->q3_updates = $validatedData['q3Updates'];
+        $objective->q4_updates = $validatedData['q4Updates'];
+        $objective->eoy_review = $validatedData['eoyReview'];
+        $objective->save();
+
+        // Return a success response
+        return response()->json(['message' => 'Objective updated successfully', 'objective' => $objective, 'http_response_code' => 200], 200);
+    }
 }
