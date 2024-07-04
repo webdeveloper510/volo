@@ -547,30 +547,53 @@ $currentYear + 1 => $currentYear + 1
             var categories = getSelectedCheckboxes('.category-filter');
             var statuses = getSelectedCheckboxes('.status-filter');
 
-            console.log(teamMembers);
-            // console.log(categories);
-            // console.log(statuses);
+            var completeCount = 0;
+            var inProgressCount = 0;
+            var outstandingCount = 0;
+            var totalCount = 0;
 
             $('#objectives-tbody tr').each(function() {
-                var showRow = true;
                 var $row = $(this);
+                var status = $row.find('td:nth-child(6) select').val();
 
                 if (teamMembers.length > 0 && !teamMembers.includes($row.find('td:nth-child(1)').text())) {
-                    showRow = false;
+                    $row.hide();
+                    return;
                 }
                 if (categories.length > 0 && !categories.includes($row.find('td:nth-child(2)').text())) {
-                    showRow = false;
+                    $row.hide();
+                    return;
                 }
-                if (statuses.length > 0 && !statuses.includes($row.find('td:nth-child(6) select').val())) {
-                    showRow = false;
+                if (statuses.length > 0 && !statuses.includes(status)) {
+                    $row.hide();
+                    return;
                 }
 
-                if (showRow) {
-                    $row.show();
-                } else {
-                    $row.hide();
+                // Count statuses
+                if (status === 'Complete') {
+                    completeCount++;
+                } else if (status === 'In Progress') {
+                    inProgressCount++;
+                } else if (status === 'Outstanding') {
+                    outstandingCount++;
                 }
+
+                totalCount++;
+                $row.show();
             });
+
+            // Update counts in interface
+            $('.complete-count').text(completeCount);
+            $('.in-progress-count').text(inProgressCount);
+            $('.outstanding-count').text(outstandingCount);
+            $('.total-count').text(totalCount);
+
+            // Calculate and update percentages
+            var totalPercentage = totalCount > 0 ? 100 : 0;
+            $('.complete-percentage').text(((completeCount / totalCount) * totalPercentage).toFixed(1) + '%');
+            $('.in-progress-percentage').text(((inProgressCount / totalCount) * totalPercentage).toFixed(1) + '%');
+            $('.outstanding-percentage').text(((outstandingCount / totalCount) * totalPercentage).toFixed(1) + '%');
+            $('.total-percentage').text(totalPercentage + '%');
         }
 
         // Function to get selected checkboxes
@@ -586,6 +609,9 @@ $currentYear + 1 => $currentYear + 1
         $('.team-member-filter, .category-filter, .status-filter').change(function() {
             filterTable();
         });
+
+        // Initial filter on page load
+        filterTable();
     });
 </script>
 <?php $__env->stopSection(); ?>
