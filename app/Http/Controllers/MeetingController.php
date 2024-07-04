@@ -410,7 +410,7 @@ class MeetingController extends Controller
             // }
 
             $meeting                      = new Meeting();
-            $meeting['user_id']           = isset($request->user) ? implode(',', $request->user) : '';
+            $meeting['user_id']           = json_encode($request->user);
             $meeting['name']              = $request->event_name;
             $meeting['start_date']        = $request->start_date;
             $meeting['end_date']          = $request->end_date;

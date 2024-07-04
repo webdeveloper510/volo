@@ -20,14 +20,13 @@ class CalenderNewController extends Controller
     }
     public function get_event_data(Request $request)
     {
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $events = Meeting::where('start_date', $request->start)->get();
         } else {
             $events = Meeting::where('user_id', \Auth::user()->id)
                 ->where('start_date', $request->start)
                 ->get();
         }
-
         return response()->json(["events" => $events]);
     }
     public function blockeddateinfo()
@@ -38,7 +37,7 @@ class CalenderNewController extends Controller
 
     public function eventinfo()
     {
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $events = Meeting::all();
         } else {
             $events = Meeting::where('user_id', \Auth::user()->id)->get();
@@ -49,17 +48,16 @@ class CalenderNewController extends Controller
     public function monthbaseddata(Request $request)
     {
 
-        $startDate = "{$request->year}-{$request->month}-01"; // First day of the month
-        $endDate = date('Y-m-t', strtotime($startDate)); // Last day of the month
+        $startDate = "{$request->year}-{$request->month}-01";
+        $endDate = date('Y-m-t', strtotime($startDate));
 
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         } else {
             $data = Meeting::where('user_id', \Auth::user()->id)
                 ->whereBetween('start_date', [$startDate, $endDate])
                 ->get();
         }
-
         return $data;
     }
     public function weekbaseddata(Request $request)
@@ -67,7 +65,7 @@ class CalenderNewController extends Controller
         $startDate = $request->startdate;
         $endDate = $request->enddate;
 
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         } else {
             $data = Meeting::where('user_id', \Auth::user()->id)
@@ -80,13 +78,12 @@ class CalenderNewController extends Controller
     public function daybaseddata(Request $request)
     {
         $startDate = $request->date;
-        $data = Meeting::where('start_date', $startDate)->get();
 
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $data = Meeting::where('start_date', $startDate)->get();
         } else {
             $data = Meeting::where('user_id', \Auth::user()->id)
-                ->where('start_date', [$startDate, $endDate])
+                ->where('start_date', $startDate)
                 ->get();
         }
 
