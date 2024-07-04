@@ -222,12 +222,48 @@ $currentYear + 1 => $currentYear + 1
                             <table id="objectiveTrackerDatatable" class="display" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th class="Category_set">Team Member</th>
-                                        <th class="Category_set">Category</th>
+                                        <th class="Category_set">Team Member
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownTeamMember" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownTeamMember">
+                                                    @foreach($uniqueTeamMembers as $teamMember)
+                                                    <div class="dropdown-item">
+                                                        <input type="checkbox" class="team-member-filter" value="{{ $teamMember->user_id }}"> {{ $teamMember->user->name }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th class="Category_set">Category
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownCategory">
+                                                    @foreach($uniqueCategory as $category)
+                                                    <div class="dropdown-item">
+                                                        <input type="checkbox" class="category-filter" value="{{ $category }}"> {{ $category }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th class="Category_set">Objective</th>
                                         <th class="Category_set">Measure</th>
                                         <th class="Category_set">Key Dates</th>
-                                        <th class="Category_set">Status</th>
+                                        <th class="Category_set">Status
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" role="button" id="dropdownStatus" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownStatus">
+                                                    @foreach($uniqueStatus as $status)
+                                                    <div class="dropdown-item">
+                                                        <input type="checkbox" class="status-filter" value="{{ $status }}"> {{ $status }}
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th class="Category_set">Q1 Updates</th>
                                         <th class="Category_set">Q2 Updates</th>
                                         <th class="Category_set">Q3 Updates</th>
@@ -481,7 +517,7 @@ $currentYear + 1 => $currentYear + 1
             type: 'POST',
             data: rowData,
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 if (response.http_response_code === 200) {
                     toastr.success(response.message);
                 } else {
@@ -491,6 +527,54 @@ $currentYear + 1 => $currentYear + 1
             error: function(xhr, status, error) {
                 toastr.error('Error saving data: ' + error);
             }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        function filterTable() {
+            var teamMembers = getSelectedCheckboxes('.team-member-filter');
+            var categories = getSelectedCheckboxes('.category-filter');
+            var statuses = getSelectedCheckboxes('.status-filter');
+
+            // console.log(teamMembers);
+            // console.log(categories);
+            // console.log(statuses);
+
+            $('#objectives-tbody tr').each(function() {
+                var showRow = true;
+                var $row = $(this);
+
+                if (teamMembers.length > 0 && !teamMembers.includes($row.find('td:nth-child(1)').text())) {
+                    showRow = false;
+                }
+                if (categories.length > 0 && !categories.includes($row.find('td:nth-child(2)').text())) {
+                    showRow = false;
+                }
+                if (statuses.length > 0 && !statuses.includes($row.find('td:nth-child(6) select').val())) {
+                    showRow = false;
+                }
+
+                if (showRow) {
+                    $row.show();
+                } else {
+                    $row.hide();
+                }
+            });
+        }
+
+        // Function to get selected checkboxes
+        function getSelectedCheckboxes(selector) {
+            var selected = [];
+            $(selector + ':checked').each(function() {
+                selected.push($(this).val());
+            });
+            return selected;
+        }
+
+        // Trigger filter on checkbox change
+        $('.team-member-filter, .category-filter, .status-filter').change(function() {
+            filterTable();
         });
     });
 </script>

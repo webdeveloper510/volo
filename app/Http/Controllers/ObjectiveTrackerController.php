@@ -28,7 +28,15 @@ class ObjectiveTrackerController extends Controller
         $outstandingTaskPercentage = $totalTask > 0 ? round(($outstandingTask / $totalTask) * 100, 2) : 0;
         $totalTaskPercentage = 100;
 
-        return view('objective_tracker.index', compact('logo', 'assinged_staff', 'objectives', 'completeTask', 'inProgressTask', 'outstandingTask', 'totalTask', 'completeTaskPercentage', 'inProgressTaskPercentage', 'outstandingTaskPercentage', 'totalTaskPercentage'));
+        // Get unique team member, category and status
+        $uniqueTeamMembers = Objective::select('user_id')
+            ->distinct()
+            ->with('user')
+            ->get();
+        $uniqueCategory = Objective::select('category')->distinct()->pluck('category')->toArray();
+        $uniqueStatus = Objective::select('status')->distinct()->pluck('status')->toArray();
+
+        return view('objective_tracker.index', compact('logo', 'assinged_staff', 'objectives', 'completeTask', 'inProgressTask', 'outstandingTask', 'totalTask', 'completeTaskPercentage', 'inProgressTaskPercentage', 'outstandingTaskPercentage', 'totalTaskPercentage', 'uniqueTeamMembers', 'uniqueCategory', 'uniqueStatus'));
     }
 
     public function create($type, $id)
@@ -212,26 +220,6 @@ class ObjectiveTrackerController extends Controller
             'totalTaskPercentage' => $totalTaskPercentage,
         ]);
     }
-
-    // public function updateObjective(Request $request)
-    // {
-    //     $objective = Objective::find($request->id);
-    //     $objective->category = $request->category;
-    //     $objective->objective = $request->objective;
-    //     $objective->measure = $request->measure;
-    //     $objective->key_dates = $request->keyDates;
-    //     $objective->status = $request->status;
-    //     $objective->q1_updates = $request->q1Updates;
-    //     $objective->q2_updates = $request->q2Updates;
-    //     $objective->q3_updates = $request->q3Updates;
-    //     $objective->q4_updates = $request->q4Updates;
-    //     $objective->eoy_review = $request->eoyReview;
-    //     $objective->save();
-
-    //     // Return a success response
-    //     return response()->json(['message' => 'Objective updated successfully', 'objective' => $objective]);
-
-    // }
 
     public function updateObjective(Request $request)
     {
