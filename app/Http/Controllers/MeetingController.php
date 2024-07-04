@@ -452,10 +452,11 @@ class MeetingController extends Controller
             $content = $request->notes;
 
             // Get user details
-            $userDetails = User::where('id', $request->user)->select('email', 'name')->first();
+            // $userDetails = User::where('id', $request->user)->select('email', 'name')->first();
+            $userDetails = User::whereIn('id', $request->user)->select('email', 'name')->get();
             $assigned_by = \Auth::user()->name;
 
-            if ($meeting && $userDetails) {
+            if ($meeting && $userDetails->isNotEmpty()) {
                 try {
                     // Configure mail settings
                     config(
@@ -471,8 +472,10 @@ class MeetingController extends Controller
                     );
 
                     // Send email
-                    Mail::to($userDetails->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $userDetails, $assigned_by));
-
+                    // Mail::to($userDetails->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $userDetails, $assigned_by));
+                    foreach ($userDetails as $user) {
+                        Mail::to($user->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $user, $assigned_by));
+                    }
                     // return redirect()->back()->with('success', 'Email Sent Successfully');
                     return redirect()->route('calendernew.index')->with('success', __('Event created and Email send Successfuly'));
                 } catch (\Exception $e) {

@@ -148,7 +148,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     <li class="dash-item  <?php echo e((Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('contracts.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('E-Sign')); ?></span></a>
                                     </li>
-                                    <li class="dash-item  <?php echo e(Request::route()->getName() == 'objective.index' ? 'active' : ''); ?>">
+                                    <li class="dash-item <?php echo e(\Request::route()->getName() == 'objective.index' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('objective.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Objective Tracker')); ?></span>
                                         </a>

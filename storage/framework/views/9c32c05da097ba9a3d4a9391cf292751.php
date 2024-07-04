@@ -22,7 +22,7 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'dashboard'): ?>
-                <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                <a href="#useradd-1" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'dashboard' ? ' active' : ''); ?>"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Dashboard')); ?> </span></a>
                 </a>
                 <?php endif; ?>
@@ -121,6 +121,12 @@ $category = explode(',', $settings['campaign_type']);
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Calender')); ?> </span></a>
+                <?php endif; ?>
+
+                <?php if(\Request::route()->getName() == 'objective.index'): ?>
+                <a href="<?php echo e(route('objective.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'objective.index' ?'active' : ''); ?>">
+                    <span class="dash-mtext"><?php echo e(__('Objective Tracker')); ?></span>
+                </a>
                 <?php endif; ?>
 
                 <?php if(\Request::route()->getName() == 'billing.create'): ?>

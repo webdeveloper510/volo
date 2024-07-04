@@ -16,40 +16,80 @@ class CalenderNewController extends Controller
     public function index()
     {
         $blockeddate = Blockdate::all();
-        return view('calender_new.index',compact('blockeddate'));
+        return view('calender_new.index', compact('blockeddate'));
     }
     public function get_event_data(Request $request)
     {
-        $events = Meeting::where('start_date', $request->start)->get();
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+            $events = Meeting::where('start_date', $request->start)->get();
+        } else {
+            $events = Meeting::where('user_id', \Auth::user()->id)
+                ->where('start_date', $request->start)
+                ->get();
+        }
+
         return response()->json(["events" => $events]);
     }
-    public function blockeddateinfo(){
+    public function blockeddateinfo()
+    {
         $block = Blockdate::all();
         return $block;
     }
-    public function eventinfo(){
-        $event = Meeting::all();
-        return $event;
-       
+
+    public function eventinfo()
+    {
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+            $events = Meeting::all();
+        } else {
+            $events = Meeting::where('user_id', \Auth::user()->id)->get();
+        }
+
+        return $events;
     }
-    public function monthbaseddata(Request $request){
-       
+    public function monthbaseddata(Request $request)
+    {
+
         $startDate = "{$request->year}-{$request->month}-01"; // First day of the month
         $endDate = date('Y-m-t', strtotime($startDate)); // Last day of the month
-        $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+            $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+        } else {
+            $data = Meeting::where('user_id', \Auth::user()->id)
+                ->whereBetween('start_date', [$startDate, $endDate])
+                ->get();
+        }
+
         return $data;
     }
-    public function weekbaseddata(Request $request){
+    public function weekbaseddata(Request $request)
+    {
         $startDate = $request->startdate;
         $endDate = $request->enddate;
-        $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+            $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+        } else {
+            $data = Meeting::where('user_id', \Auth::user()->id)
+                ->whereBetween('start_date', [$startDate, $endDate])
+                ->get();
+        }
+
         return $data;
-        print_r($request->all()) ;
     }
-    public function daybaseddata(Request $request){
+    public function daybaseddata(Request $request)
+    {
         $startDate = $request->date;
         $data = Meeting::where('start_date', $startDate)->get();
+
+        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super_admin') {
+            $data = Meeting::where('start_date', $startDate)->get();
+        } else {
+            $data = Meeting::where('user_id', \Auth::user()->id)
+                ->where('start_date', [$startDate, $endDate])
+                ->get();
+        }
+
         return $data;
-        print_r($request->all()) ;
     }
 }

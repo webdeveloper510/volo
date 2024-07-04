@@ -22,7 +22,7 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'dashboard')
-                <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
+                <a href="#useradd-1" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'dashboard' ? ' active' : '' }}"><span class="fa-stack fa-lg pull-left"><i class="ti ti-home-2"></i></span>
                     <span class="dash-mtext">{{ __('Dashboard') }} </span></a>
                 </a>
                 @endif
@@ -121,6 +121,12 @@ $category = explode(',', $settings['campaign_type']);
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-calendar"></i></span>
                     <span class="dash-mtext">{{ __('Calender') }} </span></a>
+                @endif
+
+                @if(\Request::route()->getName() == 'objective.index')
+                <a href="{{route('objective.index')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'objective.index' ?'active' : ''}}">
+                    <span class="dash-mtext">{{ __('Objective Tracker') }}</span>
+                </a>
                 @endif
 
                 @if(\Request::route()->getName() == 'billing.create')
