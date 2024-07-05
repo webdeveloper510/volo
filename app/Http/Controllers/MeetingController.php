@@ -1377,7 +1377,7 @@ class MeetingController extends Controller
                 return redirect()->back()->with('error', 'No users assigned to this event.');
             }
 
-            $users = User::whereIn('id', $userIds)->get();
+            $users = User::whereIn('id', (array) $userIds)->get();
 
             if ($users->isEmpty()) {
                 return redirect()->back()->with('error', 'Assigned users not found.');
