@@ -235,12 +235,12 @@ $category = explode(',', $settings['campaign_type']);
                 @endif
                 @if(\Request::route()->getName() == 'lead.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext">{{ __('Edit Lead') }} </span></a>
+                    <span class="dash-mtext">{{ __('Edit Opportunity') }} </span></a>
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'lead.info')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext">{{ __('Leads') }} </span></a>
+                    <span class="dash-mtext">{{ __('Opportunity') }} </span></a>
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'email.index' ||\Request::route()->getName() == 'email.details'||\Request::route()->getName() == 'email.conversations')
