@@ -48,6 +48,9 @@
 
                         <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Link')}}</span></dt>
                         <dd class="col-md-6 need_half"><span class="">{{$event->link}}</span></dd>
+
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0">{{__('Notes/Remarks')}}</span></dt>
+                        <dd class="col-md-6 need_half"><span class="">{{$event->notes}}</span></dd>
                     </dl>
                 </div>
             </div>

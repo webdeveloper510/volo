@@ -49,6 +49,9 @@
 
                         <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Link')); ?></span></dt>
                         <dd class="col-md-6 need_half"><span class=""><?php echo e($event->link); ?></span></dd>
+
+                        <dt class="col-md-6 need_half"><span class="h6  mb-0"><?php echo e(__('Notes/Remarks')); ?></span></dt>
+                        <dd class="col-md-6 need_half"><span class=""><?php echo e($event->notes); ?></span></dd>
                     </dl>
                 </div>
             </div>
