@@ -10,19 +10,24 @@ class Meeting extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected 
-    $fillable = [
-        'user_id',
-        'name',
-        'status',
-        'start_date',
-        'end_date',
-        'description',
-        'attendees_user',
-        'attendees_lead',
-        'food_package',
-        'total','ad_opts','phone','notes','link'
+
+    protected $casts = [
+        'status' => 'array',
     ];
+
+    protected
+        $fillable = [
+            'user_id',
+            'name',
+            'status',
+            'start_date',
+            'end_date',
+            'description',
+            'attendees_user',
+            'attendees_lead',
+            'food_package',
+            'total', 'ad_opts', 'phone', 'notes', 'link'
+        ];
     public static $status   = [
         'Share Agreement',
         'Waiting For Customer Confirmation',
@@ -65,7 +70,7 @@ class Meeting extends Model
     //     'Elite Wedding',
     //     'Plated Wedding Package'        
     // ];
-   
+
     public function assign_user()
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
@@ -114,6 +119,6 @@ class Meeting extends Model
 
     public function user()
     {
-    return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

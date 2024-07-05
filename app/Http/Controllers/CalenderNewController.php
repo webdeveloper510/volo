@@ -20,14 +20,22 @@ class CalenderNewController extends Controller
     }
     public function get_event_data(Request $request)
     {
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
+        $loggedInUserId = \Auth::user()->id;
+        $userType = \Auth::user()->type;
+
+        if ($userType == 'owner' || $userType == 'super admin') {
             $events = Meeting::where('start_date', $request->start)->get();
         } else {
-            $events = Meeting::where('user_id', \Auth::user()->id)
-                ->where('start_date', $request->start)
-                ->get();
+            $events = Meeting::where('start_date', $request->start)
+                ->whereJsonContains('user_id', (string) $loggedInUserId)
+                ->get()
+                ->filter(function ($event) use ($loggedInUserId) {
+                    $status = $event->status;
+                    return isset($status[(string) $loggedInUserId]) && $status[(string) $loggedInUserId] == "1";
+                });
         }
-        return response()->json(["events" => $events]);
+
+        return response()->json(["events" => $events->values()]);
     }
     public function blockeddateinfo()
     {
@@ -37,26 +45,42 @@ class CalenderNewController extends Controller
 
     public function eventinfo()
     {
+        $loggedInUserId = \Auth::user()->id;
         if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $events = Meeting::all();
         } else {
-            $events = Meeting::where('user_id', \Auth::user()->id)->get();
+            $events = Meeting::where(function ($query) use ($loggedInUserId) {
+                $query->where('user_id', $loggedInUserId)
+                    ->orWhereJsonContains('status', [(string) $loggedInUserId => "1"]);
+            })
+                ->get()
+                ->filter(function ($event) use ($loggedInUserId) {
+                    $status = $event->status;
+                    return isset($status[(string) $loggedInUserId]) && $status[(string) $loggedInUserId] == "1";
+                });
         }
 
         return $events;
     }
     public function monthbaseddata(Request $request)
     {
-
+        $loggedInUserId = \Auth::user()->id;
         $startDate = "{$request->year}-{$request->month}-01";
         $endDate = date('Y-m-t', strtotime($startDate));
 
         if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
             $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         } else {
-            $data = Meeting::where('user_id', \Auth::user()->id)
+            $data = Meeting::where(function ($query) use ($loggedInUserId) {
+                $query->where('user_id', $loggedInUserId)
+                    ->orWhereJsonContains('status', [(string) $loggedInUserId => "1"]);
+            })
                 ->whereBetween('start_date', [$startDate, $endDate])
-                ->get();
+                ->get()
+                ->filter(function ($event) use ($loggedInUserId) {
+                    $status = $event->status;
+                    return isset($status[(string) $loggedInUserId]) && $status[(string) $loggedInUserId] == "1";
+                });
         }
         return $data;
     }

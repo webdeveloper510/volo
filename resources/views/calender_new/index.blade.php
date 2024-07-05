@@ -266,7 +266,7 @@ $venue = explode(',', $settings['venue']);
                                             <i class="ti ti-calendar-event"></i>
                                         </div>
                                         <div class="ms-3">
-                                            <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                            <h6 class="m-0">(${element.name})</h6>
                                             <small class="text-muted">${start_date}</small><br>
                                             <small class="text-muted">${start_time} - ${end_time}</small>
                                         </div>
@@ -392,7 +392,7 @@ $venue = explode(',', $settings['venue']);
                                                         <i class="ti ti-calendar-event"></i>
                                                     </div>
                                                     <div class="ms-3">
-                                                        <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                                        <h6 class="m-0">(${element.name})</h6>
                                                         <small class="text-muted">${start_date}</small><br>
                                                         <small class="text-muted">${start_time} - ${end_time}</small>
                                                     </div>
@@ -476,7 +476,7 @@ $venue = explode(',', $settings['venue']);
                                     <i class="ti ti-calendar-event"></i>
                                 </div>
                                 <div class="ms-3">
-                                    <h6 class="m-0">${element.eventname} (${element.name})</h6>
+                                    <h6 class="m-0">(${element.name})</h6>
                                     <small class="text-muted">${start_date}</small><br>
                                     <small class="text-muted">${start_time} - ${end_time}</small>
                                 </div>
@@ -626,9 +626,11 @@ $venue = explode(',', $settings['venue']);
                                     .then(response => response.json())
                                     .then(data => {
                                         const JSON = data.events;
-                                        // console.log(JSON);
+                                        console.log(JSON);
 
                                         if (JSON.length != 0) {
+                                            console.log('if');
+
                                             Json = [];
                                             JSON.forEach((event, index,
                                                 array) => {
@@ -671,7 +673,7 @@ $venue = explode(',', $settings['venue']);
                                                                                             <i class="ti ti-calendar-event"></i>
                                                                                         </div>
                                                                                         <div class="ms-3">
-                                                                                            <h6 class="m-0">${eventname} (${event.name})</h6>
+                                                                                            <h6 class="m-0">(${event.name})</h6>
                                                                                             <small class="text-muted">${start_time} - ${end_time}</small>
                                                                                         </div>
                                                                                     </div>
@@ -694,9 +696,10 @@ $venue = explode(',', $settings['venue']);
                                                 .join(
                                                     '');
                                         } else {
+                                            console.log('else');
                                             // localStorage.setItem('startDate', JSON.stringify(start));
-                                            openPopupForm(selectedStartDate,
-                                                selectedEndDate);
+                                            // openPopupForm(selectedStartDate,
+                                            //     selectedEndDate);
                                             lists =
                                                 `<h6 class="m-0">No event found!</h6>`;
                                             document.getElementById(
