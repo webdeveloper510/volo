@@ -246,6 +246,7 @@ class LeadController extends Controller
             $lead['lead_status'] = ($request->is_active == 'on') ? 1 : 0;
             $lead['category'] = $request->category ?? '';
             $lead['sales_subcategory'] = $request->sales_subcategory ?? '';
+            $lead['competitor'] = $request->competitor ?? '';
             $lead['products'] = json_encode($request->products) ?? '';
             $lead['hardware_one_time'] = json_encode($hardware_one_time);
             $lead['hardware_maintenance'] = json_encode($hardware_maintenance);
@@ -625,6 +626,7 @@ class LeadController extends Controller
             $lead['lead_status'] = ($request->is_active == 'on') ? 1 : 0;
             $lead['category'] = $request->category ?? '';
             $lead['sales_subcategory'] = $request->sales_subcategory ?? '';
+            $lead['competitor'] = $request->competitor ?? '';
             $lead['products'] = json_encode($request->products) ?? '';
             $lead['hardware_one_time'] = json_encode($hardware_one_time);
             $lead['hardware_maintenance'] = json_encode($hardware_maintenance);

@@ -102,6 +102,9 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
                     <dt class="col-md-6"><span class="h6  mb-0">{{__('Sales Subcategory')}}</span></dt>
                     <dd class="col-md-6"><span class="">{{ $lead->sales_subcategory ?? '--'}}</span></dd>
 
+                    <dt class="col-md-6"><span class="h6  mb-0">{{__('Competitor')}}</span></dt>
+                    <dd class="col-md-6"><span class="">{{ $lead->competitor ?? '--'}}</span></dd>
+
                     <dt class="col-md-6"><span class="h6  mb-0">{{__('Status')}}</span></dt>
                     <dd class="col-md-6"><span class="">
                             @if($lead->status == 0)

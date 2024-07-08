@@ -371,6 +371,14 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             </select>
         </div>
     </div>
+    <div class="col-6 need_full">
+        <div class="form-group">
+            <?php echo e(Form::label('competitor',__('Competitor'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('competitor',null,array('class'=>'form-control','placeholder'=>__('Enter Competitor')))); ?>
+
+        </div>
+    </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
         <h5 style="margin-left: 14px;"><?php echo e(__('Products')); ?></h5>
     </div>

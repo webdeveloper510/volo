@@ -12,7 +12,7 @@ class Lead extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = [
         'user_id',
-        'opportunity_name',       
+        'opportunity_name',
         'primary_name',
         'primary_email',
         'primary_contact',
@@ -47,6 +47,7 @@ class Lead extends Model
         'assigned_user',
         'category',
         'sales_subcategory',
+        'competitor',
         'products',
         'hardware_one_time',
         'hardware_maintenance',
