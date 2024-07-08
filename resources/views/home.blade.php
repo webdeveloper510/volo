@@ -84,7 +84,7 @@
                 <div class="row">
                     <div class="col-3 prospecting-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2 opportunity-title">Prospecting ({{ $prospectingOpportunitiesCount }}) <span class="prospecting-opportunities">${{ human_readable_number($prospectingOpportunitiesSum) }}</span></h5>
+                            <h5 class="card-title mb-2 opportunity-title">NDAs ({{ $prospectingOpportunitiesCount }}) <span class="prospecting-opportunities">${{ human_readable_number($prospectingOpportunitiesSum) }}</span></h5>
                             <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="{{ human_readable_number($prospectingOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($prospectingOpportunities as $prospectingOpportunity)
@@ -99,7 +99,7 @@
                                         @endif
                                         @can('Show Lead')
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$prospectingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Prospecting Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$prospectingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('NDA Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
@@ -267,7 +267,7 @@
                     </div>
                     <div class="col-3 post-purchase-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Post Purchase ({{ $postPurchaseOpportunitiesCount }}) <span class="postpurchase-opportunities">${{ human_readable_number($postPurchaseOpportunitiesSum) }}</span></h5>
+                            <h5 class="card-title mb-2">Contractual ({{ $postPurchaseOpportunitiesCount }}) <span class="postpurchase-opportunities">${{ human_readable_number($postPurchaseOpportunitiesSum) }}</span></h5>
                             <input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="{{ human_readable_number($postPurchaseOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($postPurchaseOpportunities as $postPurchaseOpportunity)
@@ -283,7 +283,7 @@
                                         @endif
                                         @can('Show Lead')
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$postPurchaseOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Post Purchase Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$postPurchaseOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Contractual Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
@@ -552,21 +552,35 @@
         // Attach change event listeners to the filters
         $('#team_member, #region, #products').change(handleFilterChange);
 
+        function formatTypeText(text) {
+            console.log('Original Text:', text);
+
+            // Direct replacements
+            if (text === 'prospecting') {
+                text = 'NDAs';
+            } else if (text === 'post_purchase') {
+                text = 'Contractual';
+            } else {
+                // Default formatting if no specific replacement found
+                text = text
+                    .split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    .join(' ');
+            }
+
+            console.log('Formatted Text:', text);
+            return text;
+        }
+
         function generateOpportunityHTML(type, baseUrl, data) {
+            console.log(type);
+
             var html = '';
 
             if (data && data.lead && data.lead.length > 0) {
                 var count = data.count;
                 var sum = data.sum;
                 var sumDisplay = sum ? human_readable_number(sum) : '0';
-
-                function formatTypeText(text) {
-                    return text
-                        .split('_')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                        .join(' ');
-                }
-
                 var formattedType = formatTypeText(type);
 
                 html += '<div class="inner_col">';
@@ -588,13 +602,6 @@
         }
 
         function generateNoRecordHTML(type) {
-            function formatTypeText(text) {
-                return text
-                    .split('_')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                    .join(' ');
-            }
-
             var formattedType = formatTypeText(type);
 
             var html = '<div class="inner_col">';

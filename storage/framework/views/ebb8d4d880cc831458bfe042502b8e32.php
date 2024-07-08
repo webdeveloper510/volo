@@ -85,7 +85,7 @@
                 <div class="row">
                     <div class="col-3 prospecting-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2 opportunity-title">Prospecting (<?php echo e($prospectingOpportunitiesCount); ?>) <span class="prospecting-opportunities">$<?php echo e(human_readable_number($prospectingOpportunitiesSum)); ?></span></h5>
+                            <h5 class="card-title mb-2 opportunity-title">NDAs (<?php echo e($prospectingOpportunitiesCount); ?>) <span class="prospecting-opportunities">$<?php echo e(human_readable_number($prospectingOpportunitiesSum)); ?></span></h5>
                             <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="<?php echo e(human_readable_number($prospectingOpportunitiesSum)); ?>">
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $prospectingOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prospectingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -101,7 +101,7 @@
                                         <?php endif; ?>
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$prospectingOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Prospecting Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$prospectingOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('NDA Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
@@ -274,7 +274,7 @@
                     </div>
                     <div class="col-3 post-purchase-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2">Post Purchase (<?php echo e($postPurchaseOpportunitiesCount); ?>) <span class="postpurchase-opportunities">$<?php echo e(human_readable_number($postPurchaseOpportunitiesSum)); ?></span></h5>
+                            <h5 class="card-title mb-2">Contractual (<?php echo e($postPurchaseOpportunitiesCount); ?>) <span class="postpurchase-opportunities">$<?php echo e(human_readable_number($postPurchaseOpportunitiesSum)); ?></span></h5>
                             <input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="<?php echo e(human_readable_number($postPurchaseOpportunitiesSum)); ?>">
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $postPurchaseOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $postPurchaseOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -291,7 +291,7 @@
                                         <?php endif; ?>
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$postPurchaseOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Post Purchase Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$postPurchaseOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Contractual Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
                                             </a>
                                         </div>
@@ -561,21 +561,35 @@
         // Attach change event listeners to the filters
         $('#team_member, #region, #products').change(handleFilterChange);
 
+        function formatTypeText(text) {
+            console.log('Original Text:', text);
+
+            // Direct replacements
+            if (text === 'prospecting') {
+                text = 'NDAs';
+            } else if (text === 'post_purchase') {
+                text = 'Contractual';
+            } else {
+                // Default formatting if no specific replacement found
+                text = text
+                    .split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                    .join(' ');
+            }
+
+            console.log('Formatted Text:', text);
+            return text;
+        }
+
         function generateOpportunityHTML(type, baseUrl, data) {
+            console.log(type);
+
             var html = '';
 
             if (data && data.lead && data.lead.length > 0) {
                 var count = data.count;
                 var sum = data.sum;
                 var sumDisplay = sum ? human_readable_number(sum) : '0';
-
-                function formatTypeText(text) {
-                    return text
-                        .split('_')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                        .join(' ');
-                }
-
                 var formattedType = formatTypeText(type);
 
                 html += '<div class="inner_col">';
@@ -597,13 +611,6 @@
         }
 
         function generateNoRecordHTML(type) {
-            function formatTypeText(text) {
-                return text
-                    .split('_')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                    .join(' ');
-            }
-
             var formattedType = formatTypeText(type);
 
             var html = '<div class="inner_col">';

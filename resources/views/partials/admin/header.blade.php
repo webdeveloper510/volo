@@ -1,5 +1,5 @@
 @php
-$users = \Auth::user();
+$users = \Auth::user()->type;
 // $profile = asset(Storage::url('upload/profile/'));
 $profile = \App\Models\Utility::get_file('upload/profile/');
 $unseenCounter = App\Models\ChMessage::where('to_id', Auth::user()->id)
@@ -84,19 +84,17 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     <li class="dash-item {{ \Request::route()->getName() == 'dashboard' ? ' active' : '' }}">
                                         <a href="{{ route('dashboard') }}" class="dash-link"><span class="dash-mtext">{{ __('Dashboard') }}</span></a>
                                     </li>
-                                    @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') ||
-                                    Gate::check('Manage User'))
-                                    <li class="dash-item {{ \Request::route()->getName() == 'siteusers'||\Request::route()->getName() == 'customer.info' ||
-                \Request::route()->getName() == 'event_customers'||
-                \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
-                'lead.userinfo'||\Request::route()->getName() ==
-                'event.userinfo'||\Request::route()->getName()=='categ' ? ' active' : '' }}">
+                                    <!-- @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') ||
+                                    Gate::check('Manage User')) -->
+                                    <li class="dash-item {{ \Request::route()->getName() == 'siteusers'|| \Request::route()->getName() == 'customer.info' ||
+                                                            \Request::route()->getName() == 'event_customers'   ||\Request::route()->getName() =='event.userinfo'||
+                                                            \Request::route()->getName()=='categories.index' ? ' active' : '' }}">
                                         <a href="{{route('siteusers')}}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Clients') }}</span>
                                         </a>
                                     </li>
 
-                                    @endif
+                                    <!-- @endif -->
                                     @if(\Auth::user()->type!='super admin')
                                     <li class="dash-item {{ \Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : '' }}">
                                         <a href="{{ route('calendernew.index') }}" class="dash-link">
@@ -105,7 +103,8 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li>
                                     @endif
                                     @can('Manage Lead')
-                                    <li class="dash-item {{ \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ? ' active' : '' }}">
+                                    <li class="dash-item {{ \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ||
+                                    \Request::route()->getName() == 'email.index' ? ' active' : '' }}">
                                         <a href="{{  array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Opportunities') }}</span>
                                         </a>
@@ -145,7 +144,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         <a href="{{ route('email.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Emails') }}</span></a>
                                     </li> -->
-                                    <li class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contract.show') ? 'active' : '' }}">
+                                    <li class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contracts.create' || Request::route()->getName() == 'contracts.new_contract') ? 'active' : '' }}">
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span class="dash-mtext">{{__('E-Sign')}}</span></a>
                                     </li>
                                     <li class="dash-item {{ \Request::route()->getName() == 'objective.index' ? ' active' : '' }}">
@@ -153,12 +152,14 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                             <span class="dash-mtext">{{ __('Objective Tracker') }}</span>
                                         </a>
                                     </li>
+                                    @if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner')
                                     <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                                         <a href="{{ route('settings') }}" class="dash-link">
                                             <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
                                             <span class="dash-mtext">{{ __('Settings') }}</span>
                                         </a>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="navbar-nav">

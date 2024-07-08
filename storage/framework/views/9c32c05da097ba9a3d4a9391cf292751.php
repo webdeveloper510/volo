@@ -142,12 +142,15 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-list"></i></span>
                     <span class="dash-mtext"><?php echo e(__('View Campaigns')); ?> </span></a>
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'customer.info' ||
-                \Request::route()->getName() == 'event_customers'||\Request::route()->getName() == 'siteusers' ||
-                \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() ==
-                'lead.userinfo'||\Request::route()->getName() ==
-                'event.userinfo'||\Request::route()->getName()=='categ' ? ' active ' :
-                ''): ?>
+
+                <?php if( \Request::route()->getName() == 'siteusers' ||
+                \Request::route()->getName() == 'categories.index' ? 'active' : ''): ?>
+
+                <!-- ( \Request::route()->getName() == 'customer.info' || \Request::route()->getName() == 'lead.index' ||
+                \Request::route()->getName() == 'event_customers' || \Request::route()->getName() == 'siteusers' ||
+                \Request::route()->getName() == 'lead_customers' || \Request::route()->getName() == 'lead.userinfo' ||
+                \Request::route()->getName() =='event.userinfo' || \Request::route()->getName()=='categ' ||
+                \Request::route()->getName() == 'categories.index' ? 'active' : '') -->
                 <a href="<?php echo e(route('siteusers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'siteusers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-users"></i></span>
                     <span class="dash-mtext"><?php echo e(__('All Clients')); ?> </span></a>
@@ -225,14 +228,18 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Review Event')); ?> </span></a>
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'lead.index' ): ?>
-                <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span></a>
+
+                <?php if( \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'email.index' ): ?>
+                <a href="<?php echo e(route('lead.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead.index' ? 'active' : ''); ?>">
+                    <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span>
                 </a>
-                <a href="<?php echo e(route('email.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'email.index' ?'active' : ''); ?>">
+                <a href="<?php echo e(route('email.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'email.index' ? 'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Emails')); ?> </span></a>
+                    <span class="dash-mtext"><?php echo e(__('Emails')); ?> </span>
+                </a>
                 <?php endif; ?>
+
                 <?php if(\Request::route()->getName() == 'lead.edit' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Edit Opportunity')); ?> </span></a>
@@ -243,16 +250,12 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('Opportunity')); ?> </span></a>
                 </a>
                 <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'email.index' ||\Request::route()->getName() == 'email.details'||\Request::route()->getName() == 'email.conversations'): ?>
-                <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Emails')); ?> </span></a>
-                </a>
-                <?php endif; ?>
-                <?php if(\Request::route()->getName() == 'contracts.index' ||\Request::route()->getName() == 'contracts.create'): ?>
+
+                <!-- <?php if(\Request::route()->getName() == 'contracts.index' ||\Request::route()->getName() == 'contracts.create'): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-contract"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Contracts')); ?> </span></a>
                 </a>
-                <?php endif; ?>
+                <?php endif; ?> -->
                 <!-- <li
                     class="dash-item <?php echo e(\Request::route()->getName() == 'calendar' || \Request::route()->getName() == 'calendar.index' ? ' active' : ''); ?>">
                     <a href="<?php echo e(route('calendar.index')); ?>" class="dash-link">
@@ -260,6 +263,18 @@ $category = explode(',', $settings['campaign_type']);
                             class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
                     </a>
                 </li> -->
+                <!-- <?php if(\Request::route()->getName() == 'contracts.index'): ?>
+                <a href="<?php echo e(route('contracts.index')); ?>" class="list-group-item list-group-item-action active">
+                    <span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext"><?php echo e(__('E-Sign')); ?> </span></a>
+                </a>
+                <?php endif; ?> -->
+                <?php if(\Request::route()->getName() == 'contracts.index' || \Request::route()->getName() ==
+                'contracts.create' || \Request::route()->getName() == 'contracts.new_contract'): ?>
+                <a href="#useradd-1" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'contracts.index' || \Request::route()->getName() == 'contracts.create' || \Request::route()->getName() == 'contracts.new_contract' ? ' active' : ''); ?>"><span class="fa-stack fa-lg pull-left"></span>
+                    <span class="dash-mtext"><?php echo e(__('E-Sign')); ?> </span></a>
+                </a>
+                <?php endif; ?>
             </div>
         </div>
     </div>

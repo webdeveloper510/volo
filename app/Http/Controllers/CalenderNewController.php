@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Meeting;
 use App\Models\Blockdate;
+use Spatie\Permission\Models\Role;
 
 class CalenderNewController extends Controller
 {
@@ -46,7 +47,11 @@ class CalenderNewController extends Controller
     public function eventinfo()
     {
         $loggedInUserId = \Auth::user()->id;
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
+        @$user_roles = \Auth::user()->user_roles;
+        @$userRole = Role::find($user_roles)->roleType;
+        $userType = \Auth::user()->type;
+        $userType = $userRole == 'company' ? 'owner' : $userType;
+        if ($userType = 'owner') {
             $events = Meeting::all();
         } else {
             $events = Meeting::where(function ($query) use ($loggedInUserId) {
@@ -68,7 +73,11 @@ class CalenderNewController extends Controller
         $startDate = "{$request->year}-{$request->month}-01";
         $endDate = date('Y-m-t', strtotime($startDate));
 
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
+        @$user_roles = \Auth::user()->user_roles;
+        @$userRole = Role::find($user_roles)->roleType;
+        $userType = \Auth::user()->type;
+        $userType = $userRole == 'company' ? 'owner' : $userType;
+        if ($userType = 'owner') {
             $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         } else {
             $data = Meeting::where(function ($query) use ($loggedInUserId) {
