@@ -148,6 +148,7 @@
                             <input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="{{ human_readable_number($demoOrMeetingOpportunitiesSum) }}">
                             <div class="scrol-card">
                                 @foreach($demoOrMeetingOpportunities as $demoOrMeetingOpportunity)
+                                @if($demoOrMeetingOpportunity->sales_stage == 'New')
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
@@ -168,6 +169,7 @@
                                         <span class="opportunity-price">{{ getCurrencySign($demoOrMeetingOpportunity['currency']) }}{{ $demoOrMeetingOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
+                                @endif
                                 @endforeach
                             </div>
                         </div>
