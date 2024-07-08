@@ -553,8 +553,6 @@
         $('#team_member, #region, #products').change(handleFilterChange);
 
         function formatTypeText(text) {
-            console.log('Original Text:', text);
-
             // Direct replacements
             if (text === 'prospecting') {
                 text = 'NDAs';
@@ -567,14 +565,10 @@
                     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                     .join(' ');
             }
-
-            console.log('Formatted Text:', text);
             return text;
         }
 
         function generateOpportunityHTML(type, baseUrl, data) {
-            console.log(type);
-
             var html = '';
 
             if (data && data.lead && data.lead.length > 0) {

@@ -58,7 +58,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <th scope="col" class="sort" id="myInput" data-sort="name"><?php echo e(__('Company')); ?> <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" id="teamMember" data-sort="assigned_user">Team Member <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Opportunity Value')); ?> <span class="opticy"></span></th>
-                                                <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"></span></th>
+                                                <!-- <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"></span></th> -->
                                                 <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
                                                 <th scope="col" class="sort"><?php echo e(__('Sales Stage')); ?><span class="opticy"></span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Created On')); ?><span class="opticy"></span></th>
@@ -97,7 +97,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                         <?php endif; ?>
                                                     </span>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <select name="lead_status" id="lead_status" class="form-select" data-id="<?php echo e($lead->id); ?>">
                                                         <?php $__currentLoopData = $statuss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <option value="<?php echo e($key); ?>" <?php echo e(isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : ""); ?>>
@@ -105,7 +105,7 @@ $proposalstatus = \App\Models\Lead::$status;
 
                                                         </option>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <select name="drop_status" id="drop_status" class="form-select" data-id="<?php echo e($lead->id); ?>">
                                                         <?php $__currentLoopData = $proposalstatus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

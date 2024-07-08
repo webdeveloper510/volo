@@ -56,7 +56,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <th scope="col" class="sort" id="myInput" data-sort="name">{{__('Company')}} <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" id="teamMember" data-sort="assigned_user">Team Member <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" data-sort="budget">{{__('Opportunity Value')}} <span class="opticy"></span></th>
-                                                <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th>
+                                                <!-- <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th> -->
                                                 <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
                                                 <th scope="col" class="sort">{{__('Sales Stage')}}<span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"></span></th>
@@ -91,14 +91,14 @@ $proposalstatus = \App\Models\Lead::$status;
                                                         @endif
                                                     </span>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <select name="lead_status" id="lead_status" class="form-select" data-id="{{$lead->id}}">
                                                         @foreach($statuss as $key => $stat)
                                                         <option value="{{ $key }}" {{ isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : "" }}>
                                                             {{ $stat }}
                                                         </option>
                                                         @endforeach
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <select name="drop_status" id="drop_status" class="form-select" data-id="{{$lead->id}}">
                                                         @foreach($proposalstatus as $key => $stat)
