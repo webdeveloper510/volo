@@ -236,8 +236,8 @@
                                 <h3>Upload Documents</h3>
                                 <?php echo e(Form::open(array('route' => ['lead.uploaddoc', $lead->id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
 
-                                <label for="customerattachment">Attachment</label>
-                                <input type="file" name="customerattachment" id="customerattachment" class="form-control" required>
+                                <label for="lead_file">Attachment</label>
+                                <input type="file" name="lead_file" id="lead_file" class="form-control" required>
                                 <input type="submit" value="Submit" class="btn btn-primary mt-4" style="float: right;">
                                 <?php echo e(Form::close()); ?>
 

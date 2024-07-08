@@ -1433,6 +1433,10 @@ class LeadController extends Controller
     }
     public function lead_upload_doc(Request $request, $id)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
+
         $validator = \Validator::make(
             $request->all(),
             [
