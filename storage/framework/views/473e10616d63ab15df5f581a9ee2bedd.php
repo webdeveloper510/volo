@@ -138,7 +138,6 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                             <span class="dash-mtext"><?php echo e(__('Campaigns')); ?></span></a>
                                     </li>
                                     <?php endif; ?>
-
                                     <!-- <li
                                         class="dash-item  <?php echo e(Request::route()->getName() == 'email.index' ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('email.index')); ?>" class="dash-link">
@@ -147,11 +146,13 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     <li class="dash-item  <?php echo e((Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contracts.create' || Request::route()->getName() == 'contracts.new_contract') ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('contracts.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('E-Sign')); ?></span></a>
                                     </li>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Objective')): ?>                                    
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'objective.index' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('objective.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Objective Tracker')); ?></span>
                                         </a>
                                     </li>
+                                    <?php endif; ?>
                                     <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>
                                     <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('settings')); ?>" class="dash-link">

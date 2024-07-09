@@ -1,31 +1,33 @@
-@php
+<?php
 $currentYear = date('Y');
 $years = [
 $currentYear - 1 => $currentYear - 1,
 $currentYear => $currentYear,
 $currentYear + 1 => $currentYear + 1
 ];
-@endphp
-@extends('layouts.admin')
-@section('page-title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('title')
-{{ __('Objective Tracker') }}
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('objective.index') }}">{{ __('Objective Tracker') }}</a></li>
-<li class="breadcrumb-item">{{ __('Objective Tracker') }}</li>
-@endsection
+?>
+
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(__('Objective Tracker')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('objective.index')); ?>"><?php echo e(__('Objective Tracker')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Objective Tracker')); ?></li>
+<?php $__env->stopSection(); ?>
 
 <!-- Include Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-@section('action-btn')
-<a href="#" data-url="{{ route('objective.create', ['objective', 0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('Create New Objective') }}" title="{{ __('Create') }}" class="btn btn-sm btn-primary btn-icon m-1">
+<?php $__env->startSection('action-btn'); ?>
+<a href="#" data-url="<?php echo e(route('objective.create', ['objective', 0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Objective')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-@endsection
+<?php $__env->stopSection(); ?>
 <style>
     .container {
         display: flex;
@@ -140,7 +142,7 @@ $currentYear + 1 => $currentYear + 1
     }
 </style>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-sm-12">
         <div class="row">
@@ -150,11 +152,11 @@ $currentYear + 1 => $currentYear + 1
                         <div class="table-responsive overflow_hidden">
                             <div class="row">
                                 <div class="col-4 mt-3">
-                                    @can('Create Objective')
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Objective')): ?>
                                     <a href="">
-                                        <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
+                                        <img src="<?php echo e($logo.'new-volo-transparent-bg.png'); ?>" alt="logo" class='logo_img'>
                                     </a>
-                                    @endcan
+                                    <?php endif; ?>
                                     <table class="table" style="width: 100%; border-collapse: collapse; margin-top:8px;">
                                         <tr class="table-header table-header_add">
                                             <th colspan="2">
@@ -170,17 +172,17 @@ $currentYear + 1 => $currentYear + 1
                                             <td>
                                                 <select class="input_form" name="user_name" id="user_name">
                                                     <option value="" selected disabled>Select Name</option>
-                                                    @foreach ($assinged_staff as $staff)
-                                                    <option value="{{$staff->id}}">{{$staff->name}}</option>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </td>
                                             <td>
                                                 <select class="input_form" name="period" id="period">
                                                     <option value="" selected disabled>Select Period</option>
-                                                    @foreach ($years as $year)
-                                                    <option value="{{ $year }}">{{ $year }}</option>
-                                                    @endforeach
+                                                    <?php $__currentLoopData = $years; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($year); ?>"><?php echo e($year); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </td>
                                         </tr>
@@ -199,23 +201,23 @@ $currentYear + 1 => $currentYear + 1
                                         <tbody>
                                             <tr>
                                                 <td class="outstanding">Outstanding</td>
-                                                <td class="outstanding outstanding-count">{{ $outstandingTask ? $outstandingTask : 0 }}</td>
-                                                <td class="outstanding outstanding-percentage">{{ $outstandingTaskPercentage }}%</td>
+                                                <td class="outstanding outstanding-count"><?php echo e($outstandingTask ? $outstandingTask : 0); ?></td>
+                                                <td class="outstanding outstanding-percentage"><?php echo e($outstandingTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td class="in-progress">In Progress</td>
-                                                <td class="in-progress in-progress-count">{{ $inProgressTask ? $inProgressTask : 0 }}</td>
-                                                <td class="in-progress in-progress-percentage">{{ $inProgressTaskPercentage }}%</td>
+                                                <td class="in-progress in-progress-count"><?php echo e($inProgressTask ? $inProgressTask : 0); ?></td>
+                                                <td class="in-progress in-progress-percentage"><?php echo e($inProgressTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td class="complete">Complete</td>
-                                                <td class="complete complete-count">{{ $completeTask ? $completeTask : 0 }}</td>
-                                                <td class="complete complete-percentage">{{ $completeTaskPercentage }}%</td>
+                                                <td class="complete complete-count"><?php echo e($completeTask ? $completeTask : 0); ?></td>
+                                                <td class="complete complete-percentage"><?php echo e($completeTaskPercentage); ?>%</td>
                                             </tr>
                                             <tr>
                                                 <td>Total:</td>
-                                                <td class="total total-count">{{ $totalTask }}</td>
-                                                <td class="total total-percentage">{{ $totalTaskPercentage }}%</td>
+                                                <td class="total total-count"><?php echo e($totalTask); ?></td>
+                                                <td class="total total-percentage"><?php echo e($totalTaskPercentage); ?>%</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -229,11 +231,12 @@ $currentYear + 1 => $currentYear + 1
                                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownTeamMember" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownTeamMember">
-                                                    @foreach($uniqueTeamMembers as $teamMember)
+                                                    <?php $__currentLoopData = $uniqueTeamMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $teamMember): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="dropdown-item">
-                                                        <input type="checkbox" class="team-member-filter" value="{{ $teamMember->user->name }}"> {{ $teamMember->user->name }}
+                                                        <input type="checkbox" class="team-member-filter" value="<?php echo e($teamMember->user->name); ?>"> <?php echo e($teamMember->user->name); ?>
+
                                                     </div>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
                                             </div>
                                         </th>
@@ -242,11 +245,12 @@ $currentYear + 1 => $currentYear + 1
                                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownCategory">
-                                                    @foreach($uniqueCategory as $category)
+                                                    <?php $__currentLoopData = $uniqueCategory; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="dropdown-item">
-                                                        <input type="checkbox" class="category-filter" value="{{ $category }}"> {{ $category }}
+                                                        <input type="checkbox" class="category-filter" value="<?php echo e($category); ?>"> <?php echo e($category); ?>
+
                                                     </div>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
                                             </div>
                                         </th>
@@ -258,11 +262,12 @@ $currentYear + 1 => $currentYear + 1
                                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownStatus" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownStatus">
-                                                    @foreach($uniqueStatus as $status)
+                                                    <?php $__currentLoopData = $uniqueStatus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="dropdown-item">
-                                                        <input type="checkbox" class="status-filter" value="{{ $status }}"> {{ $status }}
+                                                        <input type="checkbox" class="status-filter" value="<?php echo e($status); ?>"> <?php echo e($status); ?>
+
                                                     </div>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
                                             </div>
                                         </th>
@@ -275,14 +280,14 @@ $currentYear + 1 => $currentYear + 1
                                     </tr>
                                 </thead>
                                 <tbody id="objectives-tbody">
-                                    @foreach ($objectives as $objective)
+                                    <?php $__currentLoopData = $objectives; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $objective): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td class="border_table_set" contenteditable="true">{{ !empty($objective->user->name) ? $objective->user->name : '' }}</td>
-                                        <td class="border_table_set" contenteditable="true">{{ $objective->category }}</td>
-                                        <td class="border_table_set" contenteditable="true">{{ !empty($objective->objective) ? $objective->objective : 'N/A' }}</td>
-                                        <td class="border_table_set" contenteditable="true">{{ !empty($objective->measure) ? $objective->measure : 'N/A' }}</td>
-                                        <td class="border_table_set" contenteditable="true">{{ \Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y') }}</td>
-                                        @php
+                                        <td class="border_table_set" contenteditable="true"><?php echo e(!empty($objective->user->name) ? $objective->user->name : ''); ?></td>
+                                        <td class="border_table_set" contenteditable="true"><?php echo e($objective->category); ?></td>
+                                        <td class="border_table_set" contenteditable="true"><?php echo e(!empty($objective->objective) ? $objective->objective : 'N/A'); ?></td>
+                                        <td class="border_table_set" contenteditable="true"><?php echo e(!empty($objective->measure) ? $objective->measure : 'N/A'); ?></td>
+                                        <td class="border_table_set" contenteditable="true"><?php echo e(\Carbon\Carbon::parse($objective->key_dates)->format('m/d/Y')); ?></td>
+                                        <?php
                                         $color = '';
 
                                         if(isset($objective->status)) {
@@ -294,36 +299,41 @@ $currentYear + 1 => $currentYear + 1
                                         $color = 'color: red;';
                                         }
                                         }
-                                        @endphp
+                                        ?>
 
                                         <td class="border_table_set" contenteditable="true" style="width: 135px;">
-                                            <select name="update_status" class="form-control status-dropdown" style="{{ $color }}" data-objective-id="{{ $objective->id }}" onchange="updateStatus(this)">
-                                                <option value="Complete" style="color: green;" {{ $objective->status == 'Complete' ? 'selected' : '' }}>Complete</option>
-                                                <option value="In Progress" style="color: orange;" {{ $objective->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
-                                                <option value="Outstanding" style="color: red;" {{ $objective->status == 'Outstanding' ? 'selected' : '' }}>Outstanding</option>
+                                            <select name="update_status" class="form-control status-dropdown" style="<?php echo e($color); ?>" data-objective-id="<?php echo e($objective->id); ?>" onchange="updateStatus(this)">
+                                                <option value="Complete" style="color: green;" <?php echo e($objective->status == 'Complete' ? 'selected' : ''); ?>>Complete</option>
+                                                <option value="In Progress" style="color: orange;" <?php echo e($objective->status == 'In Progress' ? 'selected' : ''); ?>>In Progress</option>
+                                                <option value="Outstanding" style="color: red;" <?php echo e($objective->status == 'Outstanding' ? 'selected' : ''); ?>>Outstanding</option>
                                             </select>
                                         </td>
 
                                         <td class="border_table_set" contenteditable="true">
-                                            {{ !empty($objective->q1_updates) ? $objective->q1_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q1_updates) ? $objective->q1_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set" contenteditable="true">
-                                            {{ !empty($objective->q2_updates) ? $objective->q2_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q2_updates) ? $objective->q2_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set" contenteditable="true">
-                                            {{ !empty($objective->q3_updates) ? $objective->q3_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q3_updates) ? $objective->q3_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set" contenteditable="true">
-                                            {{ !empty($objective->q4_updates) ? $objective->q4_updates : 'N/A' }}
+                                            <?php echo e(!empty($objective->q4_updates) ? $objective->q4_updates : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set" contenteditable="true">
-                                            {{ !empty($objective->eoy_review) ? $objective->eoy_review : 'N/A' }}
+                                            <?php echo e(!empty($objective->eoy_review) ? $objective->eoy_review : 'N/A'); ?>
+
                                         </td>
                                         <td class="border_table_set">
-                                            <button class="btn btn-secondary save-button" data-objective-id="{{ $objective->id }}">Save</button>
+                                            <button class="btn btn-secondary save-button" data-objective-id="<?php echo e($objective->id); ?>">Save</button>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
                         </div>
@@ -362,10 +372,10 @@ $currentYear + 1 => $currentYear + 1
         const newStatus = select.value;
 
         $.ajax({
-            url: "{{ route('objective-status.update') }}",
+            url: "<?php echo e(route('objective-status.update')); ?>",
             type: 'POST',
             data: {
-                _token: '{{ csrf_token() }}',
+                _token: '<?php echo e(csrf_token()); ?>',
                 id: objectiveId,
                 status: newStatus
             },
@@ -393,7 +403,7 @@ $currentYear + 1 => $currentYear + 1
             var period = $('#period').val();
 
             $.ajax({
-                url: '{{ route("filter-objective.objective") }}',
+                url: '<?php echo e(route("filter-objective.objective")); ?>',
                 method: 'GET',
                 data: {
                     user_id: userId,
@@ -468,10 +478,10 @@ $currentYear + 1 => $currentYear + 1
         const period = $('#period').val();
 
         $.ajax({
-            url: "{{ route('objective-status-filter.update') }}",
+            url: "<?php echo e(route('objective-status-filter.update')); ?>",
             type: 'POST',
             data: {
-                _token: '{{ csrf_token() }}',
+                _token: '<?php echo e(csrf_token()); ?>',
                 objective_id: objectiveId,
                 status: newStatus,
                 user_id: userId,
@@ -500,7 +510,7 @@ $currentYear + 1 => $currentYear + 1
         var $row = $(this).closest('tr');
         var objectiveId = $(this).data('objective-id');
         var rowData = {
-            _token: '{{ csrf_token() }}',
+            _token: '<?php echo e(csrf_token()); ?>',
             id: objectiveId,
             category: $row.find('td').eq(1).text(),
             objective: $row.find('td').eq(2).text(),
@@ -515,7 +525,7 @@ $currentYear + 1 => $currentYear + 1
         };
 
         $.ajax({
-            url: "{{ route('update-objective.objective') }}",
+            url: "<?php echo e(route('update-objective.objective')); ?>",
             type: 'POST',
             data: rowData,
             success: function(response) {
@@ -606,4 +616,5 @@ $currentYear + 1 => $currentYear + 1
         filterTable();
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/objective_tracker/index.blade.php ENDPATH**/ ?>

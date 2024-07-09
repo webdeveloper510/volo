@@ -54,12 +54,11 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
 
-        $user = User::where('email',$request->email)->first();
-        if(!$user){
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
             return redirect()->back()->with('error', 'Invalid Credentials');
         }
-        if($user->is_active == 0)
-        {
+        if ($user->is_active == 0) {
             return redirect()->back()->with('status', 'User is not Active Please Activate User.');
         }
 
@@ -106,7 +105,7 @@ class AuthenticatedSessionController extends Controller
         $query['referrer_host'] = !empty($referrer['host']);
         $query['referrer_path'] = !empty($referrer['path']);
 
-        isset($query['timezone'])?date_default_timezone_set($query['timezone']):'';
+        isset($query['timezone']) ? date_default_timezone_set($query['timezone']) : '';
 
         $json = json_encode($query);
 
@@ -125,7 +124,7 @@ class AuthenticatedSessionController extends Controller
         if ($user->delete_status == 1) {
             auth()->logout();
         }
-        if($user->type == 'Owner') {
+        if ($user->type == 'Owner') {
             $plan = Plan::find($user->plan);
             if ($plan) {
                 if ($plan->duration != 'lifetime') {
@@ -175,9 +174,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        echo "here";
-        die;
-
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

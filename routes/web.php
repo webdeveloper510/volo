@@ -98,6 +98,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomOpportunitiesController;
 use App\Http\Controllers\ObjectiveTrackerController;
 use App\Models\Billing;
+use App\Services\PowerBiService;
 use Google\Service\ServiceConsumerManagement\BillingConfig;
 use Illuminate\Support\Facades\DB;
 
@@ -1540,3 +1541,12 @@ Route::group(
 // Routes for Accept and Decline event
 Route::get('/accept-event', [MeetingController::class, 'handleEventResponse'])->name('accept_event');
 Route::get('/decline-event', [MeetingController::class, 'handleEventResponse'])->name('decline_event');
+
+Route::get('/get-powerbi-token', function (PowerBiService $powerBiService) {
+    try {
+        $accessToken = $powerBiService->getAccessToken();
+        return response()->json(['access_token' => $accessToken]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});

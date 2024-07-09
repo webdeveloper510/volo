@@ -50,7 +50,6 @@ class RoleController extends Controller
                 }
                 $permissions = $permissions->pluck('name', 'id')->toArray();
             }
-
             return view('role.create', ['permissions' => $permissions]);
         } else {
             return redirect()->back()->with('error', 'Permission denied.');

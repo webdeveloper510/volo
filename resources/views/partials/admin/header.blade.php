@@ -138,7 +138,6 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                             <span class="dash-mtext">{{ __('Campaigns') }}</span></a>
                                     </li>
                                     @endcan
-
                                     <!-- <li
                                         class="dash-item  {{ Request::route()->getName() == 'email.index' ? 'active' : '' }}">
                                         <a href="{{ route('email.index') }}" class="dash-link">
@@ -147,11 +146,13 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     <li class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contracts.create' || Request::route()->getName() == 'contracts.new_contract') ? 'active' : '' }}">
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span class="dash-mtext">{{__('E-Sign')}}</span></a>
                                     </li>
+                                    @can('Manage Objective')                                    
                                     <li class="dash-item {{ \Request::route()->getName() == 'objective.index' ? ' active' : '' }}">
                                         <a href="{{ route('objective.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Objective Tracker') }}</span>
                                         </a>
                                     </li>
+                                    @endcan
                                     @if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner')
                                     <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                                         <a href="{{ route('settings') }}" class="dash-link">
