@@ -150,11 +150,9 @@ $currentYear + 1 => $currentYear + 1
                         <div class="table-responsive overflow_hidden">
                             <div class="row">
                                 <div class="col-4 mt-3">
-                                    @can('Create Objective')
                                     <a href="">
                                         <img src="{{$logo.'new-volo-transparent-bg.png'}}" alt="logo" class='logo_img'>
                                     </a>
-                                    @endcan
                                     <table class="table" style="width: 100%; border-collapse: collapse; margin-top:8px;">
                                         <tr class="table-header table-header_add">
                                             <th colspan="2">
