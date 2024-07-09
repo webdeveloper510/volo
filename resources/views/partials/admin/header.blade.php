@@ -143,10 +143,12 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         <a href="{{ route('email.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Emails') }}</span></a>
                                     </li> -->
+                                    @can('Manage Contract')
                                     <li class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contracts.create' || Request::route()->getName() == 'contracts.new_contract') ? 'active' : '' }}">
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span class="dash-mtext">{{__('E-Sign')}}</span></a>
                                     </li>
-                                    @can('Manage Objective')                                    
+                                    @endcan
+                                    @can('Manage Objective')
                                     <li class="dash-item {{ \Request::route()->getName() == 'objective.index' ? ' active' : '' }}">
                                         <a href="{{ route('objective.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Objective Tracker') }}</span>
