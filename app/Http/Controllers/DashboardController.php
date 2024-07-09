@@ -908,7 +908,7 @@ class DashboardController extends Controller
                 $sum += $convertedValue;
 
                 // Convert lead to array or model as needed
-                $leadArray[] = $lead->toArray(); 
+                $leadArray[] = $lead->toArray();
             }
 
             $opportunities[$stage] = [

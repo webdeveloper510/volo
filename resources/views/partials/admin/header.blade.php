@@ -97,13 +97,13 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     @endcan
 
                                     <!-- @endif -->
-                                    @if(\Auth::user()->type!='super admin')
+                                    <!-- @if(\Auth::user()->type!='super admin') -->
                                     <li class="dash-item {{ \Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : '' }}">
                                         <a href="{{ route('calendernew.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Calendar') }}</span>
                                         </a>
                                     </li>
-                                    @endif
+                                    <!-- @endif -->
                                     @can('Manage Lead')
                                     <li class="dash-item {{ \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ||
                                     \Request::route()->getName() == 'email.index' ? ' active' : '' }}">

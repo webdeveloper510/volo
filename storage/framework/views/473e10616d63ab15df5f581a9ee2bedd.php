@@ -86,6 +86,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li>
                                     <!-- <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') ||
                                     Gate::check('Manage User')): ?> -->
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'siteusers'|| \Request::route()->getName() == 'customer.info' ||
                                                             \Request::route()->getName() == 'event_customers'   ||\Request::route()->getName() =='event.userinfo'||
                                                             \Request::route()->getName()=='categories.index' ? ' active' : ''); ?>">
@@ -93,15 +94,16 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                             <span class="dash-mtext"><?php echo e(__('Clients')); ?></span>
                                         </a>
                                     </li>
+                                    <?php endif; ?>
 
                                     <!-- <?php endif; ?> -->
-                                    <?php if(\Auth::user()->type!='super admin'): ?>
+                                    <!-- <?php if(\Auth::user()->type!='super admin'): ?> -->
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('calendernew.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
                                         </a>
                                     </li>
-                                    <?php endif; ?>
+                                    <!-- <?php endif; ?> -->
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ||
                                     \Request::route()->getName() == 'email.index' ? ' active' : ''); ?>">
@@ -143,10 +145,12 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         <a href="<?php echo e(route('email.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Emails')); ?></span></a>
                                     </li> -->
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
                                     <li class="dash-item  <?php echo e((Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contracts.create' || Request::route()->getName() == 'contracts.new_contract') ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('contracts.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('E-Sign')); ?></span></a>
                                     </li>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Objective')): ?>                                    
+                                    <?php endif; ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Objective')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'objective.index' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('objective.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Objective Tracker')); ?></span>

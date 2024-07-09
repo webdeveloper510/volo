@@ -151,7 +151,6 @@
                             <input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="<?php echo e(human_readable_number($demoOrMeetingOpportunitiesSum)); ?>">
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $demoOrMeetingOpportunities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $demoOrMeetingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($demoOrMeetingOpportunity->sales_stage == 'New'): ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
                                         <h5 class="card-text">
@@ -173,7 +172,6 @@
                                         <span class="opportunity-price"><?php echo e(getCurrencySign($demoOrMeetingOpportunity['currency'])); ?><?php echo e($demoOrMeetingOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-                                <?php endif; ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
