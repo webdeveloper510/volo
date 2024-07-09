@@ -86,6 +86,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li>
                                     <!-- @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') ||
                                     Gate::check('Manage User')) -->
+                                    @can('Manage User')
                                     <li class="dash-item {{ \Request::route()->getName() == 'siteusers'|| \Request::route()->getName() == 'customer.info' ||
                                                             \Request::route()->getName() == 'event_customers'   ||\Request::route()->getName() =='event.userinfo'||
                                                             \Request::route()->getName()=='categories.index' ? ' active' : '' }}">
@@ -93,6 +94,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                             <span class="dash-mtext">{{ __('Clients') }}</span>
                                         </a>
                                     </li>
+                                    @endcan
 
                                     <!-- @endif -->
                                     @if(\Auth::user()->type!='super admin')
