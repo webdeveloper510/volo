@@ -128,7 +128,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         </a>
                                     </li> -->
                                     {{-- @endcan --}}
-                                    @can('Manage Payment')
+                                    @can('Manage Report')
                                     <li class="dash-item {{ \Request::route()->getName() =='report.leadsanalytic' ||  \Request::route()->getName() =='report.eventanalytic'|| \Request::route()->getName() =='report.customersanalytic' || \Request::route()->getName() =='report.billinganalytic'? 'active' :'' }}">
                                         <a href="{{ route('report.leadsanalytic') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Reports') }}</span></a>
@@ -150,14 +150,16 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span class="dash-mtext">{{__('E-Sign')}}</span></a>
                                     </li>
                                     @endcan
+
                                     @can('Manage Objective')
-                                    <li class="dash-item {{ \Request::route()->getName() == 'objective.index' ? ' active' : '' }}">
+                                    <li class="dash-item {{ (Request::route()->getName() == 'objective.index' || Request::route()->getName() == 'objective.create' || Request::route()->getName() == 'objective.store' || Request::route()->getName() == 'objective-status.update' || Request::route()->getName() == 'objective-status-filter.update' || Request::route()->getName() == 'filter-objective.objective' || Request::route()->getName() == 'update-objective.objective') ? ' active' : '' }}">
                                         <a href="{{ route('objective.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Objective Tracker') }}</span>
                                         </a>
                                     </li>
                                     @endcan
-                                    @if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner')
+
+                                    @if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner' || \Auth::user()->type == 'admin')
                                     <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">
                                         <a href="{{ route('settings') }}" class="dash-link">
                                             <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->

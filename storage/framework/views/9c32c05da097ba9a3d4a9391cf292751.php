@@ -27,7 +27,7 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'settings'): ?>
-                <?php if(\Auth::user()->type == 'owner'): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
                 <a href="#company-email-setting" class="list-group-item list-group-item-action" data-id="collapse16" onclick="showAccordion('collapse16')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Email')); ?></span>
@@ -55,7 +55,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('Team Member')); ?></span>
                 </a>
                 <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Nda')): ?>
                 <a href="#proposal-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse188')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
                     <!-- <span class="dash-mtext"><?php echo e(__('Proposal')); ?></span> -->
@@ -94,13 +94,13 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('Setup')); ?></span>
                 </a> -->
                 <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse20')">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Clients')); ?></span>
                 </a>
                 <?php endif; ?>
-                <?php if(\Auth::user()->type == 'owner'): ?>
+                <?php if(\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin' || \Auth::user()->type == 'super adminc'): ?>
                 <!-- <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="<?php echo e(asset('icons/loading.png')); ?>" alt="" style="width: 22px;"></span>
                     <span class="dash-mtext"><?php echo e(__('Buffer')); ?></span>

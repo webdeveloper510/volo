@@ -58,7 +58,7 @@ class LeadController extends Controller
                 $defualtView->view   = 'list';
                 User::userDefualtView($defualtView);
             } else {
-                $leads = Lead::with('accounts', 'assign_user')->where('user_id', \Auth::user()->id)->get();
+                $leads = Lead::where('assigned_user', \Auth::user()->id)->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'lead';

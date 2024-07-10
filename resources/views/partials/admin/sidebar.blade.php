@@ -27,7 +27,7 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 @endif
                 @if(\Request::route()->getName() == 'settings')
-                @if (\Auth::user()->type == 'owner')
+                @can('Manage Email')
                 <a href="#company-email-setting" class="list-group-item list-group-item-action" data-id="collapse16" onclick="showAccordion('collapse16')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope"></i></span>
                     <span class="dash-mtext">{{ __('Email') }}</span>
@@ -42,7 +42,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-sms"></i></span>
                     <span class="dash-mtext">{{ __('Twilio') }}</span>
                 </a>
-                @endif
+                @endcan
                 @if (\Auth::user()->type == 'super admin')
                 <a href="#recaptcha-settings" class="list-group-item list-group-item-action border-0">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-cog"></i></span>
@@ -55,7 +55,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Team Member') }}</span>
                 </a>
                 @endcan
-                @can('Manage User')
+                @can('Manage Nda')
                 <a href="#proposal-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse188')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
                     <!-- <span class="dash-mtext">{{ __('Proposal') }}</span> -->
@@ -94,13 +94,13 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Setup') }}</span>
                 </a> -->
                 @endif
-                @can('Manage Payment')
+                @can('Manage User')
                 <a href="#billing-setting" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse20')">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext">{{ __('Clients') }}</span>
                 </a>
                 @endcan
-                @if (\Auth::user()->type == 'owner')
+                @if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin' || \Auth::user()->type == 'super adminc')
                 <!-- <a href="#buffer-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse21')">
                     <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/loading.png')}}" alt="" style="width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Buffer') }}</span>

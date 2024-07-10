@@ -128,7 +128,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         </a>
                                     </li> -->
                                     
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Payment')): ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Report')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() =='report.leadsanalytic' ||  \Request::route()->getName() =='report.eventanalytic'|| \Request::route()->getName() =='report.customersanalytic' || \Request::route()->getName() =='report.billinganalytic'? 'active' :''); ?>">
                                         <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Reports')); ?></span></a>
@@ -150,14 +150,16 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         <a href="<?php echo e(route('contracts.index')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('E-Sign')); ?></span></a>
                                     </li>
                                     <?php endif; ?>
+
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Objective')): ?>
-                                    <li class="dash-item <?php echo e(\Request::route()->getName() == 'objective.index' ? ' active' : ''); ?>">
+                                    <li class="dash-item <?php echo e((Request::route()->getName() == 'objective.index' || Request::route()->getName() == 'objective.create' || Request::route()->getName() == 'objective.store' || Request::route()->getName() == 'objective-status.update' || Request::route()->getName() == 'objective-status-filter.update' || Request::route()->getName() == 'filter-objective.objective' || Request::route()->getName() == 'update-objective.objective') ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('objective.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Objective Tracker')); ?></span>
                                         </a>
                                     </li>
                                     <?php endif; ?>
-                                    <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner'): ?>
+
+                                    <?php if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner' || \Auth::user()->type == 'admin'): ?>
                                     <li class="dash-item  <?php echo e(Request::route()->getName() == 'settings' ? 'active' : ''); ?>">
                                         <a href="<?php echo e(route('settings')); ?>" class="dash-link">
                                             <!-- <span class="dash-micon"><i class="ti ti-settings"></i></span> -->
