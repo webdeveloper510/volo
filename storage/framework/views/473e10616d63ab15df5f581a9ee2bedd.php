@@ -1,6 +1,5 @@
 <?php
 $users = \Auth::user()->type;
-// $profile = asset(Storage::url('upload/profile/'));
 $profile = \App\Models\Utility::get_file('upload/profile/');
 $unseenCounter = App\Models\ChMessage::where('to_id', Auth::user()->id)
 ->where('seen', 0)
@@ -98,11 +97,13 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
 
                                     <!-- <?php endif; ?> -->
                                     <!-- <?php if(\Auth::user()->type!='super admin'): ?> -->
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Calendar')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'calendar-new' || \Request::route()->getName() == 'calendernew.index' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('calendernew.index')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Calendar')); ?></span>
                                         </a>
                                     </li>
+                                    <?php endif; ?>
                                     <!-- <?php endif; ?> -->
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ||
