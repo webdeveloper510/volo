@@ -35,13 +35,12 @@
                                         </thead>
                                         <tbody>
                                             @foreach($lead_id as $lead)
+                                            @php
+                                            $leadInstance = App\Models\Lead::withTrashed()->find($lead['lead_id']);
+                                            @endphp
                                             <tr>
-                                                <td>{{ucfirst(App\Models\Lead::withTrashed()->find($lead['lead_id'])->name)}}
-                                                </td>
-                                                <td><a href="{{ route('email.conversations', urlencode(encrypt($lead['id']))) }}"
-                                                        data-size="md" title="{{ __('Lead Details') }}"
-                                                        class="action-item text-primary"
-                                                        style="color:#1551c9 !important;"><button class="btn btn-secondary float-end" type="button">Email Communication</button></a></td>
+                                                <td>{{ $leadInstance ? ucfirst($leadInstance->opportunity_name) : 'N/A' }}</td>
+                                                <td><a href="{{ route('email.conversations', urlencode(encrypt($lead['id']))) }}" data-size="md" title="{{ __('Lead Details') }}" class="action-item text-primary" style="color:#1551c9 !important;"><button class="btn btn-secondary float-end" type="button">Email Communication</button></a></td>
                                             </tr>
 
                                             @endforeach
