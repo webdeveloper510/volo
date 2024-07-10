@@ -161,9 +161,6 @@ $category = explode(',', $settings['campaign_type']);
                 <!-- <a href="<?php echo e(route('lead_customers')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead_customers' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Leads')); ?> </span></a> -->
-                <a href="<?php echo e(route('lead.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead.index' ?'active' : ''); ?>">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
-                    <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span></a>
 
                 <a href="<?php echo e(route('categories.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'categories.index' ?'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Add Category"></i></span>
@@ -229,18 +226,20 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('Review Event')); ?> </span></a>
                 <?php endif; ?>
 
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
+                <?php if(\Request::route()->getName() == 'lead.index'): ?>
                 <a href="<?php echo e(route('lead.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead.index' ? 'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span>
                 </a>
                 <?php endif; ?>
 
+                <?php if(\Request::route()->getName() == 'lead.index'): ?>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
                 <a href="<?php echo e(route('email.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'email.index' ? 'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Emails')); ?> </span>
                 </a>
+                <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if(\Request::route()->getName() == 'lead.edit' ): ?>

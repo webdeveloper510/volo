@@ -28,13 +28,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\In;
 use function Symfony\Component\String\s;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
 
 class DashboardController extends Controller
 {
 
     public function index()
     {
-        if (\Auth::check()) {   
+        if (\Auth::check()) {
             if (\Auth::user()->type == 'admin' || \Auth::user()->type == 'owner') {
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
@@ -269,7 +271,6 @@ class DashboardController extends Controller
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
-                $assinged_staff = User::whereNotIn('id', [1, 3])->get();
 
                 $currency_data = json_decode($setting['currency_conversion'], true);
 
@@ -291,209 +292,424 @@ class DashboardController extends Controller
                     }
                 }
 
-                // Prospecting Opportunities
-                $prospectingOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->whereIn('sales_stage', ['New', 'Contacted'])
-                    ->get();
+                $userRole = \Auth::user()->user_roles;
+                $userRoleType = Role::find($userRole)->roleType;
+
+                if ($userRoleType == 'individual') {
+                    $assinged_staff = User::where('id', Auth::user()->id)->get();
+                    // Prospecting Opportunities
+                    $prospectingOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['New', 'Contacted'])
+                        ->get();
 
 
-                $prospectingOpportunitiesSum = 0;
+                    $prospectingOpportunitiesSum = 0;
 
-                foreach ($prospectingOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                    foreach ($prospectingOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $prospectingOpportunitiesSum += $convertedValue;
                     }
 
-                    $prospectingOpportunitiesSum += $convertedValue;
-                }
-
-                $prospectingOpportunitiesCount = $prospectingOpportunities->count();
+                    $prospectingOpportunitiesCount = $prospectingOpportunities->count();
 
 
-                // Discovery Opportunities
-                $discoveryOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->whereIn('sales_stage', ['Qualifying', 'Qualified'])
-                    ->get();
+                    // Discovery Opportunities
+                    $discoveryOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['Qualifying', 'Qualified'])
+                        ->get();
 
-                $discoveryOpportunitiesSum = 0;
+                    $discoveryOpportunitiesSum = 0;
 
-                foreach ($discoveryOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                    foreach ($discoveryOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $discoveryOpportunitiesSum += $convertedValue;
                     }
 
-                    $discoveryOpportunitiesSum += $convertedValue;
-                }
+                    $discoveryOpportunitiesCount = $discoveryOpportunities->count();
 
-                $discoveryOpportunitiesCount = $discoveryOpportunities->count();
-
-                // Demo or Meeting Opportunities
-                $demoOrMeetingOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->whereIn('sales_stage', ['NDA Signed', 'Demo or Meeting'])
-                    ->get();
+                    // Demo or Meeting Opportunities
+                    $demoOrMeetingOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['NDA Signed', 'Demo or Meeting'])
+                        ->get();
 
 
-                $demoOrMeetingOpportunitiesSum = 0;
+                    $demoOrMeetingOpportunitiesSum = 0;
 
-                foreach ($demoOrMeetingOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                    foreach ($demoOrMeetingOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $demoOrMeetingOpportunitiesSum += $convertedValue;
                     }
 
-                    $demoOrMeetingOpportunitiesSum += $convertedValue;
-                }
+                    $demoOrMeetingOpportunitiesCount = $demoOrMeetingOpportunities->count();
 
-                $demoOrMeetingOpportunitiesCount = $demoOrMeetingOpportunities->count();
-
-                // Proposal Opportunities
-                $proposalOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->where('sales_stage', 'Proposal')
-                    ->get();
+                    // Proposal Opportunities
+                    $proposalOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Proposal')
+                        ->get();
 
 
-                $proposalOpportunitiesSum = 0;
+                    $proposalOpportunitiesSum = 0;
 
-                foreach ($proposalOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                    foreach ($proposalOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $proposalOpportunitiesSum += $convertedValue;
                     }
 
-                    $proposalOpportunitiesSum += $convertedValue;
-                }
+                    $proposalOpportunitiesCount = $proposalOpportunities->count();
 
-                $proposalOpportunitiesCount = $proposalOpportunities->count();
+                    // Negotiation Opportunities
+                    $negotiationOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Negotiation')
+                        ->get();
 
-                // Negotiation Opportunities
-                $negotiationOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->where('sales_stage', 'Negotiation')
-                    ->get();
+                    $negotiationOpportunitiesSum = 0;
 
-                $negotiationOpportunitiesSum = 0;
+                    foreach ($negotiationOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                foreach ($negotiationOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        $negotiationOpportunitiesSum += $convertedValue;
                     }
 
-                    $negotiationOpportunitiesSum += $convertedValue;
-                }
+                    $negotiationOpportunitiesCount = $negotiationOpportunities->count();
 
-                $negotiationOpportunitiesCount = $negotiationOpportunities->count();
+                    // Awaiting Decision Opportunities
+                    $awaitingDecisionOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Awaiting Decision')
+                        ->get();
 
-                // Awaiting Decision Opportunities
-                $awaitingDecisionOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->where('sales_stage', 'Awaiting Decision')
-                    ->get();
+                    $awaitingDecisionOpportunitiesSum = 0;
 
-                $awaitingDecisionOpportunitiesSum = 0;
+                    foreach ($awaitingDecisionOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                foreach ($awaitingDecisionOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        $awaitingDecisionOpportunitiesSum += $convertedValue;
                     }
 
-                    $awaitingDecisionOpportunitiesSum += $convertedValue;
-                }
+                    $awaitingDecisionOpportunitiesCount = $awaitingDecisionOpportunities->count();
 
-                $awaitingDecisionOpportunitiesCount = $awaitingDecisionOpportunities->count();
+                    // Post Purchase Opportunities
+                    $postPurchaseOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['Implementation', 'Follow-Up Needed'])
+                        ->get();
 
-                // Post Purchase Opportunities
-                $postPurchaseOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->whereIn('sales_stage', ['Implementation', 'Follow-Up Needed'])
-                    ->get();
+                    $postPurchaseOpportunitiesSum = 0;
 
-                $postPurchaseOpportunitiesSum = 0;
+                    foreach ($postPurchaseOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                foreach ($postPurchaseOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        $postPurchaseOpportunitiesSum += $convertedValue;
                     }
 
-                    $postPurchaseOpportunitiesSum += $convertedValue;
-                }
+                    $postPurchaseOpportunitiesCount = $postPurchaseOpportunities->count();
 
-                $postPurchaseOpportunitiesCount = $postPurchaseOpportunities->count();
+                    // Closed Won Opportunities
+                    $closedWonOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Closed Won')
+                        ->get();
 
-                // Closed Won Opportunities
-                $closedWonOpportunities = Lead::where('assigned_user', \Auth::user()->id)
-                    ->where('lead_status', 1)
-                    ->where('sales_stage', 'Closed Won')
-                    ->get();
+                    $closedWonOpportunitiesSum = 0;
 
-                $closedWonOpportunitiesSum = 0;
+                    foreach ($closedWonOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
 
-                foreach ($closedWonOpportunities as $opportunity) {
-                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
-                    $valueOfOpportunity = (float)$valueOfOpportunity;
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
 
-                    if ($opportunity->currency == 'GBP') {
-                        $convertedValue = $valueOfOpportunity * $gbp;
-                    } elseif ($opportunity->currency == 'EUR') {
-                        $convertedValue = $valueOfOpportunity * $eur;
-                    } else {
-                        $convertedValue = $valueOfOpportunity;
+                        $closedWonOpportunitiesSum += $convertedValue;
                     }
 
-                    $closedWonOpportunitiesSum += $convertedValue;
+                    $closedWonOpportunitiesCount = $closedWonOpportunities->count();
+                } else {
+                    $assinged_staff = User::whereNotIn('id', [1, 3])->get();
+                    // Prospecting Opportunities
+                    $prospectingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['New', 'Contacted'])
+                        ->get();
+
+
+                    $prospectingOpportunitiesSum = 0;
+
+                    foreach ($prospectingOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $prospectingOpportunitiesSum += $convertedValue;
+                    }
+
+                    $prospectingOpportunitiesCount = $prospectingOpportunities->count();
+
+
+                    // Discovery Opportunities
+                    $discoveryOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['Qualifying', 'Qualified'])
+                        ->get();
+
+                    $discoveryOpportunitiesSum = 0;
+
+                    foreach ($discoveryOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $discoveryOpportunitiesSum += $convertedValue;
+                    }
+
+                    $discoveryOpportunitiesCount = $discoveryOpportunities->count();
+
+                    // Demo or Meeting Opportunities
+                    $demoOrMeetingOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['NDA Signed', 'Demo or Meeting'])
+                        ->get();
+
+
+                    $demoOrMeetingOpportunitiesSum = 0;
+
+                    foreach ($demoOrMeetingOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $demoOrMeetingOpportunitiesSum += $convertedValue;
+                    }
+
+                    $demoOrMeetingOpportunitiesCount = $demoOrMeetingOpportunities->count();
+
+                    // Proposal Opportunities
+                    $proposalOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Proposal')
+                        ->get();
+
+
+                    $proposalOpportunitiesSum = 0;
+
+                    foreach ($proposalOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $proposalOpportunitiesSum += $convertedValue;
+                    }
+
+                    $proposalOpportunitiesCount = $proposalOpportunities->count();
+
+                    // Negotiation Opportunities
+                    $negotiationOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Negotiation')
+                        ->get();
+
+                    $negotiationOpportunitiesSum = 0;
+
+                    foreach ($negotiationOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $negotiationOpportunitiesSum += $convertedValue;
+                    }
+
+                    $negotiationOpportunitiesCount = $negotiationOpportunities->count();
+
+                    // Awaiting Decision Opportunities
+                    $awaitingDecisionOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Awaiting Decision')
+                        ->get();
+
+                    $awaitingDecisionOpportunitiesSum = 0;
+
+                    foreach ($awaitingDecisionOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $awaitingDecisionOpportunitiesSum += $convertedValue;
+                    }
+
+                    $awaitingDecisionOpportunitiesCount = $awaitingDecisionOpportunities->count();
+
+                    // Post Purchase Opportunities
+                    $postPurchaseOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->whereIn('sales_stage', ['Implementation', 'Follow-Up Needed'])
+                        ->get();
+
+                    $postPurchaseOpportunitiesSum = 0;
+
+                    foreach ($postPurchaseOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $postPurchaseOpportunitiesSum += $convertedValue;
+                    }
+
+                    $postPurchaseOpportunitiesCount = $postPurchaseOpportunities->count();
+
+                    // Closed Won Opportunities
+                    $closedWonOpportunities = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->where('lead_status', 1)
+                        ->where('sales_stage', 'Closed Won')
+                        ->get();
+
+                    $closedWonOpportunitiesSum = 0;
+
+                    foreach ($closedWonOpportunities as $opportunity) {
+                        $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                        $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                        if ($opportunity->currency == 'GBP') {
+                            $convertedValue = $valueOfOpportunity * $gbp;
+                        } elseif ($opportunity->currency == 'EUR') {
+                            $convertedValue = $valueOfOpportunity * $eur;
+                        } else {
+                            $convertedValue = $valueOfOpportunity;
+                        }
+
+                        $closedWonOpportunitiesSum += $convertedValue;
+                    }
+
+                    $closedWonOpportunitiesCount = $closedWonOpportunities->count();
                 }
 
-                $closedWonOpportunitiesCount = $closedWonOpportunities->count();
+
+
+
                 return view('home', compact('assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum', 'regions'));
             }
         } else {

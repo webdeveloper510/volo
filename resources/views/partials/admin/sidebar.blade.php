@@ -161,9 +161,6 @@ $category = explode(',', $settings['campaign_type']);
                 <!-- <a href="{{route('lead_customers')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead_customers' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a> -->
-                <a href="{{route('lead.index')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead.index' ?'active' : ''}}">
-                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Lead Clients"></i></span>
-                    <span class="dash-mtext">{{ __('Opportunities') }} </span></a>
 
                 <a href="{{route('categories.index')}}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'categories.index' ?'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Add Category"></i></span>
@@ -229,19 +226,21 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Review Event') }} </span></a>
                 @endif
 
-                @can('Manage Lead')
+                @if(\Request::route()->getName() == 'lead.index')
                 <a href="{{ route('lead.index') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead.index' ? 'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Opportunities') }} </span>
                 </a>
-                @endcan
+                @endif
 
+                @if(\Request::route()->getName() == 'lead.index')
                 @can('Manage Email')
                 <a href="{{ route('email.index') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'email.index' ? 'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope"></i></span>
                     <span class="dash-mtext">{{ __('Emails') }} </span>
                 </a>
                 @endcan
+                @endif
 
                 @if(\Request::route()->getName() == 'lead.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
