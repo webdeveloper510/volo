@@ -229,11 +229,14 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('Review Event')); ?> </span></a>
                 <?php endif; ?>
 
-                <?php if( \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'email.index' ): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
                 <a href="<?php echo e(route('lead.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead.index' ? 'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span>
                 </a>
+                <?php endif; ?>
+
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
                 <a href="<?php echo e(route('email.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'email.index' ? 'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Emails')); ?> </span>

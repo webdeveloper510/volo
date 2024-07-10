@@ -229,16 +229,19 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Review Event') }} </span></a>
                 @endif
 
-                @if( \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'email.index' )
+                @can('Manage Lead')
                 <a href="{{ route('lead.index') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead.index' ? 'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Opportunities') }} </span>
                 </a>
+                @endcan
+
+                @can('Manage Email')
                 <a href="{{ route('email.index') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'email.index' ? 'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope"></i></span>
                     <span class="dash-mtext">{{ __('Emails') }} </span>
                 </a>
-                @endif
+                @endcan
 
                 @if(\Request::route()->getName() == 'lead.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
