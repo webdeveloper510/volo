@@ -59,27 +59,23 @@ class LeadController extends Controller
                 $defualtView->view   = 'list';
                 User::userDefualtView($defualtView);
             } else {
-                @$user_roles = \Auth::user()->user_roles;
-                @$userRole = Role::find($user_roles)->roleType;
-                $userType = \Auth::user()->type;
-                $userType = $userRole == 'company' ? 'owner' : $userType;
+                $userRole = \Auth::user()->user_roles;
+                $userRoleType = Role::find($userRole)->roleType;
 
-                if ($userType == 'owner' || $userRole == 'company') {
-                    $userID = 3;
+                if ($userRoleType == 'individual') {
+                    $leads = Lead::where('created_by', Auth::user()->creatorId())
+                        ->where('assigned_user', Auth::user()->id)
+                        ->get();
                 } else {
-                    $userID = \Auth::user()->id;
+                    $leads = Lead::where('created_by', Auth::user()->creatorId())
+                        ->get();
                 }
 
-                $leads = Lead::where('created_by', $userID)->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'lead';
                 $defualtView->view   = 'list';
             }
-
-            // echo "<pre>";
-            // print_r($leads);
-            // die;
             return view('lead.index', compact('leads', 'statuss'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
