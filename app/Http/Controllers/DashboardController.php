@@ -27,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\In;
 use function Symfony\Component\String\s;
+use Spatie\Permission\Models\Role;
 
 class DashboardController extends Controller
 {
