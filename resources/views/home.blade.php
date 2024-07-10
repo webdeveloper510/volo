@@ -57,7 +57,9 @@
                         @foreach ($assinged_staff as $staff)
                         <option value="{{ $staff->id }}">{{ $staff->name }}</option>
                         @endforeach
+                        @if (count($assinged_staff) > 1)
                         <option value="clear_team_member_filter">Clear Filter</option>
+                        @endif
                     </select>
                 </div>
                 <div class="col-4 mb-4">

@@ -58,7 +58,9 @@
                         <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php if(count($assinged_staff) > 1): ?>
                         <option value="clear_team_member_filter">Clear Filter</option>
+                        <?php endif; ?>
                     </select>
                 </div>
                 <div class="col-4 mb-4">

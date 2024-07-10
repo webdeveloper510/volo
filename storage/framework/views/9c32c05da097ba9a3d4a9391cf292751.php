@@ -227,10 +227,12 @@ $category = explode(',', $settings['campaign_type']);
                 <?php endif; ?>
 
                 <?php if(\Request::route()->getName() == 'lead.index'): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
                 <a href="<?php echo e(route('lead.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead.index' ? 'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span>
                 </a>
+                <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if(\Request::route()->getName() == 'lead.index'): ?>
