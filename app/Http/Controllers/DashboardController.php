@@ -35,124 +35,11 @@ class DashboardController extends Controller
     public function index()
     {
         if (\Auth::check()) {
-            if (\Auth::user()->type == 'super admin') {
-                $user                       = \Auth::user();
-                $user['total_user']         = $user->countCompany();
-                $user['total_paid_user']    = $user->countPaidCompany();
-                $user['total_orders']       = Order::total_orders();
-                $user['total_orders_price'] = Order::total_orders_price();
-                $user['total_plan']         = Plan::total_plan();
-                $user['most_purchese_plan'] = (!empty(Plan::most_purchese_plan()) ? Plan::most_purchese_plan()->name : '-');
-                $chartData                  = $this->getOrderChart(['duration' => 'week']);
-
-                return view('super_admin', compact('user', 'chartData'));
-            } else {
-                $data['totalUser']          = User::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalAccount']       = Account::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalContact']       = Contact::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalLead']          = Lead::where('created_by', \Auth::user()->creatorId())->where('lead_status', 1)->count();
-                $data['totalSalesorder']    = $totalSalesOrder = SalesOrder::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalInvoice']       = $totalInvoice = Invoice::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalQuote']         = $totalQuote = Quote::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalOpportunities'] = Opportunities::where('created_by', \Auth::user()->creatorId())->count();
-                $data['totalProduct']       = Product::where('created_by', \Auth::user()->creatorId())->count();
-                $data['invoiceColor']       = Invoice::$statuesColor;
-
-                $date = today()->format('Y-m-d');
-                $revenue = Meeting::all();
-                $events_revenue = 0;
-                foreach ($revenue as $key => $value) {
-                    $events_revenue += $value->total;
-                }
-                $paymentlogs = PaymentLogs::all();
-                $events_revenue_generated = 0;
-                foreach ($paymentlogs as $key => $value) {
-                    $events_revenue_generated += $value->amount;
-                    # code...
-                }
-
-                $lostLeads = Lead::where('created_by', \Auth::user()->creatorId())->where('proposal_status', '==', 3)->take(4)->get();
-                $activeEvent = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get();
-                $activeEventCount = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get()->count();
-
-                $pastEvents = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '<', $date)->take(4)->get();
-
-                $upcoming = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>=', $date)->get()->count();
-                $completed = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '<', $date)->get()->count();
-                $totalevent = Meeting::where('created_by', \Auth::user()->creatorId())->count();
-                $blockeddate = Blockdate::all();
-                $settings = Utility::settings();
-                $venue = $settings['venue'];
-                $venue_dropdown = explode(",", $venue);
-                $statuss  = Invoice::$status;
-
-                $eventinvoice = Billing::pluck('event_id')->toArray();
-
-                foreach ($eventinvoice as  $value) {
-                    $events[] = Meeting::find($value);
-                }
-                $events = isset($events) ? $events : [];
-                $invoices = [];
-                foreach ($statuss as $id => $status) {
-                    $invoice                   = $total = Invoice::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();
-                    $percentage                = ($totalInvoice != 0) ? ($total * 100) / $totalInvoice : '0';
-                    $invoicedata['percentage'] = number_format($percentage, 2);
-                    $invoicedata['data']       = $invoice;
-                    $invoicedata['status']     = $status;
-                    $invoices[]                = $invoicedata;
-                }
-
-                $data['invoice'] = $invoices;
-
-                $statuss = Quote::$status;
-                $quotes  = [];
-                foreach ($statuss as $id => $status) {
-                    $quote = $total = Quote::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();
-
-                    $percentage              = ($totalQuote != 0) ? ($total * 100) / $totalQuote : '0';
-                    $quotedata['percentage'] = number_format($percentage, 2);
-                    $quotedata['data']       = $quote;
-                    $quotedata['status']     = $status;
-                    $quotes[]                = $quotedata;
-                }
-                $data['quote'] = $quotes;
-
-
-                $statuss     = SalesOrder::$status;
-                $salesOrders = [];
-                foreach ($statuss as $id => $status) {
-                    $salesorder                   = SalesOrder::where('status', $id)->where('created_by', \Auth::user()->creatorId())->count();
-                    $percentage                   = ($totalSalesOrder != 0) ? ($total * 100) / $totalSalesOrder : '0';
-                    $salesorderdata['percentage'] = number_format($percentage, 2);
-                    $salesorderdata['data']       = $salesorder;
-                    $salesorderdata['status']     = $status;
-                    $salesOrders[]                = $salesorderdata;
-                }
-                $data['salesOrder'] = $salesOrders;
-
-                $data['lineChartData'] = \Auth::user()->getIncExpLineChartDate();
-
-                $data['calendar'] = $this->calendarData();
-
-                $data['topDueTask']         = Task::select('*')->where('created_by', \Auth::user()->creatorId())->where('due_date', '<', date('Y-m-d'))->limit(5)->get();
-                $data['topMeeting']         = Meeting::where('created_by', \Auth::user()->creatorId())->where('start_date', '>', date('Y-m-d'))->limit(5)->get();
-                $data['thisMonthCall']      = Call::whereBetween(
-                    'start_date',
-                    [
-                        Carbon::now()->startOfMonth(),
-                        Carbon::now()->endOfMonth(),
-                    ]
-                )->where('created_by', \Auth::user()->creatorId())->limit(5)->get();
-
-                $users = User::find(\Auth::user()->creatorId());
-
-                $assinged_staff = User::whereNotIn('id', [1, 3])->get();
-
-                $plan = Plan::find($users->plan);
+            if (\Auth::user()->type == 'admin' || \Auth::user()->type == 'owner') {
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
-
+                $assinged_staff = User::whereNotIn('id', [1, 3])->get();
 
                 $currency_data = json_decode($setting['currency_conversion'], true);
 
@@ -377,7 +264,237 @@ class DashboardController extends Controller
                 }
 
                 $closedWonOpportunitiesCount = $closedWonOpportunities->count();
-                return view('home', compact('venue_dropdown', 'activeEventCount', 'blockeddate', 'events_revenue', 'events', 'events_revenue_generated', 'data', 'users', 'plan', 'upcoming', 'completed', 'totalevent', 'lostLeads', 'activeEvent', 'pastEvents', 'assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum', 'regions'));
+                return view('home', compact('assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum', 'regions'));
+            } else {
+                $setting = Utility::settings();
+                $products = explode(',', $setting['product_type']);
+                $regions = explode(',', $setting['region']);
+                $assinged_staff = User::whereNotIn('id', [1, 3])->get();
+
+                $currency_data = json_decode($setting['currency_conversion'], true);
+
+                // Initialize variables to hold the conversion rates
+                $usd = $eur = $gbp = null;
+
+                // Iterate through the array and extract the conversion rates
+                foreach ($currency_data as $currency) {
+                    switch ($currency['code']) {
+                        case 'USD':
+                            $usd = $currency['conversion_rate_to_usd'];
+                            break;
+                        case 'EUR':
+                            $eur = $currency['conversion_rate_to_usd'];
+                            break;
+                        case 'GBP':
+                            $gbp = $currency['conversion_rate_to_usd'];
+                            break;
+                    }
+                }
+
+                // Prospecting Opportunities
+                $prospectingOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['New', 'Contacted'])
+                    ->get();
+
+
+                $prospectingOpportunitiesSum = 0;
+
+                foreach ($prospectingOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $prospectingOpportunitiesSum += $convertedValue;
+                }
+
+                $prospectingOpportunitiesCount = $prospectingOpportunities->count();
+
+
+                // Discovery Opportunities
+                $discoveryOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['Qualifying', 'Qualified'])
+                    ->get();
+
+                $discoveryOpportunitiesSum = 0;
+
+                foreach ($discoveryOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $discoveryOpportunitiesSum += $convertedValue;
+                }
+
+                $discoveryOpportunitiesCount = $discoveryOpportunities->count();
+
+                // Demo or Meeting Opportunities
+                $demoOrMeetingOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['NDA Signed', 'Demo or Meeting'])
+                    ->get();
+
+
+                $demoOrMeetingOpportunitiesSum = 0;
+
+                foreach ($demoOrMeetingOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $demoOrMeetingOpportunitiesSum += $convertedValue;
+                }
+
+                $demoOrMeetingOpportunitiesCount = $demoOrMeetingOpportunities->count();
+
+                // Proposal Opportunities
+                $proposalOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Proposal')
+                    ->get();
+
+
+                $proposalOpportunitiesSum = 0;
+
+                foreach ($proposalOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $proposalOpportunitiesSum += $convertedValue;
+                }
+
+                $proposalOpportunitiesCount = $proposalOpportunities->count();
+
+                // Negotiation Opportunities
+                $negotiationOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Negotiation')
+                    ->get();
+
+                $negotiationOpportunitiesSum = 0;
+
+                foreach ($negotiationOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $negotiationOpportunitiesSum += $convertedValue;
+                }
+
+                $negotiationOpportunitiesCount = $negotiationOpportunities->count();
+
+                // Awaiting Decision Opportunities
+                $awaitingDecisionOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Awaiting Decision')
+                    ->get();
+
+                $awaitingDecisionOpportunitiesSum = 0;
+
+                foreach ($awaitingDecisionOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $awaitingDecisionOpportunitiesSum += $convertedValue;
+                }
+
+                $awaitingDecisionOpportunitiesCount = $awaitingDecisionOpportunities->count();
+
+                // Post Purchase Opportunities
+                $postPurchaseOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->whereIn('sales_stage', ['Implementation', 'Follow-Up Needed'])
+                    ->get();
+
+                $postPurchaseOpportunitiesSum = 0;
+
+                foreach ($postPurchaseOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $postPurchaseOpportunitiesSum += $convertedValue;
+                }
+
+                $postPurchaseOpportunitiesCount = $postPurchaseOpportunities->count();
+
+                // Closed Won Opportunities
+                $closedWonOpportunities = Lead::where('assigned_user', \Auth::user()->id)
+                    ->where('lead_status', 1)
+                    ->where('sales_stage', 'Closed Won')
+                    ->get();
+
+                $closedWonOpportunitiesSum = 0;
+
+                foreach ($closedWonOpportunities as $opportunity) {
+                    $valueOfOpportunity = str_replace(',', '', $opportunity->value_of_opportunity);
+                    $valueOfOpportunity = (float)$valueOfOpportunity;
+
+                    if ($opportunity->currency == 'GBP') {
+                        $convertedValue = $valueOfOpportunity * $gbp;
+                    } elseif ($opportunity->currency == 'EUR') {
+                        $convertedValue = $valueOfOpportunity * $eur;
+                    } else {
+                        $convertedValue = $valueOfOpportunity;
+                    }
+
+                    $closedWonOpportunitiesSum += $convertedValue;
+                }
+
+                $closedWonOpportunitiesCount = $closedWonOpportunities->count();
+                return view('home', compact('assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum', 'regions'));
             }
         } else {
 
