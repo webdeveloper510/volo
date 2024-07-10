@@ -37,6 +37,7 @@ use Str;
 use App\Models\LeadDoc;
 use App\Models\UserImport;
 use Storage;
+use Spatie\Permission\Models\Role;
 
 class LeadController extends Controller
 {
@@ -58,7 +59,18 @@ class LeadController extends Controller
                 $defualtView->view   = 'list';
                 User::userDefualtView($defualtView);
             } else {
-                $leads = Lead::where('assigned_user', \Auth::user()->id)->get();
+                @$user_roles = \Auth::user()->user_roles;
+                @$userRole = Role::find($user_roles)->roleType;
+                $userType = \Auth::user()->type;
+                $userType = $userRole == 'company' ? 'owner' : $userType;
+
+                if ($userType == 'owner' || $userRole == 'company') {
+                    $userID = 3;
+                } else {
+                    $userID = \Auth::user()->id;
+                }
+
+                $leads = Lead::where('created_by', $userID)->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
                 $defualtView->module = 'lead';
