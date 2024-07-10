@@ -50,7 +50,7 @@ class LeadController extends Controller
         if (\Auth::user()->can('Manage Lead')) {
             $statuss = Lead::$stat;
 
-            if (\Auth::user()->type == 'owner') {
+            if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin') {
                 $leads = Lead::with('accounts', 'assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id', 'desc')->get();
                 $defualtView         = new UserDefualtView();
                 $defualtView->route  = \Request::route()->getName();
