@@ -227,10 +227,12 @@ $category = explode(',', $settings['campaign_type']);
                 @endif
 
                 @if(\Request::route()->getName() == 'lead.index')
+                @can('Manage Lead')
                 <a href="{{ route('lead.index') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead.index' ? 'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Opportunities') }} </span>
                 </a>
+                @endcan
                 @endif
 
                 @if(\Request::route()->getName() == 'lead.index')
