@@ -37,7 +37,7 @@ class DashboardController extends Controller
     public function index()
     {
         if (\Auth::check()) {
-            if (\Auth::user()->type == 'admin' || \Auth::user()->type == 'owner') {
+            if (\Auth::user()->type == 'admin' || \Auth::user()->type == 'owner' || \Auth::user()->type == 'snr manager' || \Auth::user()->type == 'manager') {
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
