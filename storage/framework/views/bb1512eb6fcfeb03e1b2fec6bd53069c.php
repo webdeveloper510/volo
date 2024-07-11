@@ -68,8 +68,8 @@ unset($__errorArgs, $__bag); ?>
                 </thead>
                 <tbody>
                     <?php
-                    $modules=['Role','User','Opportunity','Campaign','Contract','Payment','Report'];
-                    $modules=['Role','User','Opportunity','Report','Campaign','Email','Contract','Objective', 'NDA', 'Calendar'];
+                    $modules=['Role','User','Opportunity','Campaign','E-Sign','Payment','Report'];
+                    $modules=['Role','User','Opportunity','Report','Campaign','Email','E-Sign','Objective', 'NDA', 'Calendar'];
                     ?>
                     <?php $__currentLoopData = $modules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>

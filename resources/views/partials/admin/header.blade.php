@@ -1,5 +1,8 @@
 @php
+use Spatie\Permission\Models\Role;
 $users = \Auth::user()->type;
+$userRole = \Auth::user()->user_roles;
+$userRoleType = Role::find($userRole)->roleType;
 $profile = \App\Models\Utility::get_file('upload/profile/');
 $unseenCounter = App\Models\ChMessage::where('to_id', Auth::user()->id)
 ->where('seen', 0)
@@ -85,6 +88,8 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li>
                                     <!-- @if(Gate::check('Manage Opportunity') || Gate::check('Manage Meeting') ||
                                     Gate::check('Manage User')) -->
+
+                                    @if($userRoleType == 'company')
                                     @can('Manage User')
                                     <li class="dash-item {{ \Request::route()->getName() == 'siteusers'|| \Request::route()->getName() == 'customer.info' ||
                                                             \Request::route()->getName() == 'event_customers'   ||\Request::route()->getName() =='event.userinfo'||
@@ -94,6 +99,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         </a>
                                     </li>
                                     @endcan
+                                    @endif
 
                                     <!-- @endif -->
                                     <!-- @if(\Auth::user()->type!='super admin') -->
@@ -135,23 +141,31 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                             <span class="dash-mtext">{{ __('Reports') }}</span></a>
                                     </li>
                                     @endcan
+
+                                    @if($userRoleType == 'company')
                                     @can('Manage Campaign')
                                     <li class="dash-item  {{ \Request::route()->getName() == 'customer.index' ||\Request::route()->getName() ==  'campaign-list' ? ' active' : '' }}">
                                         <a href="{{ route('customer.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Campaigns') }}</span></a>
                                     </li>
                                     @endcan
+                                    @endif
+
                                     <!-- <li
                                         class="dash-item  {{ Request::route()->getName() == 'email.index' ? 'active' : '' }}">
                                         <a href="{{ route('email.index') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Emails') }}</span></a>
                                     </li> -->
-                                    @can('Manage Contract')
+
+                                    @if($userRoleType == 'company')
+                                    @can('Manage E-Sign')
                                     <li class="dash-item  {{ (Request::route()->getName() == 'contracts.index' || Request::route()->getName() == 'contracts.create' || Request::route()->getName() == 'contracts.new_contract') ? 'active' : '' }}">
                                         <a href="{{route('contracts.index')}}" class="dash-link"><span class="dash-mtext">{{__('E-Sign')}}</span></a>
                                     </li>
                                     @endcan
+                                    @endif
 
+                                    @if($userRoleType == 'company')
                                     @can('Manage Objective')
                                     <li class="dash-item {{ (Request::route()->getName() == 'objective.index' || Request::route()->getName() == 'objective.create' || Request::route()->getName() == 'objective.store' || Request::route()->getName() == 'objective-status.update' || Request::route()->getName() == 'objective-status-filter.update' || Request::route()->getName() == 'filter-objective.objective' || Request::route()->getName() == 'update-objective.objective') ? ' active' : '' }}">
                                         <a href="{{ route('objective.index') }}" class="dash-link">
@@ -159,6 +173,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                         </a>
                                     </li>
                                     @endcan
+                                    @endif
 
                                     @if(\Auth::user()->type == 'super admin' || \Auth::user()->type == 'owner' || \Auth::user()->type == 'admin')
                                     <li class="dash-item  {{ Request::route()->getName() == 'settings' ? 'active' : '' }}">

@@ -1,4 +1,11 @@
 <?php
+
+use Spatie\Permission\Models\Role;
+
+$users = \Auth::user()->type;
+$userRole = \Auth::user()->user_roles;
+$userRoleType = Role::find($userRole)->roleType;
+
 $settings = App\Models\Utility::settings();
 $category = explode(',', $settings['campaign_type']);
 ?>
@@ -235,7 +242,7 @@ $category = explode(',', $settings['campaign_type']);
                 @endcan
                 @endif
 
-                @if(\Request::route()->getName() == 'lead.index')
+                @if(\Request::route()->getName() == 'lead.index' && $userRoleType == 'company')
                 @can('Manage Email')
                 <a href="{{ route('email.index') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'email.index' ? 'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope"></i></span>
@@ -273,12 +280,14 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('E-Sign') }} </span></a>
                 </a>
                 @endif -->
+                @can('Manage E-Sign')
                 @if(\Request::route()->getName() == 'contracts.index' || \Request::route()->getName() ==
                 'contracts.create' || \Request::route()->getName() == 'contracts.new_contract')
                 <a href="#useradd-1" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'contracts.index' || \Request::route()->getName() == 'contracts.create' || \Request::route()->getName() == 'contracts.new_contract' ? ' active' : '' }}"><span class="fa-stack fa-lg pull-left"></span>
                     <span class="dash-mtext">{{ __('E-Sign') }} </span></a>
                 </a>
                 @endif
+                @endcan
             </div>
         </div>
     </div>

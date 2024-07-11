@@ -48,8 +48,7 @@ class ContractsController extends Controller
             // $cnt_contract['last_30days'] = \App\Models\Contract::getContractSummary($last_30days);
 
             return view('contract.index', compact('contracts'));
-        }
-        else{
+        } else {
             $contracts = Contracts::all();
             // $contracts   = Contract::with('contract_type')->where('client_name', '=', \Auth::user()->id)->get();
             // $curr_month  = Contract::where('client_name', '=', \Auth::user()->id)->whereMonth('start_date', '=', date('m'))->get();
@@ -80,7 +79,7 @@ class ContractsController extends Controller
      */
     public function create()
     {
-        if (\Auth::user()->can('Create Contract')) {
+        if (\Auth::user()->can('Create E-Sign')) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents",
@@ -95,13 +94,13 @@ class ContractsController extends Controller
             $err = curl_error($curl);
             curl_close($curl);
             if ($err) {
-            
+
                 return response()->json(['status' => 'error', 'message' => $err], 500);
             } else {
 
-                $results = json_decode($response,true);
+                $results = json_decode($response, true);
                 $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                return view('contract.create',compact('results','client'));
+                return view('contract.create', compact('results', 'client'));
                 // return response()->json(['status' => 'success', 'data' => json_decode($response)], 200);
             }
         } else {
@@ -144,87 +143,86 @@ class ContractsController extends Controller
             if (!empty($request->file('atttachment'))) {
                 $file = $request->file('atttachment');
                 $originalName = $file->getClientOriginalName();
-                $filename =  Str::random(3).'_'.$originalName;
+                $filename =  Str::random(3) . '_' . $originalName;
                 $folder = 'Contracts/' .  $contract->id; // Example: uploads/1
                 try {
                     $path = $file->storeAs($folder, $filename, 'public');
-                  
                 } catch (\Exception $e) {
                     Log::error('File upload failed: ' . $e->getMessage());
                     return redirect()->back()->with('error', 'File upload failed');
                 }
-            }                 
-           
+            }
 
-                $contract->update(['attachment'=> $filename]);
-                $name =  $request->name;
-                $url = "https://cdn2.hubspot.net/hubfs/2127247/public-templates/SamplePandaDocPdf_FormFields.pdf";
-                // $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
-                // Assuming $filename is the name of the file stored in Laravel's storage
-                $recipientEmail = 'sonali@codenomad.net';
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => json_encode([
-                        "name" => $name,
-                        "url" => $url,
-                        "recipients" => [
-                            [
-                                "email" => $recipientEmail,
-                                "role" => "user",
-                            ],
+
+            $contract->update(['attachment' => $filename]);
+            $name =  $request->name;
+            $url = "https://cdn2.hubspot.net/hubfs/2127247/public-templates/SamplePandaDocPdf_FormFields.pdf";
+            // $url = Storage::url('app/public/Contracts/'.$contract->id.'/'. $filename);
+            // Assuming $filename is the name of the file stored in Laravel's storage
+            $recipientEmail = 'sonali@codenomad.net';
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode([
+                    "name" => $name,
+                    "url" => $url,
+                    "recipients" => [
+                        [
+                            "email" => $recipientEmail,
+                            "role" => "user",
                         ],
-                        "parse_form_fields" => false,
-                    ]),
+                    ],
+                    "parse_form_fields" => false,
+                ]),
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
+                ),
+            ));
+            // echo"<pre>";print_r($curl);die;
+            // Replace 'YOUR_PANDADOC_API_KEY' with your actual PandaDoc API key
+            $response = curl_exec($curl);
+
+            $err = curl_error($curl);
+            curl_close($curl);
+            if ($err) {
+                return response()->json(['status' => 'error', 'message' => $err], 500);
+            } else {
+                $data = json_decode($response, true);
+
+                $documentId = $data['id'];
+
+                sleep(2);
+                $curl2 = curl_init();
+                // Your code for the second cURL request...
+                curl_setopt_array($curl2, array(
+                    CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents/" . $documentId, // Replace with the actual GET endpoint
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_HTTPGET => true, // Specify that it's a GET request
                     CURLOPT_HTTPHEADER => array(
                         "Content-Type: application/json",
                         "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
                     ),
                 ));
-                // echo"<pre>";print_r($curl);die;
-                // Replace 'YOUR_PANDADOC_API_KEY' with your actual PandaDoc API key
-                $response = curl_exec($curl);
-              
-                $err = curl_error($curl);
-                curl_close($curl);
-                if ($err) {
-                    return response()->json(['status' => 'error', 'message' => $err], 500);
+                $response2 = curl_exec($curl2);
+                $err2 = curl_error($curl2);
+                curl_close($curl2);
+                if ($err2) {
+                    return response()->json(['status' => 'error', 'message' => $err2], 500);
                 } else {
-                    $data = json_decode($response, true);
-                   
-                    $documentId = $data['id'];
-                   
-                    sleep(2);
-                        $curl2 = curl_init();
-                        // Your code for the second cURL request...
-                        curl_setopt_array($curl2, array(
-                            CURLOPT_URL => "https://api.pandadoc.com/public/v1/documents/".$documentId, // Replace with the actual GET endpoint
-                            CURLOPT_RETURNTRANSFER => true,
-                            CURLOPT_HTTPGET => true, // Specify that it's a GET request
-                            CURLOPT_HTTPHEADER => array(
-                                "Content-Type: application/json",
-                                "Authorization: API-Key a9450fe8468cbf168f3eae8ced825d020e84408d",
-                            ),
-                        ));
-                        $response2 = curl_exec($curl2);
-                        $err2 = curl_error($curl2);
-                        curl_close($curl2);
-                        if ($err2) {
-                            return response()->json(['status' => 'error', 'message' => $err2], 500);
-                        } else {
-                            $res= json_decode($response2, true);
-                            return view('pandadoc',compact('res'));
-                            // header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
-                            // exit();
-                            // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
-                            // Process the response of the second cURL request as needed
-                        
-                    }
+                    $res = json_decode($response2, true);
+                    return view('pandadoc', compact('res'));
+                    // header('Location: https://app.pandadoc.com/a/#/documents/'. $res['id']);
+                    // exit();
+                    // return response()->json(['status' => 'success', 'data' => json_decode($response2)], 200);
+                    // Process the response of the second cURL request as needed
+
                 }
-               
-            
+            }
+
+
             // return view('contract.edit-contract',compact('contract'));
             // $objUser = \Auth::user();
             // if($contract)
@@ -250,12 +248,14 @@ class ContractsController extends Controller
         }
     }
 
-    public function new_contract(){
+    public function new_contract()
+    {
         return view('pandadoc');
     }
-    public function templatedetail($id){
+    public function templatedetail($id)
+    {
         // $url = "https://api.pandadoc.com/public/v1/documents/".$id."/download";
-       
+
         // $curl = curl_init();
         // curl_setopt_array($curl, array(
         //     CURLOPT_URL => $url,
@@ -275,13 +275,14 @@ class ContractsController extends Controller
         //     return $response;
         // }
 
-        header('Location: https://app.pandadoc.com/a/#/documents/'. $id);
+        header('Location: https://app.pandadoc.com/a/#/documents/' . $id);
         exit();
     }
-    public function newtemplate(){
+    public function newtemplate()
+    {
         $client    = User::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-        return view('contract.newtemplate',compact('client'));
+        return view('contract.newtemplate', compact('client'));
     }
 
     public function contract_status_edit(Request $request, $id)
@@ -502,15 +503,13 @@ class ContractsController extends Controller
                             $file->id,
                         ]
                     );
+                } else {
+                    $return               = [];
+                    $return['is_success'] = true;
+                    $return['status'] = 1;
+                    $return['success_msg'] = ((isset($result) && $result != 1) ? '<br> <span class="text-danger">' . $result . '</span>' : '');
                 }
-            else{
-                $return               = [];
-                $return['is_success'] = true;
-                $return['status'] =1;
-                $return['success_msg'] = ((isset($result) && $result!=1) ? '<br> <span class="text-danger">' . $result . '</span>' : '');
-            }
-                    return response()->json($return);
-
+                return response()->json($return);
             } else {
                 return response()->json(
                     [
@@ -520,8 +519,6 @@ class ContractsController extends Controller
                     401
                 );
             }
-
-
         } else {
             return response()->json(
                 [
