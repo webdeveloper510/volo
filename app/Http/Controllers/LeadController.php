@@ -50,8 +50,10 @@ class LeadController extends Controller
     {
         if (\Auth::user()->can('Manage Opportunity')) {
             $statuss = Lead::$stat;
-            $userRoleType = '';
-            $userType = '';
+            $userRole = \Auth::user()->user_roles;
+            $userRoleType = Role::find($userRole)->roleType;
+            $userRoleName = Role::find($userRole)->name;
+            $userType = \Auth::user()->type;
 
             if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin') {
                 $leads = Lead::with('accounts', 'assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id', 'desc')->get();
@@ -60,11 +62,11 @@ class LeadController extends Controller
                 $defualtView->module = 'lead';
                 $defualtView->view   = 'list';
                 User::userDefualtView($defualtView);
+            } elseif ($userRoleName == 'restricted') {
+                $leads = Lead::where('assigned_user', \Auth::user()->id)
+                    ->orderBy('id', 'desc')
+                    ->get();
             } else {
-                $userRole = \Auth::user()->user_roles;
-                $userRoleType = Role::find($userRole)->roleType;
-                $userType = \Auth::user()->type;
-
                 if ($userRoleType == 'individual') {
                     $leads = Lead::where(function ($query) {
                         $query->where('created_by', \Auth::user()->creatorId())
@@ -675,7 +677,7 @@ class LeadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Lead $lead)
-    {   
+    {
         if (\Auth::user()->can('Delete Opportunity')) {
             $lead->delete();
             return redirect()->back()->with('success', __('Opportunity  Deleted.'));

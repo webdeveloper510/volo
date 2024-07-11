@@ -1,7 +1,13 @@
 @php
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 $currentDate = Carbon::now();
 $proposalstatus = \App\Models\Lead::$status;
+
+$users = \Auth::user()->type;
+$userRole = \Auth::user()->user_roles;
+$userRoleType = Role::find($userRole)->roleType;
+$userRoleName = Role::find($userRole)->name;
 @endphp
 @extends('layouts.admin')
 @section('page-title')
@@ -135,14 +141,14 @@ $proposalstatus = \App\Models\Lead::$status;
 
                                                 @if($showActions)
                                                 <td class="text-end">
-                                                    @if($lead->status == 4)
+                                                    @if($lead->status == 4 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{ route('meeting.create',['meeting',0])}}" id="convertLink" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="{{ __('Convert') }}" title="{{ __('Convert To Event') }}" data-id="{{$lead->id}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fas fa-exchange-alt"></i> </a>
                                                     </div>
                                                     @endif
                                                     {{-- @if($lead->status == 0 ) --}}
-                                                    @if($lead->is_nda_signed == 1 && $lead->status == 6 )
+                                                    @if($lead->is_nda_signed == 1 && $lead->status == 6 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('MOU') }}" title="{{ __('MOU') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-share"></i>
@@ -150,14 +156,16 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </div>
                                                     @endif
 
+                                                    @if($userRoleName != 'restricted')
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sendemail',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('New Message') }}" title="{{ __('Email') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-mail"></i>
                                                         </a>
                                                     </div>
+                                                    @endif
                                                     {{-- @endif --}}
 
-                                                    @if($lead->is_nda_signed == 0)
+                                                    @if($lead->is_nda_signed == 0 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sharenda',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Share NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-file"></i>
@@ -165,18 +173,22 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </div>
                                                     @endif
 
-                                                    @if($lead->status >= 2 )
+                                                    @if($lead->status >= 2 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunities')}}">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
                                                     @endif
+
+                                                    @if($userRoleName != 'restricted')
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}" data-size="md" data-url="#" data-bs-toggle="tooltip" title="{{ __('Clone') }}" data-title="{{ __('Clone') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fa fa-clone"></i>
                                                         </a>
                                                     </div>
-                                                    @if($lead->status >= 1)
+                                                    @endif
+
+                                                    @if($lead->status >= 1 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="{{route('lead.proposal',urlencode(encrypt($lead->id))) }}" data-bs-toggle="tooltip" data-title="{{__('Proposal')}}" title="{{__('View Proposal')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
                                                             <i class="ti ti-receipt"></i>

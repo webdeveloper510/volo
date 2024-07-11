@@ -1,7 +1,13 @@
 <?php
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 $currentDate = Carbon::now();
 $proposalstatus = \App\Models\Lead::$status;
+
+$users = \Auth::user()->type;
+$userRole = \Auth::user()->user_roles;
+$userRoleType = Role::find($userRole)->roleType;
+$userRoleName = Role::find($userRole)->name;
 ?>
 
 <?php $__env->startSection('page-title'); ?>
@@ -144,14 +150,14 @@ $proposalstatus = \App\Models\Lead::$status;
 
                                                 <?php if($showActions): ?>
                                                 <td class="text-end">
-                                                    <?php if($lead->status == 4): ?>
+                                                    <?php if($lead->status == 4 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" id="convertLink" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>" title="<?php echo e(__('Convert To Event')); ?>" data-id="<?php echo e($lead->id); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fas fa-exchange-alt"></i> </a>
                                                     </div>
                                                     <?php endif; ?>
                                                     
-                                                    <?php if($lead->is_nda_signed == 1 && $lead->status == 6 ): ?>
+                                                    <?php if($lead->is_nda_signed == 1 && $lead->status == 6 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('MOU')); ?>" title="<?php echo e(__('MOU')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-share"></i>
@@ -159,14 +165,16 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </div>
                                                     <?php endif; ?>
 
+                                                    <?php if($userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.sendemail',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('New Message')); ?>" title="<?php echo e(__('Email')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-mail"></i>
                                                         </a>
                                                     </div>
+                                                    <?php endif; ?>
                                                     
 
-                                                    <?php if($lead->is_nda_signed == 0): ?>
+                                                    <?php if($lead->is_nda_signed == 0 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.sharenda',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('NDA')); ?>" title="<?php echo e(__('Share NDA')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-file"></i>
@@ -174,18 +182,22 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </div>
                                                     <?php endif; ?>
 
-                                                    <?php if($lead->status >= 2 ): ?>
+                                                    <?php if($lead->status >= 2 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>" data-title="<?php echo e(__('Review Opportunities')); ?>">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
                                                     <?php endif; ?>
+
+                                                    <?php if($userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>" data-size="md" data-url="#" data-bs-toggle="tooltip" title="<?php echo e(__('Clone')); ?>" data-title="<?php echo e(__('Clone')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fa fa-clone"></i>
                                                         </a>
                                                     </div>
-                                                    <?php if($lead->status >= 1): ?>
+                                                    <?php endif; ?>
+
+                                                    <?php if($lead->status >= 1 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>" title="<?php echo e(__('View Proposal')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
                                                             <i class="ti ti-receipt"></i>
