@@ -41,7 +41,7 @@ class RoleController extends Controller
     {
         if (\Auth::user()->can('Create Role')) {
             $user = \Auth::user();
-            if ($user->type == 'owner') {
+            if ($user->type == 'owner' || $user->type == 'admin') {
                 $permissions = Permission::all()->pluck('name', 'id')->toArray();
             } else {
                 $permissions = new Collection();
