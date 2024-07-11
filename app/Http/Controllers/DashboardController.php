@@ -267,7 +267,7 @@ class DashboardController extends Controller
 
                 $closedWonOpportunitiesCount = $closedWonOpportunities->count();
                 return view('home', compact('assinged_staff', 'products', 'prospectingOpportunities', 'prospectingOpportunitiesCount', 'discoveryOpportunities', 'discoveryOpportunitiesCount', 'demoOrMeetingOpportunities', 'demoOrMeetingOpportunitiesCount', 'proposalOpportunities', 'proposalOpportunitiesCount', 'negotiationOpportunities', 'negotiationOpportunitiesCount', 'awaitingDecisionOpportunities', 'awaitingDecisionOpportunitiesCount', 'postPurchaseOpportunities', 'postPurchaseOpportunitiesCount', 'closedWonOpportunities', 'closedWonOpportunitiesCount', 'prospectingOpportunitiesSum', 'discoveryOpportunitiesSum', 'demoOrMeetingOpportunitiesSum', 'proposalOpportunitiesSum', 'negotiationOpportunitiesSum', 'awaitingDecisionOpportunitiesSum', 'postPurchaseOpportunitiesSum', 'closedWonOpportunitiesSum', 'regions'));
-            } else {
+            } else {              
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
