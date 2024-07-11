@@ -16,7 +16,7 @@
         <a href="{{ route('lead.index') }}" class="btn btn-sm btn-primary btn-icon m-1" data-bs-toggle="tooltip" title="{{ __('List View') }}">
             <i class="ti ti-list text-white"></i>
         </a>
-    @can('Create Lead')
+    @can('Create Opportunity')
         <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunities')}}"title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
             <i class="ti ti-plus"></i>
         </a>
@@ -133,22 +133,22 @@
                                                                 <i class="ti ti-dots-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-end">
-                                                                @if(Gate::check('Show Lead') || Gate::check('Edit Lead') || Gate::check('Delete Lead'))
-                                                                @can('Edit Lead')
+                                                                @if(Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') || Gate::check('Delete Opportunity'))
+                                                                @can('Edit Opportunity')
                                                                         <a href="{{ route('lead.edit',$lead->id) }}" class="dropdown-item" data-size="lg">
                                                                             <i  class="ti ti-edit"></i>
                                                                             <span>{{__('Edit')}}</span>
                                                                         </a>
                                                                     @endcan
 
-                                                                    @can('Show Lead')
+                                                                    @can('Show Opportunity')
                                                                     <a href="#!" class="dropdown-item" data-size="md" data-url="{{ route('lead.show', $lead->id) }}" data-ajax-popup="true" data-title="{{__('Opportunities Details')}}">
                                                                         <i class="ti ti-eye"></i>
                                                                         <span>{{__('View Opportunitie')}}</span>
                                                                     </a>
                                                                     @endcan
 
-                                                                    @can('Delete Lead')
+                                                                    @can('Delete Opportunity')
 
                                                                             {!! Form::open(['method' => 'DELETE', 'route' => ['lead.destroy', $lead->id],'id'=>'delete-form-'.$lead->id]) !!}
                                                                             <a href="#!" class="dropdown-item show_confirm">

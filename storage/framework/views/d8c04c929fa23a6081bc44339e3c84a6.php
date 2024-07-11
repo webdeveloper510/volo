@@ -30,7 +30,7 @@ $proposalstatus = \App\Models\Lead::$status;
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
 
-<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Lead')): ?>
+<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Opportunity')): ?>
 <a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Opportunity
 ')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
@@ -63,8 +63,8 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <th scope="col" class="sort"><?php echo e(__('Sales Stage')); ?><span class="opticy"></span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Created On')); ?><span class="opticy"></span></th>
                                                 <th scope="col" class="sort"><?php echo e(__('Products/Services')); ?><span class="opticy"></span></th>
-                                                <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
-                                                Gate::check('Delete Lead')): ?>
+                                                <?php if(Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') ||
+                                                Gate::check('Delete Opportunity')): ?>
                                                 <th scope="col" class="text-center"><?php echo e(__('Action')); ?> <span class="opticy"></span></th>
                                                 <?php endif; ?>
                                             </tr>
@@ -129,8 +129,20 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     No products found
                                                     <?php endif; ?>
                                                 </td>
-                                                <?php if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
-                                                Gate::check('Delete Lead') ||Gate::check('Manage Lead') ): ?>
+
+                                                <?php
+                                                $showActions = false;
+
+                                                if (Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') || Gate::check('Delete Opportunity') || Gate::check('Manage Opportunity')) {
+                                                if ($userType == 'executive' && $userRoleType == 'individual' && $lead->assigned_user == \Auth::user()->id) {
+                                                $showActions = true;
+                                                } else if (!($userType == 'executive' && $userRoleType == 'individual') && $lead->created_by == \Auth::user()->creatorId()) {
+                                                $showActions = true;
+                                                }
+                                                }
+                                                ?>
+
+                                                <?php if($showActions): ?>
                                                 <td class="text-end">
                                                     <?php if($lead->status == 4): ?>
                                                     <div class="action-btn bg-secondary ms-2">
@@ -180,7 +192,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                         </a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                                     <div class="action-btn bg-warning ms-2">
                                                         <!-- <a href="<?php echo e(route('lead.show',$lead->id)); ?>" title="<?php echo e(__('Quick View')); ?>"
                                                             data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
@@ -192,13 +204,13 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </div>
                                                     <?php endif; ?>
                                                     <?php if($lead->status == 0): ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Opportunity')): ?>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>" data-title="<?php echo e(__('Edit Opportunitie')); ?>"><i class="ti ti-edit"></i></a>
                                                     </div>
                                                     <?php endif; ?>
                                                     <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Lead')): ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Opportunity')): ?>
                                                     <div class="action-btn bg-danger ms-2">
                                                         <?php echo Form::open(['method' => 'DELETE', 'route' =>
                                                         ['lead.destroy', $lead->id]]); ?>

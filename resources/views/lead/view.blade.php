@@ -126,7 +126,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
             @if($lead->status == 0)
             <div class="card-footer">
                 <div class="w-100 text-end pr-2">
-                    @can('Edit Lead')
+                    @can('Edit Opportunity')
                     <div class="action-btn bg-info ms-2">
                         <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip" data-title="{{__('Opportunitie Edit')}}" title="{{__('Edit')}}"><i class="ti ti-edit"></i>
                         </a>

@@ -89,7 +89,7 @@ class CustomOpportunitiesController extends Controller
 
 
 
-        if (\Auth::user()->can('Create Lead')) {
+        if (\Auth::user()->can('Create Opportunity')) {
             $validator = \Validator::make(
                 $request->all(),
                 [

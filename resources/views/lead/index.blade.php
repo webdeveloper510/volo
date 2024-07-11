@@ -28,7 +28,7 @@ $proposalstatus = \App\Models\Lead::$status;
 @endsection
 @section('action-btn')
 
-@can('Create Lead')
+@can('Create Opportunity')
 <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunity
 ')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
@@ -61,8 +61,8 @@ $proposalstatus = \App\Models\Lead::$status;
                                                 <th scope="col" class="sort">{{__('Sales Stage')}}<span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"></span></th>
                                                 <th scope="col" class="sort">{{__('Products/Services')}}<span class="opticy"></span></th>
-                                                @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
-                                                Gate::check('Delete Lead'))
+                                                @if(Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') ||
+                                                Gate::check('Delete Opportunity'))
                                                 <th scope="col" class="text-center">{{__('Action')}} <span class="opticy"></span></th>
                                                 @endif
                                             </tr>
@@ -120,8 +120,20 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     No products found
                                                     @endif
                                                 </td>
-                                                @if(Gate::check('Show Lead') || Gate::check('Edit Lead') ||
-                                                Gate::check('Delete Lead') ||Gate::check('Manage Lead') )
+
+                                                @php
+                                                $showActions = false;
+
+                                                if (Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') || Gate::check('Delete Opportunity') || Gate::check('Manage Opportunity')) {
+                                                if ($userType == 'executive' && $userRoleType == 'individual' && $lead->assigned_user == \Auth::user()->id) {
+                                                $showActions = true;
+                                                } else if (!($userType == 'executive' && $userRoleType == 'individual') && $lead->created_by == \Auth::user()->creatorId()) {
+                                                $showActions = true;
+                                                }
+                                                }
+                                                @endphp
+
+                                                @if($showActions)
                                                 <td class="text-end">
                                                     @if($lead->status == 4)
                                                     <div class="action-btn bg-secondary ms-2">
@@ -171,7 +183,7 @@ $proposalstatus = \App\Models\Lead::$status;
                                                         </a>
                                                     </div>
                                                     @endif
-                                                    @can('Show Lead')
+                                                    @can('Show Opportunity')
                                                     <div class="action-btn bg-warning ms-2">
                                                         <!-- <a href="{{ route('lead.show',$lead->id) }}" title="{{__('Quick View')}}"
                                                             data-ajax-popup="true" data-title="{{__('Lead Details')}}"
@@ -183,13 +195,13 @@ $proposalstatus = \App\Models\Lead::$status;
                                                     </div>
                                                     @endcan
                                                     @if($lead->status == 0)
-                                                    @can('Edit Lead')
+                                                    @can('Edit Opportunity')
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Opportunitie')}}"><i class="ti ti-edit"></i></a>
                                                     </div>
                                                     @endcan
                                                     @endif
-                                                    @can('Delete Lead')
+                                                    @can('Delete Opportunity')
                                                     <div class="action-btn bg-danger ms-2">
                                                         {!! Form::open(['method' => 'DELETE', 'route' =>
                                                         ['lead.destroy', $lead->id]]) !!}

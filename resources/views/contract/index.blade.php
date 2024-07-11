@@ -15,7 +15,7 @@
 
 
 @section('action-btn')
-    @if (\Auth::user()->type == 'owner' && \Auth::user()->type != 'Accountant' && \Auth::user()->type != 'Manager')
+    @if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin' && \Auth::user()->type != 'Accountant' && \Auth::user()->type != 'Manager')
         @can('Create Contract')
             <!-- <a href="#" class="btn btn-sm btn-primary btn-icon m-1" data-bs-toggle="tooltip" data-bs-placement="top"
                 title="{{ __('Create') }}" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Contract') }}"

@@ -83,7 +83,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     <li class="dash-item {{ \Request::route()->getName() == 'dashboard' ? ' active' : '' }}">
                                         <a href="{{ route('dashboard') }}" class="dash-link"><span class="dash-mtext">{{ __('Dashboard') }}</span></a>
                                     </li>
-                                    <!-- @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') ||
+                                    <!-- @if(Gate::check('Manage Opportunity') || Gate::check('Manage Meeting') ||
                                     Gate::check('Manage User')) -->
                                     @can('Manage User')
                                     <li class="dash-item {{ \Request::route()->getName() == 'siteusers'|| \Request::route()->getName() == 'customer.info' ||
@@ -105,7 +105,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li>
                                     @endcan
                                     <!-- @endif -->
-                                    @can('Manage Lead')
+                                    @can('Manage Opportunity')
                                     <li class="dash-item {{ \Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ||
                                     \Request::route()->getName() == 'email.index' ? ' active' : '' }}">
                                         <a href="{{  array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index') }}" class="dash-link">

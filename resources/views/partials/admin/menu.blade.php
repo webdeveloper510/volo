@@ -89,7 +89,7 @@ $defaultView = App\Models\UserDefualtView::select('module','route')->where('user
                     </li>
                 @endcan  -->
 
-                @can('Manage Lead')
+                @can('Manage Opportunity')
                     <li class="dash-item {{ \Request::route()->getName() == 'lead' || \Request::route()->getName() == 'lead.edit' ? ' active' : '' }}">
                         {{-- <a href="{{ !empty(\Auth::user()->getDefualtViewRouteByModule('lead')) ? route(\Auth::user()->getDefualtViewRouteByModule('lead')) : route('lead.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-filter"></i></span><span class="dash-mtext">{{ __('Leads') }}</span>

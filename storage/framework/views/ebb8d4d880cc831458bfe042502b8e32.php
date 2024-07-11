@@ -101,7 +101,7 @@
                                         <?php if($prospectingOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($prospectingOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$prospectingOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('NDA Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -133,7 +133,7 @@
                                         <?php if($discoveryOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$discoveryOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Discovery Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -164,7 +164,7 @@
                                         <?php if($demoOrMeetingOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($demoOrMeetingOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$demoOrMeetingOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Demo OR Meeting Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -195,7 +195,7 @@
                                         <?php if($proposalOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($proposalOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$proposalOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Proposal Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -229,7 +229,7 @@
                                         <?php if($negotiationOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($negotiationOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$negotiationOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Negotiation Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -260,7 +260,7 @@
                                         <?php if($awaitingDecisionOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($awaitingDecisionOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$awaitingDecisionOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Awaiting Decision Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -291,7 +291,7 @@
                                         <?php if($postPurchaseOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($postPurchaseOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$postPurchaseOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Contractual Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -322,7 +322,7 @@
                                         <?php if($closedWonOpportunity['updated_at']): ?>
                                         <p><?php echo e(Carbon\Carbon::parse($closedWonOpportunity['updated_at'])->format('M d')); ?></p>
                                         <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Lead')): ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$closedWonOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Closed Won Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>

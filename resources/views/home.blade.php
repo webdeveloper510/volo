@@ -99,7 +99,7 @@
                                         @if($prospectingOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($prospectingOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$prospectingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('NDA Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -130,7 +130,7 @@
                                         @if($discoveryOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$discoveryOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Discovery Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -160,7 +160,7 @@
                                         @if($demoOrMeetingOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($demoOrMeetingOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$demoOrMeetingOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Demo OR Meeting Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -190,7 +190,7 @@
                                         @if($proposalOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($proposalOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$proposalOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Proposal Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -223,7 +223,7 @@
                                         @if($negotiationOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($negotiationOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$negotiationOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Negotiation Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -253,7 +253,7 @@
                                         @if($awaitingDecisionOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($awaitingDecisionOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$awaitingDecisionOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Awaiting Decision Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -283,7 +283,7 @@
                                         @if($postPurchaseOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($postPurchaseOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$postPurchaseOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Contractual Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>
@@ -313,7 +313,7 @@
                                         @if($closedWonOpportunity['updated_at'])
                                         <p>{{ Carbon\Carbon::parse($closedWonOpportunity['updated_at'])->format('M d')}}</p>
                                         @endif
-                                        @can('Show Lead')
+                                        @can('Show Opportunity')
                                         <div class="action-btn bg-warning ms-2">
                                             <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$closedWonOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Closed Won Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                 <i class="ti ti-eye"></i>

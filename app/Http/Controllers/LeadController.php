@@ -48,8 +48,10 @@ class LeadController extends Controller
      */
     public function index()
     {
-        if (\Auth::user()->can('Manage Lead')) {
+        if (\Auth::user()->can('Manage Opportunity')) {
             $statuss = Lead::$stat;
+            $userRoleType = '';
+            $userType = '';
 
             if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin') {
                 $leads = Lead::with('accounts', 'assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id', 'desc')->get();
@@ -61,13 +63,18 @@ class LeadController extends Controller
             } else {
                 $userRole = \Auth::user()->user_roles;
                 $userRoleType = Role::find($userRole)->roleType;
+                $userType = \Auth::user()->type;
 
                 if ($userRoleType == 'individual') {
-                    $leads = Lead::where('created_by', Auth::user()->creatorId())
-                        ->where('assigned_user', Auth::user()->id)
+                    $leads = Lead::where(function ($query) {
+                        $query->where('created_by', \Auth::user()->creatorId())
+                            ->orWhere('assigned_user', \Auth::user()->id);
+                    })
+                        ->orderBy('id', 'desc')
                         ->get();
                 } else {
-                    $leads = Lead::where('created_by', Auth::user()->creatorId())
+                    $leads = Lead::where('created_by', \Auth::user()->creatorId())
+                        ->orderBy('id', 'desc')
                         ->get();
                 }
 
@@ -76,7 +83,7 @@ class LeadController extends Controller
                 $defualtView->module = 'lead';
                 $defualtView->view   = 'list';
             }
-            return view('lead.index', compact('leads', 'statuss'));
+            return view('lead.index', compact('leads', 'statuss', 'userType', 'userRoleType'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -88,7 +95,7 @@ class LeadController extends Controller
      */
     public function create($type, $id)
     {
-        if (\Auth::user()->can('Create Lead')) {
+        if (\Auth::user()->can('Create Opportunity')) {
             $users = User::where('created_by', \Auth::user()->creatorId())->get();
             $clients = UserImport::all();
             $status = Lead::$status;
@@ -113,7 +120,7 @@ class LeadController extends Controller
         // print_r($request->all());
         // die;
 
-        if (\Auth::user()->can('Create Lead')) {
+        if (\Auth::user()->can('Create Opportunity')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -389,7 +396,7 @@ class LeadController extends Controller
             // } else {
             //     return redirect()->back()->with('error', __('Webhook call failed.') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
             // }
-            return redirect()->back()->with('success', __('Lead Created.'));
+            return redirect()->back()->with('success', __('Opportunity Created.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -404,7 +411,7 @@ class LeadController extends Controller
      */
     public function show(Lead $lead)
     {
-        if (\Auth::user()->can('Show Lead')) {
+        if (\Auth::user()->can('Show Opportunity')) {
             $settings = Utility::settings();
             $venue = explode(',', $settings['venue']);
             $fixed_cost = json_decode($settings['fixed_billing'], true);
@@ -424,7 +431,7 @@ class LeadController extends Controller
      */
     public function edit(Lead $lead)
     {
-        if (\Auth::user()->can('Edit Lead')) {
+        if (\Auth::user()->can('Edit Opportunity')) {
             $venue_function = explode(',', $lead->venue_selection);
             $function_package =  explode(',', $lead->function);
             $status   = Lead::$status;
@@ -470,7 +477,7 @@ class LeadController extends Controller
         // print_r($request->all());
         // die;
 
-        if (\Auth::user()->can('Edit Lead')) {
+        if (\Auth::user()->can('Edit Opportunity')) {
 
             $validator = \Validator::make(
                 $request->all(),
@@ -652,7 +659,7 @@ class LeadController extends Controller
             } else {
                 $leads = Lead::with('accounts', 'assign_user')->where('user_id', \Auth::user()->id)->get();
             }
-            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('success', __('Lead successfully updated!'));
+            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('success', __('Opportunity successfully updated!'));
             // return view('lead.index', compact('leads','statuss'))->with('success', __('Lead  Updated.'));
             // return redirect()->back()->with('success', __('Lead Updated.'));
         } else {
@@ -668,10 +675,10 @@ class LeadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Lead $lead)
-    {
-        if (\Auth::user()->can('Delete Lead')) {
+    {   
+        if (\Auth::user()->can('Delete Opportunity')) {
             $lead->delete();
-            return redirect()->back()->with('success', __('Lead  Deleted.'));
+            return redirect()->back()->with('success', __('Opportunity  Deleted.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -787,7 +794,7 @@ class LeadController extends Controller
             $lead->is_converted = $account->id;
             $lead->save();
 
-            return redirect()->back()->with('success', __('Lead converted.'));
+            return redirect()->back()->with('success', __('Opportunity converted.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -1147,7 +1154,7 @@ class LeadController extends Controller
             $lead->status = 6;
             $lead->save();
         } else {
-            return redirect()->back()->with('error', 'Invalid lead');
+            return redirect()->back()->with('error', 'Invalid Opportunity');
         }
 
         if (!empty($request->imageData)) {
@@ -1315,7 +1322,7 @@ class LeadController extends Controller
             $leads = Lead::with('accounts', 'assign_user')->where('user_id', \Auth::user()->id)->get();
         }
         if ($status == 4) {
-            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('success', __('Lead Approved!'));
+            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('success', __('Opportunity Approved!'));
         } elseif ($status == 3) {
             Proposal::where('lead_id', $id)->delete();
             try {
@@ -1340,7 +1347,7 @@ class LeadController extends Controller
                 // );
                 return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Email Not Sent!'));
             }
-            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Lead Withdrawn!'));
+            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Opportunity Withdrawn!'));
         } elseif ($status == 5) {
             $subject = 'Lead Details';
             $content = '';
@@ -1371,7 +1378,7 @@ class LeadController extends Controller
                 //         );
                 return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Email Not Sent!'));
             }
-            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Lead Resent!'));
+            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Opportunity Resent!'));
         }
     }
     public function duplicate($id)
@@ -1394,7 +1401,7 @@ class LeadController extends Controller
         $newlead['relationship'] = $lead->relationship;
         $newlead['created_by'] = \Auth::user()->creatorId();
         $newlead->save();
-        return redirect()->back()->with('success', 'Lead Cloned successfully');
+        return redirect()->back()->with('success', 'Opportunity Cloned successfully');
     }
     public function lead_info($id)
     {

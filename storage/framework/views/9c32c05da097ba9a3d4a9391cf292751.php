@@ -55,7 +55,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('Team Member')); ?></span>
                 </a>
                 <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Nda')): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage NDA')): ?>
                 <a href="#proposal-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse188')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
                     <!-- <span class="dash-mtext"><?php echo e(__('Proposal')); ?></span> -->
@@ -68,7 +68,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext"><?php echo e(__('Role')); ?></span>
                 </a>
                 <?php endif; ?>
-                <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting')): ?>
+                <?php if(Gate::check('Manage Opportunity') || Gate::check('Manage Meeting')): ?>
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Products')); ?></span>
@@ -227,7 +227,7 @@ $category = explode(',', $settings['campaign_type']);
                 <?php endif; ?>
 
                 <?php if(\Request::route()->getName() == 'lead.index'): ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Opportunity')): ?>
                 <a href="<?php echo e(route('lead.index')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'lead.index' ? 'active' : ''); ?>">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Opportunities')); ?> </span>

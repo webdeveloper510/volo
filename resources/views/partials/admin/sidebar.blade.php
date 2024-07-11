@@ -55,7 +55,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Team Member') }}</span>
                 </a>
                 @endcan
-                @can('Manage Nda')
+                @can('Manage NDA')
                 <a href="#proposal-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse188')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-user"></i></span>
                     <!-- <span class="dash-mtext">{{ __('Proposal') }}</span> -->
@@ -68,7 +68,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Role') }}</span>
                 </a>
                 @endif
-                @if(Gate::check('Manage Lead') || Gate::check('Manage Meeting'))
+                @if(Gate::check('Manage Opportunity') || Gate::check('Manage Meeting'))
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Products') }}</span>
@@ -227,7 +227,7 @@ $category = explode(',', $settings['campaign_type']);
                 @endif
 
                 @if(\Request::route()->getName() == 'lead.index')
-                @can('Manage Lead')
+                @can('Manage Opportunity')
                 <a href="{{ route('lead.index') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'lead.index' ? 'active' : ''}}">
                     <span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Opportunities') }} </span>

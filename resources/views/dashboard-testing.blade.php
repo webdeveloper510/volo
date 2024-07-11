@@ -101,9 +101,9 @@
                                     </div>                              
                                 </div>
                                 @endforeach
-                                @can('Create Lead')
+                                @can('Create Opportunity')
                                 <div class="col-12 text-end mt-3">
-                                <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Lead')}}" title="{{__('Create Lead')}}" class="btn btn-sm btn-primary btn-icon m-1">
+                                <a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunity')}}" title="{{__('Create Opportunity')}}" class="btn btn-sm btn-primary btn-icon m-1">
                                     <i class="ti ti-plus"></i>
                                 </a>
                                 </div>

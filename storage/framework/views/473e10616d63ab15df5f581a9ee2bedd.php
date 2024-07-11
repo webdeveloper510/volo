@@ -83,7 +83,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'dashboard' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(route('dashboard')); ?>" class="dash-link"><span class="dash-mtext"><?php echo e(__('Dashboard')); ?></span></a>
                                     </li>
-                                    <!-- <?php if(Gate::check('Manage Lead') || Gate::check('Manage Meeting') ||
+                                    <!-- <?php if(Gate::check('Manage Opportunity') || Gate::check('Manage Meeting') ||
                                     Gate::check('Manage User')): ?> -->
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage User')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'siteusers'|| \Request::route()->getName() == 'customer.info' ||
@@ -105,7 +105,7 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li>
                                     <?php endif; ?>
                                     <!-- <?php endif; ?> -->
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Lead')): ?>
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Opportunity')): ?>
                                     <li class="dash-item <?php echo e(\Request::route()->getName() == 'lead.index' || \Request::route()->getName() == 'lead.edit' ||
                                     \Request::route()->getName() == 'email.index' ? ' active' : ''); ?>">
                                         <a href="<?php echo e(array_key_exists('lead',$defaultView) ? route($defaultView['lead']) : route('lead.index')); ?>" class="dash-link">

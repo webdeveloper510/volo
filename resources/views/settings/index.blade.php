@@ -752,7 +752,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         </div>
                                     </div>
                                     @endcan
-                                    @can('Manage Nda')
+                                    @can('Manage NDA')
                                     <div id="proposal-settings" class="accordion-item  card">
                                         <h2 class="accordion-header" id="heading-2-188">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse188" aria-expanded="false" aria-controls="collapse188">

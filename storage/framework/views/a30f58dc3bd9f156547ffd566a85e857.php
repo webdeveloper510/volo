@@ -127,7 +127,7 @@ $enddate = \Carbon\Carbon::createFromFormat('Y-m-d', $lead->end_date)->format('d
             <?php if($lead->status == 0): ?>
             <div class="card-footer">
                 <div class="w-100 text-end pr-2">
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Lead')): ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Opportunity')): ?>
                     <div class="action-btn bg-info ms-2">
                         <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip" data-title="<?php echo e(__('Opportunitie Edit')); ?>" title="<?php echo e(__('Edit')); ?>"><i class="ti ti-edit"></i>
                         </a>

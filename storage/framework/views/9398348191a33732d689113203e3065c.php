@@ -15,7 +15,7 @@
 
 
 <?php $__env->startSection('action-btn'); ?>
-    <?php if(\Auth::user()->type == 'owner' && \Auth::user()->type != 'Accountant' && \Auth::user()->type != 'Manager'): ?>
+    <?php if(\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin' && \Auth::user()->type != 'Accountant' && \Auth::user()->type != 'Manager'): ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Contract')): ?>
             <!-- <a href="#" class="btn btn-sm btn-primary btn-icon m-1" data-bs-toggle="tooltip" data-bs-placement="top"
                 title="<?php echo e(__('Create')); ?>" data-ajax-popup="true" data-size="lg" data-title="<?php echo e(__('Create New Contract')); ?>"
