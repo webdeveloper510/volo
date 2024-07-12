@@ -66,7 +66,7 @@ class LeadController extends Controller
                 ->orderby('id', 'desc')
                 ->get();
         } elseif ($userType == 'manager') {
-                if ($userRoleType == 'individual') {
+            if ($userRoleType == 'individual') {
                 $userTeamMemberIds = User::where('team_member', $user->id)->pluck('id')->toArray();
                 $leads = Lead::with('accounts', 'assign_user')
                     ->where(function ($query) use ($user, $userTeamMemberIds) {
@@ -82,7 +82,7 @@ class LeadController extends Controller
                     ->get();
             }
         } elseif ($userType == 'executive') {
-                if ($userRoleType == 'individual') {
+            if ($userRoleType == 'individual') {
                 $leads = Lead::where('assigned_user', $user->id)
                     ->orderby('id', 'desc')
                     ->get();
@@ -327,49 +327,42 @@ class LeadController extends Controller
             }
 
 
-
-            // $existingcustomer = MasterCustomer::where('email', $lead->email)->first();
-            // echo "<pre>";
-            // print_r($existingcustomer);
-            // die(); 
-
-            // if (!$existingcustomer) {
-            //     $customer = new MasterCustomer();
-            //     $customer->ref_id = $lead->id;
-            //     $customer->name = $request->name;
-            //     $customer->email = $request->email ?? '';
-            //     // $customer->primary_contact = $primary_contact;
-            //     // $customer->secondary_contact = $secondary_contact;
-            //     $customer->phone = $primary_contact;
-            //     $customer->address = $request->lead_address ?? '';
-            //     $customer->category = 'lead';
-            //     $customer->type = $request->type ?? '';
-            //     $customer->save();
-            // }
-            // $uArr = [
-            //     'lead_name' => $lead->name,
-            //     'lead_email' => $lead->email,
-            // ];
-            // $resp = Utility::sendEmailTemplate('lead_assign', [$lead->id => $lead->email], $uArr);
+            // code or MasterCustomer
+            $existingcustomer = MasterCustomer::where('email', $lead->primary_email)->first();
+            if (!$existingcustomer) {
+                $customer = new MasterCustomer();
+                $customer->ref_id = $lead->id;
+                $customer->name = $request->primary_name;
+                $customer->email = $request->primary_email ?? '';          
+                $customer->phone = $request->primary_phone_number;
+                $customer->address = $request->primary_address ?? '';
+                $customer->category = 'lead';
+                $customer->type = $request->type ?? '';
+                $customer->save();
+            }
+            $uArr = [
+                'lead_name' => $lead->primary_name,
+                'lead_email' => $lead->primary_email,
+            ];
+            $resp = Utility::sendEmailTemplate('lead_assign', [$lead->id => $lead->primary_email], $uArr);
 
             //webhook
-            // $module = 'New Lead';
-            // $Assign_user_phone = User::where('id', $request->user)->first();
-            // $setting  = Utility::settings(\Auth::user()->creatorId());
-            // $uArr = [
-            //     'lead_name' => $lead->name,
-            //     'lead_email' => $lead->email,
-            // ];
-            // // $resp = Utility::sendEmailTemplate('lead_assigned', [$lead->id => $Assign_user_phone->email], $uArr);
-            // if (isset($setting['twilio_lead_create']) && $setting['twilio_lead_create'] == 1) {
-            //     $uArr = [
-            //         //'company_name'  => $lead->name,
-            //         'lead_email' => $lead->email,
-            //         'lead_name' => $lead->name
-            //     ];
-            //     Utility::send_twilio_msg($Assign_user_phone->primary_contact, 'new_lead', $uArr);
-            // }
-
+            $module = 'New Lead';
+            $Assign_user_phone = User::where('id', $request->user)->first();
+            $setting  = Utility::settings(\Auth::user()->creatorId());
+            $uArr = [
+                'lead_name' => $lead->primary_name,
+                'lead_email' => $lead->primary_email,
+            ];
+            // $resp = Utility::sendEmailTemplate('lead_assigned', [$lead->id => $Assign_user_phone->email], $uArr);
+            if (isset($setting['twilio_lead_create']) && $setting['twilio_lead_create'] == 1) {
+                $uArr = [
+                    //'company_name'  => $lead->name,
+                    'lead_email' => $lead->primary_name,
+                    'lead_name' => $lead->primary_name
+                ];
+                Utility::send_twilio_msg($Assign_user_phone->primary_contact, 'new_lead', $uArr);
+            }
             $url = 'https://fcm.googleapis.com/fcm/send';
             // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
             $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
@@ -377,8 +370,8 @@ class LeadController extends Controller
             $data = [
                 "to" => $FcmToken,
                 "notification" => [
-                    "title" => 'Opportunity created.',
-                    "body" => 'New Opportunity is Created',
+                    "title" => 'Lead created.',
+                    "body" => 'New Lead is Created',
                 ]
             ];
             $encodedData = json_encode($data);
@@ -389,25 +382,19 @@ class LeadController extends Controller
             ];
 
             $ch = curl_init();
-
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // Disabling SSL Certificate support temporarly
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
-            // Execute post
             $result = curl_exec($ch);
             if ($result === FALSE) {
                 die('Curl failed: ' . curl_error($ch));
             }
-            // Close connection
-            curl_close($ch);
-            // FCM response
-            // dd($result);
+            curl_close($ch);          
             if (Auth::user()) {
                 return redirect()->back()->with('success', __('Opportunity created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
             } else {

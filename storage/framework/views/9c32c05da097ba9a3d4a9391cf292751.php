@@ -307,7 +307,7 @@ $category = explode(',', $settings['campaign_type']);
     }
 </script>
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         setTimeout(function() {
             $('.loadthisimage img').each(function() {
@@ -316,4 +316,4 @@ $category = explode(',', $settings['campaign_type']);
             });
         }, 2000);
     });
-</script><?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/sidebar.blade.php ENDPATH**/ ?>
+</script> --><?php /**PATH C:\xampp\htdocs\volo\resources\views/partials/admin/sidebar.blade.php ENDPATH**/ ?>
