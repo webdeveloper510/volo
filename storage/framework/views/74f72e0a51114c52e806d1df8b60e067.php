@@ -83,7 +83,7 @@
         <div class="form-group">
             <?php echo e(Form::label('email',__('Email'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
+            <?php echo e(Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter Email'), 'required' => 'required'])); ?>
 
         </div>
     </div>
@@ -91,7 +91,7 @@
         <div class="form-group">
             <?php echo e(Form::label('name',__('Password'),['class'=>'form-label'])); ?>
 
-            <?php echo e(Form::password('password',array('class'=>'form-control','placeholder'=>__('Enter Password'),'required'=>'required'))); ?>
+            <?php echo e(Form::password('password', ['class' => 'form-control', 'placeholder' => __('Enter Password'), 'required' => 'required'])); ?>
 
         </div>
     </div>

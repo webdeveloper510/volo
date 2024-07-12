@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Meeting;
 use App\Models\Blockdate;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 
 class CalenderNewController extends Controller
@@ -21,6 +22,8 @@ class CalenderNewController extends Controller
     }
     public function get_event_data(Request $request)
     {
+        // echo "get_event_data";
+        // die;
         $loggedInUserId = \Auth::user()->id;
         $userType = \Auth::user()->type;
 
@@ -46,6 +49,8 @@ class CalenderNewController extends Controller
 
     public function eventinfo()
     {
+        // echo "eventinfo";
+        // die;
         $loggedInUserId = \Auth::user()->id;
         @$user_roles = \Auth::user()->user_roles;
         @$userRole = Role::find($user_roles)->roleType;
@@ -69,32 +74,49 @@ class CalenderNewController extends Controller
     }
     public function monthbaseddata(Request $request)
     {
-        $loggedInUserId = \Auth::user()->id;
-        $startDate = "{$request->year}-{$request->month}-01";
+        $user = \Auth::user();
+        $userId = \Auth::user()->id;
+        $userRole = Role::find($user->user_roles);
+        $userType = $user->type;
+        $userRoleType = $userRole->roleType;
+        $userRoleName = $userRole->name;
+
+        $startDate = "{$request->year}-0{$request->month}-01";
         $endDate = date('Y-m-t', strtotime($startDate));
 
-        @$user_roles = \Auth::user()->user_roles;
-        @$userRole = Role::find($user_roles)->roleType;
-        $userType = \Auth::user()->type;
-        $userType = $userRole == 'company' ? 'owner' : $userType;
-        if ($userType = 'owner') {
+        if ($userType == 'owner' || $userType == 'admin' || $userType == 'snr manager') {
             $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
-        } else {
-            $data = Meeting::where(function ($query) use ($loggedInUserId) {
-                $query->where('user_id', $loggedInUserId)
-                    ->orWhereJsonContains('status', [(string) $loggedInUserId => "1"]);
-            })
-                ->whereBetween('start_date', [$startDate, $endDate])
-                ->get()
-                ->filter(function ($event) use ($loggedInUserId) {
-                    $status = $event->status;
-                    return isset($status[(string) $loggedInUserId]) && $status[(string) $loggedInUserId] == "1";
-                });
+        } elseif ($userType == 'manager') {
+            if ($userRoleType == 'individual') {
+                $userTeamMemberIds = User::where('team_member', $user->id)->pluck('id');
+                $data = Meeting::where(function ($query) use ($user, $userTeamMemberIds) {
+                    $query->whereIn('user_id', $userTeamMemberIds)
+                        ->orWhereJsonContains('status', [(string) $user->id => "1"]);
+                })
+                    ->whereBetween('start_date', [$startDate, $endDate])
+                    ->get()
+                    ->filter(function ($event) use ($user) {
+                        $status = $event->status;
+                        return isset($status[(string) $user->id]) && $status[(string) $user->id] == "1";
+                    });
+            } elseif ($userRoleType == 'company') {
+                $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+            }
+        } elseif ($userType == 'executive') {
+            if ($userRoleType == 'individual') {
+                $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+            } elseif ($userRoleType == 'company') {
+                $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+            }
+        } elseif ($userRoleName == 'restricted') {
+            $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         }
         return $data;
     }
     public function weekbaseddata(Request $request)
     {
+        // echo "weekbaseddata";
+        // die;
         $startDate = $request->startdate;
         $endDate = $request->enddate;
 
@@ -110,6 +132,8 @@ class CalenderNewController extends Controller
     }
     public function daybaseddata(Request $request)
     {
+        // echo "daybaseddata";
+        // die;
         $startDate = $request->date;
 
         if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
