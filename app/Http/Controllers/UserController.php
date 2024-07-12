@@ -55,8 +55,8 @@ class UserController extends Controller
             $roles   =  Role::get()->pluck('name', 'id');
             $gender  =  User::$gender;
             $type    =  User::$type;
-            // echo "<pre>";print_r($roles);die;
-            return view('user.create', compact('gender', 'type', 'roles'));
+            $assigned_team_member = User::whereNotIn('type', ['owner', 'admin', 'super admin'])->get()->pluck('name', 'id');
+            return view('user.create', compact('gender', 'type', 'roles', 'assigned_team_member'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

@@ -42,8 +42,7 @@
         <div class="form-group">
             {{Form::label('name',__('Phone'),['class'=>'form-label']) }}
             <div class="intl-tel-input">
-                <input type="tel" id="phone-input" name="phone" class="phone-input form-control"
-                    placeholder="Enter Phone" maxlength="16" required>
+                <input type="tel" id="phone-input" name="phone" class="phone-input form-control" placeholder="Enter Phone" maxlength="16" required>
                 <input type="hidden" name="countrycode" id="country-code">
             </div>
         </div>
@@ -80,6 +79,12 @@
         </div>
     </div>
     <div class="col-6 need_full">
+        <div class="form-group">
+            {{Form::label('assigned_team_member',__('Assigned Team Member'),['class'=>'form-label']) }}
+            {!! Form::select('assigned_team_member', $assigned_team_member, null,array('class' => 'form-control ','required'=>'required')) !!}
+        </div>
+    </div>
+    <div class="col-6 need_full">
         <div class="form-group" style="margin-top: 35px;">
             {{Form::label('name',__('Active'),['class'=>'form-label']) }}
             <input type="checkbox" class="form-check-input" name="is_active" checked>
@@ -96,8 +101,7 @@
             <div class="attachment-button">
                 <div class="pull-left">
                     {{-- {{Form::file('avatar',array('class'=>'form-control'))}} --}}
-                    <input type="file" name="avatar" class="form-control mb-3"
-                        onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+                    <input type="file" name="avatar" class="form-control mb-3" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
                     <img id="blah" width="25%" />
                 </div>
             </div>
@@ -118,74 +122,74 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-        {{Form::submit(__('Save'),array('class'=>'btn  btn-primary  '))}}
+        {{Form::submit(__('Save'),array('class'=>'btn btn-primary  '))}}
     </div>
 </div>
 {{Form::close()}}
 <script>
-$(document).ready(function() {
-    var input = document.querySelector("#phone-input");
-    var iti = window.intlTelInput(input, {
-        separateDialCode: true,
-    });
+    $(document).ready(function() {
+        var input = document.querySelector("#phone-input");
+        var iti = window.intlTelInput(input, {
+            separateDialCode: true,
+        });
 
-    var indiaCountryCode = iti.getSelectedCountryData().iso2;
-    var countryCode = iti.getSelectedCountryData().dialCode;
-    $('#country-code').val(countryCode);
-    if (indiaCountryCode !== 'us') {
-        iti.setCountry('us');
-    }
-});
+        var indiaCountryCode = iti.getSelectedCountryData().iso2;
+        var countryCode = iti.getSelectedCountryData().dialCode;
+        $('#country-code').val(countryCode);
+        if (indiaCountryCode !== 'us') {
+            iti.setCountry('us');
+        }
+    });
 </script>
 
 <script>
-const isNumericInput = (event) => {
-    const key = event.keyCode;
-    return ((key >= 48 && key <= 57) || // Allow number line
-        (key >= 96 && key <= 105) // Allow number pad
-    );
-};
+    const isNumericInput = (event) => {
+        const key = event.keyCode;
+        return ((key >= 48 && key <= 57) || // Allow number line
+            (key >= 96 && key <= 105) // Allow number pad
+        );
+    };
 
-const isModifierKey = (event) => {
-    const key = event.keyCode;
-    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-        (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
-        (key > 36 && key < 41) || // Allow left, up, right, down
-        (
-            // Allow Ctrl/Command + A,C,V,X,Z
-            (event.ctrlKey === true || event.metaKey === true) &&
-            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-        )
-};
+    const isModifierKey = (event) => {
+        const key = event.keyCode;
+        return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+            (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+            (key > 36 && key < 41) || // Allow left, up, right, down
+            (
+                // Allow Ctrl/Command + A,C,V,X,Z
+                (event.ctrlKey === true || event.metaKey === true) &&
+                (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+            )
+    };
 
-const enforceFormat = (event) => {
-    // Input must be of a valid number format or a modifier key, and not longer than ten digits
-    if (!isNumericInput(event) && !isModifierKey(event)) {
-        event.preventDefault();
-    }
-};
-const formatToPhone = (event) => {
-    if (isModifierKey(event)) {
-        return;
-    }
-    // I am lazy and don't like to type things more than once
-    const target = event.target;
-    const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
-    const zip = input.substring(0, 3);
-    const middle = input.substring(3, 6);
-    const last = input.substring(6, 10);
+    const enforceFormat = (event) => {
+        // Input must be of a valid number format or a modifier key, and not longer than ten digits
+        if (!isNumericInput(event) && !isModifierKey(event)) {
+            event.preventDefault();
+        }
+    };
+    const formatToPhone = (event) => {
+        if (isModifierKey(event)) {
+            return;
+        }
+        // I am lazy and don't like to type things more than once
+        const target = event.target;
+        const input = event.target.value.replace(/\D/g, '').substring(0, 10); // First ten digits of input only
+        const zip = input.substring(0, 3);
+        const middle = input.substring(3, 6);
+        const last = input.substring(6, 10);
 
-    if (input.length > 6) {
-        target.value = `(${zip}) ${middle} - ${last}`;
-    } else if (input.length > 3) {
-        target.value = `(${zip}) ${middle}`;
-    } else if (input.length > 0) {
-        target.value = `(${zip}`;
-    }
-};
+        if (input.length > 6) {
+            target.value = `(${zip}) ${middle} - ${last}`;
+        } else if (input.length > 3) {
+            target.value = `(${zip}) ${middle}`;
+        } else if (input.length > 0) {
+            target.value = `(${zip}`;
+        }
+    };
 
-const inputElement = document.getElementById('phone-input');
-inputElement.addEventListener('keydown', enforceFormat);
-inputElement.addEventListener('keyup', formatToPhone);
+    const inputElement = document.getElementById('phone-input');
+    inputElement.addEventListener('keydown', enforceFormat);
+    inputElement.addEventListener('keyup', formatToPhone);
 </script>
 @endif
