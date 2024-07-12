@@ -63,13 +63,13 @@
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('email',__('Email'),['class'=>'form-label']) }}
-            {{Form::text('email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
+            {{Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter Email'), 'required' => 'required']) }}
         </div>
     </div>
     <div class="col-md-6 need_full">
         <div class="form-group">
             {{Form::label('name',__('Password'),['class'=>'form-label']) }}
-            {{Form::password('password',array('class'=>'form-control','placeholder'=>__('Enter Password'),'required'=>'required'))}}
+            {{Form::password('password', ['class' => 'form-control', 'placeholder' => __('Enter Password'), 'required' => 'required']) }}
         </div>
     </div>
     <div class="col-6 need_full">
