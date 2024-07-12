@@ -64,6 +64,10 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
+
         if (\Auth::user()->can('Create User')) {
             $default_language = DB::table('settings')->select('value')->where('name', 'default_language')->first();
             if (\Auth::user()->type == 'super admin') {
@@ -89,6 +93,7 @@ class UserController extends Controller
                     $user['email_verified_at'] = date('H:i:s');
                     $user['password']   = Hash::make($request->password);
                     $user['type']       = 'owner';
+                    $user['team_member']       = $request->assigned_team_member;
                     $user['lang']       = !empty($default_language) ? $default_language->value : '';
                     $user['created_by'] = \Auth::user()->creatorId();
                     $user['plan']       = Plan::first()->id;
@@ -104,6 +109,7 @@ class UserController extends Controller
                     $user['email_verified_at'] = date('H:i:s');
                     $user['password']   = Hash::make($request->password);
                     $user['type']       = 'owner';
+                    $user['team_member']       = $request->assigned_team_member;
                     $user['lang']       = !empty($default_language) ? $default_language->value : '';
                     $user['created_by'] = \Auth::user()->creatorId();
                     $user['plan']       = Plan::first()->id;
@@ -137,6 +143,7 @@ class UserController extends Controller
                         'avatar' => ['image', 'mimes:jpeg,png,jpg'],
                         'phone' => 'required',
                         'user_roles' => 'required',
+                        'assigned_team_member' => 'required',
                         'details' => 'nullable|mimes:doc,docx,pdf'
                     ]
                 );
@@ -161,6 +168,7 @@ class UserController extends Controller
                 $user['phone']      = $phone;
                 $user['gender']     = $request->gender;
                 $user['is_active']  = ($request->is_active == 'on') ? 1 : 0;
+                $user['team_member']  = $request->assigned_team_member;
                 $user['lang']       = !empty($setting['default_owner_language']) ? $setting['default_owner_language'] : 'en';
                 if ($role_r->name == 'Admin') {
                     $user['type']       = 'owner';

@@ -80,7 +80,7 @@
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('assigned_team_member',__('Assigned Team Member'),['class'=>'form-label']) }}
+            {{Form::label('assigned_team_member',__('Team Member'),['class'=>'form-label']) }}
             {!! Form::select('assigned_team_member', $assigned_team_member, null,array('class' => 'form-control ','required'=>'required')) !!}
         </div>
     </div>

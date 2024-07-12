@@ -33,6 +33,7 @@ use App\Models\NotesLeads;
 use App\Models\Nda;
 use Log;
 use Mail;
+use PhpParser\Node\Stmt\ElseIf_;
 use Str;
 use App\Models\LeadDoc;
 use App\Models\UserImport;
@@ -48,48 +49,78 @@ class LeadController extends Controller
      */
     public function index()
     {
-        if (\Auth::user()->can('Manage Opportunity')) {
-            $statuss = Lead::$stat;
-            $userRole = \Auth::user()->user_roles;
-            $userRoleType = Role::find($userRole)->roleType;
-            $userRoleName = Role::find($userRole)->name;
-            $userType = \Auth::user()->type;
+        if (!\Auth::user()->can('Manage Opportunity')) {
+            return redirect()->back()->with('error', 'Permission Denied');
+        }
 
-            if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin') {
-                $leads = Lead::with('accounts', 'assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id', 'desc')->get();
-                $defualtView         = new UserDefualtView();
-                $defualtView->route  = \Request::route()->getName();
-                $defualtView->module = 'lead';
-                $defualtView->view   = 'list';
-                User::userDefualtView($defualtView);
-            } elseif ($userRoleName == 'restricted') {
-                $leads = Lead::where('assigned_user', \Auth::user()->id)
+        $statuss = Lead::$stat;
+        $user = \Auth::user();
+        $userRole = Role::find($user->user_roles);
+        $userType = $user->type;
+        $userRoleType = $userRole->roleType;
+        $userRoleName = $userRole->name;
+
+        if ($userType == 'owner' || $userType == 'admin' || $userType == 'snr manager') {
+            // echo "if";
+            // echo $userType;
+            // die;
+
+            $leads = Lead::with('accounts', 'assign_user')
+                ->where('created_by', $user->creatorId())
+                ->orderby('id', 'desc')
+                ->get();
+        } elseif ($userType == 'manager') {
+            // echo "else if";
+            // echo $userType;
+            // die;
+            if ($userRoleType == 'individual') {
+                $userTeamMemberIds = User::where('team_member', $user->id)->pluck('id')->toArray();
+                $leads = Lead::with('accounts', 'assign_user')
+                    ->where(function ($query) use ($user, $userTeamMemberIds) {
+                        $query->whereIn('assigned_user', $userTeamMemberIds)
+                            ->orWhere('assigned_user', $user->id);
+                    })
                     ->orderBy('id', 'desc')
                     ->get();
-            } else {
-                if ($userRoleType == 'individual') {
-                    $leads = Lead::where(function ($query) {
-                        $query->where('created_by', \Auth::user()->creatorId())
-                            ->orWhere('assigned_user', \Auth::user()->id);
-                    })
-                        ->orderBy('id', 'desc')
-                        ->get();
-                } else {
-                    $leads = Lead::where('created_by', \Auth::user()->creatorId())
-                        ->orderBy('id', 'desc')
-                        ->get();
-                }
-
-                $defualtView         = new UserDefualtView();
-                $defualtView->route  = \Request::route()->getName();
-                $defualtView->module = 'lead';
-                $defualtView->view   = 'list';
+            } elseif ($userRoleType == 'company') {
+                $leads = Lead::with('accounts', 'assign_user')
+                    ->where('created_by', $user->creatorId())
+                    ->orderby('id', 'desc')
+                    ->get();
             }
-            return view('lead.index', compact('leads', 'statuss', 'userType', 'userRoleType'));
-        } else {
-            return redirect()->back()->with('error', 'permission Denied');
+        } elseif ($userType == 'executive') {
+            // echo "else if";
+            // echo $userType;
+            // die;
+            if ($userRoleType == 'individual') {
+                $leads = Lead::where('assigned_user', $user->id)
+                    ->orderby('id', 'desc')
+                    ->get();
+            } elseif ($userRoleType == 'company') {
+                $leads = Lead::with('accounts', 'assign_user')
+                    ->where('created_by', $user->creatorId())
+                    ->orderby('id', 'desc')
+                    ->get();
+            }
+        } elseif ($userRoleName == 'restricted') {
+            // echo "else if";
+            // echo $userType;
+            // die;
+            $leads = Lead::where('assigned_user', $user->id)
+                ->orderBy('id', 'desc')
+                ->get();
         }
+
+        $defualtView = new UserDefualtView();
+        $defualtView->route = \Request::route()->getName();
+        $defualtView->module = 'lead';
+        $defualtView->view = 'list';
+        User::userDefualtView($defualtView);
+
+        return view('lead.index', compact('leads', 'statuss', 'userType', 'userRoleType'));
     }
+
+
     /**
      * Show the form for creating a new resource.
      *

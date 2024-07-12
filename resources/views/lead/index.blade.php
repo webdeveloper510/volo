@@ -106,14 +106,19 @@ $userRoleName = Role::find($userRole)->name;
                                                         @endforeach
                                                 </td> -->
                                                 <td>
-                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="{{$lead->id}}">
+                                                    @if($userRoleName == 'restricted')
+                                                    <span>{{ $lead->sales_stage }}</span>
+                                                    @else
+                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="{{ $lead->id }}">
                                                         @foreach($proposalstatus as $key => $stat)
                                                         <option value="{{ $key }}" {{ isset($lead->status) && $lead->status == $key ? "selected" : "" }}>
                                                             {{ $stat }}
                                                         </option>
                                                         @endforeach
                                                     </select>
+                                                    @endif
                                                 </td>
+
                                                 <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
                                                 <td>
                                                     @php

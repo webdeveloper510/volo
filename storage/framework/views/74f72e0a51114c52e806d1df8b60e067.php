@@ -105,7 +105,7 @@
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            <?php echo e(Form::label('assigned_team_member',__('Assigned Team Member'),['class'=>'form-label'])); ?>
+            <?php echo e(Form::label('assigned_team_member',__('Team Member'),['class'=>'form-label'])); ?>
 
             <?php echo Form::select('assigned_team_member', $assigned_team_member, null,array('class' => 'form-control ','required'=>'required')); ?>
 
