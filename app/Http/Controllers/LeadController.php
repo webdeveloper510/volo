@@ -156,44 +156,6 @@ class LeadController extends Controller
                     ->withInput();
             }
 
-            // Previous code start here
-            // $data = $request->all();
-            // $package = [];
-            // $additional = [];
-            // $bar_pack = [];
-            // foreach ($data as $key => $values) {
-            //     if (strpos($key, 'package_') === 0) {
-            //         $newKey = strtolower(str_replace('package_', '', $key));
-            //         $package[$newKey] = $values;
-            //     }
-            //     if (strpos($key, 'additional_') === 0) {
-            //         // Extract the suffix from the key
-            //         $newKey = strtolower(str_replace('additional_', '', $key));
-            //         // Check if the key exists in the output array, if not, initialize it
-            //         if (!isset($additional[$newKey])) {
-            //             $additional[$newKey] = [];
-            //         }
-            //         $additional[$newKey] = $values;
-            //     }
-            //     if (strpos($key, 'bar_') === 0) {
-            //         // Extract the suffix from the key
-            //         $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
-            //         // Check if the key exists in the output array, if not, initialize it
-            //         if (!isset($bar_pack[$newKey])) {
-            //             $bar_pack[$newKey] = [];
-            //         }
-            //         // Assign the values to the new key in the output array
-            //         $bar_pack[$newKey] = $values;
-            //     }
-            // }
-
-            // $package = json_encode($package);
-            // $additional = json_encode($additional);
-            // $bar_pack = json_encode($bar_pack);
-            // $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
-            // $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
-            // Previous code end here
-
             function processProductData($request, $productType)
             {
                 $products = [];
@@ -228,11 +190,8 @@ class LeadController extends Controller
             $subscriptions = processProductData($request, 'subscriptions');
             $tech_deployment = processProductData($request, 'tech_deployment');
 
-
+            // Save data to leads table
             $lead = new Lead();
-            // $lead['user_id'] = Auth::user()->id;
-            // $lead['name'] = $request->name;
-            // $lead['leadname'] = $request->lead_name;
             $lead['user_id'] = $request->existing_client  ?? '';
             $lead['opportunity_name'] = $request->opportunity_name;
             $lead['assigned_user'] = $request->assign_staff;
@@ -247,32 +206,14 @@ class LeadController extends Controller
             $lead['secondary_address'] = $request->secondary_address ?? '';
             $lead['secondary_designation'] = $request->secondary_designation ?? '';
             $lead['region'] = $request->region ?? $request->existing_region;
-            $lead['lead_address'] = '-';
-            $lead['company_name'] = '-';
-            $lead['relationship'] = '-';
-            // $lead['start_date'] = $request->start_date;
-            $lead['start_date'] = '-';
-            $lead['end_date'] = '-';
-            $lead['type'] = '-';
-            // $lead['venue_selection'] = isset($request->venue) ? implode(',', $request->venue) : '';
             $lead['sales_stage'] = $request->sales_stage ?? '';
-            // $lead['function'] = isset($request->function) ? implode(',', $request->function) : '';
             $lead['value_of_opportunity'] = $request->value_of_opportunity ?? '';
-            $lead['func_package'] = '-';
-            $lead['guest_count'] = '-';
-            $lead['description'] = '-';
-            // $lead['spcl_req'] = $request->spcl_req;
             $lead['deal_length'] = $request->deal_length ?? '';
-            // $lead['allergies'] = $request->allergies;
             $lead['difficult_level'] = $request->difficult_level ?? '';
             $lead['start_time'] = $request->start_time ?? '';
             $lead['end_time'] = $request->end_time ?? '';
-            // $lead['bar'] = $request->baropt;
             $lead['timing_close'] = $request->timing_close ?? '';
-            $lead['bar_package'] = '-';
-            // $lead['ad_opts'] = isset($additional) && !empty($additional) ? $additional : '';
             $lead['probability_to_close'] = $request->probability_to_close ?? '';
-            // $lead['rooms'] = $request->rooms ?? 0;
             $lead['currency'] = $request->currency ?? '';
             $lead['lead_status'] = ($request->is_active == 'on') ? 1 : 0;
             $lead['category'] = $request->category ?? '';
@@ -333,38 +274,38 @@ class LeadController extends Controller
                 $customer = new MasterCustomer();
                 $customer->ref_id = $lead->id;
                 $customer->name = $request->primary_name;
-                $customer->email = $request->primary_email ?? '';          
+                $customer->email = $request->primary_email ?? '';
                 $customer->phone = $request->primary_phone_number;
                 $customer->address = $request->primary_address ?? '';
                 $customer->category = 'lead';
-                $customer->type = $request->type ?? '';
+                $customer->type = '';
                 $customer->save();
             }
+
             $uArr = [
-                'lead_name' => $lead->primary_name,
+                'lead_name' => $lead->opportunity_name,
                 'lead_email' => $lead->primary_email,
             ];
+
             $resp = Utility::sendEmailTemplate('lead_assign', [$lead->id => $lead->primary_email], $uArr);
 
             //webhook
             $module = 'New Lead';
-            $Assign_user_phone = User::where('id', $request->user)->first();
+            $Assign_user_phone = User::where('id', \Auth::user()->id)->first();
             $setting  = Utility::settings(\Auth::user()->creatorId());
             $uArr = [
-                'lead_name' => $lead->primary_name,
+                'lead_name' => $lead->opportunity_name,
                 'lead_email' => $lead->primary_email,
             ];
-            // $resp = Utility::sendEmailTemplate('lead_assigned', [$lead->id => $Assign_user_phone->email], $uArr);
             if (isset($setting['twilio_lead_create']) && $setting['twilio_lead_create'] == 1) {
                 $uArr = [
-                    //'company_name'  => $lead->name,
                     'lead_email' => $lead->primary_name,
-                    'lead_name' => $lead->primary_name
+                    'lead_name' => $lead->opportunity_name
                 ];
                 Utility::send_twilio_msg($Assign_user_phone->primary_contact, 'new_lead', $uArr);
             }
+
             $url = 'https://fcm.googleapis.com/fcm/send';
-            // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
             $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
             $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
             $data = [
@@ -374,8 +315,8 @@ class LeadController extends Controller
                     "body" => 'New Lead is Created',
                 ]
             ];
-            $encodedData = json_encode($data);
 
+            $encodedData = json_encode($data);
             $headers = [
                 'Authorization:key=' . $serverKey,
                 'Content-Type: application/json',
@@ -391,15 +332,16 @@ class LeadController extends Controller
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
             $result = curl_exec($ch);
+
+            // echo "<pre>";
+            // print_r($result);
+            // die;
+
             if ($result === FALSE) {
                 die('Curl failed: ' . curl_error($ch));
             }
-            curl_close($ch);          
-            if (Auth::user()) {
-                return redirect()->back()->with('success', __('Opportunity created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
-            } else {
-                return redirect()->back()->with('error', __('Webhook call failed.') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
-            }
+            curl_close($ch);
+
             return redirect()->back()->with('success', __('Opportunity Created.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');

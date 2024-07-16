@@ -379,7 +379,7 @@ class MeetingController extends Controller
             $meeting->venue_selection = $request->location;
             $meeting->link = $request->link;
             $meeting->notes = $request->notes_remarks;
-            $meeting->created_by = \Auth::user()->creatorId();
+            $meeting->created_by = \Auth::user()->id;
             $meeting->save();
 
             // Get settings

@@ -22,21 +22,32 @@ class CalenderNewController extends Controller
     }
     public function get_event_data(Request $request)
     {
-        // echo "get_event_data";
-        // die;
-        $loggedInUserId = \Auth::user()->id;
-        $userType = \Auth::user()->type;
+        $user = \Auth::user();
+        $userRole = Role::find($user->user_roles);
+        $userType = $user->type;
+        $userRoleType = $userRole->roleType;
+        $loggedInUserId = (string) $user->id;
 
-        if ($userType == 'owner' || $userType == 'super admin') {
-            $events = Meeting::where('start_date', $request->start)->get();
-        } else {
-            $events = Meeting::where('start_date', $request->start)
-                ->whereJsonContains('user_id', (string) $loggedInUserId)
+        $query = Meeting::where('start_date', $request->start);
+
+        if ($userType == 'owner' || $userType == 'admin' || $userType == 'snr manager') {
+            $events = $query->get();
+        } elseif ($userType == 'manager' && $userRoleType == 'individual') {
+            $events = $query->where('created_by', $user->id)->get();
+        } elseif ($userType == 'manager' && $userRoleType == 'company') {
+            $events = $query->where('created_by', $user->id)->get();
+        } elseif ($userType == 'executive' && $userRoleType == 'individual') {
+            $events = $query->whereJsonContains('user_id', $loggedInUserId)
                 ->get()
                 ->filter(function ($event) use ($loggedInUserId) {
-                    $status = $event->status;
-                    return isset($status[(string) $loggedInUserId]) && $status[(string) $loggedInUserId] == "1";
-                });
+                    $status = is_array($event->status) ? $event->status : json_decode($event->status, true);
+                    return isset($status[$loggedInUserId]) && $status[$loggedInUserId] == "1";
+                })
+                ->values();
+        } elseif ($userType == 'executive' && $userRoleType == 'company') {
+            $events = $query->whereJsonContains('user_id', $loggedInUserId)->get();
+        } else {
+            $events = collect();
         }
 
         return response()->json(["events" => $events->values()]);
@@ -49,37 +60,43 @@ class CalenderNewController extends Controller
 
     public function eventinfo()
     {
-        // echo "eventinfo";
-        // die;
-        $loggedInUserId = \Auth::user()->id;
-        @$user_roles = \Auth::user()->user_roles;
-        @$userRole = Role::find($user_roles)->roleType;
-        $userType = \Auth::user()->type;
-        $userType = $userRole == 'company' ? 'owner' : $userType;
-        if ($userType = 'owner') {
-            $events = Meeting::all();
-        } else {
-            $events = Meeting::where(function ($query) use ($loggedInUserId) {
-                $query->where('user_id', $loggedInUserId)
-                    ->orWhereJsonContains('status', [(string) $loggedInUserId => "1"]);
-            })
-                ->get()
-                ->filter(function ($event) use ($loggedInUserId) {
-                    $status = $event->status;
-                    return isset($status[(string) $loggedInUserId]) && $status[(string) $loggedInUserId] == "1";
-                });
-        }
+        $user = \Auth::user();
+        $userRole = Role::find($user->user_roles);
+        $userType = $user->type;
+        $userRoleType = $userRole->roleType;
 
-        return $events;
+        if ($userType == 'owner' || $userType == 'admin' || $userType == 'snr manager') {
+            $data = Meeting::all();
+        } elseif ($userType == 'manager') {
+            if ($userRoleType == 'individual') {
+                $data = Meeting::where('created_by', \Auth::user()->id)->get();
+            } elseif ($userRoleType == 'company') {
+                $data = Meeting::where('created_by', \Auth::user()->id)->get();
+            }
+        } elseif ($userType == 'executive') {
+            if ($userRoleType == 'individual') {
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)
+                    ->get()
+                    ->filter(function ($event) use ($loggedInUserId) {
+                        $status = is_array($event->status) ? $event->status : json_decode($event->status, true);
+                        return isset($status[$loggedInUserId]) && $status[$loggedInUserId] == "1";
+                    })
+                    ->values();
+                return $data;
+            } elseif ($userRoleType == 'company') {
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)->get();
+            }
+        }
+        return $data;
     }
     public function monthbaseddata(Request $request)
     {
         $user = \Auth::user();
-        $userId = \Auth::user()->id;
         $userRole = Role::find($user->user_roles);
         $userType = $user->type;
         $userRoleType = $userRole->roleType;
-        $userRoleName = $userRole->name;
 
         $startDate = "{$request->year}-0{$request->month}-01";
         $endDate = date('Y-m-t', strtotime($startDate));
@@ -88,60 +105,110 @@ class CalenderNewController extends Controller
             $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         } elseif ($userType == 'manager') {
             if ($userRoleType == 'individual') {
-                $userTeamMemberIds = User::where('team_member', $user->id)->pluck('id');
-                $data = Meeting::where(function ($query) use ($user, $userTeamMemberIds) {
-                    $query->whereIn('user_id', $userTeamMemberIds)
-                        ->orWhereJsonContains('status', [(string) $user->id => "1"]);
-                })
-                    ->whereBetween('start_date', [$startDate, $endDate])
-                    ->get()
-                    ->filter(function ($event) use ($user) {
-                        $status = $event->status;
-                        return isset($status[(string) $user->id]) && $status[(string) $user->id] == "1";
-                    });
+                $data = Meeting::where('created_by', \Auth::user()->id)
+                    ->whereBetween('start_date', [$startDate, $endDate])->get();
             } elseif ($userRoleType == 'company') {
-                $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+                $data = Meeting::where('created_by', \Auth::user()->id)
+                    ->whereBetween('start_date', [$startDate, $endDate])->get();
             }
         } elseif ($userType == 'executive') {
             if ($userRoleType == 'individual') {
-                $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)
+                    ->whereBetween('start_date', [$startDate, $endDate])
+                    ->get()
+                    ->filter(function ($event) use ($loggedInUserId) {
+                        $status = is_array($event->status) ? $event->status : json_decode($event->status, true);
+                        return isset($status[$loggedInUserId]) && $status[$loggedInUserId] == "1";
+                    })
+                    ->values();
+                return $data;
             } elseif ($userRoleType == 'company') {
-                $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)
+                    ->whereBetween('start_date', [$startDate, $endDate])->get();
             }
-        } elseif ($userRoleName == 'restricted') {
-            $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
         }
         return $data;
     }
     public function weekbaseddata(Request $request)
     {
-        // echo "weekbaseddata";
-        // die;
+        $user = \Auth::user();
+        $userRole = Role::find($user->user_roles);
+        $userType = $user->type;
+        $userRoleType = $userRole->roleType;
+
         $startDate = $request->startdate;
         $endDate = $request->enddate;
 
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
+        if ($userType == 'owner' || $userType == 'admin' || $userType == 'snr manager') {
             $data = Meeting::whereBetween('start_date', [$startDate, $endDate])->get();
-        } else {
-            $data = Meeting::where('user_id', \Auth::user()->id)
-                ->whereBetween('start_date', [$startDate, $endDate])
-                ->get();
+        } elseif ($userType == 'manager') {
+            if ($userRoleType == 'individual') {
+                $data = Meeting::where('created_by', \Auth::user()->id)
+                    ->whereBetween('start_date', [$startDate, $endDate])->get();
+            } elseif ($userRoleType == 'company') {
+                $data = Meeting::where('created_by', \Auth::user()->id)
+                    ->whereBetween('start_date', [$startDate, $endDate])->get();
+            }
+        } elseif ($userType == 'executive') {
+            if ($userRoleType == 'individual') {
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)
+                    ->whereBetween('start_date', [$startDate, $endDate])
+                    ->get()
+                    ->filter(function ($event) use ($loggedInUserId) {
+                        $status = is_array($event->status) ? $event->status : json_decode($event->status, true);
+                        return isset($status[$loggedInUserId]) && $status[$loggedInUserId] == "1";
+                    })
+                    ->values();
+                return $data;
+            } elseif ($userRoleType == 'company') {
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)
+                    ->whereBetween('start_date', [$startDate, $endDate])->get();
+            }
         }
 
         return $data;
     }
+
     public function daybaseddata(Request $request)
     {
-        // echo "daybaseddata";
-        // die;
+        $user = \Auth::user();
+        $userRole = Role::find($user->user_roles);
+        $userType = $user->type;
+        $userRoleType = $userRole->roleType;
+
         $startDate = $request->date;
 
-        if (\Auth::user()->type == 'owner' || \Auth::user()->type == 'super admin') {
+        if ($userType == 'owner' || $userType == 'admin' || $userType == 'snr manager') {
             $data = Meeting::where('start_date', $startDate)->get();
-        } else {
-            $data = Meeting::where('user_id', \Auth::user()->id)
-                ->where('start_date', $startDate)
-                ->get();
+        } elseif ($userType == 'manager') {
+            if ($userRoleType == 'individual') {
+                $data = Meeting::where('created_by', \Auth::user()->id)
+                    ->where('start_date', $startDate)->get();
+            } elseif ($userRoleType == 'company') {
+                $data = Meeting::where('created_by', \Auth::user()->id)
+                    ->where('start_date', $startDate)->get();
+            }
+        } elseif ($userType == 'executive') {
+            if ($userRoleType == 'individual') {
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)
+                    ->where('start_date', $startDate)
+                    ->get()
+                    ->filter(function ($event) use ($loggedInUserId) {
+                        $status = is_array($event->status) ? $event->status : json_decode($event->status, true);
+                        return isset($status[$loggedInUserId]) && $status[$loggedInUserId] == "1";
+                    })
+                    ->values();
+                return $data;
+            } elseif ($userRoleType == 'company') {
+                $loggedInUserId = (string) $user->id;
+                $data = Meeting::whereJsonContains('user_id', $loggedInUserId)
+                    ->where('start_date', $startDate)->get();
+            }
         }
 
         return $data;

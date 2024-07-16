@@ -86,7 +86,7 @@ $venue = explode(',', $settings['venue']);
                 <div class="card-body">
                     <h3 class="mb-4">Event list
                         <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" style="float: right;" data-date-selected="" id="selectedDate">
-                           <button data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1" data-bs-placement="top" data-bs-original-title="Create"><i class="ti ti-plus"></i></button>
+                            <button data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1" data-bs-placement="top" data-bs-original-title="Create"><i class="ti ti-plus"></i></button>
                         </a>
                     </h3>
                     <p class="text-muted" id="daySelected"></p>
@@ -556,8 +556,7 @@ $venue = explode(',', $settings['venue']);
                     method: 'GET',
                     dataType: 'json',
                     success: function(blockedDates) {
-                        console.log(blockedDates);
-
+                        // console.log(blockedDates);
                         blockedDates.forEach(function(event) {
                             var startDate = moment(event.start_date).format(
                                 'YYYY-MM-DD');
