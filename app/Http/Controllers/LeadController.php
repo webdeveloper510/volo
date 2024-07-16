@@ -226,7 +226,7 @@ class LeadController extends Controller
             $lead['systems_integrations'] = json_encode($systems_integrations);
             $lead['subscriptions'] = json_encode($subscriptions);
             $lead['tech_deployment_volume_based'] = json_encode($tech_deployment);
-            $lead['created_by'] = \Auth::user()->creatorId();
+            $lead['created_by'] = \Auth::user()->id;
             $lead->save();
 
             // Get the last inserted ID
@@ -595,7 +595,7 @@ class LeadController extends Controller
             $lead['systems_integrations'] = json_encode($systems_integrations);
             $lead['subscriptions'] = json_encode($subscriptions);
             $lead['tech_deployment_volume_based'] = json_encode($tech_deployment);
-            $lead['created_by'] = \Auth::user()->creatorId();
+            $lead['created_by'] = \Auth::user()->id;
             $lead->update();
 
             $statuss = Lead::$stat;
