@@ -103,15 +103,6 @@ $userRoleName = Role::find($userRole)->name;
                                                         <?php endif; ?>
                                                     </span>
                                                 </td>
-                                                <!-- <td>
-                                                    <select name="lead_status" id="lead_status" class="form-select" data-id="<?php echo e($lead->id); ?>">
-                                                        <?php $__currentLoopData = $statuss; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <option value="<?php echo e($key); ?>" <?php echo e(isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : ""); ?>>
-                                                            <?php echo e($stat); ?>
-
-                                                        </option>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </td> -->
                                                 <td>
                                                     <?php if($userRoleName == 'restricted'): ?>
                                                     <span><?php echo e($lead->sales_stage); ?></span>
@@ -147,7 +138,9 @@ $userRoleName = Role::find($userRole)->name;
                                                 if (Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') || Gate::check('Delete Opportunity') || Gate::check('Manage Opportunity')) {
                                                 if ($userType == 'executive' && $userRoleType == 'individual' && $lead->assigned_user == \Auth::user()->id) {
                                                 $showActions = true;
-                                                } else if (!($userType == 'executive' && $userRoleType == 'individual') && $lead->created_by == \Auth::user()->creatorId()) {
+                                                } else if ($userType == 'executive' && $userRoleType == 'company' && $lead->assigned_user != \Auth::user()->id) {
+                                                $showActions = false;
+                                                } else if (!($userType == 'executive' && $userRoleType == 'individual')) {
                                                 $showActions = true;
                                                 }
                                                 }
@@ -240,6 +233,8 @@ $userRoleName = Role::find($userRole)->name;
                                                     </div>
                                                     <?php endif; ?>
                                                 </td>
+                                                <?php else: ?>
+                                                <td></td>
                                                 <?php endif; ?>
                                             </tr>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

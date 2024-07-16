@@ -103,7 +103,6 @@ class LeadController extends Controller
         $defualtView->module = 'lead';
         $defualtView->view = 'list';
         User::userDefualtView($defualtView);
-
         return view('lead.index', compact('leads', 'statuss', 'userType', 'userRoleType'));
     }
 

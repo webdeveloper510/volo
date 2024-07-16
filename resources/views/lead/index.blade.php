@@ -97,14 +97,6 @@ $userRoleName = Role::find($userRole)->name;
                                                         @endif
                                                     </span>
                                                 </td>
-                                                <!-- <td>
-                                                    <select name="lead_status" id="lead_status" class="form-select" data-id="{{$lead->id}}">
-                                                        @foreach($statuss as $key => $stat)
-                                                        <option value="{{ $key }}" {{ isset($lead->lead_status) && $lead->lead_status == $key ? "selected" : "" }}>
-                                                            {{ $stat }}
-                                                        </option>
-                                                        @endforeach
-                                                </td> -->
                                                 <td>
                                                     @if($userRoleName == 'restricted')
                                                     <span>{{ $lead->sales_stage }}</span>
@@ -138,7 +130,9 @@ $userRoleName = Role::find($userRole)->name;
                                                 if (Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') || Gate::check('Delete Opportunity') || Gate::check('Manage Opportunity')) {
                                                 if ($userType == 'executive' && $userRoleType == 'individual' && $lead->assigned_user == \Auth::user()->id) {
                                                 $showActions = true;
-                                                } else if (!($userType == 'executive' && $userRoleType == 'individual') && $lead->created_by == \Auth::user()->creatorId()) {
+                                                } else if ($userType == 'executive' && $userRoleType == 'company' && $lead->assigned_user != \Auth::user()->id) {
+                                                $showActions = false;
+                                                } else if (!($userType == 'executive' && $userRoleType == 'individual')) {
                                                 $showActions = true;
                                                 }
                                                 }
@@ -229,6 +223,8 @@ $userRoleName = Role::find($userRole)->name;
                                                     </div>
                                                     @endcan
                                                 </td>
+                                                @else
+                                                <td></td>
                                                 @endif
                                             </tr>
                                             @endforeach
