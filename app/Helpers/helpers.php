@@ -35,3 +35,18 @@ if (!function_exists('getCurrencySign')) {
         }
     }
 }
+
+if (!function_exists('prt')) {
+    /**
+     * Print data in a readable format and terminate the script.
+     *
+     * @param mixed $data The data to print
+     * @return void
+     */
+    function prt($data)
+    {
+        echo "<pre>";
+        print_r($data);
+        die;
+    }
+}

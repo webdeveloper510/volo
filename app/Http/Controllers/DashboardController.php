@@ -124,12 +124,15 @@ class DashboardController extends Controller
             if ($userRoleType == 'individual') {
                 // Fetch team member IDs
                 $userTeamMemberIds = User::where('team_member', $user->id)->pluck('id')->toArray();
+                $userTeamMemberIds[] = $user->id;
 
                 // Fetch currency conversion settings
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
-                $assinged_staff = User::whereNotIn('id', [1, 3])->get();
+                $assinged_staff = User::whereIn('team_member', $userTeamMemberIds)
+                    ->orWhere('id', $user->id)
+                    ->get();
 
                 // Decode currency conversion rates
                 $currency_data = json_decode($setting['currency_conversion'], true);
@@ -305,7 +308,7 @@ class DashboardController extends Controller
                 $setting = Utility::settings();
                 $products = explode(',', $setting['product_type']);
                 $regions = explode(',', $setting['region']);
-                $assinged_staff = User::whereNotIn('id', [1, 3])->get();
+                $assinged_staff = User::where('id', $user->id)->get();
 
                 // Decode currency conversion rates
                 $currency_data = json_decode($setting['currency_conversion'], true);
