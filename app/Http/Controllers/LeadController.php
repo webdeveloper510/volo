@@ -1456,8 +1456,11 @@ class LeadController extends Controller
 
     public function propstatus(Request $request)
     {
+
         $id = $request->id;
         $status = $request->status;
+        $statusText = $request->status_text;
+        $leadName = $request->lead_name;
 
         // Update lead status
         Lead::where('id', $id)->update(['status' => $status]);
@@ -1474,7 +1477,7 @@ class LeadController extends Controller
             "to" => $FcmToken,
             "notification" => [
                 "title" => 'Lead status updated.',
-                "body" => 'The status of lead ID ' . $id . ' has been updated to ' . $status,
+                "body" => 'The status of lead : ' . $leadName . ' has been updated to ' . $statusText,
             ]
         ];
 

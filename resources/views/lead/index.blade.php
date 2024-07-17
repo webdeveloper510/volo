@@ -101,7 +101,7 @@ $userRoleName = Role::find($userRole)->name;
                                                     @if($userRoleName == 'restricted')
                                                     <span>{{ $lead->sales_stage }}</span>
                                                     @else
-                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="{{ $lead->id }}">
+                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="{{ $lead->id }}" data-lead-name="{{ $lead->name }}">
                                                         @foreach($proposalstatus as $key => $stat)
                                                         <option value="{{ $key }}" {{ isset($lead->status) && $lead->status == $key ? "selected" : "" }}>
                                                             {{ $stat }}
@@ -364,18 +364,23 @@ $userRoleName = Role::find($userRole)->name;
 
     $('select[name = "drop_status"]').on('change', function() {
         var val = $(this).val();
-        var id = $(this).attr('data-id');
-        var url = "{{route('lead.changeproposalstat')}}";
+        var text = $(this).find('option:selected').text();
+        var id = $(this).data('id');
+        var leadName = $(this).data('lead-name');
+        var url = "{{ route('lead.changeproposalstat') }}";
         $.ajax({
             url: url,
             type: 'POST',
             data: {
                 "status": val,
-                'id': id,
+                "status_text": text,
+                "id": id,
+                "lead_name": leadName,
                 "_token": "{{ csrf_token() }}"
             },
             success: function(data) {
                 console.log(data)
+                return false;
                 if (data == 1) {
                     show_toastr('Primary', 'Opportunitie Status Updated Successfully', 'success');
                 } else {
