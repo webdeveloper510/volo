@@ -1477,7 +1477,7 @@ class LeadController extends Controller
             "to" => $FcmToken,
             "notification" => [
                 "title" => 'Lead status updated.',
-                "body" => 'The status of lead : ' . $leadName . ' has been updated to ' . $statusText,
+                "body" => 'The status of lead ' . $leadName . ' has been updated to ' . $statusText,
             ]
         ];
 
