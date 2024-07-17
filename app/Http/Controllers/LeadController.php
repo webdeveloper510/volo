@@ -1445,14 +1445,66 @@ class LeadController extends Controller
         ]);
         return true;
     }
+    // public function propstatus(Request $request)
+    // {
+    //     $id = $request->id;
+    //     Lead::where('id', $id)->update([
+    //         'status' => $request->status
+    //     ]);
+    //     return true;
+    // }
+
     public function propstatus(Request $request)
     {
         $id = $request->id;
-        Lead::where('id', $id)->update([
-            'status' => $request->status
-        ]);
+        $status = $request->status;
+
+        // Update lead status
+        Lead::where('id', $id)->update(['status' => $status]);
+
+        // Push notification setup
+        $url = 'https://fcm.googleapis.com/fcm/send';
+
+        // Get the FcmToken for owner or admin
+        $FcmToken = User::whereIn('type', ['owner', 'admin'])->pluck('device_key')->first();
+        $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+
+        // Prepare notification data
+        $data = [
+            "to" => $FcmToken,
+            "notification" => [
+                "title" => 'Lead status updated.',
+                "body" => 'The status of lead ID ' . $id . ' has been updated to ' . $status,
+            ]
+        ];
+
+        $headers = [
+            'Authorization: key=' . $serverKey,
+            'Content-Type: application/json',
+        ];
+
+        // Send push notification using cURL
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        $result = curl_exec($ch);
+
+        if ($result === FALSE) {
+            \Log::error('Push notification failed: ' . curl_error($ch));
+        }
+
+        curl_close($ch);
+
         return true;
     }
+
     public function leadnotes(Request $request, $id)
     {
         $notes = new NotesLeads();
