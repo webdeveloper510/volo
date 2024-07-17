@@ -101,7 +101,7 @@ $userRoleName = Role::find($userRole)->name;
                                                     @if($userRoleName == 'restricted')
                                                     <span>{{ $lead->sales_stage }}</span>
                                                     @else
-                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="{{ $lead->id }}" data-lead-name="{{ $lead->name }}">
+                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="{{ $lead->id }}" data-lead-name="{{ $lead->opportunity_name }}">
                                                         @foreach($proposalstatus as $key => $stat)
                                                         <option value="{{ $key }}" {{ isset($lead->status) && $lead->status == $key ? "selected" : "" }}>
                                                             {{ $stat }}
