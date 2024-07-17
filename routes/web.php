@@ -1444,6 +1444,9 @@ Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->nam
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/test-push-notification', function () {
+        return view('pushnotification');
+    });
     Route::post('/store-token', [WebNotificationController::class, 'updateDeviceToken'])->name('store.token');
     Route::post('/send-web-notification', [WebNotificationController::class, 'sendNotification'])->name('send.web-notification');
 });
