@@ -20,6 +20,7 @@ use Twilio\Rest\Client;
 use App\Models\MasterCustomer;
 use App\Models\NotesCustomer;
 use App\Models\Category;
+use App\Models\User;
 use Str;
 
 class CustomerInformation extends Controller
@@ -158,7 +159,7 @@ class CustomerInformation extends Controller
     }
     public function uploaduserlist()
     {
-        $categories = Category::all();      
+        $categories = Category::all();
         return view('customer.uploaduserinfo', compact('categories'));
     }
     public function exportuser(Request $request)
@@ -218,7 +219,7 @@ class CustomerInformation extends Controller
             $UsersImports->region = !empty($request->region) ? $request->region : $request->other_region;;
             $UsersImports->industry = json_encode($request->industry);
             $UsersImports->engagement_level = $request->engagement_level;
-            $UsersImports->category_type = $request->category_type;            
+            $UsersImports->category_type = $request->category_type;
             $UsersImports->revenue_booked_to_date = $request->revenue_booked_to_date;
             $UsersImports->referred_by = $request->referred_by;
             $UsersImports->pain_points = $request->pain_points;
@@ -226,6 +227,39 @@ class CustomerInformation extends Controller
             $UsersImports->status =  ($request->is_active == 'on') ? 0 : 1;
             $UsersImports->created_by = \Auth::user()->creatorId();
             $UsersImports->save();
+
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
+            $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+            $data = [
+                "to" => $FcmToken,
+                "notification" => [
+                    "title" => 'Client created.',
+                    "body" => 'New Client is Created',
+                ]
+            ];
+
+            $encodedData = json_encode($data);
+            $headers = [
+                'Authorization:key=' . $serverKey,
+                'Content-Type: application/json',
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+            $result = curl_exec($ch);
+
+            if ($result === FALSE) {
+                die('Curl failed: ' . curl_error($ch));
+            }
+            curl_close($ch);
             return redirect()->back()->with('success', 'Customer added successfully');
         }
     }
@@ -332,7 +366,7 @@ class CustomerInformation extends Controller
     }
     public function siteusers()
     {
-        $importedcustomers = UserImport::distinct()->get();   
+        $importedcustomers = UserImport::distinct()->get();
         return view('customer.allcustomers', compact('importedcustomers'));
     }
     public function event_customers()
