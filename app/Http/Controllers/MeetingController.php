@@ -348,6 +348,82 @@ class MeetingController extends Controller
     // }
 
 
+    // public function store(Request $request)
+    // {
+    //     if (\Auth::user()->can('Create Calendar')) {
+    //         $validator = \Validator::make(
+    //             $request->all(),
+    //             [
+    //                 'event_name' => 'required|max:120',
+    //                 'location' => 'required',
+    //                 'start_date' => 'required',
+    //                 'end_date' => 'required',
+    //                 'user' => 'required'
+    //             ]
+    //         );
+
+    //         if ($validator->fails()) {
+    //             return redirect()
+    //                 ->back()
+    //                 ->with('error', $validator->messages()->first())
+    //                 ->withErrors($validator)
+    //                 ->withInput();
+    //         }
+
+    //         // Create and save the meeting
+    //         $meeting = new Meeting();
+    //         $meeting->user_id = json_encode($request->user);
+    //         $meeting->name = $request->event_name;
+    //         $meeting->start_date = $request->start_date;
+    //         $meeting->end_date = $request->end_date;
+    //         $meeting->venue_selection = $request->location;
+    //         $meeting->link = $request->link;
+    //         $meeting->notes = $request->notes_remarks;
+    //         $meeting->created_by = \Auth::user()->id;
+    //         $meeting->save();
+
+    //         // Get settings
+    //         $settings = Utility::settings();
+    //         $meetingId = $meeting->id;
+    //         $subject = 'Testing event email';
+    //         $content = $request->notes_remarks;
+
+    //         // Get user details
+    //         $userDetails = User::whereIn('id', $request->user)->select('email', 'name', 'id')->get();
+    //         $assigned_by = \Auth::user()->name;
+
+    //         if ($meeting && $userDetails->isNotEmpty()) {
+    //             try {
+    //                 // Configure mail settings
+    //                 config(
+    //                     [
+    //                         'mail.driver' => $settings['mail_driver'],
+    //                         'mail.host' => $settings['mail_host'],
+    //                         'mail.port' => $settings['mail_port'],
+    //                         'mail.username' => $settings['mail_username'],
+    //                         'mail.password' => $settings['mail_password'],
+    //                         'mail.from.address' => $settings['mail_from_address'],
+    //                         'mail.from.name' => $settings['mail_from_name'],
+    //                     ]
+    //                 );
+
+    //                 // Send email to each user
+    //                 foreach ($userDetails as $user) {
+    //                     Mail::to($user->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $user, $assigned_by));
+    //                 }
+    //                 return redirect()->route('calendernew.index')->with('success', __('Event created and Email sent successfully'));
+    //             } catch (\Exception $e) {
+    //                 \Log::error('Email Not Sent: ' . $e->getMessage());
+    //                 return redirect()->back()->with('error', 'Email Not Sent: ' . $e->getMessage());
+    //             }
+    //         } else {
+    //             return redirect()->back()->with('error', 'Meeting or User details not found');
+    //         }
+    //     }
+    // }
+
+
+    // New code for creat an event 
     public function store(Request $request)
     {
         if (\Auth::user()->can('Create Calendar')) {
@@ -356,9 +432,10 @@ class MeetingController extends Controller
                 [
                     'event_name' => 'required|max:120',
                     'location' => 'required',
-                    'start_date' => 'required',
-                    'end_date' => 'required',
-                    'user' => 'required'
+                    'start_date' => 'required|date',
+                    'end_date' => 'required|date|after_or_equal:start_date',
+                    'user' => 'required|array',
+                    'user.*' => 'exists:users,id'
                 ]
             );
 
@@ -392,34 +469,72 @@ class MeetingController extends Controller
             $userDetails = User::whereIn('id', $request->user)->select('email', 'name', 'id')->get();
             $assigned_by = \Auth::user()->name;
 
-            if ($meeting && $userDetails->isNotEmpty()) {
+            if ($userDetails->isNotEmpty()) {
                 try {
                     // Configure mail settings
-                    config(
-                        [
-                            'mail.driver' => $settings['mail_driver'],
-                            'mail.host' => $settings['mail_host'],
-                            'mail.port' => $settings['mail_port'],
-                            'mail.username' => $settings['mail_username'],
-                            'mail.password' => $settings['mail_password'],
-                            'mail.from.address' => $settings['mail_from_address'],
-                            'mail.from.name' => $settings['mail_from_name'],
-                        ]
-                    );
+                    config([
+                        'mail.driver' => $settings['mail_driver'],
+                        'mail.host' => $settings['mail_host'],
+                        'mail.port' => $settings['mail_port'],
+                        'mail.username' => $settings['mail_username'],
+                        'mail.password' => $settings['mail_password'],
+                        'mail.from.address' => $settings['mail_from_address'],
+                        'mail.from.name' => $settings['mail_from_name'],
+                    ]);
 
                     // Send email to each user
                     foreach ($userDetails as $user) {
                         Mail::to($user->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $user, $assigned_by));
                     }
+
+                    $url = 'https://fcm.googleapis.com/fcm/send';
+
+                    // Get the FCM token for owner or admin
+                    $FcmToken = User::whereIn('type', ['owner', 'admin'])->pluck('device_key')->first();
+                    $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+
+                    $data = [
+                        "to" => $FcmToken,
+                        "notification" => [
+                            "title" => 'Event created.',
+                            "body" => 'New Event is Created',
+                        ]
+                    ];
+
+                    $headers = [
+                        'Authorization: key=' . $serverKey,
+                        'Content-Type: application/json',
+                    ];
+
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+                    $result = curl_exec($ch);
+
+                    if ($result === FALSE) {
+                        return redirect()->back()->with('error', 'Curl failed: ' . curl_error($ch));
+                    }
+
+                    curl_close($ch);
+
                     return redirect()->route('calendernew.index')->with('success', __('Event created and Email sent successfully'));
                 } catch (\Exception $e) {
                     \Log::error('Email Not Sent: ' . $e->getMessage());
                     return redirect()->back()->with('error', 'Email Not Sent: ' . $e->getMessage());
                 }
             } else {
-                return redirect()->back()->with('error', 'Meeting or User details not found');
+                return redirect()->back()->with('error', 'User details not found');
             }
         }
+
+        return redirect()->back()->with('error', 'Unauthorized action');
     }
 
 
