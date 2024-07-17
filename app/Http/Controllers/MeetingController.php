@@ -348,9 +348,84 @@ class MeetingController extends Controller
     // }
 
 
+    // public function store(Request $request)
+    // {
+    //     if (\Auth::user()->can('Create Calendar')) {
+    //         $validator = \Validator::make(
+    //             $request->all(),
+    //             [
+    //                 'event_name' => 'required|max:120',
+    //                 'location' => 'required',
+    //                 'start_date' => 'required',
+    //                 'end_date' => 'required',
+    //                 'user' => 'required'
+    //             ]
+    //         );
+
+    //         if ($validator->fails()) {
+    //             return redirect()
+    //                 ->back()
+    //                 ->with('error', $validator->messages()->first())
+    //                 ->withErrors($validator)
+    //                 ->withInput();
+    //         }
+
+    //         // Create and save the meeting
+    //         $meeting = new Meeting();
+    //         $meeting->user_id = json_encode($request->user);
+    //         $meeting->name = $request->event_name;
+    //         $meeting->start_date = $request->start_date;
+    //         $meeting->end_date = $request->end_date;
+    //         $meeting->venue_selection = $request->location;
+    //         $meeting->link = $request->link;
+    //         $meeting->notes = $request->notes_remarks;
+    //         $meeting->created_by = \Auth::user()->id;
+    //         $meeting->save();
+
+    //         // Get settings
+    //         $settings = Utility::settings();
+    //         $meetingId = $meeting->id;
+    //         $subject = 'Testing event email';
+    //         $content = $request->notes_remarks;
+
+    //         // Get user details
+    //         $userDetails = User::whereIn('id', $request->user)->select('email', 'name', 'id')->get();
+    //         $assigned_by = \Auth::user()->name;
+
+    //         if ($meeting && $userDetails->isNotEmpty()) {
+    //             try {
+    //                 // Configure mail settings
+    //                 config(
+    //                     [
+    //                         'mail.driver' => $settings['mail_driver'],
+    //                         'mail.host' => $settings['mail_host'],
+    //                         'mail.port' => $settings['mail_port'],
+    //                         'mail.username' => $settings['mail_username'],
+    //                         'mail.password' => $settings['mail_password'],
+    //                         'mail.from.address' => $settings['mail_from_address'],
+    //                         'mail.from.name' => $settings['mail_from_name'],
+    //                     ]
+    //                 );
+
+    //                 // Send email to each user
+    //                 foreach ($userDetails as $user) {
+    //                     Mail::to($user->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $user, $assigned_by));
+    //                 }
+    //                 return redirect()->route('calendernew.index')->with('success', __('Event created and Email sent successfully'));
+    //             } catch (\Exception $e) {
+    //                 \Log::error('Email Not Sent: ' . $e->getMessage());
+    //                 return redirect()->back()->with('error', 'Email Not Sent: ' . $e->getMessage());
+    //             }
+    //         } else {
+    //             return redirect()->back()->with('error', 'Meeting or User details not found');
+    //         }
+    //     }
+    // }
+
+
     public function store(Request $request)
     {
-        if (\Auth::user()->can('Create Calendar')) {
+        if (\Auth::user()->can('Create Training')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -361,11 +436,10 @@ class MeetingController extends Controller
                     'user' => 'required'
                 ]
             );
-
             if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
                 return redirect()
-                    ->back()
-                    ->with('error', $validator->messages()->first())
+                    ->back()->with('error', $messages->first())
                     ->withErrors($validator)
                     ->withInput();
             }
@@ -382,43 +456,85 @@ class MeetingController extends Controller
             $meeting->created_by = \Auth::user()->id;
             $meeting->save();
 
-            // Get settings
-            $settings = Utility::settings();
-            $meetingId = $meeting->id;
-            $subject = 'Testing event email';
-            $content = $request->notes_remarks;
-
-            // Get user details
-            $userDetails = User::whereIn('id', $request->user)->select('email', 'name', 'id')->get();
-            $assigned_by = \Auth::user()->name;
-
-            if ($meeting && $userDetails->isNotEmpty()) {
-                try {
-                    // Configure mail settings
-                    config(
-                        [
-                            'mail.driver' => $settings['mail_driver'],
-                            'mail.host' => $settings['mail_host'],
-                            'mail.port' => $settings['mail_port'],
-                            'mail.username' => $settings['mail_username'],
-                            'mail.password' => $settings['mail_password'],
-                            'mail.from.address' => $settings['mail_from_address'],
-                            'mail.from.name' => $settings['mail_from_name'],
-                        ]
-                    );
-
-                    // Send email to each user
-                    foreach ($userDetails as $user) {
-                        Mail::to($user->email)->send(new EventEmail($meeting, $subject, $content, $meetingId, $user, $assigned_by));
-                    }
-                    return redirect()->route('calendernew.index')->with('success', __('Event created and Email sent successfully'));
-                } catch (\Exception $e) {
-                    \Log::error('Email Not Sent: ' . $e->getMessage());
-                    return redirect()->back()->with('error', 'Email Not Sent: ' . $e->getMessage());
+            $setting  = Utility::settings(\Auth::user()->creatorId());
+            $uArr = [
+                'meeting_name' => $request->event_name,
+                'meeting_start_date' => $request->start_date,
+                'meeting_due_date' => $request->start_date,
+            ];
+            $userDecode = $request->user;
+            foreach ($userDecode as $udKey => $udValue) {
+                $Assign_user_phone = User::where('id', $udKey)->first();
+                $resp = Utility::sendEmailTemplate('meeting_assigned', [$meeting->id => $Assign_user_phone->email], $uArr);
+                if (isset($setting['twilio_meeting_create']) && $setting['twilio_meeting_create'] == 1) {
+                    $uArr = [
+                        'meeting_name' => $request->event_name,
+                        'meeting_start_date' => $request->start_date,
+                        'meeting_due_date' => $request->start_date,
+                        'user_name' => \Auth::user()->name,
+                    ];
+                    Utility::send_twilio_msg($Assign_user_phone->phone, 'new_meeting', $uArr);
                 }
-            } else {
-                return redirect()->back()->with('error', 'Meeting or User details not found');
             }
+            if ($request->get('is_check')  == '1') {
+                $type = 'meeting';
+                $request1 = new Meeting();
+                $request1->title = $request->event_name;
+                $request1->start_date = $request->start_date;
+                $request1->end_date = $request->start_date;
+                Utility::addCalendarData($request1, $type);
+            }
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            // $FcmToken = 'e0MpDEnykMLte1nJ0k3SU7:APA91bGpbv-KQEzEQhR1ApEgGFmn9H5tEkdpvG2FHuyiWP3JZsP_8CKJMi5tKyTn5DYgOmeDvAWFwdiDLeG_qTXZ6lUIWL2yqrFYJkUg-KUwTsQYupk0qYsi3OCZ8MZQNbCIDa6pbJ4j';
+
+            $FcmToken = User::where('type', 'owner')->orwhere('type', 'admin')->pluck('device_key')->first();
+            // echo"<pre>";print_r($FcmToken);die;
+            $serverKey = 'AAAAn2kzNnQ:APA91bE68d4g8vqGKVWcmlM1bDvfvwOIvBl-S-KUNB5n_p4XEAcxUqtXsSg8TkexMR8fcJHCZxucADqim2QTxK2s_P0j5yuy6OBRHVFs_BfUE0B4xqgRCkVi86b8SwBYT953dE3X0wdY'; // ADD SERVER KEY HERE PROVIDED BY FCM
+            $data = [
+                "to" => $FcmToken,
+                "notification" => [
+                    "title" => 'Event created.',
+                    "body" => 'New Event is Created',
+                ]
+            ];
+            $encodedData = json_encode($data);
+
+            $headers = [
+                'Authorization:key=' . $serverKey,
+                'Content-Type: application/json',
+            ];
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+            $result = curl_exec($ch);
+            if ($result === FALSE) {
+                die('Curl failed: ' . curl_error($ch));
+            }
+            // Close connection
+            curl_close($ch);
+            // if (\Auth::user()) {
+            //     return redirect()->back()->with('success', __('Event created!') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
+            // } else {
+            //     return redirect()->back()->with('error', __('Webhook call failed.') . ((isset($msg) ? '<br> <span class="text-danger">' . $msg . '</span>' : '')));
+            // }
+            @$user_roles = \Auth::user()->user_roles;
+            @$useRole = Role::find($user_roles)->roleType;
+            $useType = \Auth::user()->type;
+            $useType = $useRole == 'company' ? 'owner' : $useType;
+            if ($useType == 'owner') {
+                $meetings = Meeting::with('assign_user')->orderby('id', 'desc')->get();
+            } else {
+                $meetings = Meeting::with('assign_user')->where('user_id', \Auth::user()->id)->orderby('id', 'desc')->get();
+            }
+            return redirect()->route('meeting.index', compact('meetings'))->with('success', __('Trainings created!'));
         }
     }
 
