@@ -1315,7 +1315,19 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 </form>
                                             </div>
                                         </div>
+                                    </div>
 
+                                    <div id="power-bi" class="accordion-item  card">
+                                        <h2 class="accordion-header" id="heading-2-15">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse222" aria-expanded="false" aria-controls="collapse222">
+                                                <h5>{{ __('Power BI') }}</h5>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse222" class="accordion-collapse collapse" aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body1">
+                                                <button id="getTokenButton">Get PowerBI Token</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     @endif
                                 </div>
@@ -3179,7 +3191,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                         </h2>
 
                                         <div id="collapse15" class="accordion-collapse collapse" aria-labelledby="heading-2-14" data-bs-parent="#accordionExample">
-
                                             <div class="accordion-body1">
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-4">
                                                     <div class="row pt-2">
@@ -4361,6 +4372,28 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
             $('#remarks').richText();
             $('#address').richText();
             $('#footer').richText();
+        });
+    </script>
+
+    <!-- Get powerbi token -->
+    <script>
+        $(document).ready(function() {
+            $('#getTokenButton').click(function() {
+                $.ajax({
+                    url: "{{ route('powerbi-report') }}",
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.access_token) {
+                            console.log('Access Token:', response.access_token);
+                        } else if (response.error) {
+                            console.log('Error:', response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', error);
+                    }
+                });
+            });
         });
     </script>
     @endpush

@@ -97,8 +97,8 @@ use App\Http\Controllers\DashboardTestingController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomOpportunitiesController;
 use App\Http\Controllers\ObjectiveTrackerController;
+use App\Http\Controllers\PowerBiReportController;
 use App\Models\Billing;
-use App\Services\PowerBiService;
 use Google\Service\ServiceConsumerManagement\BillingConfig;
 use Illuminate\Support\Facades\DB;
 
@@ -1545,11 +1545,5 @@ Route::group(
 Route::get('/accept-event', [MeetingController::class, 'handleEventResponse'])->name('accept_event');
 Route::get('/decline-event', [MeetingController::class, 'handleEventResponse'])->name('decline_event');
 
-Route::get('/get-powerbi-token', function (PowerBiService $powerBiService) {
-    try {
-        $accessToken = $powerBiService->getAccessToken();
-        return response()->json(['access_token' => $accessToken]);
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
-});
+// Route::get('/get-powerbi-token', [PowerBiReportController::class, 'getAccessToken'])->name('get-powerbi-token');
+Route::get('/powerbi-report', [PowerBiReportController::class, 'showReport'])->name('powerbi-report');

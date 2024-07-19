@@ -140,12 +140,12 @@ $userRoleName = Role::find($userRole)->name;
 
                                                 @if($showActions)
                                                 <td class="text-end">
-                                                    @if($lead->status == 4 && $userRoleName != 'restricted')
+                                                    <!-- @if($lead->status == 4 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-secondary ms-2">
                                                         <a href="{{ route('meeting.create',['meeting',0])}}" id="convertLink" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="{{ __('Convert') }}" title="{{ __('Convert To Event') }}" data-id="{{$lead->id}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fas fa-exchange-alt"></i> </a>
                                                     </div>
-                                                    @endif
+                                                    @endif -->
                                                     {{-- @if($lead->status == 0 ) --}}
                                                     @if($lead->is_nda_signed == 1 && $lead->status == 6 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-primary ms-2">

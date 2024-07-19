@@ -75,7 +75,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Role') }}</span>
                 </a>
                 @endif
-                @if(\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin' || \Auth::user()->type == 'super admin' 
+                @if(\Auth::user()->type == 'owner' || \Auth::user()->type == 'admin' || \Auth::user()->type == 'super admin'
                 || \Auth::user()->type == 'manager' || \Auth::user()->type == 'snr manager')
                 <a href="#eventtype-settings" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse19')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
@@ -116,6 +116,10 @@ $category = explode(',', $settings['campaign_type']);
                 <a href="#add-signature" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse22')">
                     <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/signature.png')}}" alt="" style="    width: 22px;"></span>
                     <span class="dash-mtext">{{ __('Authorised Signature') }}</span>
+                </a>
+                <a href="#power-bi" class="list-group-item list-group-item-action border-0" onclick="showAccordion('collapse222')">
+                    <span class="fa-stack fa-lg pull-left"><img src="{{asset('icons/power-bi.png')}}" alt="" style="    width: 22px;"></span>
+                    <span class="dash-mtext">{{ __('Power BI') }}</span>
                 </a>
 
                 @endif
