@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('powerbi_reports', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->uuid('group_id');
-            $table->uuid('report_id');
-            $table->uuid('dataset_id');
-            $table->string('embed_url');
+            $table->uuid('PBI_group_id');
+            $table->uuid('PBI_report_id');
+            $table->uuid('PBI_dataset_id');
+            $table->string('PBI_embed_url');
+            $table->string('report_name');
             $table->boolean('is_rls_enabled');
-            $table->boolean('permission');
             $table->timestamps();
         });
     }
