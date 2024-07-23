@@ -10,12 +10,11 @@ class PowerBiReport extends Model
     use HasFactory;
     protected $table = 'powerbi_reports';
     protected $fillable = [
-        'name',
-        'group_id',
-        'report_id',
-        'dataset_id',
-        'embed_url',
-        'is_rls_enabled',
-        'permission',
+        'report_name',
+        'PBI_group_id',
+        'PBI_report_id',
+        'PBI_dataset_id',
+        'PBI_embed_url',
+        'is_rls_enabled'
     ];
 }

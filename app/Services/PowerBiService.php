@@ -3,299 +3,139 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\DB;
+use App\Models\PowerBiReport;
 
 class PowerBiService
 {
-    protected $authUrl;
+    protected $httpClient;
     protected $clientId;
     protected $clientSecret;
     protected $username;
     protected $password;
+    protected $aadAuthUrl;
 
     public function __construct()
     {
-        $this->authUrl = env('POWERBI_AAD_AUTH_URL');
+        $this->httpClient = new Client();
         $this->clientId = env('POWERBI_CLIENT_ID');
         $this->clientSecret = env('POWERBI_CLIENT_SECRET');
         $this->username = env('POWERBI_USERNAME');
         $this->password = env('POWERBI_PASSWORD');
+        $this->aadAuthUrl = env('POWERBI_AAD_AUTH_URL');
     }
 
-    public function getAccessToken()
+    public function getPowerBiReportDetails($user)
     {
-        $client = new Client();
+        $accessToken = $this->generateAccessToken();
+        $reportDetails = $this->fetchReportDetails($accessToken);
+        $embedToken = $this->generateEmbedToken($accessToken, $reportDetails);
 
-        $formParams = [
-            'grant_type' => 'password',
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'resource' => 'https://analysis.windows.net/powerbi/api',
-            'username' => $this->username,
-            'password' => $this->password,
-            'scope' => 'openid',
+        // Store report details in the database
+        $this->storeReportDetails($reportDetails, $embedToken);
+
+        return [
+            'embedToken' => $embedToken,
+            'embedUrl' => $reportDetails['embedUrl'],
         ];
-
-        try {
-            $response = $client->post($this->authUrl, [
-                'form_params' => $formParams,
-                'headers' => [
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                ],
-            ]);
-
-            $body = json_decode($response->getBody()->getContents(), true);
-            return $body['access_token'];
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error_description'] ?? 'An error occurred while generating the access token.');
-            }
-            throw new \Exception('An error occurred while generating the access token.');
-        }
     }
 
-    public function createGroup($accessToken, $groupName)
+    protected function generateAccessToken()
     {
-        $client = new Client();
-        $url = "https://api.powerbi.com/v1.0/myorg/groups";
-
-        $body = [
-            'name' => $groupName,
-        ];
-
-        try {
-            $response = $client->post($url, [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => $body,
-            ]);
-
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error']['message'] ?? 'An error occurred while creating the group.');
-            }
-            throw new \Exception('An error occurred while creating the group.');
-        }
-    }
-
-    public function createReport($accessToken, $groupId, $reportName, $isRlsEnabled)
-    {
-        $client = new Client();
-        $url = "https://api.powerbi.com/v1.0/myorg/groups/{$groupId}/reports";
-
-        // Create a dataset and get its ID
-        $datasetId = $this->createDataset($accessToken, $groupId, 'dataset1');
-
-        $body = [
-            'name' => $reportName,
-            'datasetId' => $datasetId,
-            'isRlsEnabled' => $isRlsEnabled,
-        ];
-
-        try {
-            $response = $client->post($url, [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => $body,
-            ]);
-
-            $reportData = json_decode($response->getBody()->getContents(), true);
-            $reportId = $reportData['id'];
-
-            // Retrieve the embed URL
-            $embedUrl = $this->getEmbedToken($accessToken, $groupId, $reportId, $datasetId);
-
-            // Store details in the database
-            DB::table('powerbi_reports')->insert([
-                'PBI_group_id' => $groupId,
-                'PBI_report_id' => $reportId,
-                'PBI_dataset_id' => $datasetId,
-                'PBI_embed_url' => $embedUrl,
-                'report_name' => $reportName,
-                'is_rls_enabled' => $isRlsEnabled,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            return $reportData;
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error']['message'] ?? 'An error occurred while creating the report.');
-            }
-            throw new \Exception('An error occurred while creating the report.');
-        }
-    }
-
-    public function getGroups($accessToken)
-    {
-        $client = new Client();
-        $url = "https://api.powerbi.com/v1.0/myorg/groups";
-
-        try {
-            $response = $client->get($url, [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                ],
-            ]);
-
-            return json_decode($response->getBody()->getContents(), true)['value'];
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error']['message'] ?? 'An error occurred while fetching groups.');
-            }
-            throw new \Exception('An error occurred while fetching groups.');
-        }
-    }
-
-    public function getReports($accessToken, $groupId)
-    {
-        $client = new Client();
-        $url = "https://api.powerbi.com/v1.0/myorg/groups/{$groupId}/reports";
-
-        try {
-            $response = $client->get($url, [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                ],
-            ]);
-
-            return json_decode($response->getBody()->getContents(), true)['value'];
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error']['message'] ?? 'An error occurred while fetching reports.');
-            }
-            throw new \Exception('An error occurred while fetching reports.');
-        }
-    }
-
-    public function getDatasets($accessToken, $groupId)
-    {
-        $client = new Client();
-        $url = "https://api.powerbi.com/v1.0/myorg/groups/{$groupId}/datasets";
-
-        try {
-            $response = $client->get($url, [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                ],
-            ]);
-
-            return json_decode($response->getBody()->getContents(), true)['value'];
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error']['message'] ?? 'An error occurred while fetching datasets.');
-            }
-            throw new \Exception('An error occurred while fetching datasets.');
-        }
-    }
-
-    public function getEmbedToken($accessToken, $groupId, $reportId, $datasetId, $isEffectiveIdentityRolesRequired = false, $isEffectiveIdentityRequired = false)
-    {
-        $client = new Client();
-        $url = "https://api.powerbi.com/v1.0/myorg/groups/{$groupId}/reports/{$reportId}/GenerateToken";
-
-        $body = [
-            'datasets' => [
-                [
-                    'id' => $datasetId,
-                ],
+        $response = $this->httpClient->post($this->aadAuthUrl, [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'resource' => 'https://analysis.windows.net/powerbi/api',
+                'username' => $this->username,
+                'password' => $this->password,
             ],
-            'reports' => [
-                [
-                    'id' => $reportId,
-                ],
-            ],
-            'targetWorkspaces' => [
-                [
-                    'id' => $groupId,
-                ],
-            ],
-            'accessLevel' => 'View',
-            'allowSaveAs' => 'false',
-            'effectiveIdentityRolesRequired' => $isEffectiveIdentityRolesRequired,
-            'effectiveIdentityRequired' => $isEffectiveIdentityRequired,
-        ];
+        ]);
 
-        try {
-            $response = $client->post($url, [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => $body,
-            ]);
+        $data = json_decode($response->getBody(), true);
+        return $data['access_token'];
+    }
 
-            return json_decode($response->getBody()->getContents(), true)['token'];
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error']['message'] ?? 'An error occurred while generating the embed token.');
-            }
-            throw new \Exception('An error occurred while generating the embed token.');
+    protected function fetchReportDetails($accessToken)
+    {
+        // Fetch the list of groups (workspaces)
+        $response = $this->httpClient->get("https://api.powerbi.com/v1.0/myorg/groups", [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $accessToken,
+            ],
+        ]);
+
+        $groupsData = json_decode($response->getBody(), true);
+
+        // Assuming the first group in the list is the one you need
+        if (count($groupsData['value']) > 0) {
+            $groupId = $groupsData['value'][0]['id'];
+        } else {
+            throw new \Exception('No groups found.');
+        }
+
+        // Fetch the list of reports in the specified group
+        $response = $this->httpClient->get("https://api.powerbi.com/v1.0/myorg/groups/{$groupId}/reports", [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $accessToken,
+            ],
+        ]);
+
+        $reportsData = json_decode($response->getBody(), true);
+
+        // Assuming the first report in the list is the one you need
+        if (count($reportsData['value']) > 0) {
+            $report = $reportsData['value'][0];
+            return [
+                'groupId' => $groupId,
+                'reportId' => $report['id'],
+                'datasetId' => $report['datasetId'],
+                'embedUrl' => $report['embedUrl'],
+            ];
+        } else {
+            throw new \Exception('No reports found in the specified group.');
         }
     }
 
-    protected function createDataset($accessToken, $groupId, $datasetName)
+    protected function generateEmbedToken($accessToken, $reportDetails)
     {
-        $client = new Client();
-        $url = "https://api.powerbi.com/v1.0/myorg/groups/{$groupId}/datasets";
-
-        $body = [
-            'name' => $datasetName,
-            'defaultMode' => 'Push',
-            'tables' => [
-                [
-                    'name' => 'Table1',
-                    'columns' => [
-                        [
-                            'name' => 'Column1',
-                            'dataType' => 'Int64',
-                        ],
-                        [
-                            'name' => 'Column2',
-                            'dataType' => 'String',
-                        ],
+        $response = $this->httpClient->post("https://api.powerbi.com/v1.0/myorg/groups/{$reportDetails['groupId']}/reports/{$reportDetails['reportId']}/GenerateToken", [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $accessToken,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'datasets' => [
+                    [
+                        'id' => $reportDetails['datasetId'],
+                    ],
+                ],
+                'reports' => [
+                    [
+                        'id' => $reportDetails['reportId'],
+                    ],
+                ],
+                'targetWorkspaces' => [
+                    [
+                        'id' => $reportDetails['groupId'],
                     ],
                 ],
             ],
-        ];
+        ]);
 
-        try {
-            $response = $client->post($url, [
-                'headers' => [
-                    'Authorization' => "Bearer {$accessToken}",
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => $body,
-            ]);
+        $data = json_decode($response->getBody(), true);
+        return $data['token'];
+    }
 
-            return json_decode($response->getBody()->getContents(), true)['id'];
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $responseBody = json_decode($response->getBody()->getContents(), true);
-                throw new \Exception($responseBody['error']['message'] ?? 'An error occurred while creating the dataset.');
-            }
-            throw new \Exception('An error occurred while creating the dataset.');
-        }
+    protected function storeReportDetails($reportDetails, $embedToken)
+    {
+        PowerBiReport::create([
+            'PBI_group_id' => $reportDetails['groupId'],
+            'PBI_report_id' => $reportDetails['reportId'],
+            'PBI_dataset_id' => $reportDetails['datasetId'],
+            'PBI_embed_url' => $reportDetails['embedUrl'],
+            'report_name' => 'Test report',
+            'is_rls_enabled' => 1,
+        ]);
     }
 }

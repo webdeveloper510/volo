@@ -1323,17 +1323,22 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                 <h5>{{ __('Power BI') }}</h5>
                                             </button>
                                         </h2>
-                                        <div id="collapse222" class="accordion-collapse collapse" aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body1">
-                                                <div class="row">
-                                                    <div class="col-4 need_full">
-                                                        <input type="text" id="reportName" name="reportName" class="form-control" placeholder="Enter Report Name" required>
+                                        <div id="collapse222" class="accordion-collapse collapse mt-4" aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="groupName" placeholder="Enter Group Name">
                                                     </div>
-                                                    <div class="col-4 need_full mt-2">
+                                                    <div class="form-group">
                                                         <input type="checkbox" id="isRlsEnabled" name="isRlsEnabled"> Enable RLS
                                                     </div>
-                                                    <div class="col-4 need_full">
-                                                        <button class="btn btn-primary" onclick="createReport()">Create Report</button>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="reportName" placeholder="Enter Report Name">
+                                                    </div>
+                                                    <div class="form-group text-end">
+                                                        <button class="btn btn-primary" onclick="fetchPowerBIReport()">Create Report</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3102,7 +3107,6 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                                             <input type="text" name="category_code" id="category_code" class="form-control" value="{{ !isset($payment['category_code']) || is_null($payment['category_code']) ? '' : $payment['category_code'] }}" placeholder="{{ __('Category Code') }}">
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -4028,6 +4032,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
     </div>
     @endsection
     @push('script-page')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $('.fxnnames').click(function() {
             var value = $(this).text();
@@ -4373,38 +4378,30 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
         });
     </script>
 
-    <!-- Create Report For PowerBI -->
+    <!-- CODE FOR POWER BI -->
     <script>
-        const APP_URL = @json($appUrl);
+        const APP_URL = "{{ env('APP_URL') }}";
 
-        async function createReport() {
-            const reportName = document.getElementById('reportName').value;
-            const isRlsEnabled = document.getElementById('isRlsEnabled').checked;
-
+        const fetchPowerBIReport = async () => {
+            const fetchUrl = `${APP_URL}/powerbi/report`;
             try {
-                const response = await fetch(`${APP_URL}/powerbi/report`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        report_name: reportName,
-                        is_rls_enabled: isRlsEnabled
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
+                const response = await fetch(fetchUrl);
                 const data = await response.json();
-                console.log('Report created:', data);
+                if (data.success) {
+                    if (data.embedToken && data.embedUrl) {
+                        toastr.success('Report created successfully.');
+                    }
+                    console.log('Embed Token:', data.embedToken);
+                    console.log('Embed URL:', data.embedUrl);
+                } else {
+                    console.error('Failed to fetch Power BI report details:', data.message);
+                }
             } catch (error) {
-                console.error('Error creating report:', error);
+                console.error('Error fetching Power BI report:', error);
             }
-        }
+        };
+
+        fetchPowerBIReport();
     </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

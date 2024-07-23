@@ -1545,7 +1545,6 @@ Route::group(
 Route::get('/accept-event', [MeetingController::class, 'handleEventResponse'])->name('accept_event');
 Route::get('/decline-event', [MeetingController::class, 'handleEventResponse'])->name('decline_event');
 
-// Route  For PowerBiReportController
 Route::group(
     [
         'middleware' => [
@@ -1554,7 +1553,7 @@ Route::group(
         ],
     ],
     function () {
-        Route::get('/powerbi/report', [PowerBiReportController::class, 'showReport']);
-        Route::post('/powerbi/report', [PowerBiReportController::class, 'createReport']);
+        Route::get('/powerbi/report', [PowerBiReportController::class, 'getReport']);
+        Route::post('/powerbi/group', [PowerBiReportController::class, 'createGroup']);
     }
 );
