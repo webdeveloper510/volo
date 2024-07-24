@@ -62,7 +62,6 @@ class LeadController extends Controller
 
         if ($userType == 'owner' || $userType == 'admin' || $userType == 'snr manager') {
             $leads = Lead::with('accounts', 'assign_user')
-                ->where('created_by', $user->creatorId())
                 ->orderby('id', 'desc')
                 ->get();
         } elseif ($userType == 'manager') {

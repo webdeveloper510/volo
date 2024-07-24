@@ -1,6 +1,9 @@
 <?php
 
 use Spatie\Permission\Models\Role;
+use App\Models\PowerBiReport;
+
+$powerBiReports = PowerBiReport::all();
 
 $users = \Auth::user()->type;
 $userRole = \Auth::user()->user_roles;
@@ -217,6 +220,24 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="dash-mtext">{{ __('Financial') }} </span></a>
 
                 </a>
+                <!-- Button to trigger the dropdown -->
+                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="powerBiDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="fa-stack fa-lg pull-left">
+                        <i class="fas fa-chart-bar"></i>
+                    </span>
+                    <span class="dash-mtext">{{ __('Power BI Reports') }}</span>
+                </a>
+
+                <!-- Dropdown menu for Power BI reports -->
+                <ul class="dropdown-menu" aria-labelledby="powerBiDropdown">
+                    @foreach($powerBiReports as $report)
+                    <li>
+                        <a class="dropdown-item" href="#" data-report-id="{{ $report->id }}" data-report-name="{{ $report->report_name }}">
+                            {{ $report->report_name }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
                 @endif
                 @if(\Request::route()->getName() == 'meeting.create' ||\Request::route()->getName() == 'meeting.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
@@ -309,6 +330,41 @@ $category = explode(',', $settings['campaign_type']);
             $('#' + dataId).addClass('show');
         }
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var dropdownToggle = document.getElementById('powerBiDropdown');
+        var dropdownMenu = document.querySelector('.dropdown-menu[aria-labelledby="powerBiDropdown"]');
+        var dropdownItems = document.querySelectorAll('.dropdown-item');
+
+        // Show dropdown menu on click
+        dropdownToggle.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Handle dropdown item click
+        dropdownItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                var reportId = this.getAttribute('data-report-id');
+                var reportName = this.getAttribute('data-report-name');
+                console.log('Selected Report ID:', reportId);
+                console.log('Selected Report Name:', reportName);
+
+                // Additional functionality here, if needed
+
+                // Optionally close the dropdown after selection
+                dropdownMenu.classList.remove('show');
+            });
+        });
+
+        // Close the dropdown if clicked outside
+        document.addEventListener('click', function(event) {
+            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    });
 </script>
 
 <!-- <script>
