@@ -81,7 +81,7 @@ $userRoleName = Role::find($userRole)->name;
                                                         <b> {{ ucfirst($lead->opportunity_name) }}</b>
                                                     </a>
                                                 </td>
-                                                <td>{{ $lead->assigned_user ? \App\Models\User::find($lead->assigned_user)->name : '' }}</td>
+                                                <td>{{ optional(\App\Models\User::find($lead->assigned_user))->name ?? '' }}</td>
                                                 <td>
                                                     <span class="budget">
                                                         @if (!empty($lead->value_of_opportunity))
