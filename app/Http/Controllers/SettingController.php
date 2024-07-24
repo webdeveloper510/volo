@@ -17,6 +17,7 @@ use App\Models\User;
 use App\Models\Billing;
 use App\Models\Setup;
 use App\Models\FixedBill;
+use App\Models\PowerBiReport;
 // use Google\Service\ServiceControl\Auth;
 use DB;
 
@@ -34,7 +35,8 @@ class SettingController extends Controller
         $users = User::where('created_by', '=', \Auth::user()->creatorId())->get();
         $setup = Setup::all();
         $appUrl = env('APP_URL');
-        return view('settings.index', compact('settings', 'setup', 'payment', 'webhooks', 'permissions', 'roles', 'users', 'appUrl'));
+        $powerBiReports = PowerBiReport::orderBy('created_at', 'desc')->get();
+        return view('settings.index', compact('settings', 'setup', 'payment', 'webhooks', 'permissions', 'roles', 'users', 'appUrl', 'powerBiReports'));
         // } else {
         // return redirect()->back()->with('error', __('Permission denied.'));
         // }

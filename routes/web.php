@@ -1545,15 +1545,14 @@ Route::group(
 Route::get('/accept-event', [MeetingController::class, 'handleEventResponse'])->name('accept_event');
 Route::get('/decline-event', [MeetingController::class, 'handleEventResponse'])->name('decline_event');
 
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'XSS',
-        ],
+// Routes for PowerBiReportController 
+Route::group([
+    'middleware' => [
+        'auth',
+        'XSS',
     ],
-    function () {
-        Route::get('/powerbi/report', [PowerBiReportController::class, 'getReport']);
-        Route::post('/powerbi/group', [PowerBiReportController::class, 'createGroup']);
-    }
-);
+], function () {
+    Route::post('/powerbi/create', [PowerBiReportController::class, 'createPowerBIReport'])->name('powerbi.create');
+    Route::post('/powerbi/edit/', [PowerBiReportController::class, 'editPowerBIReport'])->name('powerbi.update');
+    Route::post('/powerbi/delete/', [PowerBiReportController::class, 'deletePowerBIReport'])->name('powerbi.delete');
+});

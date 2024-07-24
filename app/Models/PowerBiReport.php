@@ -15,6 +15,7 @@ class PowerBiReport extends Model
         'PBI_report_id',
         'PBI_dataset_id',
         'PBI_embed_url',
-        'is_rls_enabled'
+        'permissions',
+        'is_rls_enabled',
     ];
 }
