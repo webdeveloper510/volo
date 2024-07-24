@@ -13,6 +13,17 @@ $settings = App\Models\Utility::settings();
 $category = explode(',', $settings['campaign_type']);
 ?>
 
+<style>
+    #powerbi-report-dropdown {
+        display: none;
+        width: 100%;
+    }
+
+    #powerbi-report-dropdown.show {
+        display: block;
+    }
+</style>
+
 <div id="sidebar-wrapper">
     <div class="card">
         <div class="list-group list-group-flush sidebar-nav nav-pills nav-stacked" id="menu">
@@ -21,7 +32,6 @@ $category = explode(',', $settings['campaign_type']);
                     <img src="<?php echo e($logo.'new-volo-transparent-bg.png'); ?>" alt="<?php echo e(config('app.name', 'The Sector Eight')); ?>" class="logo logo-lg nav-sidebar-logo" />
                 </a>
             </div>
-
 
             <div class="scrollbar">
                 <?php if(\Request::route()->getName() == 'lead.review'): ?>
@@ -218,27 +228,26 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 <a href="<?php echo e(route('report.billinganalytic')); ?>" class="list-group-item list-group-item-action <?php echo e(\Request::route()->getName() == 'report.billinganalytic' ?'active' : ''); ?>"><span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext"><?php echo e(__('Financial')); ?> </span></a>
-
                 </a>
-                <!-- Button to trigger the dropdown -->
-                <a href="#" class="list-group-item list-group-item-action dropdown-toggle" id="powerBiDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+
+                <!-- Power BI Reports -->
+                <a href="#" id="powerbi-report-toggle" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left">
                         <i class="fas fa-chart-bar"></i>
                     </span>
-                    <span class="dash-mtext"><?php echo e(__('Power BI Reports')); ?></span>
+                    <span class="dash-mtext"><?php echo e(__('Power BI Report')); ?></span>
                 </a>
 
-                <!-- Dropdown menu for Power BI reports -->
-                <ul class="dropdown-menu" aria-labelledby="powerBiDropdown">
+                <!-- Dropdown Menu -->
+                <select id="powerbi-report-dropdown" class="form-select" style="display: none;">
+                    <option value="" disabled selected>Select a report</option>
                     <?php $__currentLoopData = $powerBiReports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <li>
-                        <a class="dropdown-item" href="#" data-report-id="<?php echo e($report->id); ?>" data-report-name="<?php echo e($report->report_name); ?>">
-                            <?php echo e($report->report_name); ?>
+                    <option value="<?php echo e($report->PBI_embed_url); ?>">
+                        <?php echo e($report->report_name); ?>
 
-                        </a>
-                    </li>
+                    </option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </ul>
+                </select>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'meeting.create' ||\Request::route()->getName() == 'meeting.edit' ): ?>
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
@@ -319,6 +328,29 @@ $category = explode(',', $settings['campaign_type']);
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#powerbi-report-toggle').click(function(event) {
+            event.preventDefault();
+            var dropdown = $('#powerbi-report-dropdown');
+
+            if (dropdown.css('display') === 'none') {
+                dropdown.css('display', 'block');
+            } else {
+                dropdown.css('display', 'none');
+            }
+        });
+
+        $('#powerbi-report-dropdown').change(function() {
+            var selectedUrl = $(this).val();
+            if (selectedUrl) {
+                window.location.href = selectedUrl;
+            }
+        });
+    });
+</script>
 <script>
     function showAccordion(dataId) {
         console.log(dataId);
@@ -331,41 +363,6 @@ $category = explode(',', $settings['campaign_type']);
             $('#' + dataId).addClass('show');
         }
     }
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var dropdownToggle = document.getElementById('powerBiDropdown');
-        var dropdownMenu = document.querySelector('.dropdown-menu[aria-labelledby="powerBiDropdown"]');
-        var dropdownItems = document.querySelectorAll('.dropdown-item');
-
-        // Show dropdown menu on click
-        dropdownToggle.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default anchor behavior
-            dropdownMenu.classList.toggle('show');
-        });
-
-        // Handle dropdown item click
-        dropdownItems.forEach(function(item) {
-            item.addEventListener('click', function() {
-                var reportId = this.getAttribute('data-report-id');
-                var reportName = this.getAttribute('data-report-name');
-                console.log('Selected Report ID:', reportId);
-                console.log('Selected Report Name:', reportName);
-
-                // Additional functionality here, if needed
-
-                // Optionally close the dropdown after selection
-                dropdownMenu.classList.remove('show');
-            });
-        });
-
-        // Close the dropdown if clicked outside
-        document.addEventListener('click', function(event) {
-            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-    });
 </script>
 
 <!-- <script>

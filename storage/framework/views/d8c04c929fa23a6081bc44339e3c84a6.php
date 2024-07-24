@@ -83,7 +83,7 @@ $userRoleName = Role::find($userRole)->name;
                                                         <b> <?php echo e(ucfirst($lead->opportunity_name)); ?></b>
                                                     </a>
                                                 </td>
-                                                <td><?php echo e($lead->assigned_user ? \App\Models\User::find($lead->assigned_user)->name : ''); ?></td>
+                                                <td><?php echo e(optional(\App\Models\User::find($lead->assigned_user))->name ?? ''); ?></td>
                                                 <td>
                                                     <span class="budget">
                                                         <?php if(!empty($lead->value_of_opportunity)): ?>
@@ -195,13 +195,13 @@ $userRoleName = Role::find($userRole)->name;
                                                     </div>
                                                     <?php endif; ?>
 
-                                                    <?php if($lead->status >= 1 && $userRoleName != 'restricted'): ?>
+                                                    <!-- <?php if($lead->status >= 1 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-success ms-2">
                                                         <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>" title="<?php echo e(__('View Proposal')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
                                                             <i class="ti ti-receipt"></i>
                                                         </a>
                                                     </div>
-                                                    <?php endif; ?>
+                                                    <?php endif; ?> -->
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                                     <div class="action-btn bg-warning ms-2">
                                                         <!-- <a href="<?php echo e(route('lead.show',$lead->id)); ?>" title="<?php echo e(__('Quick View')); ?>"
