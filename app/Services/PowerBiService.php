@@ -24,9 +24,19 @@ class PowerBiService
         $this->password = env('POWERBI_PASSWORD');
         $this->aadAuthUrl = env('POWERBI_AAD_AUTH_URL');
 
+        // Debug statements
         if (empty($this->aadAuthUrl) || empty($this->clientId) || empty($this->clientSecret) || empty($this->username) || empty($this->password)) {
             throw new \InvalidArgumentException('Power BI configuration parameters are missing.');
         }
+
+        // Output the values (only for debugging purposes, remove or secure this in production)
+        \Log::info('Power BI configuration', [
+            'aadAuthUrl' => $this->aadAuthUrl,
+            'clientId' => $this->clientId,
+            'clientSecret' => $this->clientSecret,
+            'username' => $this->username,
+            'password' => $this->password
+        ]);
     }
 
     public function getAccessToken()
