@@ -19,18 +19,24 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('script-page'); ?>
-<script src="<?php echo e(asset('js/powerbi-client/powerbi.js')); ?>"></script>
+<script src="<?php echo e(asset('js/dist/powerbi.js')); ?>"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Check if powerbi object is loaded
+        if (typeof powerbi === 'undefined') {
+            console.error('Power BI JavaScript SDK not loaded');
+            return;
+        }
+
         let embedContainer = document.getElementById('embed-container');
         let embedConfiguration = {
             type: 'report',
-            accessToken: '<?php echo e($accessToken); ?>',
+            accessToken: '<?php echo e($accessToken); ?>', 
             embedUrl: '<?php echo e($embedUrl); ?>',
-            id: '<?php echo e($reportId); ?>',
-            permissions: 'Read',
-            tokenType: 'Aad'
+            id: '<?php echo e($reportId); ?>', 
+            permissions: powerbi.models.Permissions.All,
+            tokenType: powerbi.models.TokenType.Aad
         };
 
         // Log embedConfiguration to the console
@@ -38,6 +44,7 @@
 
         // Embed the report
         let report = powerbi.embed(embedContainer, embedConfiguration);
+
         report.on('loaded', function() {
             console.log('Report loaded successfully');
         });

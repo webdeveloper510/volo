@@ -1,9 +1,9 @@
-@php
+<?php
 $settings = Utility::settings();
 $productTypes = explode(',', $settings['product_type']);
 $categoryTypes = explode(',', $settings['category_type']);
 $subcategoryTypes = explode(',', $settings['subcategory_type']);
-@endphp
+?>
 <style>
     .fa-asterisk {
         font-size: xx-small;
@@ -59,16 +59,22 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     }
 </style>
 
-{{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+<?php echo e(Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+
 <div class="card-body">
     <div class="row">
         <div class="col-md-12">
-            {{Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label'])); ?>
+
             <div class="form-group">
-                {{ Form::radio('newevent',__('Existing'),true) }}
-                {{ Form::label('newevent','Existing') }}
-                {{ Form::radio('newevent',__('New'),false) }}
-                {{ Form::label('newevent','New') }}
+                <?php echo e(Form::radio('newevent',__('Existing'),true)); ?>
+
+                <?php echo e(Form::label('newevent','Existing')); ?>
+
+                <?php echo e(Form::radio('newevent',__('New'),false)); ?>
+
+                <?php echo e(Form::label('newevent','New')); ?>
+
             </div>
         </div>
     </div>
@@ -76,74 +82,86 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 <div class="row">
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('opportunity_name',__('Opportunity Name'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('opportunity_name',__('Opportunity Name'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('opportunity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))}}
+            <?php echo e(Form::text('opportunity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full" id="client_select">
         <div class="form-group">
-            {{ Form::label('existing_client', __('Client'), ['class' => 'form-label']) }}
+            <?php echo e(Form::label('existing_client', __('Client'), ['class' => 'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
                 <option value="" disabled selected>Select Client</option>
-                @foreach($clients as $client)
-                <option value="{{ $client->id }}">{{ $client->primary_name }}</option>
-                @endforeach
+                <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($client->id); ?>"><?php echo e($client->primary_name); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
     <div class="col-6 need_full" id="new_client">
         <div class="form-group">
-            {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('client_name',__('Client Name'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
+            <?php echo e(Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full" id="new_region">
         <div class="form-group">
-            {{Form::label('region',__('Region'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('region',__('Region'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('region',null,array('class'=>'form-control','placeholder'=>__('Enter Region')))}}
+            <?php echo e(Form::text('region',null,array('class'=>'form-control','placeholder'=>__('Enter Region')))); ?>
+
         </div>
     </div>
     <div class="col-6 need_full" id="new_company_name">
         <div class="form-group">
-            {{Form::label('company_name',__('Company Name'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('company_name',__('Company Name'),['class'=>'form-label'])); ?>
+
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            {{Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))}}
+            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Company Name')))); ?>
+
         </div>
     </div>
 
     <input type="hidden" id="existing_region" name="existing_region" value="">
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
-        <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Primary Contact Information')); ?></h5>
     </div>
-    <!-- {{Form::open(array('route'=>['create.opportunity'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))}} -->
+    <!-- <?php echo e(Form::open(array('route'=>['create.opportunity'],'method'=>'post','enctype'=>'multipart/form-data','id'=>'imported'))); ?> -->
     <div class="row">
         <div class="col-6 need_full">
             <!-- <input type="hidden" name="customerType" value="addForm" /> -->
             <div class="form-group">
-                {{Form::label('primary_name',__('Name'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('primary_name',__('Name'),['class'=>'form-label'])); ?>
+
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
-                {{Form::text('primary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                <?php echo e(Form::text('primary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group ">
-                {{Form::label('primary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('primary_phone_number',__('Phone Number'),['class'=>'form-label'])); ?>
+
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
@@ -155,42 +173,51 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('primary_email',__('Email'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('primary_email',__('Email'),['class'=>'form-label'])); ?>
+
                 <span class="text-sm">
                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                 </span>
-                {{Form::email('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
-            </div>
-        </div>
-        <div class="col-6 need_full">
-            <div class="form-group">
-                {{Form::label('primary_address',__('Address'),['class'=>'form-label']) }}
+                <?php echo e(Form::email('primary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
 
-                {{Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label']) }}
-                {{Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                <?php echo e(Form::label('primary_address',__('Address'),['class'=>'form-label'])); ?>
+
+
+                <?php echo e(Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
+            </div>
+        </div>
+        <div class="col-6 need_full">
+            <div class="form-group">
+                <?php echo e(Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
             </div>
         </div>
     </div>
 
     <div class="col-12  p-0 modaltitle pb-3 mb-3 mt-4">
-        <h5 style="margin-left: 14px;">{{ __('Secondary Contact Information') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Secondary Contact Information')); ?></h5>
     </div>
     <div class="row">
         <div class="col-6 need_full">
             <input type="hidden" name="customerType" value="addForm" />
             <div class="form-group">
-                {{Form::label('secondary_name',__('Name'),['class'=>'form-label']) }}
-                {{Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name')))}}
+                <?php echo e(Form::label('secondary_name',__('Name'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('secondary_name',null,array('class'=>'form-control','placeholder'=>__('Enter Name')))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group ">
-                {{Form::label('secondary_phone_number',__('Phone Number'),['class'=>'form-label']) }}
+                <?php echo e(Form::label('secondary_phone_number',__('Phone Number'),['class'=>'form-label'])); ?>
+
                 <div class="intl-tel-input">
                     <input type="tel" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16">
                 </div>
@@ -198,35 +225,42 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('secondary_email',__('Email'),['class'=>'form-label']) }}
-                {{Form::email('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
+                <?php echo e(Form::label('secondary_email',__('Email'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::email('secondary_email',null,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('secondary_address',__('Address'),['class'=>'form-label']) }}
-                {{Form::text('secondary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                <?php echo e(Form::label('secondary_address',__('Address'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('secondary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
-                {{Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label']) }}
-                {{Form::text('secondary_designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                <?php echo e(Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::text('secondary_designation',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
             </div>
         </div>
     </div>
 
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Details') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Details')); ?></h5>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label']) }}
+            <?php echo e(Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label'])); ?>
+
             <select class="form-control" name='assign_staff' required>
                 <option value="">Select Team Member</option>
-                @foreach ($assinged_staff as $staff)
-                <option class="form-control" value="{{ $staff->id }}">{{ $staff->name }} ({{$staff->type}})</option>
-                @endforeach
+                <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option class="form-control" value="<?php echo e($staff->id); ?>"><?php echo e($staff->name); ?> (<?php echo e($staff->type); ?>)</option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
@@ -335,9 +369,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <label for="category">Select Category</label>
             <select name="category" id="category" class="form-control">
                 <option value="" selected disabled>Select Category</option>
-                @foreach($categoryTypes as $category)
-                <option value="{{ $category }}" class="form-control">{{ $category }}</option>
-                @endforeach
+                <?php $__currentLoopData = $categoryTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($category); ?>" class="form-control"><?php echo e($category); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
@@ -346,20 +380,22 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <label for="sales_subcategory">Sales Subcategory</label>
             <select name="sales_subcategory" id="sales_subcategory" class="form-control">
                 <option value="" selected disabled>Select Sales Subcategory</option>
-                @foreach($subcategoryTypes as $subcategory)
-                <option value="{{ $subcategory }}" class="form-control">{{ $subcategory }}</option>
-                @endforeach
+                <?php $__currentLoopData = $subcategoryTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($subcategory); ?>" class="form-control"><?php echo e($subcategory); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
-            {{Form::label('competitor',__('Competitor'),['class'=>'form-label']) }}
-            {{Form::text('competitor',null,array('class'=>'form-control','placeholder'=>__('Enter Competitor')))}}
+            <?php echo e(Form::label('competitor',__('Competitor'),['class'=>'form-label'])); ?>
+
+            <?php echo e(Form::text('competitor',null,array('class'=>'form-control','placeholder'=>__('Enter Competitor')))); ?>
+
         </div>
     </div>
     <div class="col-12  p-0 modaltitle pb-3 mb-3">
-        <h5 style="margin-left: 14px;">{{ __('Products') }}</h5>
+        <h5 style="margin-left: 14px;"><?php echo e(__('Products')); ?></h5>
     </div>
     <div class="col-6 need_full">
         <div class="form-group">
@@ -697,15 +733,18 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 </div>
 <div class="col-6 need_full">
     <div class="form-group">
-        {{Form::label('is_active',__('Active'),['class'=>'form-label']) }}
+        <?php echo e(Form::label('is_active',__('Active'),['class'=>'form-label'])); ?>
+
         <input type="checkbox" class="form-check-input" name="is_active" checked>
     </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    <?php echo e(Form::submit(__('Save'),array('class'=>'btn btn-primary '))); ?>
+
 </div>
-{{Form::close()}}
+<?php echo e(Form::close()); ?>
+
 
 <script>
     $(document).ready(function() {
@@ -864,11 +903,11 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     $(document).ready(function() {
         var storedId = localStorage.getItem('clickedLinkId');
         $.ajax({
-            url: "{{ route('getcontactinfo') }}",
+            url: "<?php echo e(route('getcontactinfo')); ?>",
             type: 'POST',
             data: {
                 "customerid": storedId,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 localStorage.removeItem('clickedLinkId');
@@ -1034,11 +1073,11 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         if (!existing_client_id) return;
 
         $.ajax({
-            url: "{{ route('getcontactinfo') }}",
+            url: "<?php echo e(route('getcontactinfo')); ?>",
             type: 'POST',
             data: {
                 "clientId": existing_client_id,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 $('input[name="primary_name"]').val(data[0].primary_name);
@@ -1072,4 +1111,4 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         if (!number) return '';
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-</script>
+</script><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/create.blade.php ENDPATH**/ ?>

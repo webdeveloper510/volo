@@ -234,8 +234,9 @@ class LeadController extends Controller
             if ($lead && $request->has('newevent') && $request->newevent === 'New') {
                 $UsersImports = new UserImport();
                 $UsersImports->lead_id = $lastInsertedId;
-                $UsersImports->company_name = '';
+                $UsersImports->company_name = $request->company_name ?? '';
                 $UsersImports->entity_name = '';
+                $UsersImports->client_name = $request->client_name ?? '';
                 $UsersImports->primary_name = $request->primary_name ?? '';
                 $UsersImports->primary_phone_number = $request->primary_phone_number ?? '';
                 $UsersImports->primary_email = $request->primary_email ?? '';
