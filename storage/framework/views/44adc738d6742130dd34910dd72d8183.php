@@ -32,11 +32,11 @@
         let embedContainer = document.getElementById('embed-container');
         let embedConfiguration = {
             type: 'report',
-            accessToken: '<?php echo e($accessToken); ?>', 
+            accessToken: '<?php echo e($accessToken); ?>',
             embedUrl: '<?php echo e($embedUrl); ?>',
-            id: '<?php echo e($reportId); ?>', 
-            permissions: powerbi.models.Permissions.All,
-            tokenType: powerbi.models.TokenType.Aad
+            id: '<?php echo e($reportId); ?>',
+            // permissions: 1,
+            // tokenType: 1
         };
 
         // Log embedConfiguration to the console

@@ -30,11 +30,11 @@
         let embedContainer = document.getElementById('embed-container');
         let embedConfiguration = {
             type: 'report',
-            accessToken: '{{ $accessToken }}', 
+            accessToken: '{{ $accessToken }}',
             embedUrl: '{{ $embedUrl }}',
-            id: '{{ $reportId }}', 
-            permissions: powerbi.models.Permissions.All,
-            tokenType: powerbi.models.TokenType.Aad
+            id: '{{ $reportId }}',
+            // permissions: 1,
+            // tokenType: 1
         };
 
         // Log embedConfiguration to the console
