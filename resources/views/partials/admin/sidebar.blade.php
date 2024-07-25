@@ -206,7 +206,7 @@ $category = explode(',', $settings['campaign_type']);
 
                 </a>
                 @endif
-                @if( \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' ||
+                @if( \Request::route()->getName() == 'powerbi.report.show' || \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' ||
                 \Request::route()->getName() == 'report.edit' || \Request::route()->getName() == 'report.leadsanalytic'
                 ||
                 \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() ==
@@ -242,12 +242,11 @@ $category = explode(',', $settings['campaign_type']);
                 <select id="powerbi-report-dropdown" class="form-select" style="display: none;">
                     <option value="" disabled selected>Select a report</option>
                     @foreach($powerBiReports as $report)
-                    <option value="{{ $report->PBI_embed_url }}">
-                        {{ $report->report_name }}
-                    </option>
+                    <option value="{{ $report->id }}">{{ $report->report_name }}</option>
                     @endforeach
                 </select>
                 @endif
+
                 @if(\Request::route()->getName() == 'meeting.create' ||\Request::route()->getName() == 'meeting.edit' )
                 <a href="#useradd-1" class="list-group-item list-group-item-action">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
@@ -333,19 +332,17 @@ $category = explode(',', $settings['campaign_type']);
     $(document).ready(function() {
         $('#powerbi-report-toggle').click(function(event) {
             event.preventDefault();
-            var dropdown = $('#powerbi-report-dropdown');
-
-            if (dropdown.css('display') === 'none') {
-                dropdown.css('display', 'block');
-            } else {
-                dropdown.css('display', 'none');
-            }
+            $('#powerbi-report-dropdown').toggle();
         });
 
         $('#powerbi-report-dropdown').change(function() {
-            var selectedUrl = $(this).val();
-            if (selectedUrl) {
-                window.location.href = selectedUrl;
+            var reportId = $(this).val();
+            if (reportId) {
+                var baseUrl = "{{ url('/') }}";
+                var encodedId = btoa(reportId);
+                var url = baseUrl + '/powerbi/report/' + encodedId;
+                console.log('Redirecting to URL:', url);
+                window.location.href = url;
             }
         });
     });
@@ -363,14 +360,3 @@ $category = explode(',', $settings['campaign_type']);
         }
     }
 </script>
-
-<!-- <script>
-    $(document).ready(function() {
-        setTimeout(function() {
-            $('.loadthisimage img').each(function() {
-                var $this = $(this);
-                $this.attr('src', $this.attr('src'));
-            });
-        }, 2000);
-    });
-</script> -->

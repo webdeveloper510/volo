@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PowerBiReport;
+use App\Services\PowerBiService;
 use Illuminate\Support\Facades\Validator;
 
 class PowerBiReportController extends Controller
 {
+    protected $powerBiService;
+
+    public function __construct(PowerBiService $powerBiService)
+    {
+        $this->powerBiService = $powerBiService;
+    }
     public function createPowerBIReport(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -102,5 +109,21 @@ class PowerBiReportController extends Controller
         } else {
             return response()->json(['success' => 'Power BI Report not found']);
         }
+    }
+
+    public function showPowerBIReport($id)
+    {
+        // Get Power BI Report
+        $reportId = base64_decode($id);
+        $report = PowerBiReport::findOrFail($reportId);
+
+        // Get access token, report id and embed url
+        $accessToken = $this->powerBiService->getAccessToken();
+        $reportId = $report->PBI_report_id;
+        $embedUrl = $report->PBI_embed_url;
+        $permissions = 'View';
+        $tokenType = 'Bearer';
+
+        return view('powerbi.index', compact('accessToken', 'reportId', 'embedUrl', 'permissions', 'tokenType'));
     }
 }

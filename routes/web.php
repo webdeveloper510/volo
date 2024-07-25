@@ -1555,4 +1555,5 @@ Route::group([
     Route::post('/powerbi/create', [PowerBiReportController::class, 'createPowerBIReport'])->name('powerbi.create');
     Route::post('/powerbi/edit/', [PowerBiReportController::class, 'editPowerBIReport'])->name('powerbi.update');
     Route::post('/powerbi/delete/', [PowerBiReportController::class, 'deletePowerBIReport'])->name('powerbi.delete');
+    Route::get('/powerbi/report/{id}', [PowerBiReportController::class, 'showPowerBIReport'])->name('powerbi.report.show');
 });
