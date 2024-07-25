@@ -27,8 +27,8 @@
             accessToken: '{{ $accessToken }}',
             embedUrl: '{{ $embedUrl }}',
             id: '{{ $reportId }}',
-            permissions: powerbi.models.Permissions.View,
-            tokenType: powerbi.models.TokenType.Aad
+            permissions: 'Read',
+            tokenType: 'Aad'
         };
 
         // Log embedConfiguration to the console

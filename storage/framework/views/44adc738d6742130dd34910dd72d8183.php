@@ -29,8 +29,8 @@
             accessToken: '<?php echo e($accessToken); ?>',
             embedUrl: '<?php echo e($embedUrl); ?>',
             id: '<?php echo e($reportId); ?>',
-            permissions: powerbi.models.Permissions.View,
-            tokenType: powerbi.models.TokenType.Aad
+            permissions: 'Read',
+            tokenType: 'Aad'
         };
 
         // Log embedConfiguration to the console
