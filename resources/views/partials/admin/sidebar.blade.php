@@ -235,7 +235,7 @@ $category = explode(',', $settings['campaign_type']);
                     <span class="fa-stack fa-lg pull-left">
                         <i class="fas fa-chart-bar"></i>
                     </span>
-                    <span class="dash-mtext">{{ __('Power BI Report') }}</span>
+                    <span class="dash-mtext">{{ __('BI Reports') }}</span>
                 </a>
 
                 <!-- Dropdown Menu -->

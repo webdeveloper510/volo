@@ -38,7 +38,7 @@
         };
 
         // Log embedConfiguration to the console
-        console.log(embedConfiguration);
+        // console.log(embedConfiguration);
 
         // Embed the report
         let report = powerbi.embed(embedContainer, embedConfiguration);
