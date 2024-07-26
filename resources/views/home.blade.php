@@ -656,6 +656,8 @@
                 text = 'NDAs';
             } else if (text === 'post_purchase') {
                 text = 'Contractual';
+            } else if (text === 'demo_meeting') {
+                text = 'Demo or Meeting';
             } else {
                 // Default formatting if no specific replacement found
                 text = text
