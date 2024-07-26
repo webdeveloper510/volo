@@ -119,7 +119,7 @@
                 <div class="row">
                     <div class="col-3 prospecting-div">
                         <div class="inner_col">
-                            <h5 class="card-title mb-2 opportunity-title nda-opportunity-color">NDAs (<?php echo e($prospecting['count']); ?>) <span class="prospecting-opportunities">$<?php echo e(human_readable_number($prospecting['sum'])); ?></span></h5>
+                            <h5 class="card-title mb-2  nda-opportunity-color">NDAs (<?php echo e($prospecting['count']); ?>) <span class="prospecting-opportunities">$<?php echo e(human_readable_number($prospecting['sum'])); ?></span></h5>
                             <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="<?php echo e(human_readable_number($prospecting['sum'])); ?>">
                             <div class="scrol-card">
                                 <?php $__currentLoopData = $prospecting['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prospectingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -615,6 +615,19 @@
         function generateOpportunityHTML(type, baseUrl, data) {
             var html = '';
 
+            var typeClassMap = {
+                'prospecting': 'nda-opportunity-color',
+                'discovery': 'discovery-opportunity-color',
+                'demo_meeting': 'demo-opportunity-color',
+                'proposal': 'proposal-opportunity-color',
+                'negotiation': 'negotiation-opportunity-color',
+                'awaiting_decision': 'awaiting-opportunity-color',
+                'post_purchase': 'contractual-opportunity-color',
+                'closed_won': 'close-opportunity-color'
+            };
+
+            var additionalClass = typeClassMap[type] || '';
+
             if (data && data.lead && data.lead.length > 0) {
                 var count = data.count;
                 var sum = data.sum;
@@ -622,7 +635,7 @@
                 var formattedType = formatTypeText(type);
 
                 html += '<div class="inner_col">';
-                html += '<h5 class="card-title mb-2 opportunity-title">' + formattedType + ' (' + count + ') <span class="' + type.toLowerCase() + '-opportunities">$' + sumDisplay + '</span></h5>';
+                html += '<h5 class="card-title mb-2 ' + additionalClass + ' ">' + formattedType + ' (' + count + ') <span class="' + type.toLowerCase() + '-opportunities">$' + sumDisplay + '</span></h5>';
                 html += '<input type="hidden" id="' + type.toLowerCase() + '-opportunities-sum" name="' + type.toLowerCase() + '-opportunities-sum" value="' + sumDisplay + '">';
                 html += '<div class="scrol-card">';
 
@@ -642,8 +655,21 @@
         function generateNoRecordHTML(type) {
             var formattedType = formatTypeText(type);
 
+            var typeClassMap = {
+                'prospecting': 'nda-opportunity-color',
+                'discovery': 'discovery-opportunity-color',
+                'demo_meeting': 'demo-opportunity-color',
+                'proposal': 'proposal-opportunity-color',
+                'negotiation': 'negotiation-opportunity-color',
+                'awaiting_decision': 'awaiting-opportunity-color',
+                'post_purchase': 'contractual-opportunity-color',
+                'closed_won': 'close-opportunity-color'
+            };
+
+            var additionalClass = typeClassMap[type] || '';
+
             var html = '<div class="inner_col">';
-            html += '<h5 class="card-title mb-2 opportunity-title">' + formattedType + ' (0) <span class="' + type.toLowerCase() + '-opportunities">$0</span></h5>';
+            html += '<h5 class="card-title mb-2 ' + additionalClass + '  ">' + formattedType + ' (0) <span class="' + type.toLowerCase() + '-opportunities">$0</span></h5>';
             html += '<div class="scrol-card">';
             html += '<div class="card">';
             html += '<div class="card-body new_bottomcard">';
