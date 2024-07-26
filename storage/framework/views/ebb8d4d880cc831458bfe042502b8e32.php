@@ -122,6 +122,7 @@
                             <h5 class="card-title mb-2  nda-opportunity-color">NDAs (<?php echo e($prospecting['count']); ?>) <span class="prospecting-opportunities">$<?php echo e(human_readable_number($prospecting['sum'])); ?></span></h5>
                             <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="<?php echo e(human_readable_number($prospecting['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($prospecting['opportunities']) && count($prospecting['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $prospecting['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prospectingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -143,8 +144,14 @@
                                         <span class="opportunity-price"><?php echo e(getCurrencySign($prospectingOpportunity['currency'])); ?><?php echo e($prospectingOpportunity['value_of_opportunity']); ?></span>
                                     </div>
                                 </div>
-
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -154,6 +161,7 @@
                             <h5 class="card-title mb-2 discovery-opportunity-color">Discovery (<?php echo e($discovery['count']); ?>) <span class="discovery-opportunities">$<?php echo e(human_readable_number($discovery['sum'])); ?></span></h5>
                             <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="<?php echo e(human_readable_number($discovery['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($discovery['opportunities']) && count($discovery['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $discovery['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $discoveryOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -177,6 +185,13 @@
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -185,6 +200,7 @@
                             <h5 class="card-title mb-2 demo-opportunity-color">Demo or Meeting (<?php echo e($demo_or_meeting['count']); ?>) <span class="meeting-opportunities">$<?php echo e(human_readable_number($demo_or_meeting['sum'])); ?></span></h5>
                             <input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="<?php echo e(human_readable_number($demo_or_meeting['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($demo_or_meeting['opportunities']) && count($demo_or_meeting['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $demo_or_meeting['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $demoOrMeetingOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -208,6 +224,13 @@
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -216,6 +239,7 @@
                             <h5 class="card-title mb-2 proposal-opportunity-color">Proposal (<?php echo e($proposal['count']); ?>) <span class="proposal-opportunities">$<?php echo e(human_readable_number($proposal['sum'])); ?></span></h5>
                             <input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="<?php echo e(human_readable_number($proposal['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($proposal['opportunities']) && count($proposal['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $proposal['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $proposalOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -239,6 +263,13 @@
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -250,6 +281,7 @@
                             <h5 class="card-title mb-2 negotiation-opportunity-color">Negotiation (<?php echo e($negotiation['count']); ?>) <span class="negotiation-opportunities">$<?php echo e(human_readable_number($negotiation['sum'])); ?></span></h5>
                             <input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="<?php echo e(human_readable_number($negotiation['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($negotiation['opportunities']) && count($negotiation['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $negotiation['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $negotiationOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -273,6 +305,13 @@
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -281,6 +320,7 @@
                             <h5 class="card-title mb-2 awaiting-opportunity-color">Awaiting Decision (<?php echo e($awaiting_decision['count']); ?>) <span class="awaiting-opportunities">$<?php echo e(human_readable_number($awaiting_decision['sum'])); ?></span></h5>
                             <input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="<?php echo e(human_readable_number($awaiting_decision['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($awaiting_decision['opportunities']) && count($awaiting_decision['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $awaiting_decision['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $awaitingDecisionOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -304,6 +344,13 @@
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -312,6 +359,7 @@
                             <h5 class="card-title mb-2 contractual-opportunity-color">Contractual (<?php echo e($post_purchase['count']); ?>) <span class="postpurchase-opportunities">$<?php echo e(human_readable_number($post_purchase['sum'])); ?></span></h5>
                             <input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="<?php echo e(human_readable_number($post_purchase['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($post_purchase['opportunities']) && count($post_purchase['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $post_purchase['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $postPurchaseOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -335,6 +383,13 @@
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -343,6 +398,7 @@
                             <h5 class="card-title mb-2 close-opportunity-color">Closed Won (<?php echo e($closed_won['count']); ?>) <span class="closedwon-opportunities">$<?php echo e(human_readable_number($closed_won['sum'])); ?></span></h5>
                             <input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="<?php echo e(human_readable_number($closed_won['sum'])); ?>">
                             <div class="scrol-card">
+                                <?php if(!empty($closed_won['opportunities']) && count($closed_won['opportunities']) > 0): ?>
                                 <?php $__currentLoopData = $closed_won['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $closedWonOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -366,6 +422,13 @@
                                     </div>
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

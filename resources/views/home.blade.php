@@ -121,6 +121,7 @@
                             <h5 class="card-title mb-2  nda-opportunity-color">NDAs ({{ $prospecting['count'] }}) <span class="prospecting-opportunities">${{ human_readable_number($prospecting['sum']) }}</span></h5>
                             <input type="hidden" id="prospecting-opportunities-sum" name="prospecting-opportunities-sum" value="{{ human_readable_number($prospecting['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($prospecting['opportunities']) && count($prospecting['opportunities']) > 0)
                                 @foreach($prospecting['opportunities'] as $prospectingOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -141,8 +142,14 @@
                                         <span class="opportunity-price">{{ getCurrencySign($prospectingOpportunity['currency']) }}{{ $prospectingOpportunity['value_of_opportunity'] }}</span>
                                     </div>
                                 </div>
-
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -152,6 +159,7 @@
                             <h5 class="card-title mb-2 discovery-opportunity-color">Discovery ({{ $discovery['count'] }}) <span class="discovery-opportunities">${{ human_readable_number($discovery['sum']) }}</span></h5>
                             <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="{{ human_readable_number($discovery['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($discovery['opportunities']) && count($discovery['opportunities']) > 0)
                                 @foreach($discovery['opportunities'] as $discoveryOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -174,6 +182,13 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -182,6 +197,7 @@
                             <h5 class="card-title mb-2 demo-opportunity-color">Demo or Meeting ({{ $demo_or_meeting['count'] }}) <span class="meeting-opportunities">${{ human_readable_number($demo_or_meeting['sum']) }}</span></h5>
                             <input type="hidden" id="meeting-opportunities-sum" name="meeting-opportunities-sum" value="{{ human_readable_number($demo_or_meeting['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($demo_or_meeting['opportunities']) && count($demo_or_meeting['opportunities']) > 0)
                                 @foreach($demo_or_meeting['opportunities'] as $demoOrMeetingOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -204,6 +220,13 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -212,6 +235,7 @@
                             <h5 class="card-title mb-2 proposal-opportunity-color">Proposal ({{ $proposal['count'] }}) <span class="proposal-opportunities">${{ human_readable_number($proposal['sum']) }}</span></h5>
                             <input type="hidden" id="proposal-opportunities-sum" name="proposal-opportunities-sum" value="{{ human_readable_number($proposal['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($proposal['opportunities']) && count($proposal['opportunities']) > 0)
                                 @foreach($proposal['opportunities'] as $proposalOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -234,6 +258,13 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -245,6 +276,7 @@
                             <h5 class="card-title mb-2 negotiation-opportunity-color">Negotiation ({{ $negotiation['count'] }}) <span class="negotiation-opportunities">${{ human_readable_number($negotiation['sum']) }}</span></h5>
                             <input type="hidden" id="negotiation-opportunities-sum" name="negotiation-opportunities-sum" value="{{ human_readable_number($negotiation['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($negotiation['opportunities']) && count($negotiation['opportunities']) > 0)
                                 @foreach($negotiation['opportunities'] as $negotiationOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -267,6 +299,13 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -275,6 +314,7 @@
                             <h5 class="card-title mb-2 awaiting-opportunity-color">Awaiting Decision ({{ $awaiting_decision['count'] }}) <span class="awaiting-opportunities">${{ human_readable_number($awaiting_decision['sum']) }}</span></h5>
                             <input type="hidden" id="awaiting-opportunities-sum" name="awaiting-opportunities-sum" value="{{ human_readable_number($awaiting_decision['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($awaiting_decision['opportunities']) && count($awaiting_decision['opportunities']) > 0)
                                 @foreach($awaiting_decision['opportunities'] as $awaitingDecisionOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -297,6 +337,13 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -305,6 +352,7 @@
                             <h5 class="card-title mb-2 contractual-opportunity-color">Contractual ({{ $post_purchase['count'] }}) <span class="postpurchase-opportunities">${{ human_readable_number($post_purchase['sum']) }}</span></h5>
                             <input type="hidden" id="postpurchase-opportunities-sum" name="postpurchase-opportunities-sum" value="{{ human_readable_number($post_purchase['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($post_purchase['opportunities']) && count($post_purchase['opportunities']) > 0)
                                 @foreach($post_purchase['opportunities'] as $postPurchaseOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -327,6 +375,13 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -335,6 +390,7 @@
                             <h5 class="card-title mb-2 close-opportunity-color">Closed Won ({{ $closed_won['count'] }}) <span class="closedwon-opportunities">${{ human_readable_number($closed_won['sum']) }}</span></h5>
                             <input type="hidden" id="closedwon-opportunitie-sum" name="closedwon-opportunitie-sum" value="{{ human_readable_number($closed_won['sum']) }}">
                             <div class="scrol-card">
+                                @if(!empty($closed_won['opportunities']) && count($closed_won['opportunities']) > 0)
                                 @foreach($closed_won['opportunities'] as $closedWonOpportunity)
                                 <div class="card">
                                     <div class="card-body new_bottomcard">
@@ -357,6 +413,13 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
