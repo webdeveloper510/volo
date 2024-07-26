@@ -12,10 +12,13 @@
 <li class="breadcrumb-item"><?php echo e(__('Report')); ?></li>
 <li class="breadcrumb-item"><?php echo e(__('Power BI Report')); ?></li>
 <?php $__env->stopSection(); ?>
+<style>
+    .dash-container {
+        height: 0px;
+    }
+</style>
 <?php $__env->startSection('content'); ?>
-<div class="row">
-    <div id="embed-container" style="width:100%;height:500px;"></div>
-</div>
+<div id="embed-container" style="width:100%;height:500px;margin-top: 25px"></div>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('script-page'); ?>
