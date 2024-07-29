@@ -10,13 +10,8 @@
 <li class="breadcrumb-item">{{ __('Report') }}</li>
 <li class="breadcrumb-item">{{ __('Power BI Report') }}</li>
 @endsection
-<style>
-    .dash-container {
-        height: 0px;
-    }
-</style>
 @section('content')
-<div id="embed-container" style="width:100%;height:500px;margin-top: 25px"></div>
+<div id="embed-container" style="width:100%;height:600px;margin-top: 25px"></div>
 @endsection
 
 @push('script-page')
