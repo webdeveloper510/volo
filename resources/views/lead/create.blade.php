@@ -165,14 +165,19 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('primary_address',__('Address'),['class'=>'form-label']) }}
-
-                {{Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                <span class="text-sm">
+                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                </span>
+                {{Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address'), 'required'=>'required'))}}
             </div>
         </div>
         <div class="col-6 need_full">
             <div class="form-group">
                 {{Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label']) }}
-                {{Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                <span class="text-sm">
+                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                </span>
+                {{Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation'), 'required'=>'required'))}}
             </div>
         </div>
     </div>
@@ -222,6 +227,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     <div class="col-6 need_full">
         <div class="form-group">
             {{Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label']) }}
+            <span class="text-sm">
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             <select class="form-control" name='assign_staff' required>
                 <option value="">Select Team Member</option>
                 @foreach ($assinged_staff as $staff)
@@ -365,7 +373,10 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         <div class="form-group">
             @foreach ($productTypes as $type)
             @php
-            $id = strtolower(str_replace(' ', '-', $type));
+            // Replace hyphens with spaces, then ensure consistent spacing
+            $cleanedType = trim(preg_replace('/\s+/', ' ', str_replace('-', ' ', $type)));
+            // Replace spaces with hyphens
+            $id = strtolower(str_replace(' ', '-', $cleanedType));
             @endphp
             <input type="checkbox" id="{{ $id }}" name="products[]" value="{{ $type }}" onchange="showAdditionalProductCategoryFields()">
             <label for="{{ $id }}">{{ $type }}</label><br>

@@ -186,8 +186,10 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <div class="form-group">
                 <?php echo e(Form::label('primary_address',__('Address'),['class'=>'form-label'])); ?>
 
-
-                <?php echo e(Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+                <span class="text-sm">
+                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                </span>
+                <?php echo e(Form::text('primary_address',null,array('class'=>'form-control','placeholder'=>__('Enter Address'), 'required'=>'required'))); ?>
 
             </div>
         </div>
@@ -195,7 +197,10 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <div class="form-group">
                 <?php echo e(Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+                <span class="text-sm">
+                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                </span>
+                <?php echo e(Form::text('primary_organization',null,array('class'=>'form-control','placeholder'=>__('Enter Designation'), 'required'=>'required'))); ?>
 
             </div>
         </div>
@@ -256,6 +261,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         <div class="form-group">
             <?php echo e(Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label'])); ?>
 
+            <span class="text-sm">
+                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+            </span>
             <select class="form-control" name='assign_staff' required>
                 <option value="">Select Team Member</option>
                 <?php $__currentLoopData = $assinged_staff; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -401,7 +409,10 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         <div class="form-group">
             <?php $__currentLoopData = $productTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php
-            $id = strtolower(str_replace(' ', '-', $type));
+            // Replace hyphens with spaces, then ensure consistent spacing
+            $cleanedType = trim(preg_replace('/\s+/', ' ', str_replace('-', ' ', $type)));
+            // Replace spaces with hyphens
+            $id = strtolower(str_replace(' ', '-', $cleanedType));
             ?>
             <input type="checkbox" id="<?php echo e($id); ?>" name="products[]" value="<?php echo e($type); ?>" onchange="showAdditionalProductCategoryFields()">
             <label for="<?php echo e($id); ?>"><?php echo e($type); ?></label><br>
