@@ -41,7 +41,7 @@ class DashboardController extends Controller
         $userType = $user->type;
         $userRoleType = $userRole->roleType;
 
-        if ($userType == 'admin' || $userType == 'owner' || $userType == 'snr manager') {
+        if ($userType == 'admin' || $userType == 'owner' || $userType == 'snr manager') {           
             $setting = Utility::settings();
             $products = explode(',', $setting['product_type']);
             $regions = explode(',', $setting['region']);
@@ -70,8 +70,7 @@ class DashboardController extends Controller
             // Helper function to calculate sums, counts, and return opportunities
             function calculateOpportunities($sales_stages, $currency_rates)
             {
-                $opportunities = Lead::where('created_by', \Auth::user()->creatorId())
-                    ->where('lead_status', 1)
+                $opportunities = Lead::where('lead_status', 1)
                     ->whereIn('sales_stage', $sales_stages)
                     ->get();
 
