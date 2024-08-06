@@ -116,6 +116,45 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-3 discovery-div">
+                        <div class="inner_col">
+                            <h5 class="card-title mb-2 discovery-opportunity-color">Prospecting ({{ $discovery['count'] }}) <span class="discovery-opportunities">${{ human_readable_number($discovery['sum']) }}</span></h5>
+                            <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="{{ human_readable_number($discovery['sum']) }}">
+                            <div class="scrol-card">
+                                @if(!empty($discovery['opportunities']) && count($discovery['opportunities']) > 0)
+                                @foreach($discovery['opportunities'] as $discoveryOpportunity)
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            {{ $discoveryOpportunity['opportunity_name'] }}
+                                            <span class="client-name">{{ $discoveryOpportunity['primary_name'] }}</span>
+                                        </h5>
+
+                                        @if($discoveryOpportunity['updated_at'])
+                                        <p>{{ Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')}}</p>
+                                        @endif
+                                        @can('Show Opportunity')
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$discoveryOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Prospecting Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        @endcan
+                                        <span class="opportunity-price">{{ getCurrencySign($discoveryOpportunity['currency']) }}{{ $discoveryOpportunity['value_of_opportunity'] }}</span>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @else
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-3 prospecting-div">
                         <div class="inner_col">
                             <h5 class="card-title mb-2  nda-opportunity-color">NDAs ({{ $prospecting['count'] }}) <span class="prospecting-opportunities">${{ human_readable_number($prospecting['sum']) }}</span></h5>
@@ -154,44 +193,6 @@
                         </div>
                     </div>
 
-                    <div class="col-3 discovery-div">
-                        <div class="inner_col">
-                            <h5 class="card-title mb-2 discovery-opportunity-color">Discovery ({{ $discovery['count'] }}) <span class="discovery-opportunities">${{ human_readable_number($discovery['sum']) }}</span></h5>
-                            <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="{{ human_readable_number($discovery['sum']) }}">
-                            <div class="scrol-card">
-                                @if(!empty($discovery['opportunities']) && count($discovery['opportunities']) > 0)
-                                @foreach($discovery['opportunities'] as $discoveryOpportunity)
-                                <div class="card">
-                                    <div class="card-body new_bottomcard">
-                                        <h5 class="card-text">
-                                            {{ $discoveryOpportunity['opportunity_name'] }}
-                                            <span class="client-name">{{ $discoveryOpportunity['primary_name'] }}</span>
-                                        </h5>
-
-                                        @if($discoveryOpportunity['updated_at'])
-                                        <p>{{ Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')}}</p>
-                                        @endif
-                                        @can('Show Opportunity')
-                                        <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$discoveryOpportunity['id']) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Discovery Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                <i class="ti ti-eye"></i>
-                                            </a>
-                                        </div>
-                                        @endcan
-                                        <span class="opportunity-price">{{ getCurrencySign($discoveryOpportunity['currency']) }}{{ $discoveryOpportunity['value_of_opportunity'] }}</span>
-                                    </div>
-                                </div>
-                                @endforeach
-                                @else
-                                <div class="card">
-                                    <div class="card-body new_bottomcard">
-                                        <span class="no-record">No records found</span>
-                                    </div>
-                                </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-3 demo-meeting-div">
                         <div class="inner_col">
                             <h5 class="card-title mb-2 demo-opportunity-color">Demo or Meeting ({{ $demo_or_meeting['count'] }}) <span class="meeting-opportunities">${{ human_readable_number($demo_or_meeting['sum']) }}</span></h5>
@@ -656,6 +657,8 @@
                 text = 'NDAs';
             } else if (text === 'post_purchase') {
                 text = 'Contractual';
+            } else if (text === 'discovery') {
+                text = 'Prospecting';
             } else if (text === 'demo_meeting') {
                 text = 'Demo or Meeting';
             } else {

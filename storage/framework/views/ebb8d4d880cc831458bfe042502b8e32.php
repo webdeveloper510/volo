@@ -117,6 +117,46 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-3 discovery-div">
+                        <div class="inner_col">
+                            <h5 class="card-title mb-2 discovery-opportunity-color">Prospecting (<?php echo e($discovery['count']); ?>) <span class="discovery-opportunities">$<?php echo e(human_readable_number($discovery['sum'])); ?></span></h5>
+                            <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="<?php echo e(human_readable_number($discovery['sum'])); ?>">
+                            <div class="scrol-card">
+                                <?php if(!empty($discovery['opportunities']) && count($discovery['opportunities']) > 0): ?>
+                                <?php $__currentLoopData = $discovery['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $discoveryOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <h5 class="card-text">
+                                            <?php echo e($discoveryOpportunity['opportunity_name']); ?>
+
+                                            <span class="client-name"><?php echo e($discoveryOpportunity['primary_name']); ?></span>
+                                        </h5>
+
+                                        <?php if($discoveryOpportunity['updated_at']): ?>
+                                        <p><?php echo e(Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
+                                        <div class="action-btn bg-warning ms-2">
+                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$discoveryOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Prospecting Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                <i class="ti ti-eye"></i>
+                                            </a>
+                                        </div>
+                                        <?php endif; ?>
+                                        <span class="opportunity-price"><?php echo e(getCurrencySign($discoveryOpportunity['currency'])); ?><?php echo e($discoveryOpportunity['value_of_opportunity']); ?></span>
+                                    </div>
+                                </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php else: ?>
+                                <div class="card">
+                                    <div class="card-body new_bottomcard">
+                                        <span class="no-record">No records found</span>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-3 prospecting-div">
                         <div class="inner_col">
                             <h5 class="card-title mb-2  nda-opportunity-color">NDAs (<?php echo e($prospecting['count']); ?>) <span class="prospecting-opportunities">$<?php echo e(human_readable_number($prospecting['sum'])); ?></span></h5>
@@ -156,45 +196,6 @@
                         </div>
                     </div>
 
-                    <div class="col-3 discovery-div">
-                        <div class="inner_col">
-                            <h5 class="card-title mb-2 discovery-opportunity-color">Discovery (<?php echo e($discovery['count']); ?>) <span class="discovery-opportunities">$<?php echo e(human_readable_number($discovery['sum'])); ?></span></h5>
-                            <input type="hidden" id="discovery-opportunities-sum" name="discovery-opportunities-sum" value="<?php echo e(human_readable_number($discovery['sum'])); ?>">
-                            <div class="scrol-card">
-                                <?php if(!empty($discovery['opportunities']) && count($discovery['opportunities']) > 0): ?>
-                                <?php $__currentLoopData = $discovery['opportunities']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $discoveryOpportunity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="card">
-                                    <div class="card-body new_bottomcard">
-                                        <h5 class="card-text">
-                                            <?php echo e($discoveryOpportunity['opportunity_name']); ?>
-
-                                            <span class="client-name"><?php echo e($discoveryOpportunity['primary_name']); ?></span>
-                                        </h5>
-
-                                        <?php if($discoveryOpportunity['updated_at']): ?>
-                                        <p><?php echo e(Carbon\Carbon::parse($discoveryOpportunity['updated_at'])->format('M d')); ?></p>
-                                        <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
-                                        <div class="action-btn bg-warning ms-2">
-                                            <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$discoveryOpportunity['id'])); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Discovery Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
-                                                <i class="ti ti-eye"></i>
-                                            </a>
-                                        </div>
-                                        <?php endif; ?>
-                                        <span class="opportunity-price"><?php echo e(getCurrencySign($discoveryOpportunity['currency'])); ?><?php echo e($discoveryOpportunity['value_of_opportunity']); ?></span>
-                                    </div>
-                                </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <?php else: ?>
-                                <div class="card">
-                                    <div class="card-body new_bottomcard">
-                                        <span class="no-record">No records found</span>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-3 demo-meeting-div">
                         <div class="inner_col">
                             <h5 class="card-title mb-2 demo-opportunity-color">Demo or Meeting (<?php echo e($demo_or_meeting['count']); ?>) <span class="meeting-opportunities">$<?php echo e(human_readable_number($demo_or_meeting['sum'])); ?></span></h5>
@@ -665,6 +666,8 @@
                 text = 'NDAs';
             } else if (text === 'post_purchase') {
                 text = 'Contractual';
+            } else if (text === 'discovery') {
+                text = 'Prospecting';
             } else if (text === 'demo_meeting') {
                 text = 'Demo or Meeting';
             } else {

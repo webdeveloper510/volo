@@ -92,7 +92,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
                 <option value="" disabled selected>Select Client</option>
                 @foreach($clients as $client)
-                <option value="{{ $client->id }}">{{ $client->primary_name }}</option>
+                <option value="{{ $client->id }}">{{ $client->company_name }}</option>
                 @endforeach
             </select>
         </div>

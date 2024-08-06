@@ -101,7 +101,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
                 <option value="" disabled selected>Select Client</option>
                 <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($client->id); ?>"><?php echo e($client->primary_name); ?></option>
+                <option value="<?php echo e($client->id); ?>"><?php echo e($client->company_name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
         </div>

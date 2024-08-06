@@ -112,7 +112,7 @@ class LeadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($type, $id)
-    {
+    {      
         if (\Auth::user()->can('Create Opportunity')) {
             $users = User::where('created_by', \Auth::user()->creatorId())->get();
             $clients = UserImport::all();
