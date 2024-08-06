@@ -85,12 +85,12 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     </div>
     <div class="col-6 need_full" id="client_select">
         <div class="form-group">
-            {{ Form::label('existing_client', __('Client'), ['class' => 'form-label']) }}
+            {{ Form::label('existing_client', __('Company Name'), ['class' => 'form-label']) }}
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
-                <option value="" disabled selected>Select Client</option>
+                <option value="" disabled selected>Select Company</option>
                 @foreach($clients as $client)
                 <option value="{{ $client->id }}">{{ $client->company_name }}</option>
                 @endforeach
