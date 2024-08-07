@@ -389,7 +389,7 @@ class LeadController extends Controller
             if ($lead) {
                 $import_user = UserImport::where('id', $lead->user_id)->first();
                 if ($import_user) {
-                    $client_name = $import_user->primary_name;
+                    $client_name = $import_user->company_name;
                 } else {
                     $client_name = '';
                 }
@@ -1176,7 +1176,7 @@ class LeadController extends Controller
         if ($lead) {
             $import_user = UserImport::where('id', $lead->user_id)->first();
             if ($import_user) {
-                $client_name = $import_user->primary_name;
+                $client_name = $import_user->company_name;
             } else {
                 $client_name = '';
             }
