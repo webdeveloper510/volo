@@ -113,6 +113,8 @@ class LeadController extends Controller
      */
     public function create($type, $id)
     {
+        // echo "here";
+        // die;
         if (\Auth::user()->can('Create Opportunity')) {
             $users = User::where('created_by', \Auth::user()->creatorId())->get();
             $clients = UserImport::all();
@@ -391,7 +393,7 @@ class LeadController extends Controller
                 if ($import_user) {
                     $client_name = $import_user->company_name;
                 } else {
-                    $client_name = '';
+                    $client_name = $lead->company_name;
                 }
             }
 
@@ -424,10 +426,9 @@ class LeadController extends Controller
     {
         // echo "<pre>";
         // print_r($request->all());
-        // die;
+        // die;       
 
         if (\Auth::user()->can('Edit Opportunity')) {
-
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -569,7 +570,7 @@ class LeadController extends Controller
             $lead['secondary_designation'] = $request->secondary_designation ?? '';
             $lead['region'] = $request->region ?? $request->existing_region;
             $lead['lead_address'] = '-';
-            $lead['company_name'] = '-';
+            $lead['company_name'] = $request->client_name;
             $lead['relationship'] = '-';
             $lead['start_date'] = '-';
             $lead['end_date'] = '-';
@@ -1178,7 +1179,7 @@ class LeadController extends Controller
             if ($import_user) {
                 $client_name = $import_user->company_name;
             } else {
-                $client_name = '';
+                $client_name = $lead->company_name;
             }
         }
 

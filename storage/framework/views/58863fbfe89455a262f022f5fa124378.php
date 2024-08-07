@@ -177,7 +177,7 @@
                                                 <?php echo e(Form::label('secondary_phone_number', __('Phone Number'), ['class' => 'form-label'])); ?>
 
                                                 <div class="intl-tel-input">
-                                                    <input type="tel" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16" value="<?php echo e($lead->secondary_contact); ?>" required>
+                                                    <input type="tel" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16" value="<?php echo e($lead->secondary_contact); ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -366,28 +366,34 @@
                                     </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            <input type="checkbox" id="hardware-one-time" name="products[]" value="Hardware One Time" <?php echo !is_null($lead->products) && in_array('Hardware One Time', json_decode($lead->products, true)) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
+                                            <?php
+                                            // Decode the products and initialize as an empty array if null
+                                            $decodedProducts = json_decode($lead->products, true) ?? [];
+                                            ?>
+
+                                            <input type="checkbox" id="hardware-one-time" name="products[]" value="Hardware One Time" <?php echo in_array('Hardware One Time', $decodedProducts) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
                                             <label for="hardware-one-time">Hardware One Time</label><br>
 
-                                            <input type="checkbox" id="hardware-maintenance" name="products[]" value="Hardware Maintenance Contracts" <?php echo !is_null($lead->products) && in_array('Hardware Maintenance Contracts', json_decode($lead->products, true)) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
+                                            <input type="checkbox" id="hardware-maintenance" name="products[]" value="Hardware Maintenance Contracts" <?php echo in_array('Hardware Maintenance Contracts', $decodedProducts) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
                                             <label for="hardware-maintenance">Hardware Maintenance Contracts</label><br>
 
-                                            <input type="checkbox" id="software-recurring" name="products[]" value="Software Recurring" <?php echo !is_null($lead->products) && in_array('Software Recurring', json_decode($lead->products, true)) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
+                                            <input type="checkbox" id="software-recurring" name="products[]" value="Software Recurring" <?php echo in_array('Software Recurring', $decodedProducts) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
                                             <label for="software-recurring">Software Recurring</label><br>
 
-                                            <input type="checkbox" id="software-one-time" name="products[]" value="Software One Time" <?php echo !is_null($lead->products) && in_array('Software One Time', json_decode($lead->products, true)) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
+                                            <input type="checkbox" id="software-one-time" name="products[]" value="Software One Time" <?php echo in_array('Software One Time', $decodedProducts) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
                                             <label for="software-one-time">Software One Time</label><br>
 
-                                            <input type="checkbox" id="systems-integrations" name="products[]" value="Systems Integrations" <?php echo !is_null($lead->products) && in_array('Systems Integrations', json_decode($lead->products, true)) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
+                                            <input type="checkbox" id="systems-integrations" name="products[]" value="Systems Integrations" <?php echo in_array('Systems Integrations', $decodedProducts) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
                                             <label for="systems-integrations">Systems Integrations</label><br>
 
-                                            <input type="checkbox" id="subscriptions" name="products[]" value="Subscriptions" <?php echo !is_null($lead->products) && in_array('Subscriptions', json_decode($lead->products, true)) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
+                                            <input type="checkbox" id="subscriptions" name="products[]" value="Subscriptions" <?php echo in_array('Subscriptions', $decodedProducts) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
                                             <label for="subscriptions">Subscriptions</label><br>
 
-                                            <input type="checkbox" id="tech-deployment" name="products[]" value="Tech Deployment Volume based" <?php echo !is_null($lead->products) && in_array('Tech Deployment Volume based', json_decode($lead->products, true)) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
+                                            <input type="checkbox" id="tech-deployment" name="products[]" value="Tech Deployment Volume based" <?php echo in_array('Tech Deployment Volume based', $decodedProducts) ? 'checked' : ''; ?> onchange="showAdditionalProductCategoryFields()">
                                             <label for="tech-deployment">Tech Deployment Volume based</label><br>
                                         </div>
                                     </div>
+
 
                                     <div id="hardware-one-time-fields" class="additional-product-category card">
                                         <h5>Hardware One Time</h5>
@@ -1102,7 +1108,7 @@
 <?php $__env->startPush('script-page'); ?>
 <script>
     $(document).ready(function() {
-        $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='primary_contact'][name='secondary_contact'],input[type='date'][name='start_date']").focusout(function() {
+        $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='primary_contact'],input[type='date'][name='start_date']").focusout(function() {
 
             var input = $(this);
             var errorMessage = '';
