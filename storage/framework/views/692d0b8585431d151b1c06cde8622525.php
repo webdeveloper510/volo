@@ -402,7 +402,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
         </div>
     </div>
-    <div class="col-12  p-0 modaltitle pb-3 mb-3">
+
+    <div class="col-12 p-0 modaltitle pb-3 mb-3">
         <h5 style="margin-left: 14px;"><?php echo e(__('Products')); ?></h5>
     </div>
     <div class="col-6 need_full">
@@ -419,319 +420,10 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
-
     <div id="additional-fields-container"></div>
 
-    <!-- <div id="hardware-one-time-fields" class="additional-product-category card">
-        <h5>Hardware – One Time</h5>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_title_hardware_one_time" name="product_title_hardware_one_time[]" placeholder="Product Title">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_price_hardware_one_time" name="product_price_hardware_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_quantity_hardware_one_time" name="product_quantity_hardware_one_time[]" placeholder="Product Quantity">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <select name="unit_hardware_one_time[]" id="unit_hardware_one_time" class="form-control" onchange="onUnitChange(this, 'hardware_one_time')">
-                        <option value="" selected disabled>Select Unit</option>
-                        <option value="Spaces">Spaces</option>
-                        <option value="Locations">Locations</option>
-                        <option value="Count / Quantity">Count / Quantity</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Sites">Sites</option>
-                        <option value="Chargers">Chargers</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Transactions Count">Transactions Count</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_opportunity_value_hardware_one_time" name="product_opportunity_value_hardware_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 plus-btn">
-            <i class="fas fa-plus clone-btn"></i>
-        </div>
-    </div>
-    <div id="hardware-maintenance-fields" class="additional-product-category card">
-        <h5>Hardware – Maintenance Contracts</h5>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_title_hardware_maintenance" name="product_title_hardware_maintenance[]" placeholder="Product Title">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_price_hardware_maintenance" name="product_price_hardware_maintenance[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_quantity_hardware_maintenance" name="product_quantity_hardware_maintenance[]" placeholder="Product Quantity">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <select name="unit_hardware_maintenance[]" id="unit_hardware_maintenance" class="form-control" onchange="onUnitChange(this, 'hardware_maintenance')">
-                        <option value="" selected disabled>Select Unit</option>
-                        <option value="Spaces">Spaces</option>
-                        <option value="Locations">Locations</option>
-                        <option value="Count / Quantity">Count / Quantity</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Sites">Sites</option>
-                        <option value="Chargers">Chargers</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Transactions Count">Transactions Count</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_opportunity_value_hardware_maintenance" name="product_opportunity_value_hardware_maintenance[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 plus-btn">
-            <i class="fas fa-plus clone-btn"></i>
-        </div>
-    </div>
-    <div id="software-recurring-fields" class="additional-product-category card">
-        <h5>Software – Recurring</h5>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_title_software_recurring" name="product_title_software_recurring[]" placeholder="Product Title">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_price_software_recurring" name="product_price_software_recurring[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_quantity_software_recurring" name="product_quantity_software_recurring[]" placeholder="Product Quantity">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <select name="unit_software_recurring[]" id="unit_software_recurring" class="form-control" onchange="onUnitChange(this, 'software_recurring')">
-                        <option value="" selected disabled>Select Unit</option>
-                        <option value="Spaces">Spaces</option>
-                        <option value="Locations">Locations</option>
-                        <option value="Count / Quantity">Count / Quantity</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Sites">Sites</option>
-                        <option value="Chargers">Chargers</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Transactions Count">Transactions Count</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_opportunity_value_software_recurring" name="product_opportunity_value_software_recurring[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 plus-btn">
-            <i class="fas fa-plus clone-btn"></i>
-        </div>
-    </div>
-    <div id="software-one-time-fields" class="additional-product-category card">
-        <h5>Software – One Time</h5>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_title_software_one_time" name="product_title_software_one_time[]" placeholder="Product Title">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_price_software_one_time" name="product_price_software_one_time[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_quantity_software_one_time" name="product_quantity_software_one_time[]" placeholder="Product Quantity">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <select name="unit_software_one_time[]" id="unit_software_one_time" class="form-control" onchange="onUnitChange(this, 'software_one_time')">
-                        <option value="" selected disabled>Select Unit</option>
-                        <option value="Spaces">Spaces</option>
-                        <option value="Locations">Locations</option>
-                        <option value="Count / Quantity">Count / Quantity</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Sites">Sites</option>
-                        <option value="Chargers">Chargers</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Transactions Count">Transactions Count</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_opportunity_value_software_one_time" name="product_opportunity_value_software_one_time[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 plus-btn">
-            <i class="fas fa-plus clone-btn"></i>
-        </div>
-    </div>
-    <div id="systems-integrations-fields" class="additional-product-category card">
-        <h5>Systems Integrations</h5>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_title_systems_integrations" name="product_title_systems_integrations[]" placeholder="Product Title">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_price_systems_integrations" name="product_price_systems_integrations[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_quantity_systems_integrations" name="product_quantity_systems_integrations[]" placeholder="Product Quantity">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <select name="unit_systems_integrations[]" id="unit_systems_integrations" class="form-control" onchange="onUnitChange(this, 'systems_integrations')">
-                        <option value="" selected disabled>Select Unit</option>
-                        <option value="Spaces">Spaces</option>
-                        <option value="Locations">Locations</option>
-                        <option value="Count / Quantity">Count / Quantity</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Sites">Sites</option>
-                        <option value="Chargers">Chargers</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Transactions Count">Transactions Count</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_opportunity_value_systems_integrations" name="product_opportunity_value_systems_integrations[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 plus-btn">
-            <i class="fas fa-plus clone-btn"></i>
-        </div>
-    </div>
-    <div id="subscriptions-fields" class="additional-product-category card">
-        <h5>Subscriptions</h5>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_title_subscriptions" name="product_title_subscriptions[]" placeholder="Product Title">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_price_subscriptions" name="product_price_subscriptions[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_quantity_subscriptions" name="product_quantity_subscriptions[]" placeholder="Product Quantity">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <select name="unit_subscriptions[]" id="unit_subscriptions" class="form-control" onchange="onUnitChange(this, 'subscriptions')">
-                        <option value="" selected disabled>Select Unit</option>
-                        <option value="Spaces">Spaces</option>
-                        <option value="Locations">Locations</option>
-                        <option value="Count / Quantity">Count / Quantity</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Sites">Sites</option>
-                        <option value="Chargers">Chargers</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Transactions Count">Transactions Count</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_opportunity_value_subscriptions" name="product_opportunity_value_subscriptions[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 plus-btn">
-            <i class="fas fa-plus clone-btn"></i>
-        </div>
-    </div>
-    <div id="tech-deployment-fields" class="additional-product-category card">
-        <h5>Tech Deployment – Volume based</h5>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_title_tech_deployment" name="product_title_tech_deployment[]" placeholder="Product Title">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_price_tech_deployment" name="product_price_tech_deployment[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_quantity_tech_deployment" name="product_quantity_tech_deployment[]" placeholder="Product Quantity">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <select name="unit_tech_deployment[]" id="unit_tech_deployment" class="form-control" onchange="onUnitChange(this, 'tech_deployment')">
-                        <option value="" selected disabled>Select Unit</option>
-                        <option value="Spaces">Spaces</option>
-                        <option value="Locations">Locations</option>
-                        <option value="Count / Quantity">Count / Quantity</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Sites">Sites</option>
-                        <option value="Chargers">Chargers</option>
-                        <option value="Volume">Volume</option>
-                        <option value="Transactions Count">Transactions Count</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="product_opportunity_value_tech_deployment" name="product_opportunity_value_tech_deployment[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 plus-btn">
-            <i class="fas fa-plus clone-btn"></i>
-        </div>
-    </div> -->
-
 </div>
+
 <div class="col-6 need_full">
     <div class="form-group">
         <?php echo e(Form::label('is_active',__('Active'),['class'=>'form-label'])); ?>
@@ -765,14 +457,11 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             if (errorMessage != '') {
                 input.css('border', 'solid 2px red');
             } else {
-                // If it is not blank. 
                 input.css('border', 'solid 2px black');
             }
 
-            // Remove any existing error message
             input.next('.validation-error').remove();
 
-            // Append the error message if it exists
             if (errorMessage != '') {
                 input.after('<div class="validation-error text-danger" style="padding:2px;">' + errorMessage + '</div>');
             }
@@ -1131,6 +820,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             const additionalFields = `
             <div id="${containerId}" class="additional-product-category card">
                 <h5>${type}</h5>
+                <div class="col-12 plus-btn">
+                    <i class="fas fa-plus clone-btn" onclick="cloneRow(this)"></i>
+                </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -1168,10 +860,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                             <input type="text" class="form-control" id="opportunity_value_${prefixType}" name="opportunity_value_${prefixType}[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
                         </div>
                     </div>
-                </div>
-                <div class="col-12 plus-btn">
-                    <i class="fas fa-plus clone-btn"></i>
-                </div>
+                </div>                
             </div>
         `;
 
@@ -1179,5 +868,23 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         } else {
             $(`#${containerId}`).remove();
         }
+    }
+
+    function cloneRow(button) {
+        const row = $(button).closest('.additional-product-category').find('.row').first();
+        const clonedRow = row.clone();
+
+        // Clear the input values in the cloned row
+        clonedRow.find('input').val('');
+        clonedRow.find('select').val('');
+
+        // Append remove button to the cloned row
+        clonedRow.append('<div class="minus-btn"><i class="fas fa-minus remove-btn" onclick="removeRow(this)"></i></div>');
+
+        row.after(clonedRow);
+    }
+
+    function removeRow(button) {
+        $(button).closest('.row').remove();
     }
 </script><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/create.blade.php ENDPATH**/ ?>

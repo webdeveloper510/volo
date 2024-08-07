@@ -112,7 +112,7 @@ class LeadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($type, $id)
-    {      
+    {
         if (\Auth::user()->can('Create Opportunity')) {
             $users = User::where('created_by', \Auth::user()->creatorId())->get();
             $clients = UserImport::all();
@@ -134,6 +134,10 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
+        echo "<pre>";
+        print_r($request->all());
+        die;
+
         if (\Auth::user()->can('Create Opportunity')) {
             $validator = \Validator::make(
                 $request->all(),
