@@ -12,7 +12,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     }
 
     .additional-product-category {
-        display: none;
+        display: block;
         margin-top: 10px;
     }
 
@@ -93,13 +93,13 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     </div>
     <div class="col-6 need_full" id="client_select">
         <div class="form-group">
-            <?php echo e(Form::label('existing_client', __('Client'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('existing_client', __('Company Name'), ['class' => 'form-label'])); ?>
 
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
-                <option value="" disabled selected>Select Client</option>
+                <option value="" disabled selected>Select Company</option>
                 <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($client->id); ?>"><?php echo e($client->company_name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -414,13 +414,15 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             // Replace spaces with hyphens
             $id = strtolower(str_replace(' ', '-', $cleanedType));
             ?>
-            <input type="checkbox" id="<?php echo e($id); ?>" name="products[]" value="<?php echo e($type); ?>" onchange="showAdditionalProductCategoryFields()">
+            <input type="checkbox" id="<?php echo e($id); ?>" name="products[]" value="<?php echo e($type); ?>" onchange="showAdditionalProductCategoryFields(this)">
             <label for="<?php echo e($id); ?>"><?php echo e($type); ?></label><br>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
 
-    <div id="hardware-one-time-fields" class="additional-product-category card">
+    <div id="additional-fields-container"></div>
+
+    <!-- <div id="hardware-one-time-fields" class="additional-product-category card">
         <h5>Hardware – One Time</h5>
         <div class="row">
             <div class="col-6">
@@ -727,7 +729,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         <div class="col-12 plus-btn">
             <i class="fas fa-plus clone-btn"></i>
         </div>
-    </div>
+    </div> -->
+
 </div>
 <div class="col-6 need_full">
     <div class="form-group">
@@ -920,7 +923,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         });
     })
 </script>
-<script>
+
+<!-- <script>
     function showAdditionalProductCategoryFields() {
         const categories = [
             'hardware-one-time',
@@ -944,7 +948,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     }
 
     document.addEventListener('DOMContentLoaded', showAdditionalProductCategoryFields);
-</script>
+</script> -->
 
 <script>
     $(document).ready(function() {
@@ -1108,5 +1112,72 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     function formatNumberWithCommas(number) {
         if (!number) return '';
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+</script>
+
+<script>
+    function showAdditionalProductCategoryFields(checkbox) {
+        const type = checkbox.value;
+        // Replace hyphens with spaces
+        let cleanedType = type.replace(/-/g, ' ');
+        // Ensure consistent spacing and trim
+        cleanedType = $.trim(cleanedType.replace(/\s+/g, ' '));
+        // Replace spaces with hyphens and convert to lowercase
+        const prefixType = cleanedType.toLowerCase().replace(/\s+/g, '-');
+
+        const containerId = `${prefixType}-fields`;
+
+        if (checkbox.checked) {
+            const additionalFields = `
+            <div id="${containerId}" class="additional-product-category card">
+                <h5>${type}</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="title_${prefixType}" name="title_${prefixType}[]" placeholder="Product Title">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="price_${prefixType}" name="price_${prefixType}[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="quantity_${prefixType}" name="quantity_${prefixType}[]" placeholder="Product Quantity">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <select name="unit_${prefixType}[]" id="unit_${prefixType}" class="form-control" onchange="onUnitChange(this, '${prefixType}')">
+                                <option value="" selected disabled>Select Unit</option>
+                                <option value="Spaces">Spaces</option>
+                                <option value="Locations">Locations</option>
+                                <option value="Count / Quantity">Count / Quantity</option>
+                                <option value="Vehicles">Vehicles</option>
+                                <option value="Sites">Sites</option>
+                                <option value="Chargers">Chargers</option>
+                                <option value="Volume">Volume</option>
+                                <option value="Transactions Count">Transactions Count</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="opportunity_value_${prefixType}" name="opportunity_value_${prefixType}[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 plus-btn">
+                    <i class="fas fa-plus clone-btn"></i>
+                </div>
+            </div>
+        `;
+
+            $('#additional-fields-container').append(additionalFields);
+        } else {
+            $(`#${containerId}`).remove();
+        }
     }
 </script><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/create.blade.php ENDPATH**/ ?>
