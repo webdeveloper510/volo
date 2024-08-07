@@ -59,7 +59,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     }
 </style>
 
-{{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+{{Form::open(array('url'=>'lead','method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata')) }}
 <div class="card-body">
     <div class="row">
         <div class="col-md-12">
@@ -374,9 +374,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         <div class="form-group">
             @foreach ($productTypes as $type)
             @php
-            // Replace hyphens with spaces, then ensure consistent spacing
             $cleanedType = trim(preg_replace('/\s+/', ' ', str_replace('-', ' ', $type)));
-            // Replace spaces with hyphens
             $id = strtolower(str_replace(' ', '-', $cleanedType));
             @endphp
             <input type="checkbox" id="{{ $id }}" name="products[]" value="{{ $type }}" onchange="showAdditionalProductCategoryFields(this)">
@@ -385,7 +383,6 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         </div>
     </div>
     <div id="additional-fields-container"></div>
-
 </div>
 
 <div class="col-6 need_full">
@@ -396,7 +393,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 </div>
 <div class="modal-footer">
     <button type="button" class="btn  btn-light" data-bs-dismiss="modal">Close</button>
-    {{Form::submit(__('Save'),array('class'=>'btn btn-primary '))}}
+    {{Form::submit(__('Save'),array('class'=>'btn btn-primary', 'id'=>'submit-button'))}}
 </div>
 {{Form::close()}}
 
@@ -768,13 +765,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 <script>
     function showAdditionalProductCategoryFields(checkbox) {
         const type = checkbox.value;
-        // Replace hyphens with spaces
         let cleanedType = type.replace(/-/g, ' ');
-        // Ensure consistent spacing and trim
         cleanedType = $.trim(cleanedType.replace(/\s+/g, ' '));
-        // Replace spaces with hyphens and convert to lowercase
         const prefixType = cleanedType.toLowerCase().replace(/\s+/g, '-');
-
         const containerId = `${prefixType}-fields`;
 
         if (checkbox.checked) {
@@ -787,22 +780,22 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="title_${prefixType}" name="title_${prefixType}[]" placeholder="Product Title">
+                            <input type="text" class="form-control" name="title_${prefixType}[]" placeholder="Product Title">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="price_${prefixType}" name="price_${prefixType}[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
+                            <input type="text" class="form-control" name="price_${prefixType}[]" placeholder="Product Price" onkeyup="formatCurrency(this)">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="quantity_${prefixType}" name="quantity_${prefixType}[]" placeholder="Product Quantity">
+                            <input type="text" class="form-control" name="quantity_${prefixType}[]" placeholder="Product Quantity">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <select name="unit_${prefixType}[]" id="unit_${prefixType}" class="form-control" onchange="onUnitChange(this, '${prefixType}')">
+                            <select name="unit_${prefixType}[]" class="form-control">
                                 <option value="" selected disabled>Select Unit</option>
                                 <option value="Spaces">Spaces</option>
                                 <option value="Locations">Locations</option>
@@ -818,7 +811,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="opportunity_value_${prefixType}" name="opportunity_value_${prefixType}[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
+                            <input type="text" class="form-control" name="opportunity_value_${prefixType}[]" placeholder="Product Opportunity Value" onkeyup="formatCurrency(this)">
                         </div>
                     </div>
                 </div>                
@@ -834,18 +827,47 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     function cloneRow(button) {
         const row = $(button).closest('.additional-product-category').find('.row').first();
         const clonedRow = row.clone();
-
-        // Clear the input values in the cloned row
         clonedRow.find('input').val('');
         clonedRow.find('select').val('');
-
-        // Append remove button to the cloned row
         clonedRow.append('<div class="minus-btn"><i class="fas fa-minus remove-btn" onclick="removeRow(this)"></i></div>');
-
         row.after(clonedRow);
     }
 
     function removeRow(button) {
         $(button).closest('.row').remove();
     }
+
+    $('#submit-button').on('click', function(event) {
+        event.preventDefault();
+        const formData = {};
+
+        $('input[type="checkbox"][name="products[]"]:checked').each(function() {
+            const productType = $(this).val();
+            const prefixType = productType.toLowerCase().replace(/\s+/g, '-');
+            const rows = [];
+
+            $(`#${prefixType}-fields .row`).each(function() {
+                const row = {
+                    title: $(this).find(`input[name="title_${prefixType}[]"]`).val(),
+                    price: $(this).find(`input[name="price_${prefixType}[]"]`).val(),
+                    quantity: $(this).find(`input[name="quantity_${prefixType}[]"]`).val(),
+                    unit: $(this).find(`select[name="unit_${prefixType}[]"]`).val(),
+                    opportunity_value: $(this).find(`input[name="opportunity_value_${prefixType}[]"]`).val()
+                };
+                rows.push(row);
+            });
+
+            formData[productType] = rows;
+        });
+
+        console.log('formData:', formData); // Debug log
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'formData',
+            value: JSON.stringify(formData)
+        }).appendTo('#formdata');
+
+        $('#formdata').submit();
+    });
 </script>
