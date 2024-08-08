@@ -788,8 +788,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const products = <?php echo json_encode($lead - > products, 15, 512) ?>;
-        const productDetails = <?php echo json_encode($lead - > product_details, 15, 512) ?>;
+        const products = <?php echo json_encode($lead->products, 15, 512) ?>;
+        const productDetails = <?php echo json_encode($lead->product_details, 15, 512) ?>;
 
         products.forEach(product => {
             const checkbox = document.querySelector(`input[value="${product}"]`);
@@ -924,6 +924,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         // Clear the values of the cloned row's inputs and selects
         clonedRow.find('input').val('');
         clonedRow.find('select').val('');
+
+        // Remove any existing remove button from the cloned row
+        clonedRow.find('.minus-btn').remove();
 
         // Append the remove button to the cloned row
         clonedRow.append('<div class="minus-btn"><i class="fas fa-minus remove-btn" onclick="removeRow(this)"></i></div>');

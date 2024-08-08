@@ -891,6 +891,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         clonedRow.find('input').val('');
         clonedRow.find('select').val('');
 
+        // Remove any existing remove button from the cloned row
+        clonedRow.find('.minus-btn').remove();
+
         // Append the remove button to the cloned row
         clonedRow.append('<div class="minus-btn"><i class="fas fa-minus remove-btn" onclick="removeRow(this)"></i></div>');
 
