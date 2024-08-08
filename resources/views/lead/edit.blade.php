@@ -754,8 +754,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const products = @json($lead - > products);
-        const productDetails = @json($lead - > product_details);
+        const products = @json($lead->products);
+        const productDetails = @json($lead->product_details);
 
         products.forEach(product => {
             const checkbox = document.querySelector(`input[value="${product}"]`);
