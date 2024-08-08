@@ -1095,86 +1095,116 @@ class LeadController extends Controller
         }
 
         // Decode the JSON strings
-        $hardware_one_time = json_decode($lead['hardware_one_time'], true);
-        $hardware_maintenance = json_decode($lead['hardware_maintenance'], true);
-        $software_recurring = json_decode($lead['software_recurring'], true);
-        $software_one_time = json_decode($lead['software_one_time'], true);
-        $systems_integrations = json_decode($lead['systems_integrations'], true);
-        $subscriptions = json_decode($lead['subscriptions'], true);
-        $tech_deployment_volume_based = json_decode($lead['tech_deployment_volume_based'], true);
+        // $hardware_one_time = json_decode($lead['hardware_one_time'], true);
+        // $hardware_maintenance = json_decode($lead['hardware_maintenance'], true);
+        // $software_recurring = json_decode($lead['software_recurring'], true);
+        // $software_one_time = json_decode($lead['software_one_time'], true);
+        // $systems_integrations = json_decode($lead['systems_integrations'], true);
+        // $subscriptions = json_decode($lead['subscriptions'], true);
+        // $tech_deployment_volume_based = json_decode($lead['tech_deployment_volume_based'], true);
 
         // echo "<pre>";
         // print_r($software_one_time);
         // die;
 
+        $lead->products = json_decode($lead->products, true);
+        $lead->product_details = json_decode($lead->product_details, true);
+
+        // echo "<pre>";
+        // print_r($lead);
+        // die;
 
         $venue_function = explode(',', $lead->venue_selection);
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
         $users     = User::where('created_by', \Auth::user()->creatorId())->get();
-        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status', 'client_name', 'hardware_one_time', 'hardware_maintenance', 'software_recurring', 'software_one_time', 'systems_integrations', 'subscriptions', 'tech_deployment_volume_based'));
+        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status', 'client_name'));
     }
     public function review_proposal_data(Request $request, $id)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
+
         // echo "<pre>";print_r($request->all());die;
         $settings = Utility::settings();
         $validator = \Validator::make($request->all(), [
-            'status' => 'required|in:Approve,Resend,Withdraw',
+            // 'status' => 'required|in:Approve,Resend,Withdraw',
         ], [
-            'status.in' => 'The status field is required',
+            // 'status.in' => 'The status field is required',
         ]);
         if ($validator->fails()) {
             $messages = $validator->getMessageBag();
             return redirect()->back()->with('error', $messages->first());
         }
 
+        $formData = json_decode($request->input('formData'), true);
+
         $lead = Lead::find($id);
-        $venue_function = isset($request->venue) ? implode(',', $_REQUEST['venue']) : '';
-        $function =  isset($request->function) ? implode(',', $_REQUEST['function']) : '';
-        $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
-        $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
+        // $venue_function = isset($request->venue) ? implode(',', $_REQUEST['venue']) : '';
+        // $function =  isset($request->function) ? implode(',', $_REQUEST['function']) : '';
+        // $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
+        // $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
 
-        if ($request->status == 'Approve') {
-            $status = 4;
-            // $status = 2;
-            // $lead->proposal_status = 2;
-        } elseif ($request->status == 'Resend') {
-            $status = 5;
-            // $status = 0;
-            // $lead->proposal_status = 1;
+        $lead['products'] = json_encode(array_keys($formData)) ?? '';
+        $lead['product_details'] = json_encode($formData);
 
-        } elseif ($request->status == 'Withdraw') {
-            $status = 3;
-            // $status = 3;
-            // $lead->proposal_status = 3;
-        }
+        // if ($request->status == 'Approve') {
+        //     $status = 4;
+        //     // $status = 2;
+        //     // $lead->proposal_status = 2;
+        // } elseif ($request->status == 'Resend') {
+        //     $status = 5;
+        //     // $status = 0;
+        //     // $lead->proposal_status = 1;
+
+        // } elseif ($request->status == 'Withdraw') {
+        //     $status = 3;
+        //     // $status = 3;
+        //     // $lead->proposal_status = 3;
+        // }
+
         $data = [
-            'user_id' => $request->user,
-            'name' => $request->name,
-            'email' => $request->email,
-            'primary_contact' => $primary_contact,
-            'secondary_contact' => $secondary_contact,
-            'lead_address' => $request->lead_address,
-            'company_name' => $request->company_name,
-            'relationship' => $request->relationship,
-            'start_date' => $request->start_date,
-            'end_date' => $request->start_date,
-            'type' => $request->type,
-            'venue_selection' => $venue_function,
-            'function' => $function,
-            'status' => $status,
-            'guest_count' => $request->guest_count,
-            'description' => $request->description,
-            'spcl_req' => $request->spcl_req,
-            'allergies' => $request->allergies,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'bar' => $request->baropt,
-            'rooms' => $request->rooms,
-            'created_by' => \Auth::user()->creatorId()
+            // 'user_id' => $request->user,
+            'user_id' => $request->client_name ?? '',
+            'opportunity_name' => $request->opportunity_name,
+            'assigned_user' => $request->assign_staff,
+            'primary_name' => $request->primary_name,
+            'primary_email' => $request->primary_email,
+            'primary_contact' => $request->primary_phone_number,
+            'primary_address' => $request->primary_address,
+            'primary_organization' => $request->primary_organization,
+            'secondary_name' => $request->secondary_name ?? '',
+            'secondary_email' => $request->secondary_email ?? '',
+            'secondary_contact' => $request->secondary_phone_number ?? '',
+            'secondary_address' => $request->secondary_address ?? '',
+            'secondary_designation' => $request->secondary_designation ?? '',
+            'region' => $request->region ?? $request->existing_region,
+            'sales_stage' => $request->sales_stage ?? '',
+            'value_of_opportunity' => $request->value_of_opportunity ?? '',
+            'deal_length' => $request->deal_length ?? '',
+            'difficult_level' => $request->difficult_level ?? '',
+            'start_time' => $request->start_time ?? '',
+            'end_time' => $request->end_time ?? '',
+            'timing_close' => $request->timing_close ?? '',
+            'probability_to_close' => $request->probability_to_close ?? '',
+            'currency' => $request->currency ?? '',
+            'lead_status' => ($request->is_active == 'on') ? 1 : 0,
+            'category' => $request->category ?? '',
+            'sales_subcategory' => $request->sales_subcategory ?? '',
+            'competitor' => $request->competitor ?? '',
+            'products' => json_encode(array_keys($formData)) ?? '',
+            'product_details' => json_encode($formData),
+            'hardware_one_time' => '',
+            'hardware_maintenance' => '',
+            'software_recurring' => '',
+            'software_one_time' => '',
+            'systems_integrations' => '',
+            'subscriptions' => '',
+            'tech_deployment_volume_based' => '',
+            'created_by' => \Auth::user()->id,
         ];
         $lead->update($data);
-
 
         $statuss = Lead::$stat;
         if (\Auth::user()->type == 'owner') {

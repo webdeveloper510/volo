@@ -934,7 +934,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             formData[productType] = rows;
         });
 
-        console.log('formData:', formData); // Debug log
+        // console.log('formData:', formData); // Debug log
 
         $('<input>').attr({
             type: 'hidden',
