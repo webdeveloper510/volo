@@ -160,39 +160,44 @@ class LeadController extends Controller
                     ->withInput();
             }
 
-            function processProductData($request, $productType)
-            {
-                $products = [];
+            // function processProductData($request, $productType)
+            // {
+            //     $products = [];
 
-                $titles = $request->input("product_title_$productType");
-                $prices = $request->input("product_price_$productType");
-                $quantities = $request->input("product_quantity_$productType");
-                $units = $request->input("unit_$productType");
-                $opportunity_values = $request->input("product_opportunity_value_$productType");
+            //     $titles = $request->input("product_title_$productType");
+            //     $prices = $request->input("product_price_$productType");
+            //     $quantities = $request->input("product_quantity_$productType");
+            //     $units = $request->input("unit_$productType");
+            //     $opportunity_values = $request->input("product_opportunity_value_$productType");
 
-                if ($titles && $prices && $quantities && $units && $opportunity_values) {
-                    for ($i = 0; $i < count($titles); $i++) {
-                        $products[] = [
-                            'title' => $titles[$i] ?? '',
-                            'price' => $prices[$i] ?? '',
-                            'quantity' => $quantities[$i] ?? '',
-                            'unit' => $units[$i] ?? '',
-                            'opportunity_value' => $opportunity_values[$i] ?? '',
-                        ];
-                    }
-                }
+            //     if ($titles && $prices && $quantities && $units && $opportunity_values) {
+            //         for ($i = 0; $i < count($titles); $i++) {
+            //             $products[] = [
+            //                 'title' => $titles[$i] ?? '',
+            //                 'price' => $prices[$i] ?? '',
+            //                 'quantity' => $quantities[$i] ?? '',
+            //                 'unit' => $units[$i] ?? '',
+            //                 'opportunity_value' => $opportunity_values[$i] ?? '',
+            //             ];
+            //         }
+            //     }
 
-                return $products;
-            }
+            //     return $products;
+            // }
 
-            // Process each product type
-            $hardware_one_time = processProductData($request, 'hardware_one_time');
-            $hardware_maintenance = processProductData($request, 'hardware_maintenance');
-            $software_recurring = processProductData($request, 'software_recurring');
-            $software_one_time = processProductData($request, 'software_one_time');
-            $systems_integrations = processProductData($request, 'systems_integrations');
-            $subscriptions = processProductData($request, 'subscriptions');
-            $tech_deployment = processProductData($request, 'tech_deployment');
+            // // Process each product type
+            // $hardware_one_time = processProductData($request, 'hardware_one_time');
+            // $hardware_maintenance = processProductData($request, 'hardware_maintenance');
+            // $software_recurring = processProductData($request, 'software_recurring');
+            // $software_one_time = processProductData($request, 'software_one_time');
+            // $systems_integrations = processProductData($request, 'systems_integrations');
+            // $subscriptions = processProductData($request, 'subscriptions');
+            // $tech_deployment = processProductData($request, 'tech_deployment');
+
+            $formData = json_decode($request->input('formData'), true);
+            // echo "<pre>";
+            // print_r($formData);
+            // die;
 
             // Save data to leads table
             $lead = new Lead();
@@ -223,14 +228,15 @@ class LeadController extends Controller
             $lead['category'] = $request->category ?? '';
             $lead['sales_subcategory'] = $request->sales_subcategory ?? '';
             $lead['competitor'] = $request->competitor ?? '';
-            $lead['products'] = json_encode($request->products) ?? '';
-            $lead['hardware_one_time'] = json_encode($hardware_one_time);
-            $lead['hardware_maintenance'] = json_encode($hardware_maintenance);
-            $lead['software_recurring'] = json_encode($software_recurring);
-            $lead['software_one_time'] = json_encode($software_one_time);
-            $lead['systems_integrations'] = json_encode($systems_integrations);
-            $lead['subscriptions'] = json_encode($subscriptions);
-            $lead['tech_deployment_volume_based'] = json_encode($tech_deployment);
+            $lead['products'] = json_encode(array_keys($formData)) ?? '';
+            $lead['product_details'] = json_encode($formData);
+            $lead['hardware_one_time'] = '';
+            $lead['hardware_maintenance'] = '';
+            $lead['software_recurring'] = '';
+            $lead['software_one_time'] = '';
+            $lead['systems_integrations'] = '';
+            $lead['subscriptions'] = '';
+            $lead['tech_deployment_volume_based'] = '';
             $lead['created_by'] = \Auth::user()->id;
             $lead->save();
 
@@ -382,6 +388,10 @@ class LeadController extends Controller
      */
     public function edit(Lead $lead)
     {
+        // echo "<pre>";
+        // print_r($lead);
+        // die;
+
         if (\Auth::user()->can('Edit Opportunity')) {
             $venue_function = explode(',', $lead->venue_selection);
             $function_package =  explode(',', $lead->function);
@@ -397,18 +407,24 @@ class LeadController extends Controller
                 }
             }
 
+            $lead->products = json_decode($lead->products, true);
+            $lead->product_details = json_decode($lead->product_details, true);
+
             // Decode the JSON strings
-            $proudcts = json_decode($lead['products'], true);
+            // $proudcts = json_decode($lead['products'], true);
+            // $hardware_one_time = json_decode($lead['hardware_one_time'], true);
+            // $hardware_maintenance = json_decode($lead['hardware_maintenance'], true);
+            // $software_recurring = json_decode($lead['software_recurring'], true);
+            // $software_one_time = json_decode($lead['software_one_time'], true);
+            // $systems_integrations = json_decode($lead['systems_integrations'], true);
+            // $subscriptions = json_decode($lead['subscriptions'], true);
+            // $tech_deployment_volume_based = json_decode($lead['tech_deployment_volume_based'], true);
 
-            $hardware_one_time = json_decode($lead['hardware_one_time'], true);
-            $hardware_maintenance = json_decode($lead['hardware_maintenance'], true);
-            $software_recurring = json_decode($lead['software_recurring'], true);
-            $software_one_time = json_decode($lead['software_one_time'], true);
-            $systems_integrations = json_decode($lead['systems_integrations'], true);
-            $subscriptions = json_decode($lead['subscriptions'], true);
-            $tech_deployment_volume_based = json_decode($lead['tech_deployment_volume_based'], true);
+            // echo "<pre>";
+            // print_r($lead);
+            // die;
 
-            return view('lead.edit', compact('proudcts', 'venue_function', 'function_package', 'lead', 'users', 'status', 'client_name', 'hardware_one_time', 'hardware_maintenance', 'software_recurring', 'software_one_time', 'systems_integrations', 'subscriptions', 'tech_deployment_volume_based'));
+            return view('lead.edit', compact('venue_function', 'function_package', 'lead', 'users', 'status', 'client_name'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
@@ -426,7 +442,7 @@ class LeadController extends Controller
     {
         // echo "<pre>";
         // print_r($request->all());
-        // die;       
+        // die;
 
         if (\Auth::user()->can('Edit Opportunity')) {
             $validator = \Validator::make(
@@ -439,7 +455,6 @@ class LeadController extends Controller
                     'primary_address' => 'required',
                     'primary_organization' => 'required',
                     'assign_staff' => 'required',
-
                 ]
             );
             if ($validator->fails()) {
@@ -447,112 +462,9 @@ class LeadController extends Controller
                 return redirect()->back()->with('error', $messages->first())
                     ->withErrors($validator)
                     ->withInput();
-                // return redirect()->back()->with('error', $messages->first());
-            }
-            // $data = $request->all();
-            // $package = [];
-            // $additional = [];
-            // $bar_pack = [];
-            // $venue_function = implode(',', $_REQUEST['venue']);
-            // $function = isset($request->function) ? implode(',', $_REQUEST['function']) : '';
-
-            // foreach ($data as $key => $values) {
-            //     if (strpos($key, 'package_') === 0) {
-            //         $newKey = strtolower(str_replace('package_', '', $key));
-            //         $package[$newKey] = $values;
-            //     }
-            //     if (strpos($key, 'additional_') === 0) {
-            //         // Extract the suffix from the key
-            //         $newKey = strtolower(str_replace('additional_', '', $key));
-            //         // Check if the key exists in the output array, if not, initialize it
-            //         if (!isset($additional[$newKey])) {
-            //             $additional[$newKey] = [];
-            //         }
-            //         $additional[$newKey] = $values;
-            //     }
-            //     if (strpos($key, 'bar_') === 0) {
-            //         // Extract the suffix from the key
-            //         $newKey = ucfirst(strtolower(str_replace('bar_', '', $key)));
-            //         // Check if the key exists in the output array, if not, initialize it
-            //         if (!isset($bar_pack[$newKey])) {
-            //             $bar_pack[$newKey] = [];
-            //         }
-            //         // Assign the values to the new key in the output array
-            //         $bar_pack[$newKey] = $values;
-            //     }
-            // }
-
-            // $package = json_encode($package);
-            // $additional = json_encode($additional);
-            // $bar_pack = json_encode($bar_pack);
-            // $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
-            // $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
-
-
-            function processProductData($request, $productType)
-            {
-                $products = [];
-
-                $titles = $request->input("product_title_$productType");
-                $prices = $request->input("product_price_$productType");
-                $quantities = $request->input("product_quantity_$productType");
-                $units = $request->input("unit_$productType");
-                $opportunity_values = $request->input("product_opportunity_value_$productType");
-
-                if ($titles && $prices && $quantities && $units && $opportunity_values) {
-                    for ($i = 0; $i < count($titles); $i++) {
-                        $products[] = [
-                            'title' => $titles[$i] ?? '',
-                            'price' => $prices[$i] ?? '',
-                            'quantity' => $quantities[$i] ?? '',
-                            'unit' => $units[$i] ?? '',
-                            'opportunity_value' => $opportunity_values[$i] ?? '',
-                        ];
-                    }
-                }
-
-                return $products;
             }
 
-            // Process each product type
-            $hardware_one_time = processProductData($request, 'hardware_one_time');
-            $hardware_maintenance = processProductData($request, 'hardware_maintenance');
-            $software_recurring = processProductData($request, 'software_recurring');
-            $software_one_time = processProductData($request, 'software_one_time');
-            $systems_integrations = processProductData($request, 'systems_integrations');
-            $subscriptions = processProductData($request, 'subscriptions');
-            $tech_deployment = processProductData($request, 'tech_deployment');
-
-
-            // Previous code for update
-            // $lead['user_id'] = $request->user;
-            // $lead['name'] = $request->name;
-            // $lead['leadname'] = $request->lead_name;
-            // $lead['email'] = $request->email;
-            // $lead['assigned_user'] = $request->user ?? '';
-            // $lead['primary_contact'] = $primary_contact;
-            // $lead['secondary_contact'] = $secondary_contact;
-            // $lead['lead_address'] = $request->lead_address;
-            // $lead['company_name'] = $request->company_name;
-            // $lead['relationship'] = $request->relationship;
-            // $lead['start_date'] = $request->start_date;
-            // $lead['end_date'] = $request->start_date;
-            // $lead['type'] = $request->type;
-            // $lead['venue_selection'] = isset($venue_function) && (!empty($venue_function)) ? $venue_function : '';
-            // $lead['function'] = $function;
-            // $lead['guest_count'] = $request->guest_count ?? 0;
-            // $lead['description'] = $request->description;
-            // $lead['spcl_req'] = $request->spcl_req;
-            // $lead['allergies'] = $request->allergies;
-            // $lead['start_time'] = $request->start_time;
-            // $lead['end_time'] = $request->end_time;
-            // $lead['func_package'] = isset($package) && (!empty($package)) ? $package : '';
-            // $lead['bar_package'] = isset($bar_pack) && !empty($bar_pack) ? $bar_pack : '';
-            // $lead['ad_opts'] = isset($additional) && !empty($additional) ? $additional : '';
-            // $lead['bar'] = $request->baropt;
-            // $lead['rooms'] = $request->rooms ?? 0;
-            // $lead['lead_status'] = ($request->is_active == 'on') ? 1 : 0;
-            // $lead['created_by'] = \Auth::user()->creatorId();
+            $formData = json_decode($request->input('formData'), true);
 
             // New code for update
             $lead['user_id'] = $request->client_id  ?? '';
@@ -592,14 +504,15 @@ class LeadController extends Controller
             $lead['category'] = $request->category ?? '';
             $lead['sales_subcategory'] = $request->sales_subcategory ?? '';
             $lead['competitor'] = $request->competitor ?? '';
-            $lead['products'] = json_encode($request->products) ?? '';
-            $lead['hardware_one_time'] = json_encode($hardware_one_time);
-            $lead['hardware_maintenance'] = json_encode($hardware_maintenance);
-            $lead['software_recurring'] = json_encode($software_recurring);
-            $lead['software_one_time'] = json_encode($software_one_time);
-            $lead['systems_integrations'] = json_encode($systems_integrations);
-            $lead['subscriptions'] = json_encode($subscriptions);
-            $lead['tech_deployment_volume_based'] = json_encode($tech_deployment);
+            $lead['products'] = json_encode(array_keys($formData)) ?? '';
+            $lead['product_details'] = json_encode($formData);
+            $lead['hardware_one_time'] = '';
+            $lead['hardware_maintenance'] = '';
+            $lead['software_recurring'] = '';
+            $lead['software_one_time'] = '';
+            $lead['systems_integrations'] = '';
+            $lead['subscriptions'] = '';
+            $lead['tech_deployment_volume_based'] = '';
             $lead['created_by'] = \Auth::user()->id;
             $lead->update();
 
@@ -610,8 +523,6 @@ class LeadController extends Controller
                 $leads = Lead::with('accounts', 'assign_user')->where('user_id', \Auth::user()->id)->get();
             }
             return redirect()->route('lead.index', compact('leads', 'statuss'))->with('success', __('Opportunity successfully updated!'));
-            // return view('lead.index', compact('leads','statuss'))->with('success', __('Lead  Updated.'));
-            // return redirect()->back()->with('success', __('Lead Updated.'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

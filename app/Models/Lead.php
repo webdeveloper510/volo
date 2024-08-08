@@ -49,6 +49,7 @@ class Lead extends Model
         'sales_subcategory',
         'competitor',
         'products',
+        'product_details',
         'hardware_one_time',
         'hardware_maintenance',
         'software_recurring',
