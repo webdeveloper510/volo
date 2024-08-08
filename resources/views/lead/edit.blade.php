@@ -754,8 +754,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const products = @json($lead->products);
-        const productDetails = @json($lead->product_details);
+        const products = @json($lead - > products);
+        const productDetails = @json($lead - > product_details);
 
         products.forEach(product => {
             const checkbox = document.querySelector(`input[value="${product}"]`);
@@ -783,7 +783,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
             if (productDetails) {
                 productDetails.forEach((detail, index) => {
-                    additionalFields +=  `
+                    additionalFields += `
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -873,13 +873,29 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         }
     }
 
+    // function cloneRow(button) {
+    //     const row = $(button).closest('.additional-product-category').find('.row').first();
+    //     const clonedRow = row.clone();
+    //     clonedRow.find('input').val('');
+    //     clonedRow.find('select').val('');
+    //     clonedRow.append('<div class="minus-btn"><i class="fas fa-minus remove-btn" onclick="removeRow(this)"></i></div>');
+    //     row.after(clonedRow);
+    // }
+
     function cloneRow(button) {
-        const row = $(button).closest('.additional-product-category').find('.row').first();
-        const clonedRow = row.clone();
+        const container = $(button).closest('.additional-product-category');
+        const lastRow = container.find('.row').last();
+        const clonedRow = lastRow.clone();
+
+        // Clear the values of the cloned row's inputs and selects
         clonedRow.find('input').val('');
         clonedRow.find('select').val('');
+
+        // Append the remove button to the cloned row
         clonedRow.append('<div class="minus-btn"><i class="fas fa-minus remove-btn" onclick="removeRow(this)"></i></div>');
-        row.after(clonedRow);
+
+        // Append the cloned row after the last row
+        lastRow.after(clonedRow);
     }
 
     function removeRow(button) {
