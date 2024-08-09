@@ -1,21 +1,22 @@
-@extends('layouts.admin')
-@section('page-title')
-{{__('Opportunities Information')}}
-@endsection
-@section('title')
-<div class="page-header-title">
-    {{__('Opportunities Information')}}
-</div>
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
-<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{__('Opportunities')}}</a></li>
-<li class="breadcrumb-item">{{__('Opportunities Details')}}</li>
-@endsection
-@section('action-btn')
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Opportunities Information')); ?>
 
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
+<div class="page-header-title">
+    <?php echo e(__('Opportunities Information')); ?>
+
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('lead.index')); ?>"><?php echo e(__('Opportunities')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Opportunities Details')); ?></li>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('action-btn'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 
 <div class="container-field">
     <div id="wrapper">
@@ -45,7 +46,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php
+                                            <?php
                                             use App\Models\User;
                                             if(@$lead->assigned_user){
                                             $assignedUserName = $lead->assigned_user ? User::find($lead->assigned_user) : null;
@@ -53,30 +54,30 @@
                                             $selected_products = json_decode($lead->products);
                                             $products = $selected_products ? implode(', ', $selected_products) : '-';
                                             }
-                                            @endphp
-                                            @if ($lead)
+                                            ?>
+                                            <?php if($lead): ?>
                                             <tr>
-                                                <td>{{ $lead->opportunity_name }}</td>
-                                                <td>{{ @$assignedUserName ? $assignedUserName->name : '-' }}</td>
-                                                <td>{{ $lead->value_of_opportunity ?? '-' }}</td>
-                                                <td>{{ $lead->currency ?? '-' }}</td>
-                                                <td>{{ $lead->timing_close ?? '-' }}</td>
-                                                <td>{{ $lead->sales_stage ?? '-' }}</td>
-                                                <td>{{ $lead->deal_length ?? '-' }}</td>
-                                                <td>{{ $lead->difficult_level ?? '-' }}</td>
-                                                <td>{{ $lead->probability_to_close ?? '-' }}</td>
-                                                <td>{{ $lead->category ?? '-' }}</td>
-                                                <td>{{ $lead->sales_subcategory ?? '-' }}</td>
-                                                <td>{{ $lead->competitor ?? '-' }}</td>
-                                                @foreach ($products as $product)
-                                                {{ $product }}<br>
-                                                @endforeach
+                                                <td><?php echo e($lead->opportunity_name); ?></td>
+                                                <td><?php echo e(@$assignedUserName ? $assignedUserName->name : '-'); ?></td>
+                                                <td><?php echo e($lead->value_of_opportunity ?? '-'); ?></td>
+                                                <td><?php echo e($lead->currency ?? '-'); ?></td>
+                                                <td><?php echo e($lead->timing_close ?? '-'); ?></td>
+                                                <td><?php echo e($lead->sales_stage ?? '-'); ?></td>
+                                                <td><?php echo e($lead->deal_length ?? '-'); ?></td>
+                                                <td><?php echo e($lead->difficult_level ?? '-'); ?></td>
+                                                <td><?php echo e($lead->probability_to_close ?? '-'); ?></td>
+                                                <td><?php echo e($lead->category ?? '-'); ?></td>
+                                                <td><?php echo e($lead->sales_subcategory ?? '-'); ?></td>
+                                                <td><?php echo e($lead->competitor ?? '-'); ?></td>
+                                                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php echo e($product); ?><br>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tr>
-                                            @else
+                                            <?php else: ?>
                                             <tr>
                                                 <td colspan="12">No opportunity found.</td>
                                             </tr>
-                                            @endif
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -94,65 +95,65 @@
                                 <h3>Primary Contact Information</h3>
                                 <div class="row align-items-center ">
                                     <div class="col-md-4 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Name')}} </small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Name')); ?> </small>
                                     </div>
-                                    @if($lead->primary_name)
+                                    <?php if($lead->primary_name): ?>
                                     <div class="col-md-5 need_half ">
-                                        <span class="">{{ $lead->primary_name }}</span>
+                                        <span class=""><?php echo e($lead->primary_name); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Email')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Email')); ?></small>
                                     </div>
-                                    @if($lead->primary_email)
+                                    <?php if($lead->primary_email): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->primary_email }}</span>
+                                        <span class=""><?php echo e($lead->primary_email); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Phone Number')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Phone Number')); ?></small>
                                     </div>
-                                    @if($lead->primary_contact)
+                                    <?php if($lead->primary_contact): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->primary_contact }}</span>
+                                        <span class=""><?php echo e($lead->primary_contact); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Address')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Address')); ?></small>
                                     </div>
-                                    @if($lead->primary_address)
+                                    <?php if($lead->primary_address): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->primary_address }}</span>
+                                        <span class=""><?php echo e($lead->primary_address); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Title/Designation')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Title/Designation')); ?></small>
                                     </div>
-                                    @if($lead->primary_organization)
+                                    <?php if($lead->primary_organization): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->primary_organization }}</span>
+                                        <span class=""><?php echo e($lead->primary_organization); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -163,65 +164,65 @@
                                 <h3>Secondary Contact Information</h3>
                                 <div class="row align-items-center ">
                                     <div class="col-md-4 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Name')}} </small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Name')); ?> </small>
                                     </div>
-                                    @if($lead->secondary_name)
+                                    <?php if($lead->secondary_name): ?>
                                     <div class="col-md-5 need_half ">
-                                        <span class="">{{ $lead->secondary_name }}</span>
+                                        <span class=""><?php echo e($lead->secondary_name); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Email')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Email')); ?></small>
                                     </div>
-                                    @if($lead->secondary_email)
+                                    <?php if($lead->secondary_email): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->secondary_email }}</span>
+                                        <span class=""><?php echo e($lead->secondary_email); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Phone Number')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Phone Number')); ?></small>
                                     </div>
-                                    @if($lead->secondary_contact)
+                                    <?php if($lead->secondary_contact): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->secondary_contact }}</span>
+                                        <span class=""><?php echo e($lead->secondary_contact); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Address')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Address')); ?></small>
                                     </div>
-                                    @if($lead->secondary_address)
+                                    <?php if($lead->secondary_address): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->secondary_address }}</span>
+                                        <span class=""><?php echo e($lead->secondary_address); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="col-md-4  mt-1 need_half">
-                                        <small class="h6  mb-3 mb-md-0">{{__('Title/Designation')}}</small>
+                                        <small class="h6  mb-3 mb-md-0"><?php echo e(__('Title/Designation')); ?></small>
                                     </div>
-                                    @if($lead->secondary_designation)
+                                    <?php if($lead->secondary_designation): ?>
                                     <div class="col-md-5  mt-1 need_half">
-                                        <span class="">{{ $lead->secondary_designation }}</span>
+                                        <span class=""><?php echo e($lead->secondary_designation); ?></span>
                                     </div>
-                                    @else
+                                    <?php else: ?>
                                     <div class="col-md-5 need_half ">
                                         <span class="">--</span>
                                     </div>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -235,11 +236,13 @@
                         <div class="card" id="useradd-1">
                             <div class="card-body table-border-style">
                                 <h3>Upload Documents</h3>
-                                {{Form::open(array('route' => ['lead.uploaddoc', $lead->id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))}}
+                                <?php echo e(Form::open(array('route' => ['lead.uploaddoc', $lead->id],'method'=>'post','enctype'=>'multipart/form-data' ,'id'=>'formdata'))); ?>
+
                                 <label for="lead_file">Attachment</label>
                                 <input type="file" name="lead_file" id="lead_file" class="form-control" required>
                                 <input type="submit" value="Submit" class="btn btn-primary mt-4" style="float: right;">
-                                {{Form::close()}}
+                                <?php echo e(Form::close()); ?>
+
                             </div>
                         </div>
                     </div>
@@ -254,14 +257,14 @@
                                             <th>Action</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($docs as $doc)
-                                            @if(Storage::disk('public')->exists($doc->filepath))
+                                            <?php $__currentLoopData = $docs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if(Storage::disk('public')->exists($doc->filepath)): ?>
                                             <tr>
-                                                <td>{{$doc->filename}}</td>
-                                                <td><a href="{{ Storage::url('app/public/'.$doc->filepath) }}" download style="color: teal;" title="Download">View Document <i class="fa fa-download"></i></a>
+                                                <td><?php echo e($doc->filename); ?></td>
+                                                <td><a href="<?php echo e(Storage::url('app/public/'.$doc->filepath)); ?>" download style="color: teal;" title="Download">View Document <i class="fa fa-download"></i></a>
                                             </tr>
-                                            @endif
-                                            @endforeach
+                                            <?php endif; ?>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -274,8 +277,8 @@
     </div>
 </div>
 
-@endsection
-@push('script-page')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script>
     $(document).ready(function() {
         $('#addnotes').on('submit', function(e) {
@@ -285,12 +288,12 @@
             var createrid = <?php echo Auth::user()->id; ?>;
 
             $.ajax({
-                url: "{{ route('addleadnotes', ['id' => $lead->id]) }}",
+                url: "<?php echo e(route('addleadnotes', ['id' => $lead->id])); ?>",
                 type: 'POST',
                 data: {
                     "notes": notes,
                     "createrid": createrid,
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(data) {
                     location.reload();
@@ -300,4 +303,5 @@
         });
     });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/leadinfo.blade.php ENDPATH**/ ?>

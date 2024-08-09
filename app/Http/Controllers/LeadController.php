@@ -1139,7 +1139,7 @@ class LeadController extends Controller
 
         $formData = json_decode($request->input('formData'), true);
 
-        $lead = Lead::find($id);         
+        $lead = Lead::find($id);
         // if ($request->status == 'Approve') {
         //     $status = 4;         
         // } elseif ($request->status == 'Resend') {
@@ -1269,19 +1269,59 @@ class LeadController extends Controller
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
         $newlead = new Lead();
-        $newlead['user_id'] = Auth::user()->id;
-        $newlead['name'] = $lead->name;
-        $newlead['leadname'] =  $lead->leadname;
-        $newlead['assigned_user'] = $lead->user_id;
-        $newlead['start_date'] = date('Y-m-d');
-        $newlead['end_date'] = date('Y-m-d');
-        $newlead['email'] = $lead->email;
-        $newlead['primary_contact'] = $lead->primary_contact;
-        $newlead['secondary_contact'] = $lead->secondary_contact;
-        $newlead['lead_address'] = $lead->lead_address;
-        $newlead['company_name'] = $lead->company_name;
-        $newlead['relationship'] = $lead->relationship;
-        $newlead['created_by'] = \Auth::user()->creatorId();
+
+        // $newlead['user_id'] = Auth::user()->id;
+        // $newlead['name'] = $lead->name;
+        // $newlead['leadname'] =  $lead->leadname;
+        // $newlead['assigned_user'] = $lead->user_id;
+        // $newlead['start_date'] = date('Y-m-d');
+        // $newlead['end_date'] = date('Y-m-d');
+        // $newlead['email'] = $lead->email;
+        // $newlead['primary_contact'] = $lead->primary_contact;
+        // $newlead['secondary_contact'] = $lead->secondary_contact;
+        // $newlead['lead_address'] = $lead->lead_address;
+        // $newlead['company_name'] = $lead->company_name;
+        // $newlead['relationship'] = $lead->relationship;
+        // $newlead['created_by'] = \Auth::user()->creatorId();
+        // $newlead->save();
+
+        $newlead['user_id'] = $lead->existing_client  ?? '';
+        $newlead['opportunity_name'] = $lead->opportunity_name;
+        $newlead['assigned_user'] = $lead->assign_staff ?? '';
+        $newlead['primary_name'] = $lead->primary_name;
+        $newlead['primary_email'] = $lead->primary_email;
+        $newlead['primary_contact'] = $lead->primary_phone_number;
+        $newlead['primary_address'] = $lead->primary_address;
+        $newlead['primary_organization'] = $lead->primary_organization;
+        $newlead['secondary_name'] = $lead->secondary_name ?? '';
+        $newlead['secondary_email'] = $lead->secondary_email ?? '';
+        $newlead['secondary_contact'] = $lead->secondary_phone_number ?? '';
+        $newlead['secondary_address'] = $lead->secondary_address ?? '';
+        $newlead['secondary_designation'] = $lead->secondary_designation ?? '';
+        $newlead['region'] = $lead->region ?? $lead->existing_region;
+        $newlead['sales_stage'] = $lead->sales_stage ?? '';
+        $newlead['value_of_opportunity'] = $lead->value_of_opportunity ?? '';
+        $newlead['deal_length'] = $lead->deal_length ?? '';
+        $newlead['difficult_level'] = $lead->difficult_level ?? '';
+        $newlead['start_time'] = $lead->start_time ?? '';
+        $newlead['end_time'] = $lead->end_time ?? '';
+        $newlead['timing_close'] = $lead->timing_close ?? '';
+        $newlead['probability_to_close'] = $lead->probability_to_close ?? '';
+        $newlead['currency'] = $lead->currency ?? '';
+        $newlead['status'] = ($lead->is_active == 'on') ? 1 : 0;
+        $newlead['category'] = $lead->category ?? '';
+        $newlead['sales_subcategory'] = $lead->sales_subcategory ?? '';
+        $newlead['competitor'] = $lead->competitor ?? '';
+        $newlead['products'] = $lead->products ?? '';
+        $newlead['product_details'] = $lead->product_details;
+        $newlead['hardware_one_time'] = '';
+        $newlead['hardware_maintenance'] = '';
+        $newlead['software_recurring'] = '';
+        $newlead['software_one_time'] = '';
+        $newlead['systems_integrations'] = '';
+        $newlead['subscriptions'] = '';
+        $newlead['tech_deployment_volume_based'] = '';
+        $newlead['created_by'] = \Auth::user()->id;
         $newlead->save();
         return redirect()->back()->with('success', 'Opportunity Cloned successfully');
     }
