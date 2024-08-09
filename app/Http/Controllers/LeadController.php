@@ -1126,7 +1126,6 @@ class LeadController extends Controller
         // print_r($request->all());
         // die;
 
-        // echo "<pre>";print_r($request->all());die;
         $settings = Utility::settings();
         $validator = \Validator::make($request->all(), [
             // 'status' => 'required|in:Approve,Resend,Withdraw',
@@ -1140,34 +1139,19 @@ class LeadController extends Controller
 
         $formData = json_decode($request->input('formData'), true);
 
-        $lead = Lead::find($id);
-        // $venue_function = isset($request->venue) ? implode(',', $_REQUEST['venue']) : '';
-        // $function =  isset($request->function) ? implode(',', $_REQUEST['function']) : '';
-        // $primary_contact = preg_replace('/\D/', '', $request->input('primary_contact'));
-        // $secondary_contact = preg_replace('/\D/', '', $request->input('secondary_contact'));
-
-        $lead['products'] = json_encode(array_keys($formData)) ?? '';
-        $lead['product_details'] = json_encode($formData);
-
+        $lead = Lead::find($id);         
         // if ($request->status == 'Approve') {
-        //     $status = 4;
-        //     // $status = 2;
-        //     // $lead->proposal_status = 2;
+        //     $status = 4;         
         // } elseif ($request->status == 'Resend') {
-        //     $status = 5;
-        //     // $status = 0;
-        //     // $lead->proposal_status = 1;
-
+        //     $status = 5;      
         // } elseif ($request->status == 'Withdraw') {
-        //     $status = 3;
-        //     // $status = 3;
-        //     // $lead->proposal_status = 3;
+        //     $status = 3;        
         // }
 
         $data = [
             // 'user_id' => $request->user,
             'user_id' => $request->client_name ?? '',
-            'opportunity_name' => $request->opportunity_name,
+            'opportunity_name' => $request->lead_name,
             'assigned_user' => $request->assign_staff,
             'primary_name' => $request->primary_name,
             'primary_email' => $request->primary_email,
@@ -1177,6 +1161,7 @@ class LeadController extends Controller
             'secondary_name' => $request->secondary_name ?? '',
             'secondary_email' => $request->secondary_email ?? '',
             'secondary_contact' => $request->secondary_phone_number ?? '',
+            'company_name' => $request->client_name ?? '',
             'secondary_address' => $request->secondary_address ?? '',
             'secondary_designation' => $request->secondary_designation ?? '',
             'region' => $request->region ?? $request->existing_region,
@@ -1204,73 +1189,79 @@ class LeadController extends Controller
             'tech_deployment_volume_based' => '',
             'created_by' => \Auth::user()->id,
         ];
+
         $lead->update($data);
 
-        $statuss = Lead::$stat;
-        if (\Auth::user()->type == 'owner') {
-            $leads = Lead::with('accounts', 'assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id', 'desc')->get();
-        } else {
-            $leads = Lead::with('accounts', 'assign_user')->where('user_id', \Auth::user()->id)->get();
-        }
-        if ($status == 4) {
-            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('success', __('Opportunity Approved!'));
-        } elseif ($status == 3) {
-            Proposal::where('lead_id', $id)->delete();
-            try {
-                config(
-                    [
-                        'mail.driver'       => $settings['mail_driver'],
-                        'mail.host'         => $settings['mail_host'],
-                        'mail.port'         => $settings['mail_port'],
-                        'mail.username'     => $settings['mail_username'],
-                        'mail.password'     => $settings['mail_password'],
-                        'mail.from.address' => $settings['mail_from_address'],
-                        'mail.from.name'    => $settings['mail_from_name']
-                    ]
-                );
-                Mail::to($lead->email)->send(new LeadWithrawMail($lead));
-            } catch (\Exception $e) {
-                // return response()->json(
-                //     [
-                //         'is_success' => false,
-                //         'message' => $e->getMessage(),
-                //     ]
-                // );
-                return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Email Not Sent!'));
-            }
-            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Opportunity Withdrawn!'));
-        } elseif ($status == 5) {
-            $subject = 'Lead Details';
-            $content = '';
-            $proposalinfo = ProposalInfo::where('lead_id', $id)->orderby('id', 'desc')->first();
-            $propid = $proposalinfo->id;
-            try {
-                config(
-                    [
-                        'mail.driver'       => $settings['mail_driver'],
-                        'mail.host'         => $settings['mail_host'],
-                        'mail.port'         => $settings['mail_port'],
-                        'mail.username'     => $settings['mail_username'],
-                        'mail.password'     => $settings['mail_password'],
-                        'mail.from.address' => $settings['mail_from_address'],
-                        'mail.from.name'    => $settings['mail_from_name'],
-                    ]
-                );
-                Mail::to($request->email)->send(new SendPdfEmail($lead, $subject, $content, $proposalinfo, $propid));
-                // Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
-                // unlink($tempFilePath);
-                // $upd = Lead::where('id',$id)->update(['status' => 1]);
-            } catch (\Exception $e) {
-                //   return response()->json(
-                //             [
-                //                 'is_success' => false,
-                //                 'message' => $e->getMessage(),
-                //             ]
-                //         );
-                return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Email Not Sent!'));
-            }
-            return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Opportunity Resent!'));
-        }
+        // echo "<pre>";
+        // print_r($data);
+        // die;
+
+        // $statuss = Lead::$stat;
+        // if (\Auth::user()->type == 'owner') {
+        //     $leads = Lead::with('accounts', 'assign_user')->where('created_by', \Auth::user()->creatorId())->orderby('id', 'desc')->get();
+        // } else {
+        //     $leads = Lead::with('accounts', 'assign_user')->where('user_id', \Auth::user()->id)->get();
+        // }
+        // if ($status == 4) {
+        //     return redirect()->route('lead.index', compact('leads', 'statuss'))->with('success', __('Opportunity Approved!'));
+        // } elseif ($status == 3) {
+        //     Proposal::where('lead_id', $id)->delete();
+        //     try {
+        //         config(
+        //             [
+        //                 'mail.driver'       => $settings['mail_driver'],
+        //                 'mail.host'         => $settings['mail_host'],
+        //                 'mail.port'         => $settings['mail_port'],
+        //                 'mail.username'     => $settings['mail_username'],
+        //                 'mail.password'     => $settings['mail_password'],
+        //                 'mail.from.address' => $settings['mail_from_address'],
+        //                 'mail.from.name'    => $settings['mail_from_name']
+        //             ]
+        //         );
+        //         Mail::to($lead->email)->send(new LeadWithrawMail($lead));
+        //     } catch (\Exception $e) {
+        //         // return response()->json(
+        //         //     [
+        //         //         'is_success' => false,
+        //         //         'message' => $e->getMessage(),
+        //         //     ]
+        //         // );
+        //         return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Email Not Sent!'));
+        //     }
+        //     return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Opportunity Withdrawn!'));
+        // } elseif ($status == 5) {
+        //     $subject = 'Lead Details';
+        //     $content = '';
+        //     $proposalinfo = ProposalInfo::where('lead_id', $id)->orderby('id', 'desc')->first();
+        //     $propid = $proposalinfo->id;
+        //     try {
+        //         config(
+        //             [
+        //                 'mail.driver'       => $settings['mail_driver'],
+        //                 'mail.host'         => $settings['mail_host'],
+        //                 'mail.port'         => $settings['mail_port'],
+        //                 'mail.username'     => $settings['mail_username'],
+        //                 'mail.password'     => $settings['mail_password'],
+        //                 'mail.from.address' => $settings['mail_from_address'],
+        //                 'mail.from.name'    => $settings['mail_from_name'],
+        //             ]
+        //         );
+        //         Mail::to($request->email)->send(new SendPdfEmail($lead, $subject, $content, $proposalinfo, $propid));
+        //         // Mail::to($request->email)->send(new SendPdfEmail($lead,$subject,$content,$tempFilePath = NULL));
+        //         // unlink($tempFilePath);
+        //         // $upd = Lead::where('id',$id)->update(['status' => 1]);
+        //     } catch (\Exception $e) {
+        //         //   return response()->json(
+        //         //             [
+        //         //                 'is_success' => false,
+        //         //                 'message' => $e->getMessage(),
+        //         //             ]
+        //         //         );
+        //         return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Email Not Sent!'));
+        //     }
+        //     return redirect()->route('lead.index', compact('leads', 'statuss'))->with('danger', __('Opportunity Resent!'));
+        // }
+        return redirect()->route('lead.index')->with('success', __('Opportunity Updated Successfully!'));
     }
     public function duplicate($id)
     {
