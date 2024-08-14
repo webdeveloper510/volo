@@ -249,9 +249,9 @@ $token_value = $token_data['access_token'];
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Opportunity')): ?>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>" data-title="<?php echo e(__('Edit Opportunitie')); ?>"><i class="ti ti-edit"></i></a>
-                                                    </div>
-
-                                                    <?php if($lead->is_contract_accepted != 1 && $lead->status == 3): ?>
+                                                    </div>                                                    
+                                                    <?php endif; ?>
+                                                    <?php if($lead->is_contract_accepted != 1): ?>
                                                     <div class="action-btn bg-info ms-2 cursor" onclick="setContractorDetails('<?= $contractor_name ?>' , '<?= $lead->id ?>')" data-toggle="modal" data-target="#myModal" data-title="<?php echo e(__('Share contract')); ?>">
                                                         <i class="ti ti-send"></i></a>
                                                     </div>
@@ -265,7 +265,7 @@ $token_value = $token_data['access_token'];
                                                             title="<?php echo e(__('Download Contract')); ?>" target="_blank"><i class="ti ti-download"></i></a>
                                                     </div>
                                                     <?php endif; ?>
-                                                    <?php endif; ?>
+
                                                     <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Opportunity')): ?>
                                                     <div class="action-btn bg-danger ms-2">
