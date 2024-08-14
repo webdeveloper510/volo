@@ -48,6 +48,11 @@ $category = explode(',', $settings['campaign_type']);
                 @endif
                 @if(\Request::route()->getName() == 'settings')
                 @can('Manage Email')
+                <a href="#company-email-setting" class="list-group-item list-group-item-action" data-id="collapse_01"
+                    onclick="showAccordion('collapse_01')">
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-file-invoice"></i></span>
+                    <span class="dash-mtext">{{ __('Contract Settings') }}</span>
+                </a>
                 <a href="#company-email-setting" class="list-group-item list-group-item-action" data-id="collapse16" onclick="showAccordion('collapse16')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope"></i></span>
                     <span class="dash-mtext">{{ __('Email') }}</span>

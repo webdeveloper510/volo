@@ -1557,3 +1557,21 @@ Route::group([
     Route::post('/powerbi/delete/', [PowerBiReportController::class, 'deletePowerBIReport'])->name('powerbi.delete');
     Route::get('/powerbi/report/{id}', [PowerBiReportController::class, 'showPowerBIReport'])->name('powerbi.report.show');
 });
+
+
+// Contracts 
+Route::post('/send-event-contract', [ContractsController::class, 'sendEventContract']);
+Route::post('/share-contract', [ContractsController::class, 'shareContract']);
+Route::any('/cron-get-contract', [ContractsController::class, 'cronGetContract']);
+Route::get('/approve-contract/{id}', [ContractsController::class, 'approveContract']);
+Route::get('/get-contract/{id}/{document_id}', [ContractsController::class, 'getContract']);
+Route::get('/download-contract/{id}/', [ContractsController::class, 'downloadContract']);
+Route::post('/send-contract-doc/', [ContractsController::class, 'sendContractDoc']);
+Route::get('/empty', [ContractsController::class, 'empties']);
+Route::get('/send-email-test', [ContractsController::class, 'sendEmail']);
+Route::get('/send-contract', [ContractsController::class, 'sendContract']);
+Route::post('/send-contract', [ContractsController::class, 'sendContract']);
+Route::post('/get-contract-url', [ContractsController::class, 'getContractUrl']);
+Route::post('/send-contract-email', [ContractsController::class, 'sendContractEmail']);
+Route::any('/upload-docs', [MeetingController::class, 'uploadDoc']);
+Route::post('setting/update-organization-id',[SettingController::class,'updateOrganizationId']);
