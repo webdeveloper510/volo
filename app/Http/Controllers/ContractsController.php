@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
-use App\Models\Meeting;
+use App\Models\Lead;
 use App\Models\Contracts;
 use App\Models\ContractType;
 use App\Models\ContractAttechment;
@@ -813,10 +813,10 @@ class ContractsController extends Controller
     {
 
 
-        $all_status = Meeting::$status;
+        $all_status = Lead::$status;
 
         $approvedIndexes = array_keys($all_status, "Approved");
-        $approved_meetings = Meeting::where('status', $approvedIndexes[0])->orderby('id', 'desc')->get()->toArray();
+        $approved_meetings = Lead::where('status', $approvedIndexes[0])->orderby('id', 'desc')->get()->toArray();
 
         // echo "<pre>"; print_r($approved_meetings);die;
 
@@ -1107,7 +1107,7 @@ class ContractsController extends Controller
         echo "<pre>";
 
         $token_data     =   $this->getAirSlateToken(); // Get Token
-        $meeting_model = Meeting::find($id);
+        $meeting_model = Lead::find($id);
 
         $template_id = $meeting_model->template_id;
         $flow_id     = $meeting_model->flow_id;
@@ -1158,7 +1158,7 @@ class ContractsController extends Controller
     {
 
         $token_data     =   $this->getAirSlateToken(); // Get Token
-        $incomplete_contract = Meeting::where(['is_contract_accepted' => 0])->get()->toArray();
+        $incomplete_contract = Lead::where(['is_contract_accepted' => 0])->get()->toArray();
         echo "<pre>";
         // print_r($incomplete_contract);
 
@@ -1195,7 +1195,7 @@ class ContractsController extends Controller
 
                 $result = json_decode($response);
                 print_r($result);
-                $meeting_model = Meeting::find($value['id']);
+                $meeting_model = Lead::find($value['id']);
                 if (@$result->signing_status == "COMPLETED") {
 
 
@@ -1281,7 +1281,7 @@ class ContractsController extends Controller
 
     public function sendEventContract()
     {
-        $meeting_model = Meeting::find($_POST['event_id_number']);
+        $meeting_model = Lead::find($_POST['event_id_number']);
         $template_id = $_POST['template_id'];
         if (!$meeting_model) {
 
@@ -1577,7 +1577,7 @@ class ContractsController extends Controller
                 "link"  => $link
             ];
 
-            $meeting_model = Meeting::find($event_id);
+            $meeting_model = Lead::find($event_id);
             $meeting_model->is_contract_accepted = 0;
             $meeting_model->template_name = $template_name;
             $meeting_model->template_id = $template_id;
@@ -1597,7 +1597,7 @@ class ContractsController extends Controller
     public function getContract($id, $document_id)
     {
         $event_id = Crypt::decrypt(urldecode($id));
-        $meeting_model = Meeting::find($event_id);
+        $meeting_model = Lead::find($event_id);
         if (!$meeting_model) {
             echo "Unauthorized user";
             die;
@@ -1614,7 +1614,7 @@ class ContractsController extends Controller
 
     public function downloadContract($id)
     {
-        $meeting_model = Meeting::where(['flow_id' => $id])->get()->first();
+        $meeting_model = Lead::where(['flow_id' => $id])->get()->first();
         if (!$meeting_model) {
             return redirect()->back()->with('error', __('No data found.'));
         }

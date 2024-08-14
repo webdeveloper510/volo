@@ -1573,5 +1573,5 @@ Route::get('/send-contract', [ContractsController::class, 'sendContract']);
 Route::post('/send-contract', [ContractsController::class, 'sendContract']);
 Route::post('/get-contract-url', [ContractsController::class, 'getContractUrl']);
 Route::post('/send-contract-email', [ContractsController::class, 'sendContractEmail']);
-Route::any('/upload-docs', [MeetingController::class, 'uploadDoc']);
+Route::any('/upload-docs', [LeadController::class, 'uploadDoc']);
 Route::post('setting/update-organization-id',[SettingController::class,'updateOrganizationId']);
