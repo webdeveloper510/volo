@@ -524,6 +524,211 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="faq justify-content-center">
                             <div class="col-sm-12 col-md-12 col-xxl-12">
                                 <div class="accordion accordion-flush setting setting-accordion1" id="accordionExample">
+                                    
+                                    <div id="company-email-setting" class="accordion-item card">
+                                        <h2 class="accordion-header" id="heading-2-15">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse_01" aria-expanded="false"
+                                                aria-controls="collapse_01">
+                                                <h5><?php echo e(__('Contract Settings')); ?></h5>
+                                                <small class="text-muted"><?php echo e(__('See contract variables names')); ?></small>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse_01" class="accordion-collapse collapse"
+                                            aria-labelledby="heading-2-15" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body1">
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <label>Organization Id</label>
+                                                        <input class="form-control mt-2" value="<?= $settings['organization_id'] ?>" id="organization_id" placeholder="Enter your organization id" />
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button class="btn btn-info mt-2" onclick="updateOrganization()">Save</button>
+                                                    </div>
+                                                </div>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Normal Name</th>
+                                                            <th scope="col">Actual Name (should be in Airslate as Name)</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>Contractor name or Event name</td>
+                                                            <td>name</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>Email</td>
+                                                            <td>email</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">3</th>
+                                                            <td>Alter Email</td>
+                                                            <td>alter_email</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">4</th>
+                                                            <td>Lead Address</td>
+                                                            <td>lead_address</td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">5</th>
+                                                            <td>Alter Lead Address</td>
+                                                            <td>alter_lead_address</td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">6</th>
+                                                            <td>Event Name</td>
+                                                            <td>eventname</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">7</th>
+                                                            <td>Relationship</td>
+                                                            <td>relationship</td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">8</th>
+                                                            <td>Alter Relationship</td>
+                                                            <td>alter_relationship</td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">9</th>
+                                                            <td>Phone Number</td>
+                                                            <td>phone</td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">10</th>
+                                                            <td>Alter Name</td>
+                                                            <td>alter_name</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">11</th>
+                                                            <td>Alter Phone Number</td>
+                                                            <td>alter_phone</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">12</th>
+                                                            <td>Company Name</td>
+                                                            <td>company_name</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">13</th>
+                                                            <td>Start Date</td>
+                                                            <td>start_date</td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">14</th>
+                                                            <td>End Date</td>
+                                                            <td>end_date</td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">15</th>
+                                                            <td>Start Time</td>
+                                                            <td>start_time</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">16</th>
+                                                            <td>End Time</td>
+                                                            <td>end_time</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">17</th>
+                                                            <td>Description</td>
+                                                            <td>description</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">18</th>
+                                                            <td>Guest Count</td>
+                                                            <td>guest_count</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">22</th>
+                                                            <td>Training Selection</td>
+                                                            <td>training_selection</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">23</th>
+                                                            <td>Special Request</td>
+                                                            <td>spcl_request</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">24</th>
+                                                            <td>Room</td>
+                                                            <td>room</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">27</th>
+                                                            <td>Type</td>
+                                                            <td>type</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">28</th>
+                                                            <td>Add Options </td>
+                                                            <td>ad_opts</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">29</th>
+                                                            <td>Total</td>
+                                                            <td>total</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">30</th>
+                                                            <td>Any allergy</td>
+                                                            <td>allergies</td>
+                                                        </tr>
+
+                                                        <!-- <tr>
+                                                            <th scope="row">33</th>
+                                                            <td>Setup Plans</td>
+                                                            <td>setup_plans</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">34</th>
+                                                            <td>Setup Description</td>
+                                                            <td>setup_description</td>
+                                                        </tr> -->
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
                                     <div id="company-email-setting" class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
@@ -4813,6 +5018,27 @@ unset($__errorArgs, $__bag); ?>
     </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        function updateOrganization() {
+        let organization_id = $("#organization_id").val();
+        if (organization_id == "") {
+            swal.fire("Invalid", "Please enter your Organization Id", "error");
+            return
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "<?= url('setting/update-organization-id') ?>",
+            data: {
+                _token: '<?php echo e(csrf_token()); ?>',
+                organization_id: organization_id,
+            },
+            success: function(response) {
+                console.log('response--', response)
+                let result = JSON.parse(response);
+                swal.fire("success", result.data, "success");
+            }
+        });
+    }
         function deleteImage(icon) {
             var parentDiv = icon.closest('div.col-6');
             var imageName = icon.getAttribute('data-image');
