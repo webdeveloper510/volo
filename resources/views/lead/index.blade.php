@@ -243,7 +243,6 @@ $token_value = $token_data['access_token'];
                                                         <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Opportunitie')}}"><i class="ti ti-edit"></i></a>
                                                     </div>                                                    
                                                     @endcan
-                                                    @can('Edit Opportunity')
                                                     @if($lead->is_contract_accepted != 1)
                                                     <div class="action-btn bg-info ms-2 cursor" onclick="setContractorDetails('<?= $contractor_name ?>' , '<?= $lead->id ?>')" data-toggle="modal" data-target="#myModal" data-title="{{ __('Share contract') }}">
                                                         <i class="ti ti-send"></i></a>
@@ -258,7 +257,6 @@ $token_value = $token_data['access_token'];
                                                             title="{{ __('Download Contract') }}" target="_blank"><i class="ti ti-download"></i></a>
                                                     </div>
                                                     @endif
-                                                    @endcan
 
                                                     @endif
                                                     @can('Delete Opportunity')
