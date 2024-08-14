@@ -524,7 +524,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                         <div class="faq justify-content-center">
                             <div class="col-sm-12 col-md-12 col-xxl-12">
                                 <div class="accordion accordion-flush setting setting-accordion1" id="accordionExample">
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
+                                    
                                     <div id="company-email-setting" class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -729,7 +729,7 @@ $base64Image = 'data:image/' . pathinfo($imagePath, PATHINFO_EXTENSION) . ';base
                                             </div>
                                         </div>
                                     </div>
-
+                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
                                     <div id="company-email-setting" class="accordion-item card">
                                         <h2 class="accordion-header" id="heading-2-15">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse16" aria-expanded="false" aria-controls="collapse16">
