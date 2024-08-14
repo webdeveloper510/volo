@@ -110,11 +110,31 @@ $token_value = $token_data['access_token'];
                                         <tbody>
                                             <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
+                                                
+
                                                 <td>
-                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-size="md" title="<?php echo e(__('Opportunities Details')); ?>" class="action-item text-primary" style="color:#1551c9 !important;">
-                                                        <b> <?php echo e(ucfirst($lead->opportunity_name)); ?></b>
+                                                    <?php $contractor_name = ""; ?>
+                                                    <?php if($meeting->attendees_lead != 0): ?>
+                                                    <?php $leaddata = \App\Models\Lead::where('id', $lead->attendees_lead)->first() ?>
+                                                    <?php if(isset($leaddata) && !empty($leaddata)): ?>
+                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($leaddata->id)))); ?>" data-size="md"
+                                                        data-title="<?php echo e(__('Event Details')); ?>"
+                                                        class="action-item text-primary"
+                                                        style=" color: #1551c9 !important;">
+                                                        <?php echo e(ucfirst($leaddata->leadname)); ?>
+
+                                                        <?php $contractor_name = ucfirst($leaddata->leadname); ?>
                                                     </a>
+                                                    <?php endif; ?>
+                                                    <?php else: ?>
+                                                    <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($lead->id)))); ?>"
+                                                        data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
+                                                        class="action-item text-primary" style=" color: #1551c9 !important;">
+                                                        <?php echo e(ucfirst($lead->eventname)); ?></a>
+                                                    <?php $contractor_name = ucfirst($lead->eventname); ?>
+                                                    <?php endif; ?>
                                                 </td>
+
                                                 <td><?php echo e(optional(\App\Models\User::find($lead->assigned_user))->name ?? ''); ?></td>
                                                 <td>
                                                     <span class="budget">
@@ -249,7 +269,7 @@ $token_value = $token_data['access_token'];
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Opportunity')): ?>
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Details')); ?>" data-title="<?php echo e(__('Edit Opportunitie')); ?>"><i class="ti ti-edit"></i></a>
-                                                    </div>                                                    
+                                                    </div>
                                                     <?php endif; ?>
                                                     <?php if($lead->is_contract_accepted != 1): ?>
                                                     <div class="action-btn bg-info ms-2 cursor" onclick="setContractorDetails('<?= $contractor_name ?>' , '<?= $lead->id ?>')" data-toggle="modal" data-target="#myModal" data-title="<?php echo e(__('Share contract')); ?>">
