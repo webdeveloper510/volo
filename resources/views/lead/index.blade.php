@@ -108,11 +108,34 @@ $token_value = $token_data['access_token'];
                                         <tbody>
                                             @foreach($leads as $lead)
                                             <tr>
-                                                <td>
+                                                {{--<td>
                                                     <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Opportunities Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
-                                                        <b> {{ ucfirst($lead->opportunity_name) }}</b>
+                                                <b> {{ ucfirst($lead->opportunity_name) }}</b>
+                                                </a>
+                                                </td>--}}
+
+                                                <td>
+                                                    <?php $contractor_name = ""; ?>
+                                                    @if($meeting->attendees_lead != 0)
+                                                    <?php $leaddata = \App\Models\Lead::where('id', $lead->attendees_lead)->first() ?>
+                                                    @if(isset($leaddata) && !empty($leaddata))
+                                                    <a href="{{ route('lead.info',urlencode(encrypt($leaddata->id)))}}" data-size="md"
+                                                        data-title="{{ __('Event Details') }}"
+                                                        class="action-item text-primary"
+                                                        style=" color: #1551c9 !important;">
+                                                        {{ucfirst($leaddata->leadname)}}
+                                                        <?php $contractor_name = ucfirst($leaddata->leadname); ?>
                                                     </a>
+                                                    @endif
+                                                    @else
+                                                    <a href="{{route('meeting.detailview',urlencode(encrypt($lead->id)))}}"
+                                                        data-size="md" title="{{ __('Detailed view ') }}"
+                                                        class="action-item text-primary" style=" color: #1551c9 !important;">
+                                                        {{ucfirst($lead->eventname)}}</a>
+                                                    <?php $contractor_name = ucfirst($lead->eventname); ?>
+                                                    @endif
                                                 </td>
+
                                                 <td>{{ optional(\App\Models\User::find($lead->assigned_user))->name ?? '' }}</td>
                                                 <td>
                                                     <span class="budget">
@@ -241,7 +264,7 @@ $token_value = $token_data['access_token'];
                                                     @can('Edit Opportunity')
                                                     <div class="action-btn bg-info ms-2">
                                                         <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Opportunitie')}}"><i class="ti ti-edit"></i></a>
-                                                    </div>                                                    
+                                                    </div>
                                                     @endcan
                                                     @if($lead->is_contract_accepted != 1)
                                                     <div class="action-btn bg-info ms-2 cursor" onclick="setContractorDetails('<?= $contractor_name ?>' , '<?= $lead->id ?>')" data-toggle="modal" data-target="#myModal" data-title="{{ __('Share contract') }}">
