@@ -116,7 +116,7 @@ $token_value = $token_data['access_token'];
 
                                                 <td>
                                                     <?php $contractor_name = ""; ?>
-                                                    @if($meeting->attendees_lead != 0)
+                                                    @if($lead->attendees_lead != 0)
                                                     <?php $leaddata = \App\Models\Lead::where('id', $lead->attendees_lead)->first() ?>
                                                     @if(isset($leaddata) && !empty($leaddata))
                                                     <a href="{{ route('lead.info',urlencode(encrypt($leaddata->id)))}}" data-size="md"
