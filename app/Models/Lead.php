@@ -57,6 +57,7 @@ class Lead extends Model
         'systems_integrations',
         'subscriptions',
         'tech_deployment_volume_based',
+        'deleted_at'
     ];
 
 

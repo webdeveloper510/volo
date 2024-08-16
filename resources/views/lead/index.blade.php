@@ -107,6 +107,15 @@ $token_value = $token_data['access_token'];
                                         </thead>
                                         <tbody>
                                             @foreach($leads as $lead)
+                                            @php
+                                            $company_name = '';
+                                            if ($lead->user_id != 0) {
+                                            $importUser = \App\Models\UserImport::find($lead->user_id);
+                                            $company_name = $importUser ? $importUser->company_name : '-';
+                                            } else {
+                                            $company_name = $lead->company_name;
+                                            }
+                                            @endphp
                                             <tr>
                                                 {{--<td>
                                                     <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Opportunities Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
@@ -115,6 +124,10 @@ $token_value = $token_data['access_token'];
                                                 </td>--}}
 
                                                 <td>
+                                                    <b>{{ ucfirst($company_name) }}</b>
+                                                </td>
+
+                                                <!-- <td>
                                                     <?php $contractor_name = ""; ?>
                                                     @if($lead->attendees_lead != 0)
                                                     <?php $leaddata = \App\Models\Lead::where('id', $lead->attendees_lead)->first() ?>
@@ -134,7 +147,7 @@ $token_value = $token_data['access_token'];
                                                         {{ucfirst($lead->eventname)}}</a>
                                                     <?php $contractor_name = ucfirst($lead->eventname); ?>
                                                     @endif
-                                                </td>
+                                                </td> -->
 
                                                 <td>{{ optional(\App\Models\User::find($lead->assigned_user))->name ?? '' }}</td>
                                                 <td>
@@ -283,13 +296,23 @@ $token_value = $token_data['access_token'];
 
                                                     @endif
                                                     @can('Delete Opportunity')
-                                                    <div class="action-btn bg-danger ms-2">
+                                                    <!-- <div class="action-btn bg-danger ms-2">
                                                         {!! Form::open(['method' => 'DELETE', 'route' =>
                                                         ['lead.destroy', $lead->id]]) !!}
                                                         <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
                                                             <i class="ti ti-trash"></i>
                                                         </a>
                                                         {!! Form::close() !!}
+                                                    </div> -->
+                                                    <div class="action-btn bg-danger ms-2">
+                                                        <a href="javascript:void(0);"
+                                                            class="mx-3 btn btn-sm align-items-center text-white show_confirm"
+                                                            data-url="{{ route('lead.destroy', $lead->id) }}"
+                                                            data-token="{{ csrf_token() }}"
+                                                            data-bs-toggle="tooltip"
+                                                            title='Delete'>
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
                                                     </div>
                                                     @endcan
                                                 </td>

@@ -47,6 +47,11 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
                 <?php endif; ?>
                 <?php if(\Request::route()->getName() == 'settings'): ?>
+                <a href="#company-email-setting" class="list-group-item list-group-item-action" data-id="collapse_01"
+                    onclick="showAccordion('collapse_01')">
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-file-invoice"></i></span>
+                    <span class="dash-mtext"><?php echo e(__('Contract Settings')); ?></span>
+                </a>
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Email')): ?>
                 <a href="#company-email-setting" class="list-group-item list-group-item-action" data-id="collapse16" onclick="showAccordion('collapse16')">
                     <span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope"></i></span>

@@ -538,10 +538,23 @@ class LeadController extends Controller
     public function destroy(Lead $lead)
     {
         if (\Auth::user()->can('Delete Opportunity')) {
-            $lead->delete();
-            return redirect()->back()->with('success', __('Opportunity  Deleted.'));
+            try {
+                $lead->delete();
+                return response()->json([
+                    'success' => true,
+                    'msg' => 'Opportunity Deleted.'
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'Failed to delete the opportunity.'
+                ]);
+            }
         } else {
-            return redirect()->back()->with('error', 'permission Denied');
+            return response()->json([
+                'success' => false,
+                'msg' => 'Permission Denied'
+            ]);
         }
     }
 

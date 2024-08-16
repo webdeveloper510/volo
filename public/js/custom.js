@@ -82,12 +82,11 @@ $(document).ready(function () {
                             success: function (result) {
                                 console.log(result);
                                 console.log(result.msg);
-                                console.log(`new log`);
-                                if (result.success == true) {
-                                    swal.fire("Done!", result.msg, "success");
+                                if (result.success) {
+                                    Swal.fire("Done!", result.msg, "success");
                                     parentTR.remove();
                                 } else {
-                                    swal.fire("Error!", result.msg, "error");
+                                    Swal.fire("Error!", result.msg, "error");
                                 }
                             },
                         });
