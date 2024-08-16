@@ -45,55 +45,55 @@ $(document).ready(function () {
             $(this).addClass("text-primary");
         });
     });
-    // $(function () {
-    $(document).on("click", ".show_confirm", function (event) {
-        event.preventDefault();
-        console.log("testing");
-        var parentTR = $(this).closest("tr");
-        // var form = $(this).closest("form");
-        var url = $(this).data("url");
-        var token = $(this).data("token");
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger",
-            },
-            buttonsStyling: false,
-        });
-        swalWithBootstrapButtons
-            .fire({
-                title: "Are you sure?",
-                text: "This action can not be undone. Do you want to continue?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes",
-                cancelButtonText: "No",
-                reverseButtons: true,
-            })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    // form.submit();
-                    $.ajax({
-                        type: "DELETE",
-                        url: url,
-                        data: {
-                            _token: token,
-                        },
-                        success: function (result) {
-                            console.log(result);
-                            console.log(result.msg);
-                            if (result.success) {
-                                Swal.fire("Done!", result.msg, "success");
-                                parentTR.remove();
-                            } else {
-                                Swal.fire("Error!", result.msg, "error");
-                            }
-                        },
-                    });
-                }
+    $(function () {
+        $(document).on("click", ".show_confirm", function (event) {
+            event.preventDefault();
+            console.log("testing");
+            var parentTR = $(this).closest("tr");
+            // var form = $(this).closest("form");
+            var url = $(this).data("url");
+            var token = $(this).data("token");
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger",
+                },
+                buttonsStyling: false,
             });
+            swalWithBootstrapButtons
+                .fire({
+                    title: "Are you sure?",
+                    text: "This action can not be undone. Do you want to continue?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    reverseButtons: true,
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        // form.submit();
+                        $.ajax({
+                            type: "DELETE",
+                            url: url,
+                            data: {
+                                _token: token,
+                            },
+                            success: function (result) {
+                                console.log(result);
+                                console.log(result.msg);
+                                if (result.success) {
+                                    Swal.fire("Done!", result.msg, "success");
+                                    parentTR.remove();
+                                } else {
+                                    Swal.fire("Error!", result.msg, "error");
+                                }
+                            },
+                        });
+                    }
+                });
+        });
     });
-    // });
     $(".event_show_confirm").click(function (event) {
         event.preventDefault();
         var parentSpan = $(this).closest("span.badge");

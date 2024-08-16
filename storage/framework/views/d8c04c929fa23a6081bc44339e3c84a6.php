@@ -313,7 +313,7 @@ $token_value = $token_data['access_token'];
                                                     </div> -->
                                                     <div class="action-btn bg-danger ms-2">
                                                         <a href="javascript:void(0);"
-                                                            class="mx-3 btn btn-sm align-items-center text-white show_confirm"
+                                                            class="mx-3 btn btn-sm align-items-center text-white show_lead_confirm"
                                                             data-url="<?php echo e(route('lead.destroy', $lead->id)); ?>"
                                                             data-token="<?php echo e(csrf_token()); ?>"
                                                             data-bs-toggle="tooltip"
@@ -935,5 +935,61 @@ $token_value = $token_data['access_token'];
         }
     });
 </script> -->
+
+<script>
+    $(document).ready(function() {
+        // Use event delegation for dynamically added elements
+        $(document).on("click", ".show_lead_confirm", function(event) {
+            event.preventDefault();
+            console.log("testing");
+
+            var parentTR = $(this).closest("tr");
+            var url = $(this).data("url");
+            var token = $(this).data("token");
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger",
+                },
+                buttonsStyling: false,
+            });
+
+            swalWithBootstrapButtons
+                .fire({
+                    title: "Are you sure?",
+                    text: "This action can not be undone. Do you want to continue?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    reverseButtons: true,
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: url,
+                            data: {
+                                _token: token,
+                            },
+                            success: function(result) {
+                                console.log(result);
+                                if (result.success) {
+                                    Swal.fire("Done!", result.msg, "success");
+                                    parentTR.remove();
+                                } else {
+                                    Swal.fire("Error!", result.msg, "error");
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire("Error!", "An error occurred: " + xhr.responseText, "error");
+                            }
+                        });
+                    }
+                });
+        });
+    });
+</script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/index.blade.php ENDPATH**/ ?>
