@@ -49,7 +49,6 @@ $(document).ready(function () {
         $(document).on("click", ".show_confirm", function (event) {
             event.preventDefault();
             console.log("testing");
-
             event.preventDefault();
             var parentTR = $(this).closest("tr");
             // var form = $(this).closest("form");
