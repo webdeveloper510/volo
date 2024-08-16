@@ -46,8 +46,10 @@ $(document).ready(function () {
         });
     });
     $(function () {
-        // $(document).on("click", ".show_confirm", function () {
-        $(".show_confirm").click(function (event) {
+        $(document).on("click", ".show_confirm", function (event) {
+            event.preventDefault();
+            // console.log("here");
+
             event.preventDefault();
             var parentTR = $(this).closest("tr");
             // var form = $(this).closest("form");
