@@ -159,13 +159,27 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             {{Form::text('lead_name',$lead->opportunity_name,array('class'=>'form-control','placeholder'=>__('Enter Opportunitie Name'),'required'=>'required'))}}
                                         </div>
                                     </div>
-                                    <div class="col-6 need_full">
+                                    <!-- <div class="col-6 need_full">
                                         <div class="form-group">
                                             {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
                                             {{Form::text('client_name',$client_name,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
+                                        </div>
+                                    </div> -->
+                                    <div class="col-6 need_full">
+                                        <div class="form-group">
+                                            {{ Form::label('client_name', __('Company Name'), ['class' => 'form-label']) }}
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
+                                            <select name="client_name" class="form-control" onchange="getExistingUser(this)">
+                                                <option value="" disabled selected>Select Company</option>
+                                                @foreach($clients as $client)
+                                                <option value="{{ $client->id }}">{{ $client->company_name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -1082,5 +1096,36 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
 
         $('#formdata').submit();
     });
+</script>
+<script>
+    function getExistingUser(element) {
+        var existing_client_id = $(element).val();
+
+        if (!existing_client_id) return;
+
+        $.ajax({
+            url: "{{ route('getcontactinfo') }}",
+            type: 'POST',
+            data: {
+                "clientId": existing_client_id,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(data) {
+                $('input[name="primary_name"]').val(data[0].primary_name);
+                $('input[name="primary_phone_number"]').val(data[0].primary_phone_number);
+                $('input[name="primary_email"]').val(data[0].primary_email);
+                $('input[name="primary_address"]').val(data[0].primary_address);
+                $('input[name="primary_organization"]').val(data[0].primary_organization);
+
+                $('input[name="secondary_name"]').val(data[0].secondary_name);
+                $('input[name="secondary_phone_number"]').val(data[0].secondary_phone_number);
+                $('input[name="secondary_email"]').val(data[0].secondary_email);
+                $('input[name="secondary_address"]').val(data[0].secondary_address);
+                $('input[name="secondary_designation"]').val(data[0].secondary_designation);
+
+                $('input[name="existing_region"]').val(data[0].region);
+            }
+        });
+    }
 </script>
 @endpush

@@ -395,6 +395,7 @@ class LeadController extends Controller
         if (\Auth::user()->can('Edit Opportunity')) {
             $venue_function = explode(',', $lead->venue_selection);
             $function_package =  explode(',', $lead->function);
+            $clients = UserImport::all();
             $status   = Lead::$status;
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();
 
@@ -424,7 +425,7 @@ class LeadController extends Controller
             // print_r($lead);
             // die;
 
-            return view('lead.edit', compact('venue_function', 'function_package', 'lead', 'users', 'status', 'client_name'));
+            return view('lead.edit', compact('clients', 'venue_function', 'function_package', 'lead', 'users', 'status', 'client_name'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

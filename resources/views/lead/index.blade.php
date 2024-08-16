@@ -242,7 +242,7 @@ $token_value = $token_data['access_token'];
 
                                                     @if($lead->status >= 2 && $userRoleName != 'restricted')
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunities')}}">
+                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunity')}}">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
                                                     @endif
@@ -268,7 +268,7 @@ $token_value = $token_data['access_token'];
                                                             data-ajax-popup="true" data-title="{{__('Lead Details')}}"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i> -->
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Opportunities Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>
@@ -276,7 +276,7 @@ $token_value = $token_data['access_token'];
                                                     @if($lead->status == 0)
                                                     @can('Edit Opportunity')
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Details')}}" data-title="{{__('Edit Opportunitie')}}"><i class="ti ti-edit"></i></a>
+                                                        <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Edit')}}" data-title="{{__('Edit Opportunity')}}"><i class="ti ti-edit"></i></a>
                                                     </div>
                                                     @endcan
                                                     @if($lead->is_contract_accepted != 1)
