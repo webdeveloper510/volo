@@ -1099,6 +1099,8 @@ class LeadController extends Controller
 
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
+        $clients = UserImport::all();
+
         if ($lead) {
             $import_user = UserImport::where('id', $lead->user_id)->first();
             if ($import_user) {
@@ -1132,7 +1134,7 @@ class LeadController extends Controller
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
         $users     = User::where('created_by', \Auth::user()->creatorId())->get();
-        return view('lead.review_proposal', compact('lead', 'venue_function', 'function_package', 'users', 'status', 'client_name'));
+        return view('lead.review_proposal', compact('clients', 'lead', 'venue_function', 'function_package', 'users', 'status', 'client_name'));
     }
     public function review_proposal_data(Request $request, $id)
     {
