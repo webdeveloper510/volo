@@ -146,26 +146,40 @@ Route::any('/all-data', [DashboardController::class, 'get_data'])->middleware(
     ]
 );
 
-Route::get('payment-view/{id}', [BillingController::class, 'payviamode'])->name('payviamode');
-Route::get('/stripe/billing/payment/{meeting}', [BillingController::class, 'stripe_payment_view'])->name('billing.payview');
-Route::get('/paypal/billing/payment/{meeting}', [BillingController::class, 'paypal_payment_view'])->name('billing.payview');
 
-// UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   <
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('payment-view/{id}', [BillingController::class, 'payviamode'])->name('payviamode');
+        Route::get('/stripe/billing/payment/{meeting}', [BillingController::class, 'stripe_payment_view'])->name('billing.payview');
+        Route::get('/paypal/billing/payment/{meeting}', [BillingController::class, 'paypal_payment_view'])->name('billing.payview');
 
-Route::get('/meeting-upcoming', [DashboardController::class, 'upcomingevents']);
-Route::get('/meeting-completed', [DashboardController::class, 'completedevents']);
+        // UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   <
 
-// UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   >
-Route::post('lead/change_proposal_status/', [LeadController::class, 'propstatus'])->name('lead.changeproposalstat');
-Route::get('lead/proposal-signed/{id}', [LeadController::class, 'proposalview'])->name('lead.signedproposal');
-Route::get('lead/nda-signed/{id}', [LeadController::class, 'ndaview'])->name('lead.signednda');
-Route::get('billing/get-payment-link/{id}', [BillingController::class, 'getpaymentlink'])->name('billing.getpaymentlink');
-Route::post('billing/share-payment-link/{id}', [BillingController::class, 'sharepaymentlink'])->name('billing.sharepaymentlink');
+        Route::get('/meeting-upcoming', [DashboardController::class, 'upcomingevents']);
+        Route::get('/meeting-completed', [DashboardController::class, 'completedevents']);
 
-Route::post('lead/proposal-signed/{id}', [LeadController::class, 'proposal_resp'])->name('lead.proposalresponse');
-Route::post('lead/nda-signed/{id}', [LeadController::class, 'nda_resp'])->name('lead.ndaresponse');
-Route::get('event/signed-agreement/{id}', [MeetingController::class, 'signedagreementview'])->name('meeting.signedagreement');
-Route::post('event/signed-agreement/{id}', [MeetingController::class, 'signedagreementresponse'])->name('meeting.signedagreementresp');
+        // UPCOMING EVENTS AND COMPLETED EVENTS ROUTES //   >
+        Route::post('lead/change_proposal_status/', [LeadController::class, 'propstatus'])->name('lead.changeproposalstat');
+        Route::get('lead/proposal-signed/{id}', [LeadController::class, 'proposalview'])->name('lead.signedproposal');
+        Route::get('lead/nda-signed/{id}', [LeadController::class, 'ndaview'])->name('lead.signednda');
+        Route::get('billing/get-payment-link/{id}', [BillingController::class, 'getpaymentlink'])->name('billing.getpaymentlink');
+        Route::post('billing/share-payment-link/{id}', [BillingController::class, 'sharepaymentlink'])->name('billing.sharepaymentlink');
+
+        Route::post('lead/proposal-signed/{id}', [LeadController::class, 'proposal_resp'])->name('lead.proposalresponse');
+        Route::post('lead/nda-signed/{id}', [LeadController::class, 'nda_resp'])->name('lead.ndaresponse');
+        Route::get('event/signed-agreement/{id}', [MeetingController::class, 'signedagreementview'])->name('meeting.signedagreement');
+        Route::post('event/signed-agreement/{id}', [MeetingController::class, 'signedagreementresponse'])->name('meeting.signedagreementresp');
+    }
+);
+
+
+
 Route::resource('plan', PlanController::class)->middleware(['XSS']);
 Route::get('quote/pdf/{id}', [QuoteController::class, 'pdf'])->name('quote.pdf')->middleware(['XSS']);
 Route::get('salesorder/pdf/{id}', [SalesOrderController::class, 'pdf'])->name('salesorder.pdf')->middleware(['XSS']);
@@ -185,109 +199,131 @@ Route::post('/form_field_store/{id}', [FormBuilderController::class, 'bindStore'
 );
 // language
 Route::post('disable-language', [LanguageController::class, 'disableLang'])->name('disablelanguage')->middleware(['auth', 'XSS']);
+
+
 //chatgpt
-Route::post('chatgptkey', [SettingController::class, 'chatgptkey'])->name('settings.chatgptkey');
-Route::get('generate/{template_name}', [AiTemplateController::class, 'create'])->name('generate');
-Route::post('generate/keywords/{id}', [AiTemplateController::class, 'getKeywords'])->name('generate.keywords');
-Route::post('generate/response', [AiTemplateController::class, 'AiGenerate'])->name('generate.response');
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::post('chatgptkey', [SettingController::class, 'chatgptkey'])->name('settings.chatgptkey');
+        Route::get('generate/{template_name}', [AiTemplateController::class, 'create'])->name('generate');
+        Route::post('generate/keywords/{id}', [AiTemplateController::class, 'getKeywords'])->name('generate.keywords');
+        Route::post('generate/response', [AiTemplateController::class, 'AiGenerate'])->name('generate.response');
 
-//gramer
-Route::get('grammar/{template}', [AiTemplateController::class, 'grammar'])->name('grammar');
-Route::post('grammar/response', [AiTemplateController::class, 'grammarProcess'])->name('grammar.response');
-
+        //gramer
+        Route::get('grammar/{template}', [AiTemplateController::class, 'grammar'])->name('grammar');
+        Route::post('grammar/response', [AiTemplateController::class, 'grammarProcess'])->name('grammar.response');
+    }
+);
 
 Route::get('invoice/pdf/{id}', [InvoiceController::class, 'pdf'])->name('invoice.pdf')->middleware(['XSS']);
-Route::get('/invoice/pay/{invoice}', [InvoiceController::class, 'payinvoice'])->name('pay.invoice');
-//================================= Invoice Payment Gateways  ====================================//
-Route::any('/pay-with-bank', [BankTransferController::class, 'invoicePayWithbank'])->name('invoice.pay.with.bank');
-Route::get('bankpayment/show/{id}', [BankTransferController::class, 'bankpaymentshow'])->name('bankpayment.show');
+
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('/invoice/pay/{invoice}', [InvoiceController::class, 'payinvoice'])->name('pay.invoice');
+        //================================= Invoice Payment Gateways  ====================================//
+        Route::any('/pay-with-bank', [BankTransferController::class, 'invoicePayWithbank'])->name('invoice.pay.with.bank');
+        Route::get('bankpayment/show/{id}', [BankTransferController::class, 'bankpaymentshow'])->name('bankpayment.show');
 
 
-Route::post('/invoices/{id}/payment', [InvoiceController::class, 'addPayment'])->name('client.invoice.payment');
-Route::post('/{id}/pay-with-paypal', [PaypalController::class, 'clientPayWithPaypal'])->name('client.pay.with.paypal');
-Route::get('/{id}/{amount}/get-payment-status', [PaypalController::class, 'clientGetPaymentStatus'])->name('client.get.payment.status');
+        Route::post('/invoices/{id}/payment', [InvoiceController::class, 'addPayment'])->name('client.invoice.payment');
+        Route::post('/{id}/pay-with-paypal', [PaypalController::class, 'clientPayWithPaypal'])->name('client.pay.with.paypal');
+        Route::get('/{id}/{amount}/get-payment-status', [PaypalController::class, 'clientGetPaymentStatus'])->name('client.get.payment.status');
 
-Route::get('/stripe-payment-status', [StripePaymentController::class, 'planGetStripePaymentStatus'])->name('stripe.payment.status');
+        Route::get('/stripe-payment-status', [StripePaymentController::class, 'planGetStripePaymentStatus'])->name('stripe.payment.status');
 
-Route::post('/invoice-pay-with-paystack', [PaystackPaymentController::class, 'invoicePayWithPaystack'])->name('invoice.pay.with.paystack');
-Route::get('/invoice/paystack/{pay_id}/{invoice_id}', [PaystackPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.paystack');
+        Route::post('/invoice-pay-with-paystack', [PaystackPaymentController::class, 'invoicePayWithPaystack'])->name('invoice.pay.with.paystack');
+        Route::get('/invoice/paystack/{pay_id}/{invoice_id}', [PaystackPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.paystack');
 
-Route::post('/invoice-pay-with-flaterwave', [FlutterwavePaymentController::class, 'invoicePayWithFlutterwave'])->name('invoice.pay.with.flaterwave');
-Route::get('/invoice/flaterwave/{txref}/{invoice_id}', [FlutterwavePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.flaterwave');
+        Route::post('/invoice-pay-with-flaterwave', [FlutterwavePaymentController::class, 'invoicePayWithFlutterwave'])->name('invoice.pay.with.flaterwave');
+        Route::get('/invoice/flaterwave/{txref}/{invoice_id}', [FlutterwavePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.flaterwave');
 
-Route::post('/invoice-pay-with-razorpay', [RazorpayPaymentController::class, 'invoicePayWithRazorpay'])->name('invoice.pay.with.razorpay');
-Route::get('/invoice/razorpay/{txref}/{invoice_id}', [RazorpayPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.razorpay');
+        Route::post('/invoice-pay-with-razorpay', [RazorpayPaymentController::class, 'invoicePayWithRazorpay'])->name('invoice.pay.with.razorpay');
+        Route::get('/invoice/razorpay/{txref}/{invoice_id}', [RazorpayPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.razorpay');
 
-Route::post('/invoice-pay-with-paytm', [PaytmPaymentController::class, 'invoicePayWithPaytm'])->name('invoice.pay.with.paytm');
-Route::post('/invoice/paytm/{invoice}', [PaytmPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.paytm');
+        Route::post('/invoice-pay-with-paytm', [PaytmPaymentController::class, 'invoicePayWithPaytm'])->name('invoice.pay.with.paytm');
+        Route::post('/invoice/paytm/{invoice}', [PaytmPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.paytm');
 
-Route::post('/invoice-pay-with-mercado', [MercadoPaymentController::class, 'invoicePayWithMercado'])->name('invoice.pay.with.mercado');
-Route::get('/invoice/mercado/{invoice}', [MercadoPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.mercado');
+        Route::post('/invoice-pay-with-mercado', [MercadoPaymentController::class, 'invoicePayWithMercado'])->name('invoice.pay.with.mercado');
+        Route::get('/invoice/mercado/{invoice}', [MercadoPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.mercado');
 
-Route::post('/invoice-pay-with-mollie', [MolliePaymentController::class, 'invoicePayWithMollie'])->name('invoice.pay.with.mollie');
-Route::get('/invoice/mollie/{invoice}', [MolliePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.mollie');
+        Route::post('/invoice-pay-with-mollie', [MolliePaymentController::class, 'invoicePayWithMollie'])->name('invoice.pay.with.mollie');
+        Route::get('/invoice/mollie/{invoice}', [MolliePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.mollie');
 
-Route::post('/invoice-pay-with-skrill', [SkrillPaymentController::class, 'invoicePayWithSkrill'])->name('invoice.pay.with.skrill');
-Route::get('/invoice/skrill/{invoice}', [SkrillPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.skrill');
+        Route::post('/invoice-pay-with-skrill', [SkrillPaymentController::class, 'invoicePayWithSkrill'])->name('invoice.pay.with.skrill');
+        Route::get('/invoice/skrill/{invoice}', [SkrillPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.skrill');
 
-Route::post('/invoice-pay-with-coingate', [CoingatePaymentController::class, 'invoicePayWithCoingate'])->name('invoice.pay.with.coingate');
-Route::get('/invoice/coingate/{invoice}', [CoingatePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.coingate');
+        Route::post('/invoice-pay-with-coingate', [CoingatePaymentController::class, 'invoicePayWithCoingate'])->name('invoice.pay.with.coingate');
+        Route::get('/invoice/coingate/{invoice}', [CoingatePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.coingate');
 
-Route::post('/invoice-pay-with-stripe', [StripePaymentController::class, 'invoicePayWithStripe'])->name('invoice.pay.with.stripe');
-Route::get('/invoice/stripe/{invoice_id}', [StripePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.stripe');
+        Route::post('/invoice-pay-with-stripe', [StripePaymentController::class, 'invoicePayWithStripe'])->name('invoice.pay.with.stripe');
+        Route::get('/invoice/stripe/{invoice_id}', [StripePaymentController::class, 'getInvociePaymentStatus'])->name('invoice.stripe');
 
-Route::post('/invoice-with-toyyibpay', [ToyyibpayController::class, 'invoicepaywithtoyyibpay'])->name('invoice.with.toyyibpay');
-Route::get('/invoice-toyyibpay-status/{amount}/{invoice_id}', [ToyyibpayController::class, 'invoicetoyyibpaystatus'])->name('invoice.toyyibpay.status');
+        Route::post('/invoice-with-toyyibpay', [ToyyibpayController::class, 'invoicepaywithtoyyibpay'])->name('invoice.with.toyyibpay');
+        Route::get('/invoice-toyyibpay-status/{amount}/{invoice_id}', [ToyyibpayController::class, 'invoicetoyyibpaystatus'])->name('invoice.toyyibpay.status');
 
-Route::post('/invoice-with-payfast', [PayfastController::class, 'invoicepaywithpayfast'])->name('invoice.with.payfast');
-Route::get('/invoice-payfast-status/{invoice_id}', [PayfastController::class, 'invoicepayfaststatus'])->name('invoice.payfast.status');
+        Route::post('/invoice-with-payfast', [PayfastController::class, 'invoicepaywithpayfast'])->name('invoice.with.payfast');
+        Route::get('/invoice-payfast-status/{invoice_id}', [PayfastController::class, 'invoicepayfaststatus'])->name('invoice.payfast.status');
 
-Route::post('/invoice-with-iyzipay', [IyziPayController::class, 'invoicepaywithiyzipay'])->name('invoice.with.iyzipay');
-Route::post('/invoice-iyzipay-status/{amount}/{invoice_id}', [IyziPayController::class, 'invoiceiyzipaystatus'])->name('invoice.iyzipay.status');
+        Route::post('/invoice-with-iyzipay', [IyziPayController::class, 'invoicepaywithiyzipay'])->name('invoice.with.iyzipay');
+        Route::post('/invoice-iyzipay-status/{amount}/{invoice_id}', [IyziPayController::class, 'invoiceiyzipaystatus'])->name('invoice.iyzipay.status');
 
-Route::get('/invoice/error/{flag}/{invoice_id}', [PaymentWallController::class, 'invoiceerror'])->name('error.invoice.show');
-Route::post('/invoicepayment', [PaymentWallController::class, 'invoicepay'])->name('paymentwall.invoice');
-Route::post('/invoice-pay-with-paymentwall/{invoice}', [PaymentWallController::class, 'invoicePayWithPaymentWall'])->name('invoice-pay-with-paymentwall');
+        Route::get('/invoice/error/{flag}/{invoice_id}', [PaymentWallController::class, 'invoiceerror'])->name('error.invoice.show');
+        Route::post('/invoicepayment', [PaymentWallController::class, 'invoicepay'])->name('paymentwall.invoice');
+        Route::post('/invoice-pay-with-paymentwall/{invoice}', [PaymentWallController::class, 'invoicePayWithPaymentWall'])->name('invoice-pay-with-paymentwall');
 
-Route::post('/customer-pay-with-sspay', [SspayController::class, 'invoicepaywithsspaypay'])->name('customer.pay.with.sspay');
-Route::get('/customer/sspay/{invoice}/{amount}', [SspayController::class, 'getInvoicePaymentStatus'])->name('customer.sspay');
+        Route::post('/customer-pay-with-sspay', [SspayController::class, 'invoicepaywithsspaypay'])->name('customer.pay.with.sspay');
+        Route::get('/customer/sspay/{invoice}/{amount}', [SspayController::class, 'getInvoicePaymentStatus'])->name('customer.sspay');
 
-Route::post('invoice-with-paytab/', [PaytabController::class, 'invoicePayWithpaytab'])->name('pay.with.paytab');
-Route::any('invoice-paytab-status/{invoice}/{amount}', [PaytabController::class, 'PaytabGetPaymentCallback'])->name('invoice.paytab.status');
+        Route::post('invoice-with-paytab/', [PaytabController::class, 'invoicePayWithpaytab'])->name('pay.with.paytab');
+        Route::any('invoice-paytab-status/{invoice}/{amount}', [PaytabController::class, 'PaytabGetPaymentCallback'])->name('invoice.paytab.status');
 
-Route::post('invoice-with-benefit/', [BenefitPaymentController::class, 'invoicePayWithbenefit'])->name('pay.with.benefit');
-Route::any('invoice-benefit-status/{invoice_id}/{amount}', [BenefitPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.benefit.status');
+        Route::post('invoice-with-benefit/', [BenefitPaymentController::class, 'invoicePayWithbenefit'])->name('pay.with.benefit');
+        Route::any('invoice-benefit-status/{invoice_id}/{amount}', [BenefitPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.benefit.status');
 
-Route::post('invoice-with-cashfree/', [CashfreeController::class, 'invoicePayWithcashfree'])->name('invoice.with.cashfree');
-Route::any('invoice-cashfree-status/', [CashfreeController::class, 'getInvociePaymentStatus'])->name('invoice.cashfree.status');
+        Route::post('invoice-with-cashfree/', [CashfreeController::class, 'invoicePayWithcashfree'])->name('invoice.with.cashfree');
+        Route::any('invoice-cashfree-status/', [CashfreeController::class, 'getInvociePaymentStatus'])->name('invoice.cashfree.status');
 
-Route::post('invoice-with-aamarpay/', [AamarpayController::class, 'invoicePayWithaamarpay'])->name('pay.with.aamarpay');
-Route::any('invoice-aamarpay-status/{data}', [AamarpayController::class, 'getInvociePaymentStatus'])->name('invoice.aamarpay.status');
+        Route::post('invoice-with-aamarpay/', [AamarpayController::class, 'invoicePayWithaamarpay'])->name('pay.with.aamarpay');
+        Route::any('invoice-aamarpay-status/{data}', [AamarpayController::class, 'getInvociePaymentStatus'])->name('invoice.aamarpay.status');
 
-Route::post('invoice-with-paytr/', [PaytrController::class, 'invoicePayWithpaytr'])->name('invoice.with.paytr');
-Route::any('invoice-paytr-status/', [PaytrController::class, 'getInvociePaymentStatus'])->name('invoice.paytr.status');
+        Route::post('invoice-with-paytr/', [PaytrController::class, 'invoicePayWithpaytr'])->name('invoice.with.paytr');
+        Route::any('invoice-paytr-status/', [PaytrController::class, 'getInvociePaymentStatus'])->name('invoice.paytr.status');
 
-Route::post('invoice-with-yookassa/', [YooKassaController::class, 'invoicePayWithYookassa'])->name('invoice.with.yookassa');
-Route::any('invoice-yookassa-status/', [YooKassaController::class, 'getInvociePaymentStatus'])->name('invoice.yookassa.status');
+        Route::post('invoice-with-yookassa/', [YooKassaController::class, 'invoicePayWithYookassa'])->name('invoice.with.yookassa');
+        Route::any('invoice-yookassa-status/', [YooKassaController::class, 'getInvociePaymentStatus'])->name('invoice.yookassa.status');
 
-Route::any('invoice-with-midtrans/', [MidtransController::class, 'invoicePayWithMidtrans'])->name('invoice.with.midtrans');
-Route::any('invoice-midtrans-status/', [MidtransController::class, 'getInvociePaymentStatus'])->name('invoice.midtrans.status');
+        Route::any('invoice-with-midtrans/', [MidtransController::class, 'invoicePayWithMidtrans'])->name('invoice.with.midtrans');
+        Route::any('invoice-midtrans-status/', [MidtransController::class, 'getInvociePaymentStatus'])->name('invoice.midtrans.status');
 
-Route::any('/invoice-with-xendit', [XenditPaymentController::class, 'invoicePayWithXendit'])->name('invoice.with.xendit');
-Route::any('/invoice-xendit-status', [XenditPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.xendit.status');
+        Route::any('/invoice-with-xendit', [XenditPaymentController::class, 'invoicePayWithXendit'])->name('invoice.with.xendit');
+        Route::any('/invoice-xendit-status', [XenditPaymentController::class, 'getInvociePaymentStatus'])->name('invoice.xendit.status');
 
-// Route::post('invoice-payhere-payment', [PayHereController::class, 'invoicePayWithPayHere'])->name('invoice.with.payhere');
-// Route::get('/invoice-payhere-status', [PayHereController::class, 'invoiceGetPayHereStatus'])->name('invoice.payhere.status');
-//  *************************** end invoice payment ****************************
+        // Route::post('invoice-payhere-payment', [PayHereController::class, 'invoicePayWithPayHere'])->name('invoice.with.payhere');
+        // Route::get('/invoice-payhere-status', [PayHereController::class, 'invoiceGetPayHereStatus'])->name('invoice.payhere.status');
+        //  *************************** end invoice payment ****************************
 
 
-Route::get('/invoice/export', [InvoiceController::class, 'fileExport'])->name('invoice.export');
+        Route::get('/invoice/export', [InvoiceController::class, 'fileExport'])->name('invoice.export');
 
-Route::get('/salesorder/pay/{salesorder}', [SalesOrderController::class, 'paysalesorder'])->name('pay.salesorder');
-Route::get('/quote/pay/{quote}', [QuoteController::class, 'payquote'])->name('pay.quote');
+        Route::get('/salesorder/pay/{salesorder}', [SalesOrderController::class, 'paysalesorder'])->name('pay.salesorder');
+        Route::get('/quote/pay/{quote}', [QuoteController::class, 'payquote'])->name('pay.quote');
 
-Route::get('quote/export', [QuoteController::class, 'fileExport'])->name('quote.export');
-Route::get('invoice/pay/pdf/{id}', [InvoiceController::class, 'pdffrominvoice'])->name('invoice.download.pdf');
+        Route::get('quote/export', [QuoteController::class, 'fileExport'])->name('quote.export');
+        Route::get('invoice/pay/pdf/{id}', [InvoiceController::class, 'pdffrominvoice'])->name('invoice.download.pdf');
+    }
+);
 
 Route::group(['middleware' => ['verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'XSS']);
@@ -730,8 +766,7 @@ Route::group(['middleware' => ['verified']], function () {
                 'XSS',
             ],
         ],
-        function () {
-        }
+        function () {}
     );
     Route::get('user/{id}/plan', [UserController::class, 'upgradePlan'])->name('plan.upgrade')->middleware(
         [
@@ -1005,7 +1040,19 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('email/details/conversations/{id}', [EmailController::class, 'conversations'])->name('email.conversations');
         }
     );
-    Route::get('create-contract', [ContractsController::class, 'docs']);
+
+    Route::group(
+        [
+            'middleware' => [
+                'auth',
+                'XSS',
+            ],
+        ],
+        function () {
+            Route::get('create-contract', [ContractsController::class, 'docs']);
+        }
+    );
+
     Route::group(
         [
             'middleware' => [
@@ -1174,6 +1221,8 @@ Route::group(['middleware' => ['verified']], function () {
     // end Form Builder
 
 
+
+
     //****
     Route::resource('payments', PaymentController::class)->middleware(['auth', 'XSS',]);
     Route::get('/Plan/Payment/{code}', [PlanController::class, 'getpaymentgatway'])->name('plan.payment')->middleware(['auth', 'XSS',]);
@@ -1225,37 +1274,47 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('/sspay', [SspayController::class, 'SspayPaymentPrepare'])->name('plan.sspaypayment');
     Route::get('sspay-payment-plan/{plan_id}/{amount}/{couponCode}', [SspayController::class, 'SspayPlanGetPayment'])->middleware(['auth'])->name('plan.sspay.callback');
 
-    // paytab
-    Route::post('plan-pay-with-paytab', [PaytabController::class, 'planPayWithpaytab'])->middleware(['auth'])->name('plan.pay.with.paytab');
-    Route::any('paytab-success/plan', [PaytabController::class, 'PaytabGetPayment'])->middleware(['auth'])->name('plan.paytab.success');
+    Route::group(
+        [
+            'middleware' => [
+                'auth',
+                'XSS',
+            ],
+        ],
+        function () {
+            // paytab
+            Route::post('plan-pay-with-paytab', [PaytabController::class, 'planPayWithpaytab'])->middleware(['auth'])->name('plan.pay.with.paytab');
+            Route::any('paytab-success/plan', [PaytabController::class, 'PaytabGetPayment'])->middleware(['auth'])->name('plan.paytab.success');
 
-    // Benefit
-    Route::any('/payment/initiate', [BenefitPaymentController::class, 'initiatePayment'])->name('benefit.initiate');
-    Route::any('call_back', [BenefitPaymentController::class, 'call_back'])->name('benefit.call_back');
+            // Benefit
+            Route::any('/payment/initiate', [BenefitPaymentController::class, 'initiatePayment'])->name('benefit.initiate');
+            Route::any('call_back', [BenefitPaymentController::class, 'call_back'])->name('benefit.call_back');
 
-    // cashfree
-    Route::post('cashfree/payments/', [CashfreeController::class, 'planPayWithcashfree'])->name('plan.pay.with.cashfree');
-    Route::any('cashfree/payments/success', [CashfreeController::class, 'getPaymentStatus'])->name('plan.cashfree');
+            // cashfree
+            Route::post('cashfree/payments/', [CashfreeController::class, 'planPayWithcashfree'])->name('plan.pay.with.cashfree');
+            Route::any('cashfree/payments/success', [CashfreeController::class, 'getPaymentStatus'])->name('plan.cashfree');
 
-    // Aamarpay
-    Route::post('/aamarpay/payment', [AamarpayController::class, 'planPayWithpay'])->name('plan.pay.with.aamarpay');
-    Route::any('/aamarpay/success/{data}', [AamarpayController::class, 'getPaymentStatus'])->name('plan.aamarpay');
+            // Aamarpay
+            Route::post('/aamarpay/payment', [AamarpayController::class, 'planPayWithpay'])->name('plan.pay.with.aamarpay');
+            Route::any('/aamarpay/success/{data}', [AamarpayController::class, 'getPaymentStatus'])->name('plan.aamarpay');
 
-    // PayTR
-    Route::post('/paytr/payment', [PaytrController::class, 'PlanpayWithPaytr'])->name('plan.pay.with.paytr');
-    Route::any('/paytr/success/', [PaytrController::class, 'paytrsuccessCallback'])->name('pay.paytr.success');
+            // PayTR
+            Route::post('/paytr/payment', [PaytrController::class, 'PlanpayWithPaytr'])->name('plan.pay.with.paytr');
+            Route::any('/paytr/success/', [PaytrController::class, 'paytrsuccessCallback'])->name('pay.paytr.success');
 
-    // Yookassa
-    Route::post('/plan/yookassa/payment', [YooKassaController::class, 'planPayWithYooKassa'])->name('plan.pay.with.yookassa');
-    Route::get('/plan/yookassa/{plan}', [YooKassaController::class, 'planGetYooKassaStatus'])->name('plan.yookassa.status');
+            // Yookassa
+            Route::post('/plan/yookassa/payment', [YooKassaController::class, 'planPayWithYooKassa'])->name('plan.pay.with.yookassa');
+            Route::get('/plan/yookassa/{plan}', [YooKassaController::class, 'planGetYooKassaStatus'])->name('plan.yookassa.status');
 
-    // midtrans
-    Route::any('/midtrans', [MidtransController::class, 'planPayWithMidtrans'])->name('plan.pay.with.midtrans');
-    Route::any('/midtrans/callback', [MidtransController::class, 'planGetMidtransStatus'])->name('plan.get.midtrans.status');
+            // midtrans
+            Route::any('/midtrans', [MidtransController::class, 'planPayWithMidtrans'])->name('plan.pay.with.midtrans');
+            Route::any('/midtrans/callback', [MidtransController::class, 'planGetMidtransStatus'])->name('plan.get.midtrans.status');
 
-    // xendit
-    Route::any('/xendit/payment', [XenditPaymentController::class, 'planPayWithXendit'])->name('plan.pay.with.xendit');
-    Route::any('/xendit/payment/status', [XenditPaymentController::class, 'planGetXenditStatus'])->name('plan.xendit.status');
+            // xendit
+            Route::any('/xendit/payment', [XenditPaymentController::class, 'planPayWithXendit'])->name('plan.pay.with.xendit');
+            Route::any('/xendit/payment/status', [XenditPaymentController::class, 'planGetXenditStatus'])->name('plan.xendit.status');
+        }
+    );
 
     // // payhere
     // Route::post('plan-payhere-payment', [PayHereController::class, 'planPayWithPayHere'])->name('plan.pay.with.payhere');
@@ -1270,6 +1329,7 @@ Route::group(['middleware' => ['verified']], function () {
         $plans = DB::table('plans')->get();
         return view('custom_landing_page.' . $name, compact('plans'));
     });
+
     Route::post('/LandingPage/removeSection/{id}', [LandingPageSectionsController::class, 'removeSection'])->middleware(['auth', 'XSS']);
     Route::post('/LandingPage/setOrder', [LandingPageSectionsController::class, 'setOrder'])->middleware(['auth', 'XSS']);
     Route::post('/LandingPage/copySection', [LandingPageSectionsController::class, 'copySection'])->middleware(['auth', 'XSS']);
@@ -1292,61 +1352,70 @@ Route::group(['middleware' => ['verified']], function () {
     /*==================================Recaptcha====================================================*/
     Route::post('/recaptcha-settings', [SettingController::class, 'recaptchaSettingStore'])->name('recaptcha.settings.store')->middleware(['auth', 'XSS']);
 
+    Route::group(
+        [
+            'middleware' => [
+                'auth',
+                'XSS',
+            ],
+        ],
+        function () {
 
-    //=======================================Twilio==========================================//
-    Route::post('setting/twilio', [SettingController::class, 'twilio'])->name('twilio.setting');
-
-
-    //=======================================Event TYPE==========================================//
-    Route::post('setting/event-type', [SettingController::class, 'event_type'])->name('event_type.setting');
-    Route::post('setting/delete-eventtype', [SettingController::class, 'delete_event_type'])->name('eventedit.setting');
-
-
-    //=======================================Product TYPE/ Category Type/ Subcategory Type==========================================//
-    Route::post('setting/product-type', [SettingController::class, 'product_type'])->name('product-type.setting');
-    Route::post('setting/category-type', [SettingController::class, 'category_type'])->name('category-type.setting');
-    Route::post('setting/subcategory-type', [SettingController::class, 'subcategory_type'])->name('subcategory-type.setting');
-    Route::post('setting/delete-producttype', [SettingController::class, 'delete_product_type'])->name('delete-producttype.setting');
-    Route::post('setting/delete-categorytype', [SettingController::class, 'delete_category_type'])->name('delete-categorytype.setting');
-    Route::post('setting/delete-subcategorytype', [SettingController::class, 'delete_subcategory_type'])->name('delete-subcategorytype.setting');
-    Route::post('setting/currency-conversion', [SettingController::class, 'currency_conversion'])->name('currency-conversion.setting');
-    Route::post('setting/delete-conversion', [SettingController::class, 'delete_conversion'])->name('delete-currency-conversion.setting');
-
-    Route::post('setting/region', [SettingController::class, 'region'])->name('region.setting');
-    Route::post('setting/delete-region', [SettingController::class, 'delete_region'])->name('delete-region.setting');
-    //=======================================Venue==========================================//
-    Route::post('setting/venue', [SettingController::class, 'venue_select'])->name('venue.setting');
-    Route::post('setting/delete-venue', [SettingController::class, 'delete_venue'])->name('venueedit.setting');
-    Route::post('setting/delete-additional-items', [SettingController::class, 'delete_additional_items'])->name('additionaldelete.setting');
-    //=======================================Function==========================================//
-    Route::post('setting/function', [SettingController::class, 'addfunction'])->name('function.setting');
-    Route::post('setting/bar', [SettingController::class, 'addbars'])->name('bar.setting');
-
-    Route::post('setting/delete-package-function', [SettingController::class, 'delete_function_package'])->name('functionedit.setting');
-    Route::post('setting/delete-function', [SettingController::class, 'delete_function'])->name('functionpackage.setting');
-    Route::post('setting/delete-bars', [SettingController::class, 'delete_bar'])->name('barpackage.setting');
-    Route::post('setting/delete-bar-function', [SettingController::class, 'delete_bar_package'])->name('baredit.setting');
-    Route::post('setting/additional-items', [SettingController::class, 'additional_items'])->name('additional.setting');
+            //=======================================Twilio==========================================//
+            Route::post('setting/twilio', [SettingController::class, 'twilio'])->name('twilio.setting');
 
 
+            //=======================================Event TYPE==========================================//
+            Route::post('setting/event-type', [SettingController::class, 'event_type'])->name('event_type.setting');
+            Route::post('setting/delete-eventtype', [SettingController::class, 'delete_event_type'])->name('eventedit.setting');
 
-    //=======================================Floor Plans=======================//
-    Route::post('/floor-images', [SettingController::class, 'storeImage']);
-    Route::post('/delete-image', [SettingController::class, 'deleteImage']);
-    //=======================================Floor Plans=======================//
-    Route::post('/setting/billing', [SettingController::class, 'billing_cost'])->name('billing.setting');
 
-    Route::post('setting/buffer', [SettingController::class, 'buffertime'])->name('buffer.setting');
-    Route::post('setting/proposal', [SettingController::class, 'proposaldata'])->name('buffer.proposal');
-    Route::post('setting/signature', [SettingController::class, 'signature'])->name('authorised.signature');
+            //=======================================Product TYPE/ Category Type/ Subcategory Type==========================================//
+            Route::post('setting/product-type', [SettingController::class, 'product_type'])->name('product-type.setting');
+            Route::post('setting/category-type', [SettingController::class, 'category_type'])->name('category-type.setting');
+            Route::post('setting/subcategory-type', [SettingController::class, 'subcategory_type'])->name('subcategory-type.setting');
+            Route::post('setting/delete-producttype', [SettingController::class, 'delete_product_type'])->name('delete-producttype.setting');
+            Route::post('setting/delete-categorytype', [SettingController::class, 'delete_category_type'])->name('delete-categorytype.setting');
+            Route::post('setting/delete-subcategorytype', [SettingController::class, 'delete_subcategory_type'])->name('delete-subcategorytype.setting');
+            Route::post('setting/currency-conversion', [SettingController::class, 'currency_conversion'])->name('currency-conversion.setting');
+            Route::post('setting/delete-conversion', [SettingController::class, 'delete_conversion'])->name('delete-currency-conversion.setting');
 
-    //=======================================Campaign=======================//
-    Route::post('setting/campaign-type', [SettingController::class, 'addcampaigntype'])->name('settings.campaign-type');
-    Route::post('setting/delete-campaign-type', [SettingController::class, 'deletecampaigntype'])->name('settings.delete.campaign-type');
-    //========================================================================================//
-    Route::any('user-reset-password/{id}', [UserController::class, 'employeePassword'])->name('user.reset');
-    Route::post('user-reset-password/{id}', [UserController::class, 'employeePasswordReset'])->name('user.password.update');
+            Route::post('setting/region', [SettingController::class, 'region'])->name('region.setting');
+            Route::post('setting/delete-region', [SettingController::class, 'delete_region'])->name('delete-region.setting');
+            //=======================================Venue==========================================//
+            Route::post('setting/venue', [SettingController::class, 'venue_select'])->name('venue.setting');
+            Route::post('setting/delete-venue', [SettingController::class, 'delete_venue'])->name('venueedit.setting');
+            Route::post('setting/delete-additional-items', [SettingController::class, 'delete_additional_items'])->name('additionaldelete.setting');
+            //=======================================Function==========================================//
+            Route::post('setting/function', [SettingController::class, 'addfunction'])->name('function.setting');
+            Route::post('setting/bar', [SettingController::class, 'addbars'])->name('bar.setting');
 
+            Route::post('setting/delete-package-function', [SettingController::class, 'delete_function_package'])->name('functionedit.setting');
+            Route::post('setting/delete-function', [SettingController::class, 'delete_function'])->name('functionpackage.setting');
+            Route::post('setting/delete-bars', [SettingController::class, 'delete_bar'])->name('barpackage.setting');
+            Route::post('setting/delete-bar-function', [SettingController::class, 'delete_bar_package'])->name('baredit.setting');
+            Route::post('setting/additional-items', [SettingController::class, 'additional_items'])->name('additional.setting');
+
+
+
+            //=======================================Floor Plans=======================//
+            Route::post('/floor-images', [SettingController::class, 'storeImage']);
+            Route::post('/delete-image', [SettingController::class, 'deleteImage']);
+            //=======================================Floor Plans=======================//
+            Route::post('/setting/billing', [SettingController::class, 'billing_cost'])->name('billing.setting');
+
+            Route::post('setting/buffer', [SettingController::class, 'buffertime'])->name('buffer.setting');
+            Route::post('setting/proposal', [SettingController::class, 'proposaldata'])->name('buffer.proposal');
+            Route::post('setting/signature', [SettingController::class, 'signature'])->name('authorised.signature');
+
+            //=======================================Campaign=======================//
+            Route::post('setting/campaign-type', [SettingController::class, 'addcampaigntype'])->name('settings.campaign-type');
+            Route::post('setting/delete-campaign-type', [SettingController::class, 'deletecampaigntype'])->name('settings.delete.campaign-type');
+            //========================================================================================//
+            Route::any('user-reset-password/{id}', [UserController::class, 'employeePassword'])->name('user.reset');
+            Route::post('user-reset-password/{id}', [UserController::class, 'employeePasswordReset'])->name('user.password.update');
+        }
+    );
 
 
     //==========================================================================================//
@@ -1362,22 +1431,24 @@ Route::group(['middleware' => ['verified']], function () {
     Route::put('email_template_update/{id}', [EmailTemplateController::class, 'updateEmailtemplate'])->name('update.email.template')->middleware(['auth']);
     Route::delete('email_template_delete/{id}', [EmailTemplateController::class, 'deleteEmailtemplate'])->name('delete.email.template')->middleware(['auth']);
 
+
+
     Route::resource('email_template', EmailTemplateController::class)->middleware(
         [
             'auth',
             // 'XSS',
         ]
     );
+
+
     Route::resource('email_template_lang', EmailTemplateLangController::class)->middleware(
         [
             'auth',
             // 'XSS',
         ]
     );
-
-
-
     //==========================================================================================================//
+
 
     //contract
     Route::resource('contract_type', ContractTypeController::class)->middleware(
@@ -1386,6 +1457,8 @@ Route::group(['middleware' => ['verified']], function () {
             'XSS',
         ]
     );
+
+
     Route::resource('contract', ContractController::class)->middleware(
         [
             'auth',
@@ -1401,14 +1474,11 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('contract/{id}/description', [ContractController::class, 'descriptionStore'])->name('contracts.description.store')->middleware(['auth']);
     Route::get('/contract/copy/{id}', [ContractController::class, 'copycontract'])->name('contracts.copy')->middleware(['auth', 'XSS']);
     Route::post('/contract/copy/store', [ContractController::class, 'copycontractstore'])->name('contracts.copy.store')->middleware(['auth', 'XSS']);
-
-
     Route::get('contract/{id}/get_contract', [ContractController::class, 'printContract'])->name('get.contract');
     Route::get('contract/pay/pdf/{id}', [ContractController::class, 'pdffromcontract'])->name('contract.download.pdf');
     Route::get('contract/pay/pdf', [ContractController::class, 'signature'])->name('contract.signature');
     Route::get('/signature/{id}', [ContractController::class, 'signature'])->name('signature')->middleware(['auth', 'XSS']);
     Route::post('/signaturestore', [ContractController::class, 'signatureStore'])->name('signaturestore')->middleware(['auth', 'XSS']);
-
     Route::get('/contract/preview/{template}/{color}', [ContractController::class, 'previewContract'])->name('contract.preview');
     Route::get('/contract/{id}/mail', [ContractController::class, 'sendmailContract'])->name('send.mail.contract');
 
@@ -1419,6 +1489,8 @@ Route::group(['middleware' => ['verified']], function () {
     // Storage setting
     Route::post('storage-settings', [SettingController::class, 'storageSettingStore'])->name('storage.setting.store')->middleware(['auth', 'XSS']);
 });
+
+
 Route::group(
     [
         'middleware' => [
@@ -1439,9 +1511,21 @@ Route::group(
 );
 
 
-Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
-Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
-Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+
+        Route::get('/meeting-download/{meeting}', [MeetingController::class, 'download_meeting']);
+        Route::get('event/agreement/{id}', [MeetingController::class, 'agreement'])->name('meeting.agreement');
+        Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
+    }
+);
+
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/test-push-notification', function () {
@@ -1450,30 +1534,39 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/store-token', [WebNotificationController::class, 'updateDeviceToken'])->name('store.token');
     Route::post('/send-web-notification', [WebNotificationController::class, 'sendNotification'])->name('send.web-notification');
 });
-// Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
-// Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
-// 22-01
 
-Route::get('/show-blocked-date-popup/{id}', [CalenderController::class, 'show_blocked_date_popup']);
 
-Route::get('/unblock-date/{id}', [CalenderController::class, 'unblock_this_date']);
-Route::post('/buffer-time', [MeetingController::class, 'buffer_time']);
-Route::get('/debug-buffer-time', [MeetingController::class, 'buffer_time']);
-// 24-01
-Route::get('/payment-success', [BillingController::class, 'welcome']);
 
-Route::get('/payment-failed', function () {
-    return view('calendar.paymentfailed');
-});
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('/show-blocked-date-popup/{id}', [CalenderController::class, 'show_blocked_date_popup']);
 
-Route::get('/mail-testing', [MeetingController::class, 'mail_testing']);
-Route::get('/testview', function () {
-    return view('test');
-});
+        Route::get('/unblock-date/{id}', [CalenderController::class, 'unblock_this_date']);
+        Route::post('/buffer-time', [MeetingController::class, 'buffer_time']);
+        Route::get('/debug-buffer-time', [MeetingController::class, 'buffer_time']);
+        Route::get('/payment-success', [BillingController::class, 'welcome']);
 
-Route::get('/paypal-payment-success', [BillingController::class, 'paypalpaymentsuccess']);
-// Dashboard Testing route
-Route::get('/dashboard-testing', [DashboardTestingController::class, 'index']);
+        Route::get('/payment-failed', function () {
+            return view('calendar.paymentfailed');
+        });
+
+        Route::get('/mail-testing', [MeetingController::class, 'mail_testing']);
+        Route::get('/testview', function () {
+            return view('test');
+        });
+
+        Route::get('/paypal-payment-success', [BillingController::class, 'paypalpaymentsuccess']);
+        Route::get('/dashboard-testing', [DashboardTestingController::class, 'index']);
+    }
+);
+
+
 Route::group(
     [
         'middleware' => [
@@ -1494,6 +1587,7 @@ Route::group(
     }
 );
 
+
 Route::group(
     [
         'middleware' => [
@@ -1505,6 +1599,7 @@ Route::group(
         Route::post('/create-opportunity', [CustomOpportunitiesController::class, 'createOpportunity'])->name('create.opportunity');
     }
 );
+
 
 // All Routes for Category Controller
 Route::group(
@@ -1521,6 +1616,7 @@ Route::group(
         Route::post('delete-categories', [CategoriesController::class, 'destroyCategory'])->name('category.destroy');
     }
 );
+
 
 // Routes for Objective Tracker
 Route::group(
@@ -1541,37 +1637,62 @@ Route::group(
     }
 );
 
+
 // Routes for Accept and Decline event
-Route::get('/accept-event', [MeetingController::class, 'handleEventResponse'])->name('accept_event');
-Route::get('/decline-event', [MeetingController::class, 'handleEventResponse'])->name('decline_event');
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::get('/accept-event', [MeetingController::class, 'handleEventResponse'])->name('accept_event');
+        Route::get('/decline-event', [MeetingController::class, 'handleEventResponse'])->name('decline_event');
+    }
+);
+
 
 // Routes for PowerBiReportController 
-Route::group([
-    'middleware' => [
-        'auth',
-        'XSS',
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
     ],
-], function () {
-    Route::post('/powerbi/create', [PowerBiReportController::class, 'createPowerBIReport'])->name('powerbi.create');
-    Route::post('/powerbi/edit/', [PowerBiReportController::class, 'editPowerBIReport'])->name('powerbi.update');
-    Route::post('/powerbi/delete/', [PowerBiReportController::class, 'deletePowerBIReport'])->name('powerbi.delete');
-    Route::get('/powerbi/report/{id}', [PowerBiReportController::class, 'showPowerBIReport'])->name('powerbi.report.show');
-});
+    function () {
+        Route::post('/powerbi/create', [PowerBiReportController::class, 'createPowerBIReport'])->name('powerbi.create');
+        Route::post('/powerbi/edit/', [PowerBiReportController::class, 'editPowerBIReport'])->name('powerbi.update');
+        Route::post('/powerbi/delete/', [PowerBiReportController::class, 'deletePowerBIReport'])->name('powerbi.delete');
+        Route::get('/powerbi/report/{id}', [PowerBiReportController::class, 'showPowerBIReport'])->name('powerbi.report.show');
+    }
+);
 
 
 // Contracts 
-Route::post('/send-event-contract', [ContractsController::class, 'sendEventContract']);
-Route::post('/share-contract', [ContractsController::class, 'shareContract']);
-Route::any('/cron-get-contract', [ContractsController::class, 'cronGetContract']);
-Route::get('/approve-contract/{id}', [ContractsController::class, 'approveContract']);
-Route::get('/get-contract/{id}/{document_id}', [ContractsController::class, 'getContract']);
-Route::get('/download-contract/{id}/', [ContractsController::class, 'downloadContract']);
-Route::post('/send-contract-doc/', [ContractsController::class, 'sendContractDoc']);
-Route::get('/empty', [ContractsController::class, 'empties']);
-Route::get('/send-email-test', [ContractsController::class, 'sendEmail']);
-Route::get('/send-contract', [ContractsController::class, 'sendContract']);
-Route::post('/send-contract', [ContractsController::class, 'sendContract']);
-Route::post('/get-contract-url', [ContractsController::class, 'getContractUrl']);
-Route::post('/send-contract-email', [ContractsController::class, 'sendContractEmail']);
-Route::any('/upload-docs', [LeadController::class, 'uploadDoc']);
-Route::post('setting/update-organization-id',[SettingController::class,'updateOrganizationId']);
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::post('/send-event-contract', [ContractsController::class, 'sendEventContract']);
+        Route::post('/share-contract', [ContractsController::class, 'shareContract']);
+        Route::any('/cron-get-contract', [ContractsController::class, 'cronGetContract']);
+        Route::get('/approve-contract/{id}', [ContractsController::class, 'approveContract']);
+        Route::get('/get-contract/{id}/{document_id}', [ContractsController::class, 'getContract']);
+        Route::get('/download-contract/{id}/', [ContractsController::class, 'downloadContract']);
+        Route::post('/send-contract-doc/', [ContractsController::class, 'sendContractDoc']);
+        Route::get('/empty', [ContractsController::class, 'empties']);
+        Route::get('/send-email-test', [ContractsController::class, 'sendEmail']);
+        Route::get('/send-contract', [ContractsController::class, 'sendContract']);
+        Route::post('/send-contract', [ContractsController::class, 'sendContract']);
+        Route::post('/get-contract-url', [ContractsController::class, 'getContractUrl']);
+        Route::post('/send-contract-email', [ContractsController::class, 'sendContractEmail']);
+        Route::any('/upload-docs', [LeadController::class, 'uploadDoc']);
+        Route::post('setting/update-organization-id', [SettingController::class, 'updateOrganizationId']);
+    }
+);
