@@ -1345,6 +1345,7 @@ class LeadController extends Controller
     {
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
+
         if (!empty($lead->email)) {
             $leads = Lead::where('email', $lead->email)->get();
         } else {
@@ -1359,16 +1360,18 @@ class LeadController extends Controller
             $opportunity = null;
         }
 
-        @$selected_products = json_decode($opportunity->products);
-
-        if ($selected_products) {
-            $products = implode(', ', $selected_products);
-        } else {
-            $products = [];
+        @$selected_products = json_decode($lead->products, true);
+        if (!$selected_products) {
+            $selected_products = [];
         }
+
+        // echo "<pre>";
+        // print_r($selected_products);
+        // die;
+
         $notes = NotesLeads::where('lead_id', $id)->orderby('id', 'desc')->get();
         $docs = LeadDoc::where('lead_id', $id)->get();
-        return view('lead.leadinfo', compact('leads', 'lead', 'docs', 'notes', 'opportunity', 'products', 'client'));
+        return view('lead.leadinfo', compact('leads', 'lead', 'docs', 'notes', 'opportunity', 'selected_products', 'client'));
     }
     public function lead_user_info($id)
     {

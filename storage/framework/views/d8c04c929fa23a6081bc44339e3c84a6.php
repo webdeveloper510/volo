@@ -1,4 +1,4 @@
-@php
+<?php
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 $currentDate = Carbon::now();
@@ -10,14 +10,16 @@ $userRoleType = Role::find($userRole)->roleType;
 $userRoleName = Role::find($userRole)->name;
 
 $settings = App\Models\Utility::settings();
-@endphp
-@extends('layouts.admin')
-@section('page-title')
-{{__('Opportunities')}}
-@endsection
-@section('title')
+?>
+
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Opportunities')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
 <div class="page-header-title">
-    {{__('Opportunities')}}
+    <?php echo e(__('Opportunities')); ?>
+
 </div>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 <style>
@@ -28,22 +30,22 @@ $settings = App\Models\Utility::settings();
         right: 19%;
     }
 </style>
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{__('Dashboard')}}</a></li>
-<li class="breadcrumb-item">{{__('Opportunities')}}</li>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Opportunities')); ?></li>
 
-@endsection
-@section('action-btn')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('action-btn'); ?>
 
-@can('Create Opportunity')
-<a href="#" data-url="{{ route('lead.create',['lead',0]) }}" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{__('Create New Opportunity
-')}}" title="{{__('Create')}}" class="btn btn-sm btn-primary btn-icon m-1">
+<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Opportunity')): ?>
+<a href="#" data-url="<?php echo e(route('lead.create',['lead',0])); ?>" data-size="lg" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('Create New Opportunity
+')); ?>" title="<?php echo e(__('Create')); ?>" class="btn btn-sm btn-primary btn-icon m-1">
     <i class="ti ti-plus"></i>
 </a>
-@endcan
-@endsection
-@section('content')
+<?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <?php
 $url = 'https://oauth.airslate.com/public/oauth/token';
 // Data to be sent in the POST request
@@ -90,24 +92,24 @@ $token_value = $token_data['access_token'];
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">{{__('Opportunity Name')}}</th>
-                                                <th scope="col" class="sort" id="myInput" data-sort="name">{{__('Company')}} <span class="opticy"></span></th>
+                                                <th scope="col" class="sort" data-sort="name"><?php echo e(__('Opportunity Name')); ?></th>
+                                                <th scope="col" class="sort" id="myInput" data-sort="name"><?php echo e(__('Company')); ?> <span class="opticy"></span></th>
                                                 <th scope="col" class="sort" id="teamMember" data-sort="assigned_user">Team Member <span class="opticy"></span></th>
-                                                <th scope="col" class="sort" data-sort="budget">{{__('Opportunity Value')}} <span class="opticy"></span></th>
-                                                <!-- <th scope="col" class="sort">{{__('Status')}} <span class="opticy"></span></th> -->
-                                                <!-- <th scope="col" class="sort">{{__('Proposal Status')}}</th> -->
-                                                <th scope="col" class="sort">{{__('Sales Stage')}}<span class="opticy"></span></th>
-                                                <th scope="col" class="sort">{{__('Created On')}}<span class="opticy"></span></th>
-                                                <th scope="col" class="sort">{{__('Products/Services')}}<span class="opticy"></span></th>
-                                                @if(Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') ||
-                                                Gate::check('Delete Opportunity'))
-                                                <th scope="col" class="text-center">{{__('Action')}} <span class="opticy"></span></th>
-                                                @endif
+                                                <th scope="col" class="sort" data-sort="budget"><?php echo e(__('Opportunity Value')); ?> <span class="opticy"></span></th>
+                                                <!-- <th scope="col" class="sort"><?php echo e(__('Status')); ?> <span class="opticy"></span></th> -->
+                                                <!-- <th scope="col" class="sort"><?php echo e(__('Proposal Status')); ?></th> -->
+                                                <th scope="col" class="sort"><?php echo e(__('Sales Stage')); ?><span class="opticy"></span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Created On')); ?><span class="opticy"></span></th>
+                                                <th scope="col" class="sort"><?php echo e(__('Products/Services')); ?><span class="opticy"></span></th>
+                                                <?php if(Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') ||
+                                                Gate::check('Delete Opportunity')): ?>
+                                                <th scope="col" class="text-center"><?php echo e(__('Action')); ?> <span class="opticy"></span></th>
+                                                <?php endif; ?>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($leads as $lead)
-                                            @php
+                                            <?php $__currentLoopData = $leads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
                                             $company_name = '';
                                             if ($lead->user_id != 0) {
                                             $importUser = \App\Models\UserImport::find($lead->user_id);
@@ -115,84 +117,91 @@ $token_value = $token_data['access_token'];
                                             } else {
                                             $company_name = $lead->company_name;
                                             }
-                                            @endphp
+                                            ?>
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('lead.info',urlencode(encrypt($lead->id))) }}" data-size="md" title="{{ __('Opportunities Details') }}" class="action-item text-primary" style="color:#1551c9 !important;">
-                                                        <b> {{ ucfirst($lead->opportunity_name) }}</b>
+                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($lead->id)))); ?>" data-size="md" title="<?php echo e(__('Opportunities Details')); ?>" class="action-item text-primary" style="color:#1551c9 !important;">
+                                                        <b> <?php echo e(ucfirst($lead->opportunity_name)); ?></b>
                                                     </a>
                                                 </td>
 
                                                 <td>
-                                                    <b>{{ ucfirst($company_name) }}</b>
+                                                    <b><?php echo e(ucfirst($company_name)); ?></b>
                                                 </td>
 
                                                 <!-- <td>
                                                     <?php $contractor_name = ""; ?>
-                                                    @if($lead->attendees_lead != 0)
+                                                    <?php if($lead->attendees_lead != 0): ?>
                                                     <?php $leaddata = \App\Models\Lead::where('id', $lead->attendees_lead)->first() ?>
-                                                    @if(isset($leaddata) && !empty($leaddata))
-                                                    <a href="{{ route('lead.info',urlencode(encrypt($leaddata->id)))}}" data-size="md"
-                                                        data-title="{{ __('Event Details') }}"
+                                                    <?php if(isset($leaddata) && !empty($leaddata)): ?>
+                                                    <a href="<?php echo e(route('lead.info',urlencode(encrypt($leaddata->id)))); ?>" data-size="md"
+                                                        data-title="<?php echo e(__('Event Details')); ?>"
                                                         class="action-item text-primary"
                                                         style=" color: #1551c9 !important;">
-                                                        {{ucfirst($leaddata->leadname)}}
+                                                        <?php echo e(ucfirst($leaddata->leadname)); ?>
+
                                                         <?php $contractor_name = ucfirst($leaddata->leadname); ?>
                                                     </a>
-                                                    @endif
-                                                    @else
-                                                    <a href="{{route('meeting.detailview',urlencode(encrypt($lead->id)))}}"
-                                                        data-size="md" title="{{ __('Detailed view ') }}"
+                                                    <?php endif; ?>
+                                                    <?php else: ?>
+                                                    <a href="<?php echo e(route('meeting.detailview',urlencode(encrypt($lead->id)))); ?>"
+                                                        data-size="md" title="<?php echo e(__('Detailed view ')); ?>"
                                                         class="action-item text-primary" style=" color: #1551c9 !important;">
-                                                        {{ucfirst($lead->eventname)}}</a>
+                                                        <?php echo e(ucfirst($lead->eventname)); ?></a>
                                                     <?php $contractor_name = ucfirst($lead->eventname); ?>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </td> -->
 
-                                                <td>{{ optional(\App\Models\User::find($lead->assigned_user))->name ?? '' }}</td>
+                                                <td><?php echo e(optional(\App\Models\User::find($lead->assigned_user))->name ?? ''); ?></td>
                                                 <td>
                                                     <span class="budget">
-                                                        @if (!empty($lead->value_of_opportunity))
-                                                        @if ($lead->currency == 'GBP')
-                                                        £{{ $lead->value_of_opportunity }}
-                                                        @elseif ($lead->currency == 'USD')
-                                                        ${{ $lead->value_of_opportunity }}
-                                                        @elseif ($lead->currency == 'EUR')
-                                                        €{{ $lead->value_of_opportunity }}
-                                                        @else
-                                                        {{ $lead->value_of_opportunity }}
-                                                        @endif
-                                                        @endif
+                                                        <?php if(!empty($lead->value_of_opportunity)): ?>
+                                                        <?php if($lead->currency == 'GBP'): ?>
+                                                        £<?php echo e($lead->value_of_opportunity); ?>
+
+                                                        <?php elseif($lead->currency == 'USD'): ?>
+                                                        $<?php echo e($lead->value_of_opportunity); ?>
+
+                                                        <?php elseif($lead->currency == 'EUR'): ?>
+                                                        €<?php echo e($lead->value_of_opportunity); ?>
+
+                                                        <?php else: ?>
+                                                        <?php echo e($lead->value_of_opportunity); ?>
+
+                                                        <?php endif; ?>
+                                                        <?php endif; ?>
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    @if($userRoleName == 'restricted')
-                                                    <span>{{ $lead->sales_stage }}</span>
-                                                    @else
-                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="{{ $lead->id }}" data-lead-name="{{ $lead->opportunity_name }}">
-                                                        @foreach($proposalstatus as $key => $stat)
-                                                        <option value="{{ $key }}" {{ isset($lead->status) && $lead->status == $key ? "selected" : "" }}>
-                                                            {{ $stat }}
+                                                    <?php if($userRoleName == 'restricted'): ?>
+                                                    <span><?php echo e($lead->sales_stage); ?></span>
+                                                    <?php else: ?>
+                                                    <select name="drop_status" id="drop_status" class="form-select" data-id="<?php echo e($lead->id); ?>" data-lead-name="<?php echo e($lead->opportunity_name); ?>">
+                                                        <?php $__currentLoopData = $proposalstatus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($key); ?>" <?php echo e(isset($lead->status) && $lead->status == $key ? "selected" : ""); ?>>
+                                                            <?php echo e($stat); ?>
+
                                                         </option>
-                                                        @endforeach
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </td>
 
-                                                <td>{{\Auth::user()->dateFormat($lead->created_at)}}</td>
+                                                <td><?php echo e(\Auth::user()->dateFormat($lead->created_at)); ?></td>
                                                 <td>
-                                                    @php
+                                                    <?php
                                                     $productsArray = json_decode($lead->products);
-                                                    @endphp
+                                                    ?>
 
-                                                    @if (is_array($productsArray) && count($productsArray) > 0)
-                                                    {{ implode(', ', $productsArray) }}
-                                                    @else
+                                                    <?php if(is_array($productsArray) && count($productsArray) > 0): ?>
+                                                    <?php echo e(implode(', ', $productsArray)); ?>
+
+                                                    <?php else: ?>
                                                     No products found
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </td>
 
-                                                @php
+                                                <?php
                                                 $showActions = false;
 
                                                 if (Gate::check('Show Opportunity') || Gate::check('Edit Opportunity') || Gate::check('Delete Opportunity') || Gate::check('Manage Opportunity')) {
@@ -204,123 +213,125 @@ $token_value = $token_data['access_token'];
                                                 $showActions = true;
                                                 }
                                                 }
-                                                @endphp
+                                                ?>
 
-                                                @if($showActions)
+                                                <?php if($showActions): ?>
                                                 <td class="text-end">
-                                                    <!-- @if($lead->status == 4 && $userRoleName != 'restricted')
+                                                    <!-- <?php if($lead->status == 4 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-secondary ms-2">
-                                                        <a href="{{ route('meeting.create',['meeting',0])}}" id="convertLink" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="{{ __('Convert') }}" title="{{ __('Convert To Event') }}" data-id="{{$lead->id}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="<?php echo e(route('meeting.create',['meeting',0])); ?>" id="convertLink" data-size="md" data-url="#" data-bs-toggle="tooltip" data-title="<?php echo e(__('Convert')); ?>" title="<?php echo e(__('Convert To Event')); ?>" data-id="<?php echo e($lead->id); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fas fa-exchange-alt"></i> </a>
                                                     </div>
-                                                    @endif -->
-                                                    {{-- @if($lead->status == 0 ) --}}
-                                                    @if($lead->is_nda_signed == 1 && $lead->status == 6 && $userRoleName != 'restricted')
+                                                    <?php endif; ?> -->
+                                                    
+                                                    <?php if($lead->is_nda_signed == 1 && $lead->status == 6 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.shareproposal',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('MOU') }}" title="{{ __('MOU') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.shareproposal',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('MOU')); ?>" title="<?php echo e(__('MOU')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-share"></i>
                                                         </a>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
 
-                                                    @if($userRoleName != 'restricted')
+                                                    <?php if($userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sendemail',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('New Message') }}" title="{{ __('Email') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.sendemail',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('New Message')); ?>" title="<?php echo e(__('Email')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-mail"></i>
                                                         </a>
                                                     </div>
-                                                    @endif
-                                                    {{-- @endif --}}
+                                                    <?php endif; ?>
+                                                    
 
-                                                    @if($lead->is_nda_signed == 0 && $userRoleName != 'restricted')
+                                                    <?php if($lead->is_nda_signed == 0 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.sharenda',urlencode(encrypt($lead->id))) }}" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="{{ __('NDA') }}" title="{{ __('Share NDA') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.sharenda',urlencode(encrypt($lead->id)))); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" data-title="<?php echo e(__('NDA')); ?>" title="<?php echo e(__('Share NDA')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-file"></i>
                                                         </a>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
 
-                                                    @if($lead->status >= 2 && $userRoleName != 'restricted')
+                                                    <?php if($lead->status >= 2 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{route('lead.review',urlencode(encrypt($lead->id))) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Review')}}" data-title="{{__('Review Opportunity')}}">
+                                                        <a href="<?php echo e(route('lead.review',urlencode(encrypt($lead->id)))); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Review')); ?>" data-title="<?php echo e(__('Review Opportunity')); ?>">
                                                             <i class="fas fa-pen"></i></a>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
 
-                                                    @if($userRoleName != 'restricted')
+                                                    <?php if($userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-primary ms-2">
-                                                        <a href="{{route('lead.clone',urlencode(encrypt($lead->id)))}}" data-size="md" data-url="#" data-bs-toggle="tooltip" title="{{ __('Clone') }}" data-title="{{ __('Clone') }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="<?php echo e(route('lead.clone',urlencode(encrypt($lead->id)))); ?>" data-size="md" data-url="#" data-bs-toggle="tooltip" title="<?php echo e(__('Clone')); ?>" data-title="<?php echo e(__('Clone')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="fa fa-clone"></i>
                                                         </a>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
 
-                                                    <!-- @if($lead->status >= 1 && $userRoleName != 'restricted')
+                                                    <!-- <?php if($lead->status >= 1 && $userRoleName != 'restricted'): ?>
                                                     <div class="action-btn bg-success ms-2">
-                                                        <a href="{{route('lead.proposal',urlencode(encrypt($lead->id))) }}" data-bs-toggle="tooltip" data-title="{{__('Proposal')}}" title="{{__('View Proposal')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
+                                                        <a href="<?php echo e(route('lead.proposal',urlencode(encrypt($lead->id)))); ?>" data-bs-toggle="tooltip" data-title="<?php echo e(__('Proposal')); ?>" title="<?php echo e(__('View Proposal')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white">
                                                             <i class="ti ti-receipt"></i>
                                                         </a>
                                                     </div>
-                                                    @endif -->
-                                                    @can('Show Opportunity')
+                                                    <?php endif; ?> -->
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Opportunity')): ?>
                                                     <div class="action-btn bg-warning ms-2">
-                                                        <!-- <a href="{{ route('lead.show',$lead->id) }}" title="{{__('Quick View')}}"
-                                                            data-ajax-popup="true" data-title="{{__('Lead Details')}}"
+                                                        <!-- <a href="<?php echo e(route('lead.show',$lead->id)); ?>" title="<?php echo e(__('Quick View')); ?>"
+                                                            data-ajax-popup="true" data-title="<?php echo e(__('Lead Details')); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i> -->
-                                                        <a href="javascript:void(0);" data-size="md" data-url="{{ route('lead.show',$lead->id) }}" data-bs-toggle="tooltip" title="{{__('Quick View')}}" data-ajax-popup="true" data-title="{{__('Opportunity Details')}}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
+                                                        <a href="javascript:void(0);" data-size="md" data-url="<?php echo e(route('lead.show',$lead->id)); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Quick View')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Opportunity Details')); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white ">
                                                             <i class="ti ti-eye"></i>
                                                         </a>
                                                     </div>
-                                                    @endcan
-                                                    @if($lead->status == 0)
-                                                    @can('Edit Opportunity')
+                                                    <?php endif; ?>
+                                                    <?php if($lead->status == 0): ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Opportunity')): ?>
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{ route('lead.edit',$lead->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="{{__('Edit')}}" data-title="{{__('Edit Opportunity')}}"><i class="ti ti-edit"></i></a>
+                                                        <a href="<?php echo e(route('lead.edit',$lead->id)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white " data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>" data-title="<?php echo e(__('Edit Opportunity')); ?>"><i class="ti ti-edit"></i></a>
                                                     </div>
-                                                    @endcan
-                                                    @if($lead->is_contract_accepted != 1)
-                                                    <div class="action-btn bg-info ms-2 cursor" onclick="setContractorDetails('<?= $contractor_name ?>' , '<?= $lead->id ?>')" data-toggle="modal" data-target="#myModal" data-title="{{ __('Share contract') }}">
+                                                    <?php endif; ?>
+                                                    <?php if($lead->is_contract_accepted != 1): ?>
+                                                    <div class="action-btn bg-info ms-2 cursor" onclick="setContractorDetails('<?= $contractor_name ?>' , '<?= $lead->id ?>')" data-toggle="modal" data-target="#myModal" data-title="<?php echo e(__('Share contract')); ?>">
                                                         <i class="ti ti-send"></i></a>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
 
-                                                    @if($lead->is_contract_accepted == 1)
+                                                    <?php if($lead->is_contract_accepted == 1): ?>
                                                     <div class="action-btn bg-info ms-2">
-                                                        <a href="{{ url('/download-contract').'/'.$lead->flow_id }}"
+                                                        <a href="<?php echo e(url('/download-contract').'/'.$lead->flow_id); ?>"
                                                             class="mx-3 btn btn-sm d-inline-flex align-items-center text-white"
-                                                            data-bs-toggle="tooltip" data-title="{{ __('Details') }}"
-                                                            title="{{ __('Download Contract') }}" target="_blank"><i class="ti ti-download"></i></a>
+                                                            data-bs-toggle="tooltip" data-title="<?php echo e(__('Details')); ?>"
+                                                            title="<?php echo e(__('Download Contract')); ?>" target="_blank"><i class="ti ti-download"></i></a>
                                                     </div>
-                                                    @endif
+                                                    <?php endif; ?>
 
-                                                    @endif
-                                                    @can('Delete Opportunity')
+                                                    <?php endif; ?>
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Delete Opportunity')): ?>
                                                     <!-- <div class="action-btn bg-danger ms-2">
-                                                        {!! Form::open(['method' => 'DELETE', 'route' =>
-                                                        ['lead.destroy', $lead->id]]) !!}
+                                                        <?php echo Form::open(['method' => 'DELETE', 'route' =>
+                                                        ['lead.destroy', $lead->id]]); ?>
+
                                                         <a href="javascript:void(0);" class="mx-3 btn btn-sm  align-items-center text-white show_confirm" data-bs-toggle="tooltip" title='Delete'>
                                                             <i class="ti ti-trash"></i>
                                                         </a>
-                                                        {!! Form::close() !!}
+                                                        <?php echo Form::close(); ?>
+
                                                     </div> -->
                                                     <div class="action-btn bg-danger ms-2">
                                                         <a href="javascript:void(0);"
                                                             class="mx-3 btn btn-sm align-items-center text-white show_lead_confirm"
-                                                            data-url="{{ route('lead.destroy', $lead->id) }}"
-                                                            data-token="{{ csrf_token() }}"
+                                                            data-url="<?php echo e(route('lead.destroy', $lead->id)); ?>"
+                                                            data-token="<?php echo e(csrf_token()); ?>"
                                                             data-bs-toggle="tooltip"
                                                             title='Delete'>
                                                             <i class="ti ti-trash"></i>
                                                         </a>
                                                     </div>
-                                                    @endcan
+                                                    <?php endif; ?>
                                                 </td>
-                                                @else
+                                                <?php else: ?>
                                                 <td></td>
-                                                @endif
+                                                <?php endif; ?>
                                             </tr>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -412,8 +423,8 @@ $token_value = $token_data['access_token'];
         display: block;
     }
 </style>
-@endsection
-@push('script-page')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script>
     $body = $("body");
     var event_id_number = '';
@@ -445,7 +456,7 @@ $token_value = $token_data['access_token'];
             data: {
                 "template_id": template_id,
                 "event_id_number": event_id_number,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 console.log('send-event-contract------', data);
@@ -515,7 +526,7 @@ $token_value = $token_data['access_token'];
             type: 'POST',
             data: {
                 "event_id_number": event_id_number,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 console.log('send-event-contract------', data);
@@ -746,7 +757,7 @@ $token_value = $token_data['access_token'];
             url: "<?= url('cron-get-contract') ?>",
             type: 'POST',
             data: {
-                "_token": "{{ csrf_token() }}"
+                "_token": "<?php echo e(csrf_token()); ?>"
             },
             success: function(data) {
                 // console.log('data----'  , data)
@@ -770,20 +781,20 @@ $token_value = $token_data['access_token'];
                 localStorage.setItem('leadId', leadId);
 
                 // Redirect to the specified URL after setting the item
-                window.location.href = "{{ route('meeting.create',['meeting',0])}}";
+                window.location.href = "<?php echo e(route('meeting.create',['meeting',0])); ?>";
             }, 1000); // Adjust the delay time as needed (1000 milliseconds = 1 second)
         });
     });
 </script>
 <script>
     function duplicate(id) {
-        var url = "{{route('lead.create',['lead',0])}}";
+        var url = "<?php echo e(route('lead.create',['lead',0])); ?>";
         $.ajax({
-            url: "{{ route('meeting.lead') }}",
+            url: "<?php echo e(route('meeting.lead')); ?>",
             type: 'POST',
             data: {
                 "venue": venu,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 console.log(data);
@@ -797,11 +808,11 @@ $token_value = $token_data['access_token'];
         $('#wedding').hide();
         var venu = this.value;
         $.ajax({
-            url: "{{ route('meeting.lead') }}",
+            url: "<?php echo e(route('meeting.lead')); ?>",
             type: 'POST',
             data: {
                 "venue": venu,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 console.log(data);
@@ -857,14 +868,14 @@ $token_value = $token_data['access_token'];
     $('select[name = "lead_status"]').on('change', function() {
         var val = $(this).val();
         var id = $(this).attr('data-id');
-        var url = "{{route('lead.changeleadstat')}}";
+        var url = "<?php echo e(route('lead.changeleadstat')); ?>";
         $.ajax({
             url: url,
             type: 'POST',
             data: {
                 "status": val,
                 'id': id,
-                "_token": "{{ csrf_token() }}"
+                "_token": "<?php echo e(csrf_token()); ?>"
             },
             success: function(data) {
                 if (val == 1) {
@@ -884,7 +895,7 @@ $token_value = $token_data['access_token'];
         var text = $(this).find('option:selected').text();
         var id = $(this).data('id');
         var leadName = $(this).data('lead-name');
-        var url = "{{ route('lead.changeproposalstat') }}";
+        var url = "<?php echo e(route('lead.changeproposalstat')); ?>";
         $.ajax({
             url: url,
             type: 'POST',
@@ -893,7 +904,7 @@ $token_value = $token_data['access_token'];
                 "status_text": text,
                 "id": id,
                 "lead_name": leadName,
-                "_token": "{{ csrf_token() }}"
+                "_token": "<?php echo e(csrf_token()); ?>"
             },
             success: function(data) {
                 console.log(data)
@@ -984,4 +995,5 @@ $token_value = $token_data['access_token'];
         });
     });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/index.blade.php ENDPATH**/ ?>
