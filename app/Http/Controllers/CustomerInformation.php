@@ -369,6 +369,7 @@ class CustomerInformation extends Controller
         $importedcustomers = UserImport::distinct()->get();
         return view('customer.allcustomers', compact('importedcustomers'));
     }
+
     public function event_customers()
     {
         // $eventcustomers = Meeting::withTrashed()->get();
@@ -442,5 +443,77 @@ class CustomerInformation extends Controller
         $notes->user_id = $id;
         $notes->save();
         return true;
+    }
+
+    public function editClient($id)
+    {
+        $client = UserImport::findOrFail($id);
+        $categories = Category::all();
+        return view('customer.edit', compact('client', 'categories'));
+    }
+
+    public function updateClient(Request $request, $id)
+    {
+        if ($request->customerType == 'addForm') {
+            $validator = \Validator::make(
+                $request->all(),
+                [
+                    'company_name' => 'required',
+                    'entity_name' => 'required',
+                    'primary_name' => 'required',
+                    'primary_phone_number' => 'required|unique:import_users,primary_phone_number,' . $id,
+                    'primary_email' => 'required|email|unique:import_users,primary_email,' . $id,
+                    'primary_address' => 'required',
+                    'primary_organization' => 'required',
+                ]
+            );
+
+            if ($validator->fails()) {
+                $messages = $validator->getMessageBag();
+                return redirect()->back()->with('error', $messages->first())
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $client = UserImport::findOrFail($id);
+            $client->company_name = $request->company_name;
+            $client->client_name = ''; 
+            $client->entity_name = $request->entity_name;
+            $client->primary_name = $request->primary_name;
+            $client->primary_phone_number = $request->primary_phone_number;
+            $client->primary_email = $request->primary_email;
+            $client->primary_address = $request->primary_address;
+            $client->primary_organization = $request->primary_organization;
+            $client->secondary_name = $request->secondary_name ?? null;
+            $client->secondary_phone_number = $request->secondary_phone_number ?? null;
+            $client->secondary_email = $request->secondary_email ?? null;
+            $client->secondary_address = $request->secondary_address ?? null;
+            $client->secondary_designation = $request->secondary_designation ?? null;
+            $client->location = $request->location ?? null;
+            $client->region = $request->region ?? $request->other_region;
+            $client->industry = json_encode($request->industry);
+            $client->engagement_level = $request->engagement_level;
+            $client->category_type = $request->category_type;
+            $client->revenue_booked_to_date = $request->revenue_booked_to_date ?? null;
+            $client->referred_by = $request->referred_by ?? null;
+            $client->pain_points = $request->pain_points ?? null;
+            $client->notes = $request->notes ?? null;
+            $client->status = ($request->is_active == 'on') ? 0 : 1;
+            $client->created_by = \Auth::user()->id;
+
+            $client->save();
+
+            return redirect()->route('siteusers')->with('success', 'Client updated successfully');
+        }
+
+        return redirect()->back()->with('error', 'Invalid customer type.');
+    }
+
+    public function destroyClient($id)
+    {
+        $client = UserImport::findOrFail($id);
+        $client->delete();
+
+        return response()->json(['success' => true, 'msg' => 'Client deleted successfully']);
     }
 }

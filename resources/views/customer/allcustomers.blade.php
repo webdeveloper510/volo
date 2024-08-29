@@ -31,14 +31,15 @@
                                     <table class="table datatable" id="datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="company_name">{{__('Company Name')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort" data-sort="company_name">{{__('Client Name')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="primary_name">{{__('Primary Contact')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort" data-sort="primary_email">{{__('Email')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort">{{__('Phone Number')}} <span class="opticy"> </span></th>
-                                                <th scope="col" class="sort">{{__('Address')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="sort">{{__('Region')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort">{{__('Title/Designation')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort">{{__('Entity Name')}} <span class="opticy"> </span></th>
                                                 <th scope="col" class="sort">{{__('Category')}} <span class="opticy"> </span></th>
+                                                <th scope="col" class="text-center">{{__('Action')}} <span class="opticy"></span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -50,7 +51,7 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <b> {{ucfirst($customers->primary_name)}}</b>
+                                                    {{ucfirst($customers->primary_name)}}
                                                 </td>
                                                 <td>{{ucfirst($customers->primary_email)}}</td>
                                                 <td>{{ucfirst($customers->primary_phone_number)}}</td>
@@ -58,6 +59,18 @@
                                                 <td>{{ucfirst($customers->primary_organization)}}</td>
                                                 <td>{{ucfirst($customers->entity_name)}}</td>
                                                 <td>{{ucfirst($customers->category_type)}}</td>
+                                                <td class="text-end">
+                                                    <div class="action-btn bg-info ms-2">
+                                                        <a href="{{ route('client.edit', $customers->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center text-white" data-bs-toggle="tooltip" title="{{__('Edit')}}" data-title="{{__('Edit Client')}}">
+                                                            <i class="ti ti-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="action-btn bg-danger ms-2">
+                                                        <a href="javascript:void(0);" class="mx-3 btn btn-sm align-items-center text-white show_client_confirm" data-url="{{ route('client.destroy', $customers->id) }}" data-token="{{ csrf_token() }}" data-bs-toggle="tooltip" title="Delete">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -72,3 +85,57 @@
     </div>
 </div>
 @endsection
+@push('script-page')
+<script>
+    $(document).ready(function() {
+        $(document).on("click", ".show_client_confirm", function(event) {
+            event.preventDefault();
+
+            var parentTR = $(this).closest("tr");
+            var url = $(this).data("url");
+            var token = $(this).data("token");
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger",
+                },
+                buttonsStyling: false,
+            });
+
+            swalWithBootstrapButtons
+                .fire({
+                    title: "Are you sure?",
+                    text: "This action cannot be undone. Do you want to continue?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    reverseButtons: true,
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: url,
+                            data: {
+                                _token: token,
+                            },
+                            success: function(result) {
+                                if (result.success) {
+                                    Swal.fire("Done!", result.msg, "success");
+                                    parentTR.remove();
+                                } else {
+                                    Swal.fire("Error!", result.msg, "error");
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire("Error!", "An error occurred: " + xhr.responseText, "error");
+                            }
+                        });
+                    }
+                });
+        });
+    });
+</script>
+@endpush

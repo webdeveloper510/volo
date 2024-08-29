@@ -25,6 +25,7 @@ class Lead extends Model
         'secondary_contact',
         'type',
         'company_name',
+        'region',
         'lead_address',
         'relationship',
         'start_date',

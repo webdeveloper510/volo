@@ -1139,7 +1139,7 @@ class LeadController extends Controller
     public function review_proposal_data(Request $request, $id)
     {
         // echo "<pre>";
-        // print_r($request->all());
+        // print_r($request->region);
         // die;
 
         $settings = Utility::settings();
@@ -1180,7 +1180,7 @@ class LeadController extends Controller
             'company_name' => $request->client_name ?? '',
             'secondary_address' => $request->secondary_address ?? '',
             'secondary_designation' => $request->secondary_designation ?? '',
-            'region' => $request->region ?? $request->existing_region,
+            'region' => $request->region ?? '',
             'sales_stage' => $request->sales_stage ?? '',
             'value_of_opportunity' => $request->value_of_opportunity ?? '',
             'deal_length' => $request->deal_length ?? '',

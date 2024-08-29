@@ -205,6 +205,13 @@ $category = explode(',', $settings['campaign_type']);
                 @endif -->
                 @endif
 
+                @if(\Request::route()->getName() == 'client.edit')
+                <a href="#" class="list-group-item list-group-item-action active">
+                    <span class="fa-stack fa-lg pull-left"><i class="ti ti-user" title="Edit Client"></i></span>
+                    <span class="dash-mtext">{{ __('Edit Client') }} </span>
+                </a>
+                @endif
+
                 @if(\Request::route()->getName() == 'meeting.index')
                 <a href="#useradd-1" class="list-group-item list-group-item-action"><span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Events') }} </span></a>
