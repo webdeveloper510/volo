@@ -54,6 +54,18 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         text-align: right;
         margin-top: -10px;
     }
+
+    #new_client {
+        display: none;
+    }
+
+    #new_region {
+        display: none;
+    }
+
+    #new_company_name {
+        display: none;
+    }
 </style>
 <div class="container-field">
     <div id="wrapper">
@@ -68,9 +80,12 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                 <h5><?php echo e(__('Overview')); ?></h5>
                                 <small class="text-muted"><?php echo e(__('Edit About Your Opportunities Information')); ?></small>
                             </div>
+
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-6 need_full">
+
+                                    <!-- old code  -->
+                                    <!-- <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label'])); ?>
 
@@ -81,14 +96,14 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
                                         </div>
                                     </div>
-                                    <!-- <div class="col-6 need_full">
+                                    <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('client_name',__('Company Name'),['class'=>'form-label'])); ?>
 
                                             <?php echo e(Form::text('client_name',$client_name,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
 
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
                                             <?php echo e(Form::label('client_name', __('Company Name'), ['class' => 'form-label'])); ?>
@@ -103,8 +118,82 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
+                                    </div> -->                                  
+
+                                    <!-- <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php echo e(Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label'])); ?>
+
+                                        <div class="form-group">
+                                            <?php echo e(Form::radio('newevent',__('Existing'),true)); ?>
+
+                                            <?php echo e(Form::label('newevent','Existing')); ?>
+
+                                            <?php echo e(Form::radio('newevent',__('New'),false)); ?>
+
+                                            <?php echo e(Form::label('newevent','New')); ?>
+
+                                        </div>
                                     </div>
+                                </div>
+                            </div> -->
+                                    <!-- old code -->
                                     <input type="hidden" name="client_id" value="<?php echo e($lead->user_id); ?>">
+
+                                    <!-- new code  -->
+                                    <div class="col-md-12">
+                                        <?php echo e(Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label'])); ?>
+
+                                        <div class="form-group">
+                                            <?php echo e(Form::radio('newevent',__('Existing'),true)); ?>
+
+                                            <?php echo e(Form::label('newevent','Existing')); ?>
+
+                                            <?php echo e(Form::radio('newevent',__('New'),false)); ?>
+
+                                            <?php echo e(Form::label('newevent','New')); ?>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 need_full">
+                                        <div class="form-group">
+                                            <?php echo e(Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label'])); ?>
+
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
+                                            <?php echo e(Form::text('lead_name', $lead->opportunity_name, array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))); ?>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6 need_full" id="client_select">
+                                        <div class="form-group">
+                                            <?php echo e(Form::label('existing_client', __('Legal Entity Name'), ['class' => 'form-label'])); ?>
+
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
+                                            <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
+                                                <option value="" disabled selected>Select Legal Entity</option>
+                                                <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($client->id); ?>" <?php echo e($client->id==$lead->user_id ? 'selected' : ''); ?>><?php echo e($client->company_name); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 need_full" id="new_client">
+                                        <div class="form-group">
+                                            <?php echo e(Form::label('client_name',__('Client Name'),['class'=>'form-label'])); ?>
+
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
+                                            <?php echo e(Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
+
+                                        </div>
+                                    </div>
                                     <div class="col-6 need_full" id="new_region">
                                         <div class="form-group">
                                             <?php echo e(Form::label('region',__('Region'),['class'=>'form-label'])); ?>
@@ -112,10 +201,23 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            <?php echo e(Form::text('region',$lead->region,array('class'=>'form-control','placeholder'=>__('Enter Region')))); ?>
+                                            <?php echo e(Form::text('region',null,array('class'=>'form-control','placeholder'=>__('Enter Region')))); ?>
 
                                         </div>
                                     </div>
+                                    <div class="col-6 need_full" id="new_company_name">
+                                        <div class="form-group">
+                                            <?php echo e(Form::label('company_name',__('Legal Entity Name'),['class'=>'form-label'])); ?>
+
+                                            <span class="text-sm">
+                                                <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                            </span>
+                                            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name')))); ?>
+
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="existing_region" name="existing_region" value="">
+                                    <!-- new code  -->
 
                                     <div class="col-12  p-0 modaltitle pb-3 mt-3">
                                         <h5 style="margin-left: 14px;"><?php echo e(__('Primary Contact Information')); ?></h5>
@@ -161,7 +263,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <?php echo e(Form::label('primary_address',__('Address'),['class'=>'form-label'])); ?>
 
-
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 <?php echo e(Form::text('primary_address',$lead->primary_address,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
 
                                             </div>
@@ -170,6 +274,9 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <?php echo e(Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label'])); ?>
 
+                                                <span class="text-sm">
+                                                    <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
+                                                </span>
                                                 <?php echo e(Form::text('primary_organization',$lead->primary_organization,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
 
                                             </div>
@@ -1010,7 +1117,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             },
             success: function(data) {
                 $('input[name="primary_name"]').val(data[0].primary_name);
-                $('input[name="primary_phone_number"]').val(data[0].primary_phone_number);
+                $('input[name="primary_contact"]').val(data[0].primary_phone_number);
                 $('input[name="primary_email"]').val(data[0].primary_email);
                 $('input[name="primary_address"]').val(data[0].primary_address);
                 $('input[name="primary_organization"]').val(data[0].primary_organization);
@@ -1021,10 +1128,50 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                 $('input[name="secondary_address"]').val(data[0].secondary_address);
                 $('input[name="secondary_designation"]').val(data[0].secondary_designation);
 
+                $('input[name="region"]').val(data[0].region);
                 $('input[name="existing_region"]').val(data[0].region);
             }
         });
     }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('input[name="newevent"]').on('click', function() {
+            $('#client_select').hide();
+            $('#new_client').hide();
+            $('#new_region').hide();
+            $('#new_company_name').hide();
+            var selectedValue = $(this).val();
+            if (selectedValue == 'Existing') {
+                $('#client_select').show();
+                $('select[name="existing_client"]').trigger('change');
+            } else {
+                console.log('here');
+                // return false;
+                $('#new_client').show();
+                $('#new_region').show();
+                $('#new_company_name').show();
+                clearInputFields();
+            }
+        });
+
+        function clearInputFields() {
+            $('input[name="primary_name"]').val('');
+            $('input[name="primary_contact"]').val('');
+            $('input[name="primary_email"]').val('');
+            $('input[name="primary_address"]').val('');
+            $('input[name="primary_organization"]').val('');
+
+            $('input[name="secondary_name"]').val('');
+            $('input[name="secondary_phone_number"]').val('');
+            $('input[name="secondary_email"]').val('');
+            $('input[name="secondary_address"]').val('');
+            $('input[name="secondary_designation"]').val('');
+            $('input[name="region"]').val('');
+            $('input[name="company_name"]').val('');            
+        }
+    });
 </script>
 
 
