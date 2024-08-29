@@ -27,6 +27,11 @@ $settings = App\Models\Utility::settings();
         position: absolute;
         right: 19%;
     }
+
+    .no-products {
+        display: block;
+        text-align: center;
+    }
 </style>
 @endsection
 @section('breadcrumb')
@@ -189,7 +194,7 @@ $token_value = $token_data['access_token'];
                                                     {{-- Display each product on a new line --}}
                                                     {!! implode('<br>', $productsArray) !!}
                                                     @else
-                                                    -
+                                                    <span class="no-products">-</span>
                                                     @endif
                                                 </td>
 
