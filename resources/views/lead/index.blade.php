@@ -186,7 +186,8 @@ $token_value = $token_data['access_token'];
                                                     @endphp
 
                                                     @if (is_array($productsArray) && count($productsArray) > 0)
-                                                    {{ implode(', ', $productsArray) }}
+                                                    {{-- Display each product on a new line --}}
+                                                    {!! implode('<br>', $productsArray) !!}
                                                     @else
                                                     No products found
                                                     @endif
