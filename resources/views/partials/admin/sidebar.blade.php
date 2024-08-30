@@ -225,22 +225,22 @@ $category = explode(',', $settings['campaign_type']);
                 'report.customersanalytic' || \Request::route()->getName() == 'report.billinganalytic' ? ' active ' :
                 '')
 
-                <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.leadsanalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
+                <!-- <a href="{{ route('report.leadsanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.leadsanalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-address-card"></i></span>
                     <span class="dash-mtext">{{ __('Leads') }} </span></a>
 
-                </a>
+                </a> -->
 
-                <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.eventanalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
+                <!-- <a href="{{ route('report.eventanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.eventanalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-tasks"></i></span>
                     <span class="dash-mtext">{{ __('Trainings') }} </span></a>
 
-                </a>
-                <a href="{{ route('report.customersanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.customersanalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users"></i></span>
+                </a> -->
+                <!-- <a href="{{ route('report.customersanalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.customersanalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users"></i></span>
                     <span class="dash-mtext">{{ __('Clients') }} </span></a>
 
-                </a>
-                <a href="{{ route('report.billinganalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.billinganalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
+                </a> -->
+                <!-- <a href="{{ route('report.billinganalytic') }}" class="list-group-item list-group-item-action {{ \Request::route()->getName() == 'report.billinganalytic' ?'active' : ''}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-file-invoice"></i></span>
                     <span class="dash-mtext">{{ __('Financial') }} </span></a>
-                </a>
+                </a> -->
 
                 <!-- Power BI Reports -->
                 <a href="#" id="powerbi-report-toggle" class="list-group-item list-group-item-action">

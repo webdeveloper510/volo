@@ -3,12 +3,12 @@
 {{ __('Report') }}
 @endsection
 @section('title')
-{{ __('Power BI Report') }}
+{{ __('BI Report') }}
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
 <li class="breadcrumb-item">{{ __('Report') }}</li>
-<li class="breadcrumb-item">{{ __('Power BI Report') }}</li>
+<li class="breadcrumb-item">{{ __('BI Report') }}</li>
 @endsection
 @section('content')
 <div id="embed-container" style="width:100%;height:600px;margin-top: 25px"></div>
