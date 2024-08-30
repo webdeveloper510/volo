@@ -1,25 +1,27 @@
-@php
+<?php
 $settings = Utility::settings();
 $productTypes = explode(',', $settings['product_type']);
 $categoryTypes = explode(',', $settings['category_type']);
 $subcategoryTypes = explode(',', $settings['subcategory_type']);
-@endphp
+?>
 
-@extends('layouts.admin')
-@section('page-title')
-{{ __('Opportunity Edit') }}
-@endsection
-@section('title')
+
+<?php $__env->startSection('page-title'); ?>
+<?php echo e(__('Opportunity Edit')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?>
 <div class="page-header-title">
-    {{ __('Edit Opportunity') }} {{ '(' . $lead->opportunity_name . ')' }}
+    <?php echo e(__('Edit Opportunity')); ?> <?php echo e('(' . $lead->opportunity_name . ')'); ?>
+
 </div>
-@endsection
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-<li class="breadcrumb-item"><a href="{{ route('lead.index') }}">{{ __('Opportunities') }}</a></li>
-<li class="breadcrumb-item">{{ __('Details') }}</li>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+<li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
+<li class="breadcrumb-item"><a href="<?php echo e(route('lead.index')); ?>"><?php echo e(__('Opportunities')); ?></a></li>
+<li class="breadcrumb-item"><?php echo e(__('Details')); ?></li>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <style>
     .fa-asterisk {
         font-size: xx-small;
@@ -72,10 +74,11 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="useradd-1" class="card">
-                            {{ Form::model($lead, ['route' => ['lead.update', $lead->id], 'method' => 'PUT', 'id' => "formdata"]) }}
+                            <?php echo e(Form::model($lead, ['route' => ['lead.update', $lead->id], 'method' => 'PUT', 'id' => "formdata"])); ?>
+
                             <div class="card-header">
-                                <h5>{{ __('Overview') }}</h5>
-                                <small class="text-muted">{{ __('Edit About Your Opportunities Information') }}</small>
+                                <h5><?php echo e(__('Overview')); ?></h5>
+                                <small class="text-muted"><?php echo e(__('Edit About Your Opportunities Information')); ?></small>
                             </div>
 
                             <div class="card-body">
@@ -84,30 +87,35 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                     <!-- old code  -->
                                     <!-- <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label']) }}
+                                            <?php echo e(Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label'])); ?>
+
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            {{Form::text('lead_name',$lead->opportunity_name,array('class'=>'form-control','placeholder'=>__('Enter Opportunitie Name'),'required'=>'required'))}}
+                                            <?php echo e(Form::text('lead_name',$lead->opportunity_name,array('class'=>'form-control','placeholder'=>__('Enter Opportunitie Name'),'required'=>'required'))); ?>
+
                                         </div>
                                     </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{Form::label('client_name',__('Company Name'),['class'=>'form-label']) }}
-                                            {{Form::text('client_name',$client_name,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
+                                            <?php echo e(Form::label('client_name',__('Company Name'),['class'=>'form-label'])); ?>
+
+                                            <?php echo e(Form::text('client_name',$client_name,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
+
                                         </div>
                                     </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{ Form::label('client_name', __('Company Name'), ['class' => 'form-label']) }}
+                                            <?php echo e(Form::label('client_name', __('Company Name'), ['class' => 'form-label'])); ?>
+
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
                                             <select name="client_name" class="form-control" onchange="getExistingUser(this)">
                                                 <option value="" disabled selected>Select Company</option>
-                                                @foreach($clients as $client)
-                                                <option value="{{ $client->id }}">{{ $client->company_name }}</option>
-                                                @endforeach
+                                                <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($client->id); ?>"><?php echo e($client->company_name); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
                                     </div> -->                                  
@@ -115,209 +123,248 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                     <!-- <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        {{Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label']) }}
+                                        <?php echo e(Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label'])); ?>
+
                                         <div class="form-group">
-                                            {{ Form::radio('newevent',__('Existing'),true) }}
-                                            {{ Form::label('newevent','Existing') }}
-                                            {{ Form::radio('newevent',__('New'),false) }}
-                                            {{ Form::label('newevent','New') }}
+                                            <?php echo e(Form::radio('newevent',__('Existing'),true)); ?>
+
+                                            <?php echo e(Form::label('newevent','Existing')); ?>
+
+                                            <?php echo e(Form::radio('newevent',__('New'),false)); ?>
+
+                                            <?php echo e(Form::label('newevent','New')); ?>
+
                                         </div>
                                     </div>
                                 </div>
                             </div> -->
                                     <!-- old code -->
-                                    <input type="hidden" name="client_id" value="{{$lead->user_id}}">
+                                    <input type="hidden" name="client_id" value="<?php echo e($lead->user_id); ?>">
 
                                     <!-- new code  -->
                                     <div class="col-md-12">
-                                        {{Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label']) }}
+                                        <?php echo e(Form::label('Select Existing Client/New Client',__('Select Existing Client/New Client'),['class'=>'form-label'])); ?>
+
                                         <div class="form-group">
-                                            {{ Form::radio('newevent',__('Existing'),true) }}
-                                            {{ Form::label('newevent','Existing') }}
-                                            {{ Form::radio('newevent',__('New'),false) }}
-                                            {{ Form::label('newevent','New') }}
+                                            <?php echo e(Form::radio('newevent',__('Existing'),true)); ?>
+
+                                            <?php echo e(Form::label('newevent','Existing')); ?>
+
+                                            <?php echo e(Form::radio('newevent',__('New'),false)); ?>
+
+                                            <?php echo e(Form::label('newevent','New')); ?>
+
                                         </div>
                                     </div>
 
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label']) }}
+                                            <?php echo e(Form::label('lead_name',__('Opportunity Name'),['class'=>'form-label'])); ?>
+
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            {{Form::text('lead_name', $lead->opportunity_name, array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))}}
+                                            <?php echo e(Form::text('lead_name', $lead->opportunity_name, array('class'=>'form-control','placeholder'=>__('Enter Opportunity Name'),'required'=>'required'))); ?>
+
                                         </div>
                                     </div>
                                     <div class="col-6 need_full" id="client_select">
                                         <div class="form-group">
-                                            {{ Form::label('existing_client', __('Client Name'), ['class' => 'form-label']) }}
+                                            <?php echo e(Form::label('existing_client', __('Client Name'), ['class' => 'form-label'])); ?>
+
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
                                             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
                                                 <option value="" disabled selected>Select Client</option>
-                                                @foreach($clients as $client)
-                                                <option value="{{ $client->id }}" {{$client->id==$lead->user_id ? 'selected' : ''}}>{{ $client->company_name }}</option>
-                                                @endforeach
+                                                <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($client->id); ?>" <?php echo e($client->id==$lead->user_id ? 'selected' : ''); ?>><?php echo e($client->company_name); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6 need_full" id="new_client">
                                         <div class="form-group">
-                                            {{Form::label('client_name',__('Client Name'),['class'=>'form-label']) }}
+                                            <?php echo e(Form::label('client_name',__('Client Name'),['class'=>'form-label'])); ?>
+
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
+                                            <?php echo e(Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
+
                                         </div>
                                     </div>
                                     <div class="col-6 need_full" id="new_region">
                                         <div class="form-group">
-                                            {{Form::label('region',__('Region'),['class'=>'form-label']) }}
+                                            <?php echo e(Form::label('region',__('Region'),['class'=>'form-label'])); ?>
+
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            {{Form::text('region',null,array('class'=>'form-control','placeholder'=>__('Enter Region')))}}
+                                            <?php echo e(Form::text('region',null,array('class'=>'form-control','placeholder'=>__('Enter Region')))); ?>
+
                                         </div>
                                     </div>
                                     <div class="col-6 need_full" id="new_company_name">
                                         <div class="form-group">
-                                            {{Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label']) }}
+                                            <?php echo e(Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label'])); ?>
+
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            {{Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name')))}}
+                                            <?php echo e(Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name')))); ?>
+
                                         </div>
                                     </div>
                                     <input type="hidden" id="existing_region" name="existing_region" value="">
                                     <!-- new code  -->
 
                                     <div class="col-12  p-0 modaltitle pb-3 mt-3">
-                                        <h5 style="margin-left: 14px;">{{ __('Primary Contact Information') }}</h5>
+                                        <h5 style="margin-left: 14px;"><?php echo e(__('Primary Contact Information')); ?></h5>
                                     </div>
                                     <div class="row">
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('primary_name',__('Name'),['class'=>'form-label']) }}
+                                                <?php echo e(Form::label('primary_name',__('Name'),['class'=>'form-label'])); ?>
+
                                                 <span class="text-sm">
                                                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                                 </span>
-                                                {{Form::text('primary_name',$lead->primary_name,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))}}
+                                                <?php echo e(Form::text('primary_name',$lead->primary_name,array('class'=>'form-control','placeholder'=>__('Enter Name'),'required'=>'required'))); ?>
+
                                             </div>
                                         </div>
 
                                         <div class="col-6 need_full">
                                             <div class="form-group intl-tel-input">
-                                                {{ Form::label('primary_contact', __('Primary contact'), ['class' => 'form-label']) }}
+                                                <?php echo e(Form::label('primary_contact', __('Primary contact'), ['class' => 'form-label'])); ?>
+
                                                 <span class="text-sm">
                                                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                                 </span>
                                                 <div class="intl-tel-input">
-                                                    <input type="tel" name="primary_contact" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16" value="{{ $lead->primary_contact }}" required>
+                                                    <input type="tel" name="primary_contact" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16" value="<?php echo e($lead->primary_contact); ?>" required>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('primary_email',__('Email'),['class'=>'form-label']) }}
+                                                <?php echo e(Form::label('primary_email',__('Email'),['class'=>'form-label'])); ?>
+
                                                 <span class="text-sm">
                                                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                                 </span>
-                                                {{Form::email('primary_email',$lead->primary_email,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))}}
+                                                <?php echo e(Form::email('primary_email',$lead->primary_email,array('class'=>'form-control','placeholder'=>__('Enter Email'),'required'=>'required'))); ?>
+
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('primary_address',__('Address'),['class'=>'form-label']) }}
+                                                <?php echo e(Form::label('primary_address',__('Address'),['class'=>'form-label'])); ?>
+
                                                 <span class="text-sm">
                                                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                                 </span>
-                                                {{Form::text('primary_address',$lead->primary_address,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                                                <?php echo e(Form::text('primary_address',$lead->primary_address,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label']) }}
+                                                <?php echo e(Form::label('primary_organization',__('Title/Designation'),['class'=>'form-label'])); ?>
+
                                                 <span class="text-sm">
                                                     <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                                 </span>
-                                                {{Form::text('primary_organization',$lead->primary_organization,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                                                <?php echo e(Form::text('primary_organization',$lead->primary_organization,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-12  p-0 modaltitle pb-3 mt-3">
-                                        <h5 style="margin-left: 14px;">{{ __('Secondary Contact Information') }}</h5>
+                                        <h5 style="margin-left: 14px;"><?php echo e(__('Secondary Contact Information')); ?></h5>
                                     </div>
                                     <div class="row">
                                         <div class="col-6 need_full">
                                             <input type="hidden" name="customerType" value="addForm" />
                                             <div class="form-group">
-                                                {{Form::label('secondary_name',__('Name'),['class'=>'form-label']) }}
-                                                {{Form::text('secondary_name',$lead->secondary_name,array('class'=>'form-control','placeholder'=>__('Enter Name')))}}
+                                                <?php echo e(Form::label('secondary_name',__('Name'),['class'=>'form-label'])); ?>
+
+                                                <?php echo e(Form::text('secondary_name',$lead->secondary_name,array('class'=>'form-control','placeholder'=>__('Enter Name')))); ?>
+
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group intl-tel-input">
-                                                {{ Form::label('secondary_phone_number', __('Phone Number'), ['class' => 'form-label']) }}
+                                                <?php echo e(Form::label('secondary_phone_number', __('Phone Number'), ['class' => 'form-label'])); ?>
+
                                                 <div class="intl-tel-input">
-                                                    <input type="tel" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16" value="{{ $lead->secondary_contact }}">
+                                                    <input type="tel" name="secondary_phone_number" class="phone-input form-control" placeholder="Enter Phone Number" maxlength="16" value="<?php echo e($lead->secondary_contact); ?>">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('secondary_email',__('Email'),['class'=>'form-label']) }}
-                                                {{Form::email('secondary_email',$lead->secondary_email,array('class'=>'form-control','placeholder'=>__('Enter Email')))}}
+                                                <?php echo e(Form::label('secondary_email',__('Email'),['class'=>'form-label'])); ?>
+
+                                                <?php echo e(Form::email('secondary_email',$lead->secondary_email,array('class'=>'form-control','placeholder'=>__('Enter Email')))); ?>
+
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('secondary_address',__('Address'),['class'=>'form-label']) }}
-                                                {{Form::text('secondary_address',$lead->secondary_address,array('class'=>'form-control','placeholder'=>__('Enter Address')))}}
+                                                <?php echo e(Form::label('secondary_address',__('Address'),['class'=>'form-label'])); ?>
+
+                                                <?php echo e(Form::text('secondary_address',$lead->secondary_address,array('class'=>'form-control','placeholder'=>__('Enter Address')))); ?>
+
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label']) }}
-                                                {{Form::text('secondary_designation',$lead->secondary_designation,array('class'=>'form-control','placeholder'=>__('Enter Designation')))}}
+                                                <?php echo e(Form::label('secondary_designation',__('Title/Designation'),['class'=>'form-label'])); ?>
+
+                                                <?php echo e(Form::text('secondary_designation',$lead->secondary_designation,array('class'=>'form-control','placeholder'=>__('Enter Designation')))); ?>
+
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-12  p-0 modaltitle pb-3 mt-3">
-                                        <h5 style="margin-left: 14px;">{{ __('Details') }}</h5>
+                                        <h5 style="margin-left: 14px;"><?php echo e(__('Details')); ?></h5>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label']) }}
+                                                <?php echo e(Form::label('Assigned Team Member',__('Assigned Team Member'),['class'=>'form-label'])); ?>
+
                                                 <select class="form-control" name='assign_staff' required>
                                                     <option value="">Select Team Member</option>
-                                                    @foreach($users as $user)
-                                                    <option class="form-control" value="{{$user->id}}" {{ $user->id == $lead->assigned_user ? 'selected' : '' }}>
-                                                        {{$user->name}}
+                                                    <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option class="form-control" value="<?php echo e($user->id); ?>" <?php echo e($user->id == $lead->assigned_user ? 'selected' : ''); ?>>
+                                                        <?php echo e($user->name); ?>
+
                                                     </option>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <label for="value_of_opportunity">Value of Opportunity</label>
-                                                <input type="text" id="value_of_opportunity" name="value_of_opportunity" value="{{ $lead->value_of_opportunity }}" placeholder="Enter Value of Opportunity" class="form-control" onkeyup="formatCurrency(this)">
+                                                <input type="text" id="value_of_opportunity" name="value_of_opportunity" value="<?php echo e($lead->value_of_opportunity); ?>" placeholder="Enter Value of Opportunity" class="form-control" onkeyup="formatCurrency(this)">
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
                                                 <label for="currency">Currency</label>
                                                 <select name="currency" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->currency) ? 'selected' : '' }}>Select Currency</option>
-                                                    <option value="GBP" {{ $lead->currency == 'GBP' ? 'selected' : '' }}>GBP</option>
-                                                    <option value="USD" {{ $lead->currency == 'USD' ? 'selected' : '' }}>USD</option>
-                                                    <option value="EUR" {{ $lead->currency == 'EUR' ? 'selected' : '' }}>EUR</option>
+                                                    <option value="" disabled <?php echo e(is_null($lead->currency) ? 'selected' : ''); ?>>Select Currency</option>
+                                                    <option value="GBP" <?php echo e($lead->currency == 'GBP' ? 'selected' : ''); ?>>GBP</option>
+                                                    <option value="USD" <?php echo e($lead->currency == 'USD' ? 'selected' : ''); ?>>USD</option>
+                                                    <option value="EUR" <?php echo e($lead->currency == 'EUR' ? 'selected' : ''); ?>>EUR</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -325,13 +372,13 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <label for="timing_close">Timing – Close</label>
                                                 <select name="timing_close" id="timing_close" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->timing_close) ? 'selected' : '' }}>Select Timing – Close</option>
-                                                    <option value="immediate" {{ $lead->timing_close == 'immediate' ? 'selected' : '' }}>Immediate</option>
-                                                    <option value="0-30-days" {{ $lead->timing_close == '0-30-days' ? 'selected' : '' }}>0-30 Days</option>
-                                                    <option value="31-90-days" {{ $lead->timing_close == '31-90-days' ? 'selected' : '' }}>31 – 90 Days</option>
-                                                    <option value="91-180-days" {{ $lead->timing_close == '91-180-days' ? 'selected' : '' }}>91 – 180 Days</option>
-                                                    <option value="181-360-days" {{ $lead->timing_close == '181-360-days' ? 'selected' : '' }}>181 – 360 Days</option>
-                                                    <option value="12-months-plus" {{ $lead->timing_close == '12-months-plus' ? 'selected' : '' }}>12 Months +</option>
+                                                    <option value="" disabled <?php echo e(is_null($lead->timing_close) ? 'selected' : ''); ?>>Select Timing – Close</option>
+                                                    <option value="immediate" <?php echo e($lead->timing_close == 'immediate' ? 'selected' : ''); ?>>Immediate</option>
+                                                    <option value="0-30-days" <?php echo e($lead->timing_close == '0-30-days' ? 'selected' : ''); ?>>0-30 Days</option>
+                                                    <option value="31-90-days" <?php echo e($lead->timing_close == '31-90-days' ? 'selected' : ''); ?>>31 – 90 Days</option>
+                                                    <option value="91-180-days" <?php echo e($lead->timing_close == '91-180-days' ? 'selected' : ''); ?>>91 – 180 Days</option>
+                                                    <option value="181-360-days" <?php echo e($lead->timing_close == '181-360-days' ? 'selected' : ''); ?>>181 – 360 Days</option>
+                                                    <option value="12-months-plus" <?php echo e($lead->timing_close == '12-months-plus' ? 'selected' : ''); ?>>12 Months +</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -339,23 +386,23 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <label for="sales_stage">Sales Stage</label>
                                                 <select name="sales_stage" id="sales_stage" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->sales_stage) ? 'selected' : '' }}>Select Sales Stage</option>
-                                                    <option value="New" {{ $lead->sales_stage == 'New' ? 'selected' : '' }}>New</option>
-                                                    <option value="Contacted" {{ $lead->sales_stage == 'Contacted' ? 'selected' : '' }}>Contacted</option>
-                                                    <option value="Qualifying" {{ $lead->sales_stage == 'Qualifying' ? 'selected' : '' }}>Qualifying</option>
-                                                    <option value="Qualified" {{ $lead->sales_stage == 'Qualified' ? 'selected' : '' }}>Qualified</option>
-                                                    <option value="NDA Signed" {{ $lead->sales_stage == 'NDA Signed' ? 'selected' : '' }}>NDA Signed</option>
-                                                    <option value="Demo or Meeting" {{ $lead->sales_stage == 'Demo or Meeting' ? 'selected' : '' }}>Demo or Meeting</option>
-                                                    <option value="Proposal" {{ $lead->sales_stage == 'Proposal' ? 'selected' : '' }}>Proposal</option>
-                                                    <option value="Negotiation" {{ $lead->sales_stage == 'Negotiation' ? 'selected' : '' }}>Negotiation</option>
-                                                    <option value="Awaiting Decision" {{ $lead->sales_stage == 'Awaiting Decision' ? 'selected' : '' }}>Awaiting Decision</option>
-                                                    <option value="Closed Won" {{ $lead->sales_stage == 'Closed Won' ? 'selected' : '' }}>Closed Won</option>
-                                                    <option value="Closed Lost" {{ $lead->sales_stage == 'Closed Lost' ? 'selected' : '' }}>Closed Lost</option>
-                                                    <option value="Close No Decision" {{ $lead->sales_stage == 'Close No Decision' ? 'selected' : '' }}>Close No Decision</option>
-                                                    <option value="Follow-Up Needed" {{ $lead->sales_stage == 'Follow-Up Needed' ? 'selected' : '' }}>Follow-Up Needed</option>
-                                                    <option value="Implementation" {{ $lead->sales_stage == 'Implementation' ? 'selected' : '' }}>Implementation</option>
-                                                    <option value="Renewal" {{ $lead->sales_stage == 'Renewal' ? 'selected' : '' }}>Renewal</option>
-                                                    <option value="Upsell" {{ $lead->sales_stage == 'Upsell' ? 'selected' : '' }}>Upsell</option>
+                                                    <option value="" disabled <?php echo e(is_null($lead->sales_stage) ? 'selected' : ''); ?>>Select Sales Stage</option>
+                                                    <option value="New" <?php echo e($lead->sales_stage == 'New' ? 'selected' : ''); ?>>New</option>
+                                                    <option value="Contacted" <?php echo e($lead->sales_stage == 'Contacted' ? 'selected' : ''); ?>>Contacted</option>
+                                                    <option value="Qualifying" <?php echo e($lead->sales_stage == 'Qualifying' ? 'selected' : ''); ?>>Qualifying</option>
+                                                    <option value="Qualified" <?php echo e($lead->sales_stage == 'Qualified' ? 'selected' : ''); ?>>Qualified</option>
+                                                    <option value="NDA Signed" <?php echo e($lead->sales_stage == 'NDA Signed' ? 'selected' : ''); ?>>NDA Signed</option>
+                                                    <option value="Demo or Meeting" <?php echo e($lead->sales_stage == 'Demo or Meeting' ? 'selected' : ''); ?>>Demo or Meeting</option>
+                                                    <option value="Proposal" <?php echo e($lead->sales_stage == 'Proposal' ? 'selected' : ''); ?>>Proposal</option>
+                                                    <option value="Negotiation" <?php echo e($lead->sales_stage == 'Negotiation' ? 'selected' : ''); ?>>Negotiation</option>
+                                                    <option value="Awaiting Decision" <?php echo e($lead->sales_stage == 'Awaiting Decision' ? 'selected' : ''); ?>>Awaiting Decision</option>
+                                                    <option value="Closed Won" <?php echo e($lead->sales_stage == 'Closed Won' ? 'selected' : ''); ?>>Closed Won</option>
+                                                    <option value="Closed Lost" <?php echo e($lead->sales_stage == 'Closed Lost' ? 'selected' : ''); ?>>Closed Lost</option>
+                                                    <option value="Close No Decision" <?php echo e($lead->sales_stage == 'Close No Decision' ? 'selected' : ''); ?>>Close No Decision</option>
+                                                    <option value="Follow-Up Needed" <?php echo e($lead->sales_stage == 'Follow-Up Needed' ? 'selected' : ''); ?>>Follow-Up Needed</option>
+                                                    <option value="Implementation" <?php echo e($lead->sales_stage == 'Implementation' ? 'selected' : ''); ?>>Implementation</option>
+                                                    <option value="Renewal" <?php echo e($lead->sales_stage == 'Renewal' ? 'selected' : ''); ?>>Renewal</option>
+                                                    <option value="Upsell" <?php echo e($lead->sales_stage == 'Upsell' ? 'selected' : ''); ?>>Upsell</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -363,12 +410,12 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <label for="deal_length">Deal Length</label>
                                                 <select name="deal_length" id="deal_length" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->deal_length) ? 'selected' : '' }}>Select Deal Length</option>
-                                                    <option value="One Time" {{ $lead->deal_length == 'One Time' ? 'selected' : '' }}>One Time</option>
-                                                    <option value="Short Term" {{ $lead->deal_length == 'Short Term' ? 'selected' : '' }}>Short Term</option>
-                                                    <option value="On a Needed basis" {{ $lead->deal_length == 'On a Needed basis' ? 'selected' : '' }}>On a Needed basis</option>
-                                                    <option value="Annual" {{ $lead->deal_length == 'Annual' ? 'selected' : '' }}>Annual</option>
-                                                    <option value="Multi Year" {{ $lead->deal_length == 'Multi Year' ? 'selected' : '' }}>Multi Year</option>
+                                                    <option value="" disabled <?php echo e(is_null($lead->deal_length) ? 'selected' : ''); ?>>Select Deal Length</option>
+                                                    <option value="One Time" <?php echo e($lead->deal_length == 'One Time' ? 'selected' : ''); ?>>One Time</option>
+                                                    <option value="Short Term" <?php echo e($lead->deal_length == 'Short Term' ? 'selected' : ''); ?>>Short Term</option>
+                                                    <option value="On a Needed basis" <?php echo e($lead->deal_length == 'On a Needed basis' ? 'selected' : ''); ?>>On a Needed basis</option>
+                                                    <option value="Annual" <?php echo e($lead->deal_length == 'Annual' ? 'selected' : ''); ?>>Annual</option>
+                                                    <option value="Multi Year" <?php echo e($lead->deal_length == 'Multi Year' ? 'selected' : ''); ?>>Multi Year</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -376,15 +423,15 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <label for="difficult_level">Difficulty Level</label>
                                                 <select name="difficult_level" id="difficult_level" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->difficult_level) ? 'selected' : '' }}>Select Difficulty Level</option>
-                                                    <option value="Very Easy" {{ $lead->difficult_level == 'Very Easy' ? 'selected' : '' }}>Very Easy</option>
-                                                    <option value="Easy" {{ $lead->difficult_level == 'Easy' ? 'selected' : '' }}>Easy</option>
-                                                    <option value="Moderate" {{ $lead->difficult_level == 'Moderate' ? 'selected' : '' }}>Moderate</option>
-                                                    <option value="Challenging" {{ $lead->difficult_level == 'Challenging' ? 'selected' : '' }}>Challenging</option>
-                                                    <option value="Difficult" {{ $lead->difficult_level == 'Difficult' ? 'selected' : '' }}>Difficult</option>
-                                                    <option value="Very Difficult" {{ $lead->difficult_level == 'Very Difficult' ? 'selected' : '' }}>Very Difficult</option>
-                                                    <option value="Complex" {{ $lead->difficult_level == 'Complex' ? 'selected' : '' }}>Complex</option>
-                                                    <option value="High Risk" {{ $lead->difficult_level == 'High Risk' ? 'selected' : '' }}>High Risk</option>
+                                                    <option value="" disabled <?php echo e(is_null($lead->difficult_level) ? 'selected' : ''); ?>>Select Difficulty Level</option>
+                                                    <option value="Very Easy" <?php echo e($lead->difficult_level == 'Very Easy' ? 'selected' : ''); ?>>Very Easy</option>
+                                                    <option value="Easy" <?php echo e($lead->difficult_level == 'Easy' ? 'selected' : ''); ?>>Easy</option>
+                                                    <option value="Moderate" <?php echo e($lead->difficult_level == 'Moderate' ? 'selected' : ''); ?>>Moderate</option>
+                                                    <option value="Challenging" <?php echo e($lead->difficult_level == 'Challenging' ? 'selected' : ''); ?>>Challenging</option>
+                                                    <option value="Difficult" <?php echo e($lead->difficult_level == 'Difficult' ? 'selected' : ''); ?>>Difficult</option>
+                                                    <option value="Very Difficult" <?php echo e($lead->difficult_level == 'Very Difficult' ? 'selected' : ''); ?>>Very Difficult</option>
+                                                    <option value="Complex" <?php echo e($lead->difficult_level == 'Complex' ? 'selected' : ''); ?>>Complex</option>
+                                                    <option value="High Risk" <?php echo e($lead->difficult_level == 'High Risk' ? 'selected' : ''); ?>>High Risk</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -392,14 +439,14 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <label for="probability_to_close">Probability to close</label>
                                                 <select name="probability_to_close" id="probability_to_close" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->probability_to_close) ? 'selected' : '' }}>Select Probability to close</option>
-                                                    <option value="Highly Probable" {{ $lead->probability_to_close == 'Highly Probable' ? 'selected' : '' }}>Highly Probable</option>
-                                                    <option value="Probable" {{ $lead->probability_to_close == 'Probable' ? 'selected' : '' }}>Probable</option>
-                                                    <option value="Likely" {{ $lead->probability_to_close == 'Likely' ? 'selected' : '' }}>Likely</option>
-                                                    <option value="Possible" {{ $lead->probability_to_close == 'Possible' ? 'selected' : '' }}>Possible</option>
-                                                    <option value="Unlikely" {{ $lead->probability_to_close == 'Unlikely' ? 'selected' : '' }}>Unlikely</option>
-                                                    <option value="Highly Unlikely" {{ $lead->probability_to_close == 'Highly Unlikely' ? 'selected' : '' }}>Highly Unlikely</option>
-                                                    <option value="Unknown" {{ $lead->probability_to_close == 'Unknown' ? 'selected' : '' }}>Unknown</option>
+                                                    <option value="" disabled <?php echo e(is_null($lead->probability_to_close) ? 'selected' : ''); ?>>Select Probability to close</option>
+                                                    <option value="Highly Probable" <?php echo e($lead->probability_to_close == 'Highly Probable' ? 'selected' : ''); ?>>Highly Probable</option>
+                                                    <option value="Probable" <?php echo e($lead->probability_to_close == 'Probable' ? 'selected' : ''); ?>>Probable</option>
+                                                    <option value="Likely" <?php echo e($lead->probability_to_close == 'Likely' ? 'selected' : ''); ?>>Likely</option>
+                                                    <option value="Possible" <?php echo e($lead->probability_to_close == 'Possible' ? 'selected' : ''); ?>>Possible</option>
+                                                    <option value="Unlikely" <?php echo e($lead->probability_to_close == 'Unlikely' ? 'selected' : ''); ?>>Unlikely</option>
+                                                    <option value="Highly Unlikely" <?php echo e($lead->probability_to_close == 'Highly Unlikely' ? 'selected' : ''); ?>>Highly Unlikely</option>
+                                                    <option value="Unknown" <?php echo e($lead->probability_to_close == 'Unknown' ? 'selected' : ''); ?>>Unknown</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -407,10 +454,10 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <label for="category">Select Category</label>
                                                 <select name="category" id="category" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->category) ? 'selected' : '' }}>Select Category</option>
-                                                    @foreach ($categoryTypes as $category)
-                                                    <option value="{{ $category }}" {{ $lead->category == $category ? 'selected' : '' }}>{{ $category }}</option>
-                                                    @endforeach
+                                                    <option value="" disabled <?php echo e(is_null($lead->category) ? 'selected' : ''); ?>>Select Category</option>
+                                                    <?php $__currentLoopData = $categoryTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($category); ?>" <?php echo e($lead->category == $category ? 'selected' : ''); ?>><?php echo e($category); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -419,55 +466,60 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <div class="form-group">
                                                 <label for="sales_subcategory">Sales Subcategory</label>
                                                 <select name="sales_subcategory" id="sales_subcategory" class="form-control">
-                                                    <option value="" disabled {{ is_null($lead->sales_subcategory) ? 'selected' : '' }}>Select Sales Subcategory</option>
-                                                    @foreach ($subcategoryTypes as $subcategory)
-                                                    <option value="{{ $subcategory }}" {{ $lead->sales_subcategory == $subcategory ? 'selected' : '' }}>{{ $subcategory }}</option>
-                                                    @endforeach
+                                                    <option value="" disabled <?php echo e(is_null($lead->sales_subcategory) ? 'selected' : ''); ?>>Select Sales Subcategory</option>
+                                                    <?php $__currentLoopData = $subcategoryTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($subcategory); ?>" <?php echo e($lead->sales_subcategory == $subcategory ? 'selected' : ''); ?>><?php echo e($subcategory); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-6 need_full">
                                             <div class="form-group">
-                                                {{Form::label('competitor',__('Competitor'),['class'=>'form-label']) }}
-                                                {{Form::text('competitor',$lead->competitor,array('class'=>'form-control','placeholder'=>__('Enter Competitor')))}}
+                                                <?php echo e(Form::label('competitor',__('Competitor'),['class'=>'form-label'])); ?>
+
+                                                <?php echo e(Form::text('competitor',$lead->competitor,array('class'=>'form-control','placeholder'=>__('Enter Competitor')))); ?>
+
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-12  p-0 modaltitle pb-3 mt-3">
-                                        <h5 style="margin-left: 14px;">{{ __('Products') }}</h5>
+                                        <h5 style="margin-left: 14px;"><?php echo e(__('Products')); ?></h5>
                                     </div>
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            @foreach ($productTypes as $type)
-                                            @php
+                                            <?php $__currentLoopData = $productTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
                                             $cleanedType = trim(preg_replace('/\s+/', ' ', str_replace('-', ' ', $type)));
                                             $id = strtolower(str_replace(' ', '-', $cleanedType));
                                             $isChecked = !is_null($lead->products) && in_array($type, $lead->products) ? 'checked' : '';
-                                            @endphp
-                                            <input type="checkbox" id="{{ $id }}" name="products[]" value="{{ $type }}" {{ $isChecked }} onchange="showAdditionalProductCategoryFields(this)">
-                                            <label for="{{ $id }}">{{ $type }}</label><br>
-                                            @endforeach
+                                            ?>
+                                            <input type="checkbox" id="<?php echo e($id); ?>" name="products[]" value="<?php echo e($type); ?>" <?php echo e($isChecked); ?> onchange="showAdditionalProductCategoryFields(this)">
+                                            <label for="<?php echo e($id); ?>"><?php echo e($type); ?></label><br>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                     </div>
                                     <div id="additional-fields-container"></div>
 
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{ Form::label('name', __('Active'), ['class' => 'form-label']) }}
+                                            <?php echo e(Form::label('name', __('Active'), ['class' => 'form-label'])); ?>
+
                                             <div>
-                                                <input type="checkbox" class="form-check-input" name="is_active" {{ $lead->lead_status == 1 ? 'checked' : '' }}>
+                                                <input type="checkbox" class="form-check-input" name="is_active" <?php echo e($lead->lead_status == 1 ? 'checked' : ''); ?>>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="text-end">
                                         <button type="button" class="btn  btn-light cancel">Cancel</button>
-                                        {{Form::submit(__('Update'),array('class'=>'btn btn-primary', 'id'=>'submit-button'))}}
+                                        <?php echo e(Form::submit(__('Update'),array('class'=>'btn btn-primary', 'id'=>'submit-button'))); ?>
+
                                     </div>
                                 </div>
                             </div>
-                            {{ Form::close() }}
+                            <?php echo e(Form::close()); ?>
+
                         </div>
                     </div>
                 </div>
@@ -480,8 +532,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         width: 100%;
     }
 </style>
-@endsection
-@push('script-page')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('script-page'); ?>
 <script>
     $(document).ready(function() {
         $("input[type='text'][name='lead_name'],input[type='text'][name='name'], input[type='text'][name='email'], select[name='type'],input[type='tel'][name='primary_contact'],input[type='date'][name='start_date']").focusout(function() {
@@ -706,16 +758,16 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     function getparent(bid) {
         console.log(bid);
         $.ajax({
-            url: "{{ route('task.getparent') }}",
+            url: "<?php echo e(route('task.getparent')); ?>",
             type: 'POST',
             data: {
                 "parent": bid,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 console.log(data);
                 $('#parent_id').empty();
-                // {{-- $('#parent_id').append('<option value="">{{__("Select Parent")}}</option>'); --}}
+                // 
 
                 $.each(data, function(key, value) {
                     $('#parent_id').append('<option value="' + key + '">' + value + '</option>');
@@ -858,8 +910,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const products = @json($lead->products);
-        const productDetails = @json($lead->product_details);
+        const products = <?php echo json_encode($lead->products, 15, 512) ?>;
+        const productDetails = <?php echo json_encode($lead->product_details, 15, 512) ?>;
 
         products.forEach(product => {
             const checkbox = document.querySelector(`input[value="${product}"]`);
@@ -1057,11 +1109,11 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
         if (!existing_client_id) return;
 
         $.ajax({
-            url: "{{ route('getcontactinfo') }}",
+            url: "<?php echo e(route('getcontactinfo')); ?>",
             type: 'POST',
             data: {
                 "clientId": existing_client_id,
-                "_token": "{{ csrf_token() }}",
+                "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
                 $('input[name="primary_name"]').val(data[0].primary_name);
@@ -1123,4 +1175,5 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 </script>
 
 
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\volo\resources\views/lead/edit.blade.php ENDPATH**/ ?>

@@ -199,6 +199,10 @@ class LeadController extends Controller
             // print_r($formData);
             // die;
 
+            $existingRegion = UserImport::where('id', $request->existing_client)
+                ->select('region')
+                ->first();                
+
             // Save data to leads table
             $lead = new Lead();
             $lead['user_id'] = $request->existing_client  ?? '';
@@ -214,7 +218,7 @@ class LeadController extends Controller
             $lead['secondary_contact'] = $request->secondary_phone_number ?? '';
             $lead['secondary_address'] = $request->secondary_address ?? '';
             $lead['secondary_designation'] = $request->secondary_designation ?? '';
-            $lead['region'] = $request->region ?? $request->existing_region;
+            $lead['region'] = $request->region ?? $existingRegion->region;
             $lead['sales_stage'] = $request->sales_stage ?? '';
             $lead['value_of_opportunity'] = $request->value_of_opportunity ?? '';
             $lead['deal_length'] = $request->deal_length ?? '';
@@ -245,9 +249,9 @@ class LeadController extends Controller
 
             if ($lead && $request->has('newevent') && $request->newevent === 'New') {
                 $UsersImports = new UserImport();
-                $UsersImports->lead_id = $lastInsertedId;
-                $UsersImports->company_name = $request->company_name ?? '';
-                $UsersImports->entity_name = '';
+                $UsersImports->lead_id = $lastInsertedId;              
+                $UsersImports->company_name = $request->client_name ?? '';
+                $UsersImports->entity_name = $request->entity_name;
                 $UsersImports->client_name = $request->client_name ?? '';
                 $UsersImports->primary_name = $request->primary_name ?? '';
                 $UsersImports->primary_phone_number = $request->primary_phone_number ?? '';
@@ -260,7 +264,7 @@ class LeadController extends Controller
                 $UsersImports->secondary_address = $request->secondary_address ?? '';
                 $UsersImports->secondary_designation = $request->secondary_designation ?? '';
                 $UsersImports->location = '';
-                $UsersImports->region = '';
+                $UsersImports->region = $request->region ?? '';
                 $UsersImports->industry = '';
                 $UsersImports->engagement_level = '';
                 $UsersImports->revenue_booked_to_date = '';
@@ -399,6 +403,20 @@ class LeadController extends Controller
             $status   = Lead::$status;
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();
 
+            // $clientDetails = '';
+            // if ($lead->user_id == 0) {
+            //     $import_user = UserImport::where('lead_id', $lead->id)->first();
+            //     $clientDetails = [
+            //         'legalEntityName' => $import_user->company_name;
+            //     ];
+            // } else {
+            //     $clientDetails = '';
+            // }
+
+            // echo "<pre>";
+            // print_r($clientDetails);
+            // die;
+
             if ($lead) {
                 $import_user = UserImport::where('id', $lead->user_id)->first();
                 if ($import_user) {
@@ -410,20 +428,6 @@ class LeadController extends Controller
 
             $lead->products = json_decode($lead->products, true);
             $lead->product_details = json_decode($lead->product_details, true);
-
-            // Decode the JSON strings
-            // $proudcts = json_decode($lead['products'], true);
-            // $hardware_one_time = json_decode($lead['hardware_one_time'], true);
-            // $hardware_maintenance = json_decode($lead['hardware_maintenance'], true);
-            // $software_recurring = json_decode($lead['software_recurring'], true);
-            // $software_one_time = json_decode($lead['software_one_time'], true);
-            // $systems_integrations = json_decode($lead['systems_integrations'], true);
-            // $subscriptions = json_decode($lead['subscriptions'], true);
-            // $tech_deployment_volume_based = json_decode($lead['tech_deployment_volume_based'], true);
-
-            // echo "<pre>";
-            // print_r($lead);
-            // die;
 
             return view('lead.edit', compact('clients', 'venue_function', 'function_package', 'lead', 'users', 'status', 'client_name'));
         } else {
@@ -467,8 +471,12 @@ class LeadController extends Controller
 
             $formData = json_decode($request->input('formData'), true);
 
+            $existingRegion = UserImport::where('id', $request->existing_client)
+                ->select('region')
+                ->first();
+
             // New code for update
-            $lead['user_id'] = $request->existing_client  ?? '';;
+            $lead['user_id'] = $request->existing_client  ?? '';
             $lead['opportunity_name'] = $request->lead_name;
             $lead['assigned_user'] = $request->assign_staff;
             $lead['primary_name'] = $request->primary_name;
@@ -481,7 +489,7 @@ class LeadController extends Controller
             $lead['secondary_contact'] = $request->secondary_phone_number ?? '';
             $lead['secondary_address'] = $request->secondary_address ?? '';
             $lead['secondary_designation'] = $request->secondary_designation ?? '';
-            $lead['region'] = $request->region ?? '';
+            $lead['region'] = $request->region ?? $existingRegion->region;
             $lead['lead_address'] = '-';
             $lead['company_name'] = $request->client_name;
             $lead['relationship'] = '-';
@@ -524,11 +532,11 @@ class LeadController extends Controller
             if ($lead && $request->has('newevent') && $request->newevent === 'New') {
                 $UsersImports = new UserImport();
                 $UsersImports->lead_id = $leadId;
-                $UsersImports->company_name = $request->company_name ?? '';
-                $UsersImports->entity_name = '';
+                $UsersImports->company_name = $request->client_name ?? '';
+                $UsersImports->entity_name = $request->entity_name;
                 $UsersImports->client_name = $request->client_name ?? '';
                 $UsersImports->primary_name = $request->primary_name ?? '';
-                $UsersImports->primary_phone_number = $request->primary_phone_number ?? '';
+                $UsersImports->primary_phone_number = $request->primary_contact ?? '';
                 $UsersImports->primary_email = $request->primary_email ?? '';
                 $UsersImports->primary_address = $request->primary_address ?? '';
                 $UsersImports->primary_organization = $request->primary_organization ?? '';
