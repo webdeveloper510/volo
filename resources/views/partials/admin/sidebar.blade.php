@@ -243,7 +243,7 @@ $category = explode(',', $settings['campaign_type']);
                 </a> -->
 
                 <!-- Power BI Reports -->
-                <a href="#" id="powerbi-report-toggle" class="list-group-item list-group-item-action">
+                <a href="#" id="powerbi-report-toggle" class="list-group-item list-group-item-action active">
                     <span class="fa-stack fa-lg pull-left">
                         <i class="fas fa-chart-bar"></i>
                     </span>
