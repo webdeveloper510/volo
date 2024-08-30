@@ -34,6 +34,12 @@ $settings = App\Models\Utility::settings();
         display: block;
         text-align: center;
     }
+
+    .products {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
@@ -199,11 +205,12 @@ $token_value = $token_data['access_token'];
                                                     ?>
 
                                                     <?php if(is_array($productsArray) && count($productsArray) > 0): ?>
-                                                    
-                                                    <?php echo implode('<br>', $productsArray); ?>
+                                                    <span class="products">
+                                                        <?php echo e(implode(', ', $productsArray)); ?>
 
+                                                    </span>
                                                     <?php else: ?>
-                                                    <span class="no-products">-</span>
+                                                    <span class="no-products">No product found</span>
                                                     <?php endif; ?>
                                                 </td>
 

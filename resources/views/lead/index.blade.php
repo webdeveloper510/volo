@@ -32,6 +32,12 @@ $settings = App\Models\Utility::settings();
         display: block;
         text-align: center;
     }
+
+    .products {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 </style>
 @endsection
 @section('breadcrumb')
@@ -191,10 +197,11 @@ $token_value = $token_data['access_token'];
                                                     @endphp
 
                                                     @if (is_array($productsArray) && count($productsArray) > 0)
-                                                    {{-- Display each product on a new line --}}
-                                                    {!! implode('<br>', $productsArray) !!}
+                                                    <span class="products">
+                                                        {{ implode(', ', $productsArray) }}
+                                                    </span>
                                                     @else
-                                                    <span class="no-products">-</span>
+                                                    <span class="no-products">No product found</span>
                                                     @endif
                                                 </td>
 
