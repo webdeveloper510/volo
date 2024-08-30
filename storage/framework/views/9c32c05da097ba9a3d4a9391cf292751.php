@@ -251,7 +251,7 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
 
                 <!-- Dropdown Menu -->
-                <select id="powerbi-report-dropdown" class="form-select" style="display: none;">
+                <select id="powerbi-report-dropdown" class="form-select" style="display: block;">
                     <option value="" disabled selected>Select a report</option>
                     <?php $__currentLoopData = $powerBiReports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <option value="<?php echo e($report->id); ?>"><?php echo e($report->report_name); ?></option>

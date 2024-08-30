@@ -251,7 +251,7 @@ $category = explode(',', $settings['campaign_type']);
                 </a>
 
                 <!-- Dropdown Menu -->
-                <select id="powerbi-report-dropdown" class="form-select" style="display: none;">
+                <select id="powerbi-report-dropdown" class="form-select" style="display: block;">
                     <option value="" disabled selected>Select a report</option>
                     @foreach($powerBiReports as $report)
                     <option value="{{ $report->id }}">{{ $report->report_name }}</option>
