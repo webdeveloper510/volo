@@ -201,7 +201,7 @@ class LeadController extends Controller
 
             $existingRegion = UserImport::where('id', $request->existing_client)
                 ->select('region')
-                ->first();                
+                ->first();
 
             // Save data to leads table
             $lead = new Lead();
@@ -249,7 +249,7 @@ class LeadController extends Controller
 
             if ($lead && $request->has('newevent') && $request->newevent === 'New') {
                 $UsersImports = new UserImport();
-                $UsersImports->lead_id = $lastInsertedId;              
+                $UsersImports->lead_id = $lastInsertedId;
                 $UsersImports->company_name = $request->client_name ?? '';
                 $UsersImports->entity_name = $request->entity_name;
                 $UsersImports->client_name = $request->client_name ?? '';
@@ -426,10 +426,24 @@ class LeadController extends Controller
                 }
             }
 
+            $entity_name = '-';
+
+            // Check if the lead has a user_id or is using a lead_id
+            if ($lead->user_id == 0) {
+                $importUser = UserImport::where('lead_id', $lead->id)->first(['entity_name']);
+            } else {
+                $importUser = UserImport::where('id', $lead->user_id)->first(['entity_name']);
+            }
+
+            // If an import user is found, set the company_name
+            if ($importUser) {
+                $entity_name = $importUser->entity_name;
+            }
+
             $lead->products = json_decode($lead->products, true);
             $lead->product_details = json_decode($lead->product_details, true);
 
-            return view('lead.edit', compact('clients', 'venue_function', 'function_package', 'lead', 'users', 'status', 'client_name'));
+            return view('lead.edit', compact('clients', 'venue_function', 'function_package', 'lead', 'users', 'status', 'entity_name', 'client_name'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }

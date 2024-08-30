@@ -118,7 +118,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
-                                    </div> -->                                  
+                                    </div> -->
 
                                     <!-- <div class="card-body">
                                 <div class="row">
@@ -194,25 +194,25 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
                                         </div>
                                     </div>
-                                    <div class="col-6 need_full" id="new_region">
+                                    <div class="col-6 need_full" id="new_region" style="display:block">
                                         <div class="form-group">
                                             <?php echo e(Form::label('region',__('Region'),['class'=>'form-label'])); ?>
 
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            <?php echo e(Form::text('region',null,array('class'=>'form-control','placeholder'=>__('Enter Region')))); ?>
+                                            <?php echo e(Form::text('region',$lead->region,array('class'=>'form-control','placeholder'=>__('Enter Region')))); ?>
 
                                         </div>
                                     </div>
-                                    <div class="col-6 need_full" id="new_company_name">
+                                    <div class="col-6 need_full" id="new_company_name" style="display:block">
                                         <div class="form-group">
                                             <?php echo e(Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label'])); ?>
 
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            <?php echo e(Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name')))); ?>
+                                            <?php echo e(Form::text('entity_name', $entity_name, array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name')))); ?>
 
                                         </div>
                                     </div>
@@ -1116,6 +1116,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                 "_token": "<?php echo e(csrf_token()); ?>",
             },
             success: function(data) {
+                // console.log(data);
+
                 $('input[name="primary_name"]').val(data[0].primary_name);
                 $('input[name="primary_contact"]').val(data[0].primary_phone_number);
                 $('input[name="primary_email"]').val(data[0].primary_email);
@@ -1130,6 +1132,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
 
                 $('input[name="region"]').val(data[0].region);
                 $('input[name="existing_region"]').val(data[0].region);
+                $('input[name="entity_name"]').val(data[0].entity_name); 
             }
         });
     }
@@ -1169,7 +1172,8 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
             $('input[name="secondary_address"]').val('');
             $('input[name="secondary_designation"]').val('');
             $('input[name="region"]').val('');
-            $('input[name="company_name"]').val('');            
+            $('input[name="company_name"]').val('');
+            $('input[name="entity_name"]').val('');            
         }
     });
 </script>
