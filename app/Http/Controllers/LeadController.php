@@ -403,40 +403,21 @@ class LeadController extends Controller
             $status   = Lead::$status;
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();
 
-            // $clientDetails = '';
-            // if ($lead->user_id == 0) {
-            //     $import_user = UserImport::where('lead_id', $lead->id)->first();
-            //     $clientDetails = [
-            //         'legalEntityName' => $import_user->company_name;
-            //     ];
-            // } else {
-            //     $clientDetails = '';
-            // }
 
-            // echo "<pre>";
-            // print_r($clientDetails);
-            // die;
-
-            if ($lead) {
-                $import_user = UserImport::where('id', $lead->user_id)->first();
-                if ($import_user) {
-                    $client_name = $import_user->company_name;
-                } else {
-                    $client_name = $lead->company_name;
-                }
-            }
-
+            $client_name = '-';
             $entity_name = '-';
 
-            // Check if the lead has a user_id or is using a lead_id
-            if ($lead->user_id == 0) {
-                $importUser = UserImport::where('lead_id', $lead->id)->first(['entity_name']);
-            } else {
-                $importUser = UserImport::where('id', $lead->user_id)->first(['entity_name']);
-            }
+            // Determine the appropriate query condition based on user_id
+            $importUserQuery = ($lead->user_id == 0)
+                ? UserImport::where('lead_id', $lead->id)
+                : UserImport::where('id', $lead->user_id);
 
-            // If an import user is found, set the company_name
+            // Retrieve both client_name and entity_name in a single query
+            $importUser = $importUserQuery->first(['client_name', 'entity_name']);
+
+            // If an import user is found, set the client_name and entity_name
             if ($importUser) {
+                $client_name = $importUser->client_name;
                 $entity_name = $importUser->entity_name;
             }
 
