@@ -136,8 +136,8 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li> -->
                                     {{-- @endcan --}}
                                     @can('Manage Report')
-                                    <li class="dash-item {{ \Request::route()->getName() =='report.leadsanalytic' ||  \Request::route()->getName() =='report.eventanalytic'|| \Request::route()->getName() =='report.customersanalytic' || \Request::route()->getName() =='report.billinganalytic'? 'active' :'' }}">
-                                        <a href="{{ route('report.leadsanalytic') }}" class="dash-link">
+                                    <li class="dash-item {{ \Request::route()->getName() =='powerbi.report.page' ? 'active' : ''}}">
+                                        <a href="{{ route('powerbi.report.page') }}" class="dash-link">
                                             <span class="dash-mtext">{{ __('Reports') }}</span></a>
                                     </li>
                                     @endcan

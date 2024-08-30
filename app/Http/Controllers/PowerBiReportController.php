@@ -126,4 +126,9 @@ class PowerBiReportController extends Controller
 
         return view('powerbi.index', compact('accessToken', 'reportId', 'embedUrl', 'permissions', 'tokenType'));
     }
+
+    public function showPowerBIReportPage()
+    {
+        return view('powerbi.default');
+    }
 }

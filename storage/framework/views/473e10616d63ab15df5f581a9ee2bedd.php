@@ -136,8 +136,8 @@ $currency_options .= '<option value="' . $currency['conversion_rate_to_usd'] . '
                                     </li> -->
                                     
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Report')): ?>
-                                    <li class="dash-item <?php echo e(\Request::route()->getName() =='report.leadsanalytic' ||  \Request::route()->getName() =='report.eventanalytic'|| \Request::route()->getName() =='report.customersanalytic' || \Request::route()->getName() =='report.billinganalytic'? 'active' :''); ?>">
-                                        <a href="<?php echo e(route('report.leadsanalytic')); ?>" class="dash-link">
+                                    <li class="dash-item <?php echo e(\Request::route()->getName() =='powerbi.report.page' ? 'active' : ''); ?>">
+                                        <a href="<?php echo e(route('powerbi.report.page')); ?>" class="dash-link">
                                             <span class="dash-mtext"><?php echo e(__('Reports')); ?></span></a>
                                     </li>
                                     <?php endif; ?>

@@ -218,7 +218,7 @@ $category = explode(',', $settings['campaign_type']);
 
                 </a>
                 @endif
-                @if( \Request::route()->getName() == 'powerbi.report.show' || \Request::route()->getName() == 'report.index' || \Request::route()->getName() == 'report.show' ||
+                @if( \Request::route()->getName() == 'powerbi.report.show' || \Request::route()->getName() == 'powerbi.report.page' || \Request::route()->getName() == 'report.show' ||
                 \Request::route()->getName() == 'report.edit' || \Request::route()->getName() == 'report.leadsanalytic'
                 ||
                 \Request::route()->getName() == 'report.eventanalytic' || \Request::route()->getName() ==

@@ -170,14 +170,16 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                     </div> -->
                                     <div class="col-6 need_full">
                                         <div class="form-group">
-                                            {{ Form::label('client_name', __('Company Name'), ['class' => 'form-label']) }}
+                                            {{ Form::label('client_name', __('Client Name'), ['class' => 'form-label']) }}
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
                                             <select name="client_name" class="form-control" onchange="getExistingUser(this)">
-                                                <option value="" disabled selected>Select Company</option>
+                                                <option value="" disabled selected>Select Client</option>
                                                 @foreach($clients as $client)
-                                                <option value="{{ $client->id }}">{{ $client->company_name }}</option>
+                                                <option value="{{ $client->id }}" {{ $client->id == $lead->user_id ? 'selected' : '' }}>
+                                                    {{ $client->company_name }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>
