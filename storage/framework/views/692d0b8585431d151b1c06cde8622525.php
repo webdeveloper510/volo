@@ -130,12 +130,12 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
     </div>
     <div class="col-6 need_full" id="new_company_name">
         <div class="form-group">
-            <?php echo e(Form::label('company_name',__('Legal Entity Name'),['class'=>'form-label'])); ?>
+            <?php echo e(Form::label('entity_name',__('Legal Entity Name'),['class'=>'form-label'])); ?>
 
             <span class="text-sm">
                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
             </span>
-            <?php echo e(Form::text('company_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name')))); ?>
+            <?php echo e(Form::text('entity_name',null,array('class'=>'form-control','placeholder'=>__('Enter Legal Entity Name')))); ?>
 
         </div>
     </div>

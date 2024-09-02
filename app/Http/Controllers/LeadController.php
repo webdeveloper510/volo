@@ -117,7 +117,8 @@ class LeadController extends Controller
         // die;
         if (\Auth::user()->can('Create Opportunity')) {
             $users = User::where('created_by', \Auth::user()->creatorId())->get();
-            $clients = UserImport::all();
+            // $clients = UserImport::all();
+            $clients = UserImport::orderBy('company_name', 'asc')->get();
             $status = Lead::$status;
             $attendees_lead = Lead::where('created_by', \Auth::user()->creatorId())->where('status', 4)->where('lead_status', 1)->get()->pluck('leadname', 'id');
             $attendees_lead->prepend('Select Client', 0);
@@ -399,7 +400,8 @@ class LeadController extends Controller
         if (\Auth::user()->can('Edit Opportunity')) {
             $venue_function = explode(',', $lead->venue_selection);
             $function_package =  explode(',', $lead->function);
-            $clients = UserImport::all();
+            // $clients = UserImport::all();
+            $clients = UserImport::orderBy('company_name', 'asc')->get();
             $status   = Lead::$status;
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();
 
@@ -1135,7 +1137,9 @@ class LeadController extends Controller
 
         $id = decrypt(urldecode($id));
         $lead = Lead::find($id);
-        $clients = UserImport::all();
+        // $clients = UserImport::all();
+        $clients = UserImport::orderBy('company_name', 'asc')->get();
+
 
         if ($lead) {
             $import_user = UserImport::where('id', $lead->user_id)->first();
