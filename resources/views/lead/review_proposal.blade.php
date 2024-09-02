@@ -177,7 +177,7 @@ $leaddata['food_package_cost'] = $totalFoodPackageCost;
                                             <select name="client_name" class="form-control" onchange="getExistingUser(this)">
                                                 <option value="" disabled selected>Select Client</option>
                                                 @foreach($clients as $client)
-                                                <option value="{{ $client->id }}" {{ $client->id == $lead->user_id ? 'selected' : '' }}>
+                                                <option value="{{ $client->id }}" {{ $client->id == $client_id ? 'selected' : '' }}>
                                                     {{ $client->company_name }}
                                                 </option>
                                                 @endforeach

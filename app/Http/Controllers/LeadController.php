@@ -414,14 +414,14 @@ class LeadController extends Controller
                 : UserImport::where('id', $lead->user_id);
 
             // Retrieve both client_name and entity_name in a single query
-            $importUser = $importUserQuery->first(['id', 'client_name', 'entity_name']);            
+            $importUser = $importUserQuery->first(['id', 'client_name', 'entity_name']);
 
             // If an import user is found, set the client_name and entity_name
             if ($importUser) {
                 $client_id = $importUser->id;
                 $client_name = $importUser->company_name;
                 $entity_name = $importUser->entity_name;
-            }          
+            }
 
             $lead->products = json_decode($lead->products, true);
             $lead->product_details = json_decode($lead->product_details, true);
@@ -1141,13 +1141,32 @@ class LeadController extends Controller
         $clients = UserImport::orderBy('company_name', 'asc')->get();
 
 
-        if ($lead) {
-            $import_user = UserImport::where('id', $lead->user_id)->first();
-            if ($import_user) {
-                $client_name = $import_user->company_name;
-            } else {
-                $client_name = $lead->company_name;
-            }
+        // if ($lead) {
+        //     $import_user = UserImport::where('id', $lead->user_id)->first();
+        //     if ($import_user) {
+        //         $client_name = $import_user->company_name;
+        //     } else {
+        //         $client_name = $lead->company_name;
+        //     }
+        // }
+
+
+        $client_name = '-';
+        $entity_name = '-';
+
+        // Determine the appropriate query condition based on user_id
+        $importUserQuery = ($lead->user_id == 0)
+            ? UserImport::where('lead_id', $lead->id)
+            : UserImport::where('id', $lead->user_id);
+
+        // Retrieve both client_name and entity_name in a single query
+        $importUser = $importUserQuery->first(['id', 'client_name', 'entity_name']);
+
+        // If an import user is found, set the client_name and entity_name
+        if ($importUser) {
+            $client_id = $importUser->id;
+            $client_name = $importUser->company_name;
+            $entity_name = $importUser->entity_name;
         }
 
         // Decode the JSON strings
@@ -1174,7 +1193,7 @@ class LeadController extends Controller
         $function_package =  explode(',', $lead->function);
         $status   = Lead::$status;
         $users     = User::where('created_by', \Auth::user()->creatorId())->get();
-        return view('lead.review_proposal', compact('clients', 'lead', 'venue_function', 'function_package', 'users', 'status', 'client_name'));
+        return view('lead.review_proposal', compact('clients', 'lead', 'venue_function', 'function_package', 'users', 'status', 'entity_name', 'client_name', 'client_id'));
     }
     public function review_proposal_data(Request $request, $id)
     {
