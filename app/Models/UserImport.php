@@ -33,7 +33,7 @@ class UserImport extends Model
         'notes',
         'status',
         'company_name',
-        'entity_name'
+        'entity_name',
     ];
 
     public static $status = [

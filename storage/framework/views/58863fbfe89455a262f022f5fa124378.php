@@ -178,7 +178,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
                                                 <option value="" disabled selected>Select Client</option>
                                                 <?php $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $client): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e($client->id); ?>" <?php echo e($client->id==$lead->user_id ? 'selected' : ''); ?>><?php echo e($client->company_name); ?></option>
+                                                <option value="<?php echo e($client->id); ?>" <?php echo e($client->id==$client_id ? 'selected' : ''); ?>><?php echo e($client->company_name); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                         </div>
@@ -190,7 +190,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            <?php echo e(Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
+                                            <?php echo e(Form::text('client_name',$client_name,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))); ?>
 
                                         </div>
                                     </div>

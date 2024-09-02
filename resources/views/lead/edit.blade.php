@@ -157,7 +157,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <select name="existing_client" class="form-control" onchange="getExistingUser(this)">
                                                 <option value="" disabled selected>Select Client</option>
                                                 @foreach($clients as $client)
-                                                <option value="{{ $client->id }}" {{$client->id==$lead->user_id ? 'selected' : ''}}>{{ $client->company_name }}</option>
+                                                <option value="{{ $client->id }}" {{$client->id==$client_id ? 'selected' : ''}}>{{ $client->company_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -168,7 +168,7 @@ $subcategoryTypes = explode(',', $settings['subcategory_type']);
                                             <span class="text-sm">
                                                 <i class="fa fa-asterisk text-danger" aria-hidden="true"></i>
                                             </span>
-                                            {{Form::text('client_name',null,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
+                                            {{Form::text('client_name',$client_name,array('class'=>'form-control','placeholder'=>__('Enter Client Name')))}}
                                         </div>
                                     </div>
                                     <div class="col-6 need_full" id="new_region" style="display:block">

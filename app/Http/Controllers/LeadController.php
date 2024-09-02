@@ -405,7 +405,6 @@ class LeadController extends Controller
             $status   = Lead::$status;
             $users     = User::where('created_by', \Auth::user()->creatorId())->get();
 
-
             $client_name = '-';
             $entity_name = '-';
 
@@ -415,18 +414,19 @@ class LeadController extends Controller
                 : UserImport::where('id', $lead->user_id);
 
             // Retrieve both client_name and entity_name in a single query
-            $importUser = $importUserQuery->first(['client_name', 'entity_name']);
+            $importUser = $importUserQuery->first(['id', 'client_name', 'entity_name']);            
 
             // If an import user is found, set the client_name and entity_name
             if ($importUser) {
-                $client_name = $importUser->client_name;
+                $client_id = $importUser->id;
+                $client_name = $importUser->company_name;
                 $entity_name = $importUser->entity_name;
-            }
+            }          
 
             $lead->products = json_decode($lead->products, true);
             $lead->product_details = json_decode($lead->product_details, true);
 
-            return view('lead.edit', compact('clients', 'venue_function', 'function_package', 'lead', 'users', 'status', 'entity_name', 'client_name'));
+            return view('lead.edit', compact('clients', 'venue_function', 'function_package', 'lead', 'users', 'status', 'entity_name', 'client_name', 'client_id'));
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
