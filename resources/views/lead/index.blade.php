@@ -34,9 +34,7 @@ $settings = App\Models\Utility::settings();
     }
 
     .products {
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal
     }
 </style>
 @endsection
