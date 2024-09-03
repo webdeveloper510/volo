@@ -66,8 +66,14 @@
                                                 <td>{{ $lead->sales_subcategory ?? '-' }}</td>
                                                 <td>{{ $lead->competitor ?? '-' }}</td>
                                                 <td>
-                                                    @foreach ($selected_products as $product)
-                                                    {{ $product }}<br>
+                                                    @foreach ($selected_products as $index => $product)
+                                                    {{ $product }}
+                                                    @if (($index + 1) % 4 != 0 && $index + 1 != count($selected_products))
+                                                    , <!-- Add a comma after each product except the last one in the row -->
+                                                    @endif
+                                                    @if (($index + 1) % 4 == 0)
+                                                    <br>
+                                                    @endif
                                                     @endforeach
                                                 </td>
                                             </tr>

@@ -1,6 +1,4 @@
 /.idea
-/.vscode
-/.env
 /storage/logs
 /vendor
 /storage/app/public
@@ -14,3 +12,7 @@
 /volo
 /*.zip
 /laundry_admin
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+config.bat
