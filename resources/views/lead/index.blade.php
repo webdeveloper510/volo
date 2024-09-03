@@ -28,15 +28,14 @@ $settings = App\Models\Utility::settings();
         right: 19%;
     }
 
-    .no-products {
-        display: block;
-        text-align: center;
-    }
-
     .products {
         max-width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    .no-products {
+        color: #999;
     }
 </style>
 @endsection
@@ -204,7 +203,16 @@ $token_value = $token_data['access_token'];
 
                                                     @if (is_array($productsArray) && count($productsArray) > 0)
                                                     <span class="products">
-                                                        {{ implode(', ', $productsArray) }}
+                                                        @foreach($productsArray as $index => $product)
+                                                        {{ $product }}
+                                                        @if (($index + 1) % 4 == 0 && $index + 1 < count($productsArray))
+                                                            <br> <!-- Insert line break after every fourth item -->
+                                                            @else
+                                                            @if($index + 1 < count($productsArray))
+                                                                , <!-- Add a comma if not the last item in the array -->
+                                                                @endif
+                                                                @endif
+                                                                @endforeach
                                                     </span>
                                                     @else
                                                     <span class="no-products">No product found</span>

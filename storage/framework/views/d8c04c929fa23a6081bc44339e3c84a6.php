@@ -30,15 +30,14 @@ $settings = App\Models\Utility::settings();
         right: 19%;
     }
 
-    .no-products {
-        display: block;
-        text-align: center;
-    }
-
     .products {
         max-width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    .no-products {
+        color: #999;
     }
 </style>
 <?php $__env->stopSection(); ?>
@@ -213,8 +212,17 @@ $token_value = $token_data['access_token'];
 
                                                     <?php if(is_array($productsArray) && count($productsArray) > 0): ?>
                                                     <span class="products">
-                                                        <?php echo e(implode(', ', $productsArray)); ?>
+                                                        <?php $__currentLoopData = $productsArray; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php echo e($product); ?>
 
+                                                        <?php if(($index + 1) % 4 == 0 && $index + 1 < count($productsArray)): ?>
+                                                            <br> <!-- Insert line break after every third item -->
+                                                            <?php else: ?>
+                                                            <?php if($index + 1 < count($productsArray)): ?>
+                                                                , <!-- Add a comma if not the last item in the array -->
+                                                                <?php endif; ?>
+                                                                <?php endif; ?>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </span>
                                                     <?php else: ?>
                                                     <span class="no-products">No product found</span>
