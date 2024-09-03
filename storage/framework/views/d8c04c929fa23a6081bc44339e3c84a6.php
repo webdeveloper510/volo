@@ -216,7 +216,7 @@ $token_value = $token_data['access_token'];
                                                         <?php echo e($product); ?>
 
                                                         <?php if(($index + 1) % 4 == 0 && $index + 1 < count($productsArray)): ?>
-                                                            <br> <!-- Insert line break after every third item -->
+                                                            <br> <!-- Insert line break after every fourth item -->
                                                             <?php else: ?>
                                                             <?php if($index + 1 < count($productsArray)): ?>
                                                                 , <!-- Add a comma if not the last item in the array -->
